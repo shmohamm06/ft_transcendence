@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ft_transcendence</title>
+  <link href="index.css?v=2025062302" rel="stylesheet">
+</head>
+<body>
+  <div id="root"></div>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-brand">ft_transcendence</div>
+      <div class="nav-menu">
+        <a href="#" class="nav-link" data-page="home">Home</a>
+        <a href="#" class="nav-link" data-page="game">Game</a>
+        <a href="#" class="nav-link" data-page="login">Login</a>
+        <a href="#" class="nav-link" data-page="register">Register</a>
+        <a href="#" class="nav-link" data-page="settings">Settings</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Home Page -->
+  <div id="home-page" class="page active">
+    <div class="home-container">
+      <div class="text-center">
+        <h1 class="text-5xl font-bold mb-4">Welcome to ft_transcendence!</h1>
+        <p class="text-xl text-gray-400 mb-8">Ready to play Pong?</p>
+      </div>
+      <div class="button-group">
+        <button class="btn btn-primary" onclick="startGame()">Play vs AI</button>
+        <button class="btn btn-secondary" onclick="showPage('settings')">Game Settings</button>
+        <button class="btn btn-danger" onclick="logout()">Logout</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Game Page (static in DOM, hidden by default) -->
+  <div id="game-page" class="page">
+    <div class="game-container">
+      <div class="game-header">
+        <button class="btn btn-back" onclick="app.showPage('home')">← Back to Home</button>
+        <div class="score-display">
+          <span>Player 1: <span id="player1-score">0</span></span>
+          <span class="score-separator">|</span>
+          <span>AI: <span id="player2-score">0</span></span>
+        </div>
+        <div class="game-controls">
+          <div class="connection-status">Status: <span id="connection-status">Connecting...</span></div>
+        </div>
+      </div>
+      <canvas id="game-canvas" class="game-canvas"></canvas>
+    </div>
+  </div>
+
+  <!-- Login Page -->
+  <div id="login-page" class="page">
+    <div class="home-container">
+      <div class="auth-form">
+        <h2 class="text-3xl font-bold mb-6 text-center">Login</h2>
+        <form onsubmit="handleLogin(event)">
+          <div class="form-group">
+            <label for="login-username">Username</label>
+            <input type="text" id="login-username" class="form-input" required>
+          </div>
+          <div class="form-group">
+            <label for="login-password">Password</label>
+            <input type="password" id="login-password" class="form-input" required>
+          </div>
+          <button type="submit" class="btn btn-primary w-full">Login</button>
+        </form>
+        <p class="text-center mt-4">
+          Don't have an account?
+          <a href="#" onclick="showPage('register')" class="text-blue-400 hover:underline">Register</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Register Page -->
+  <div id="register-page" class="page">
+    <div class="home-container">
+      <div class="auth-form">
+        <h2 class="text-3xl font-bold mb-6 text-center">Register</h2>
+        <form onsubmit="handleRegister(event)">
+          <div class="form-group">
+            <label for="register-username">Username</label>
+            <input type="text" id="register-username" class="form-input" required>
+          </div>
+          <div class="form-group">
+            <label for="register-email">Email</label>
+            <input type="email" id="register-email" class="form-input" required>
+          </div>
+          <div class="form-group">
+            <label for="register-password">Password</label>
+            <input type="password" id="register-password" class="form-input" required>
+          </div>
+          <div class="form-group">
+            <label for="register-confirm-password">Confirm Password</label>
+            <input type="password" id="register-confirm-password" class="form-input" required>
+          </div>
+          <button type="submit" class="btn btn-primary w-full">Register</button>
+        </form>
+        <p class="text-center mt-4">
+          Already have an account?
+          <a href="#" onclick="showPage('login')" class="text-blue-400 hover:underline">Login</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings Page -->
+  <div id="settings-page" class="page">
+    <div class="home-container">
+      <div class="settings-form">
+        <h2 class="text-3xl font-bold mb-6 text-center">Game Settings</h2>
+        <div class="form-group">
+          <label for="paddle-speed">Paddle Speed: <span id="paddle-speed-value">5</span></label>
+          <input type="range" id="paddle-speed" min="1" max="10" value="5" class="form-range">
+        </div>
+        <div class="form-group">
+          <label for="ball-speed">Ball Speed: <span id="ball-speed-value">5</span></label>
+          <input type="range" id="ball-speed" min="1" max="10" value="5" class="form-range">
+        </div>
+        <div class="form-group">
+          <label for="ai-difficulty">AI Difficulty</label>
+          <select id="ai-difficulty" class="form-input">
+            <option value="easy">Easy</option>
+            <option value="medium" selected>Medium</option>
+            <option value="hard">Hard</option>
+          </select>
+        </div>
+        <div class="button-group">
+          <button onclick="saveSettings()" class="btn btn-primary">Save Settings</button>
+          <button onclick="showPage('home')" class="btn btn-secondary">Back to Home</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js?v=2024011503"></script>
+</body>
+</html>

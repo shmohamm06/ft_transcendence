@@ -1,0 +1,15 @@
+# NestJS testing tools
+npm install --save-dev @nestjs/testing
+
+# Jest types for unit testing
+npm install --save-dev jest @types/jest ts-jest
+
+# Axios for HTTP requests
+npm install axios
+npm install --save-dev @types/axios
+
+# Babylon.js (used in your Pong game rendering)
+npm install @babylonjs/core
+
+# If you haven't already, install React Router types
+npm install --save-dev @types/react-router-dom
