@@ -1,0 +1,31 @@
+services:
+  auth-service:
+    build:
+      context: ../backend/auth-service
+      dockerfile: Dockerfile
+    environment:
+      NODE_ENV: production
+    volumes:
+      - ../backend/auth-service/db.sqlite:/tmp/db.sqlite
+    ports:
+      - "3001:3000"
+
+  game-service:
+    build:
+      context: ../backend/game-service
+      dockerfile: Dockerfile
+    environment:
+      NODE_ENV: production
+    ports:
+      - "3002:8080"
+
+  nginx:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+    ports:
+      - "8081:80"
+    depends_on:
+      - auth-service
+      - game-service
+    # Remove the volume mount for nginx.conf here

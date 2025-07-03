@@ -3,11 +3,9 @@ FROM node:18-alpine AS builder
 
 WORKDIR /usr/src/app
 
-# Copy package manifests and install deps
 COPY package*.json ./
 RUN npm install
 
-# Copy the rest of the backend source and compile
 COPY . ./
 RUN npm run build
 
@@ -16,13 +14,10 @@ FROM node:18-alpine
 
 WORKDIR /usr/src/app
 
-# Copy only the compiled output and package manifests
 COPY --from=builder /usr/src/app/dist ./dist
 COPY --from=builder /usr/src/app/node_modules ./node_modules
 COPY package*.json ./
 
-# Expose the port NestJS listens on
 EXPOSE 3000
 
-# Launch the NestJS server
 CMD ["node", "dist/app.js"]
