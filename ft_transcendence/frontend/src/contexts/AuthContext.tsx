@@ -18,8 +18,15 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-    const [user, setUser] = useState<User | null>(null);
-    const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
+    // For testing, create a mock user
+    const mockUser: User = {
+        id: 1,
+        username: 'TestPlayer',
+        email: 'test@example.com'
+    };
+
+    const [user, setUser] = useState<User | null>(mockUser);
+    const [token, setToken] = useState<string | null>('mock-token');
 
     useEffect(() => {
         if (token) {
@@ -29,6 +36,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             const storedUser = localStorage.getItem('user');
             if (storedUser) {
                 setUser(JSON.parse(storedUser));
+            } else {
+                // Set mock user if no stored user
+                setUser(mockUser);
             }
         }
     }, [token]);

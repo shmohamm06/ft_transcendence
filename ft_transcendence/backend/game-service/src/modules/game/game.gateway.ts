@@ -5,6 +5,7 @@ export interface GameMessage {
     action?: 'move' | 'settings';
     type?: 'move' | 'settings' | 'startNewMatch' | 'startGame';
     direction?: 'up' | 'down';
+    player?: 'player1' | 'player2';
     ballSpeed?: number;
     paddleSpeed?: number;
 }
@@ -15,6 +16,7 @@ export class GameGateway {
         gameEngine: GameEngine;
         aiOpponent: AIOpponent;
         gameLoop: NodeJS.Timeout;
+        gameMode: 'ai' | 'pvp';
     }> = new Map();
 
     constructor() {
@@ -24,6 +26,11 @@ export class GameGateway {
     public handleConnection(client: any, connectionInfo: any) {
         const clientId = connectionInfo.url || Math.random().toString(36);
         console.log(`Client ${clientId} connected to game service`);
+
+        // Determine game mode from URL parameters
+        const url = new URL(connectionInfo.url, 'http://localhost');
+        const gameMode = url.searchParams.get('mode') === 'pvp' ? 'pvp' : 'ai';
+        console.log(`Game mode: ${gameMode}`);
 
         const gameEngine = new GameEngine();
         const aiOpponent = new AIOpponent();
@@ -47,7 +54,7 @@ export class GameGateway {
             gameEngine.update();
             const gameState = gameEngine.getGameState();
 
-            if (gameState.gameStatus === 'playing') {
+            if (gameState.gameStatus === 'playing' && gameMode === 'ai') {
                 const aiMove = aiOpponent.getMove(gameState);
                 if (aiMove) {
                     gameEngine.moveAIPaddle(aiMove);
@@ -65,7 +72,8 @@ export class GameGateway {
             socket: client,
             gameEngine,
             aiOpponent,
-            gameLoop
+            gameLoop,
+            gameMode
         });
 
         client.on('message', (data: Buffer) => {
@@ -146,7 +154,7 @@ export class GameGateway {
                 return;
             }
 
-            const { gameEngine } = clientData;
+            const { gameEngine, gameMode } = clientData;
 
             // Handle both 'action' and 'type' formats for compatibility
             const actionType = message.action || message.type;
@@ -154,7 +162,15 @@ export class GameGateway {
             switch (actionType) {
                 case 'move':
                     if (message.direction) {
-                        gameEngine.movePaddle('player1', message.direction);
+                        if (gameMode === 'pvp' && message.player) {
+                            // PvP mode: handle specific player moves
+                            gameEngine.movePaddle(message.player, message.direction);
+                            console.log(`PvP move: ${message.player} ${message.direction}`);
+                        } else {
+                            // AI mode: always move player1
+                            gameEngine.movePaddle('player1', message.direction);
+                            console.log(`AI mode move: player1 ${message.direction}`);
+                        }
                     }
                     break;
                 case 'settings':
@@ -202,6 +218,7 @@ export class GameGateway {
     }
 
     public handleDisconnect(client: any) {
-        // This method is called by NestJS decorators, but we handle disconnection in the connection handler
+        // This method is called when a client disconnects
+        console.log('Client disconnected from game service');
     }
 }

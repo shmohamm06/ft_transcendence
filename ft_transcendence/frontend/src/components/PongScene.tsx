@@ -1,23 +1,20 @@
-import { useEffect, useRef } from 'react';
-import * as BABYLON from '@babylonjs/core';
+import { useEffect, useRef, useState, useCallback } from 'react';
 
-// This is a simplified mapping from backend coordinates to frontend 3D space
-const SCENE_WIDTH = 16;
-const SCENE_HEIGHT = 12;
-const PADDLE_DEPTH = 0.5;
-const PADDLE_3D_WIDTH = 0.4;
-const PADDLE_3D_HEIGHT = 2;
-const BALL_3D_SIZE = 0.3;
-
-// Backend constants (should match backend)
-const GAME_WIDTH = 800;
-const GAME_HEIGHT = 600;
+// Backend constants (must match backend exactly!)
+const GAME_WIDTH = 960;
+const GAME_HEIGHT = 540;
+const PADDLE_WIDTH = 20;
+const PADDLE_HEIGHT = 120;
+const BALL_SIZE = 12;
 
 interface GameState {
     ball: { x: number; y: number };
     player1: { y: number };
     player2: { y: number };
     score: { player1: number; player2: number };
+    gameStatus?: 'countdown' | 'playing' | 'gameOver';
+    winner?: 'player1' | 'player2';
+    countdown?: number;
 }
 
 interface PongSceneProps {
@@ -26,62 +23,210 @@ interface PongSceneProps {
 
 const PongScene = ({ gameState }: PongSceneProps) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
+    const animationRef = useRef<number>();
+    const previousStateRef = useRef<GameState | null>(null);
 
+    // Optimized drawing functions
+    const drawPaddle = useCallback((ctx: CanvasRenderingContext2D, x: number, y: number, color: string) => {
+        // Shadow
+        ctx.shadowColor = color;
+        ctx.shadowBlur = 15;
+
+        // Paddle gradient
+        const paddleGradient = ctx.createLinearGradient(x, y, x + PADDLE_WIDTH, y);
+        paddleGradient.addColorStop(0, color);
+        paddleGradient.addColorStop(0.5, '#ffffff');
+        paddleGradient.addColorStop(1, color);
+
+        ctx.fillStyle = paddleGradient;
+        ctx.fillRect(x, y, PADDLE_WIDTH, PADDLE_HEIGHT);
+
+        // Paddle border
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(x, y, PADDLE_WIDTH, PADDLE_HEIGHT);
+
+        ctx.shadowBlur = 0;
+    }, []);
+
+    const drawBall = useCallback((ctx: CanvasRenderingContext2D, x: number, y: number) => {
+        const ballCenterX = x + BALL_SIZE / 2;
+        const ballCenterY = y + BALL_SIZE / 2;
+
+        // Ball glow
+        const ballGradient = ctx.createRadialGradient(
+            ballCenterX, ballCenterY, 0,
+            ballCenterX, ballCenterY, BALL_SIZE
+        );
+        ballGradient.addColorStop(0, '#ffff00');
+        ballGradient.addColorStop(0.7, '#ffaa00');
+        ballGradient.addColorStop(1, 'rgba(255, 170, 0, 0)');
+
+        ctx.shadowColor = '#ffff00';
+        ctx.shadowBlur = 20;
+        ctx.fillStyle = ballGradient;
+        ctx.beginPath();
+        ctx.arc(ballCenterX, ballCenterY, BALL_SIZE / 2, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Ball core
+        ctx.shadowBlur = 0;
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath();
+        ctx.arc(ballCenterX, ballCenterY, BALL_SIZE / 4, 0, Math.PI * 2);
+        ctx.fill();
+    }, []);
+
+    const drawBackground = useCallback((ctx: CanvasRenderingContext2D) => {
+        // Create background gradient
+        const bgGradient = ctx.createLinearGradient(0, 0, 0, GAME_HEIGHT);
+        bgGradient.addColorStop(0, '#1a1a2e');
+        bgGradient.addColorStop(0.5, '#16213e');
+        bgGradient.addColorStop(1, '#0f3460');
+
+        // Clear canvas with gradient background
+        ctx.fillStyle = bgGradient;
+        ctx.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+
+        // Draw center line with glow effect
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 3;
+        ctx.shadowColor = '#ffffff';
+        ctx.shadowBlur = 10;
+        ctx.setLineDash([15, 15]);
+        ctx.beginPath();
+        ctx.moveTo(GAME_WIDTH / 2, 20);
+        ctx.lineTo(GAME_WIDTH / 2, GAME_HEIGHT - 20);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.shadowBlur = 0;
+
+        // Add corner decorations
+        const drawCornerDecoration = (x: number, y: number) => {
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(x, y + 20);
+            ctx.lineTo(x, y);
+            ctx.lineTo(x + 20, y);
+            ctx.stroke();
+        };
+
+        drawCornerDecoration(10, 10);
+        drawCornerDecoration(GAME_WIDTH - 30, 10);
+        drawCornerDecoration(10, GAME_HEIGHT - 10);
+        drawCornerDecoration(GAME_WIDTH - 30, GAME_HEIGHT - 10);
+    }, []);
+
+    // Simple interpolation with performance optimization
     useEffect(() => {
-        if (!canvasRef.current) return;
+        if (!gameState || !canvasRef.current) return;
 
-        const engine = new BABYLON.Engine(canvasRef.current, true);
-        const scene = new BABYLON.Scene(engine);
-        scene.clearColor = new BABYLON.Color4(0.1, 0.1, 0.15, 1);
+        const canvas = canvasRef.current;
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return;
 
-        // Camera
-        const camera = new BABYLON.ArcRotateCamera("camera", -Math.PI / 2, Math.PI / 2.5, 20, BABYLON.Vector3.Zero(), scene);
-        camera.attachControl(canvasRef.current, true);
+        // Set canvas size
+        canvas.width = GAME_WIDTH;
+        canvas.height = GAME_HEIGHT;
 
-        // Lights
-        const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
-        light.intensity = 0.8;
+        let currentState = gameState;
+        let targetState = gameState;
+        let animationStartTime = Date.now();
+        const interpolationDuration = 16; // ~60fps
 
-        // Ground (Game Table)
-        const ground = BABYLON.MeshBuilder.CreateGround("ground", { width: SCENE_WIDTH, height: SCENE_HEIGHT }, scene);
-        const groundMaterial = new BABYLON.StandardMaterial("groundMat", scene);
-        groundMaterial.diffuseColor = new BABYLON.Color3(0.2, 0.4, 0.6);
-        ground.material = groundMaterial;
+        const render = () => {
+            if (!ctx) return;
 
-        // Paddles
-        const paddle1 = BABYLON.MeshBuilder.CreateBox("player1", { width: PADDLE_3D_WIDTH, height: PADDLE_3D_HEIGHT, depth: PADDLE_DEPTH }, scene);
-        const paddle2 = BABYLON.MeshBuilder.CreateBox("player2", { width: PADDLE_3D_WIDTH, height: PADDLE_3D_HEIGHT, depth: PADDLE_DEPTH }, scene);
-        paddle1.position.x = -SCENE_WIDTH / 2;
-        paddle2.position.x = SCENE_WIDTH / 2;
+            // Simple linear interpolation for smoother movement
+            const elapsed = Date.now() - animationStartTime;
+            const progress = Math.min(elapsed / interpolationDuration, 1);
 
-        // Ball
-        const ball = BABYLON.MeshBuilder.CreateSphere("ball", { diameter: BALL_3D_SIZE }, scene);
-        const ballMaterial = new BABYLON.StandardMaterial("ballMat", scene);
-        ballMaterial.diffuseColor = new BABYLON.Color3(1, 1, 0); // Yellow
-        ball.material = ballMaterial;
+            let renderState = currentState;
 
-        engine.runRenderLoop(() => {
-            if (gameState) {
-                // Map backend coordinates to frontend 3D coordinates
-                ball.position.x = (gameState.ball.x / GAME_WIDTH - 0.5) * SCENE_WIDTH;
-                ball.position.z = (gameState.ball.y / GAME_HEIGHT - 0.5) * -SCENE_HEIGHT; // Invert Z for correct orientation
+            if (previousStateRef.current && progress < 1) {
+                // Interpolate between previous and current state
+                const lerp = (start: number, end: number, t: number) => start + (end - start) * t;
 
-                paddle1.position.z = (gameState.player1.y / GAME_HEIGHT - 0.5) * -SCENE_HEIGHT;
-                paddle2.position.z = (gameState.player2.y / GAME_HEIGHT - 0.5) * -SCENE_HEIGHT;
+                renderState = {
+                    ...currentState,
+                    ball: {
+                        x: lerp(previousStateRef.current.ball.x, currentState.ball.x, progress),
+                        y: lerp(previousStateRef.current.ball.y, currentState.ball.y, progress)
+                    },
+                    player1: {
+                        y: lerp(previousStateRef.current.player1.y, currentState.player1.y, progress)
+                    },
+                    player2: {
+                        y: lerp(previousStateRef.current.player2.y, currentState.player2.y, progress)
+                    }
+                };
             }
-            scene.render();
-        });
 
-        const handleResize = () => engine.resize();
-        window.addEventListener('resize', handleResize);
+            // Draw everything
+            drawBackground(ctx);
+            drawPaddle(ctx, 10, renderState.player1.y, '#00ff88');
+            drawPaddle(ctx, GAME_WIDTH - PADDLE_WIDTH - 10, renderState.player2.y, '#ff6b6b');
+            drawBall(ctx, renderState.ball.x, renderState.ball.y);
+
+            // Continue animation only if interpolating
+            if (progress < 1) {
+                animationRef.current = requestAnimationFrame(render);
+            }
+        };
+
+        // Start new interpolation when state changes
+        if (previousStateRef.current &&
+            (previousStateRef.current.ball.x !== gameState.ball.x ||
+             previousStateRef.current.ball.y !== gameState.ball.y ||
+             previousStateRef.current.player1.y !== gameState.player1.y ||
+             previousStateRef.current.player2.y !== gameState.player2.y)) {
+
+            animationStartTime = Date.now();
+            if (animationRef.current) {
+                cancelAnimationFrame(animationRef.current);
+            }
+            animationRef.current = requestAnimationFrame(render);
+        } else {
+            // No interpolation needed, just render current state
+            drawBackground(ctx);
+            drawPaddle(ctx, 10, gameState.player1.y, '#00ff88');
+            drawPaddle(ctx, GAME_WIDTH - PADDLE_WIDTH - 10, gameState.player2.y, '#ff6b6b');
+            drawBall(ctx, gameState.ball.x, gameState.ball.y);
+        }
+
+        previousStateRef.current = gameState;
 
         return () => {
-            window.removeEventListener('resize', handleResize);
-            engine.dispose();
+            if (animationRef.current) {
+                cancelAnimationFrame(animationRef.current);
+            }
         };
-    }, [gameState]); // Rerunning useEffect on gameState change might be heavy, but it's simple for now.
+    }, [gameState, drawBackground, drawPaddle, drawBall]);
 
-    return <canvas ref={canvasRef} style={{ width: '100%', height: '100%' }} />;
+    return (
+        <div style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: '100%',
+            height: '100%',
+            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            padding: '20px'
+        }}>
+            <canvas
+                ref={canvasRef}
+                style={{
+                    maxWidth: '100%',
+                    maxHeight: '100%',
+                    border: '3px solid #ffffff',
+                    borderRadius: '10px',
+                    boxShadow: '0 0 30px rgba(255, 255, 255, 0.3)',
+                    backgroundColor: '#1a1a2e'
+                }}
+            />
+        </div>
+    );
 };
 
 export default PongScene;
