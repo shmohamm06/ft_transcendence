@@ -9,10 +9,11 @@ export async function registerUserHandler(
     request: FastifyRequest<{ Body: RegisterUserInput }>,
     reply: FastifyReply
 ) {
-    try {
+        try {
         const user = await registerUser(request.body);
         return reply.code(201).send(user);
-    } catch (e) {
+        } catch (e: any) {
+        console.error('Registration failed:', e.message);
         return reply.code(500).send({ message: 'Error creating user' });
     }
 }
@@ -59,7 +60,7 @@ export async function getUserProfileHandler(
                   resolve(reply.send(row));
               }
             );
-            
+
         });
     } catch (err) {
         return reply.code(401).send({ message: 'Unauthorized' });
@@ -92,15 +93,19 @@ export async function updateUserStatsHandler(
 
     const column = `${gameKey}_${resultKey}`;
 
-    db.run(
-        `UPDATE user_stats SET ${column} = ${column} + 1 WHERE user_id = ?`,
-        [id],
-        function (err: Error | null) {
-            if (err) {
-                return reply.code(500).send({ message: 'Failed to update stats' });
-            } else {
-                return reply.code(200).send({ message: 'Stats updated successfully' });
+    return new Promise<void>((resolve, reject) => {
+        db.run(
+            `UPDATE user_stats SET ${column} = ${column} + 1 WHERE user_id = ?`,
+            [id],
+            function (err: Error | null) {
+                if (err) {
+                    reply.code(500).send({ message: 'Failed to update stats' });
+                    reject(err);
+                } else {
+                    reply.code(200).send({ message: 'Stats updated successfully' });
+                    resolve();
+                }
             }
-        }
-    );
+        );
+    });
 }

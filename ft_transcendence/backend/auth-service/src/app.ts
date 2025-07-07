@@ -1,5 +1,6 @@
 import Fastify from 'fastify';
 import jwt from '@fastify/jwt';
+import cors from '@fastify/cors';
 import { initializeDatabase } from './db/init';
 import userRoutes from './modules/user/user.route';
 import { userSchemas } from './modules/user/user.schema';
@@ -11,6 +12,14 @@ const fastify = Fastify({ logger: true });
 
 // Initialize Database
 initializeDatabase();
+
+// Register CORS
+fastify.register(cors, {
+    origin: ['http://localhost:3000', 'http://127.0.0.1:3000'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true
+});
 
 // Register JWT
 fastify.register(jwt, {

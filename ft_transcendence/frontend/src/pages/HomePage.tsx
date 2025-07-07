@@ -18,6 +18,13 @@ const HomePage = () => {
                 {/* Game Buttons */}
                 <div className="space-y-4">
                     <Link
+                        to="/profile"
+                        className="block w-64 mx-auto px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-lg font-semibold transition"
+                    >
+                        👤 My Profile
+                    </Link>
+
+                    <Link
                         to="/game"
                         className="block w-64 mx-auto px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg text-lg font-semibold transition"
                     >

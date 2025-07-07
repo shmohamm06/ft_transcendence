@@ -13,35 +13,36 @@ interface AuthContextType {
     login: (token: string, user: User) => void;
     logout: () => void;
     isAuthenticated: boolean;
+    isLoading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-    // For testing, create a mock user
-    const mockUser: User = {
-        id: 1,
-        username: 'TestPlayer',
-        email: 'test@example.com'
-    };
-
-    const [user, setUser] = useState<User | null>(mockUser);
-    const [token, setToken] = useState<string | null>('mock-token');
+    const [user, setUser] = useState<User | null>(null);
+    const [token, setToken] = useState<string | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        if (token) {
-            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-            // Here you would typically fetch the user profile with the token
-            // For now, we'll assume the user is stored in localStorage as well
-            const storedUser = localStorage.getItem('user');
-            if (storedUser) {
-                setUser(JSON.parse(storedUser));
-            } else {
-                // Set mock user if no stored user
-                setUser(mockUser);
+        // Восстанавливаем токен и пользователя из localStorage при инициализации
+        const storedToken = localStorage.getItem('token');
+        const storedUser = localStorage.getItem('user');
+
+        if (storedToken && storedUser) {
+            try {
+                const parsedUser = JSON.parse(storedUser);
+                setToken(storedToken);
+                setUser(parsedUser);
+                axios.defaults.headers.common['Authorization'] = `Bearer ${storedToken}`;
+            } catch (error) {
+                console.error('AuthContext: Failed to parse stored user data', error);
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
             }
         }
-    }, [token]);
+
+        setIsLoading(false);
+    }, []);
 
     const login = (newToken: string, newUser: User) => {
         setToken(newToken);
@@ -59,10 +60,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         delete axios.defaults.headers.common['Authorization'];
     };
 
-    const isAuthenticated = !!token;
+    const isAuthenticated = !!token && !!user;
 
     return (
-        <AuthContext.Provider value={{ user, token, login, logout, isAuthenticated }}>
+        <AuthContext.Provider value={{ user, token, login, logout, isAuthenticated, isLoading }}>
             {children}
         </AuthContext.Provider>
     );

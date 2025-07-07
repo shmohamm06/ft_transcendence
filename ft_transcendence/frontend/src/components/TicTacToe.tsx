@@ -5,9 +5,10 @@ type Board = Player[];
 
 interface TicTacToeProps {
     onGameEnd?: (winner: Player) => void;
+    onGameStart?: () => void;
 }
 
-const TicTacToe: React.FC<TicTacToeProps> = ({ onGameEnd }) => {
+const TicTacToe: React.FC<TicTacToeProps> = ({ onGameEnd, onGameStart }) => {
     const [board, setBoard] = useState<Board>(Array(9).fill(null));
     const [currentPlayer, setCurrentPlayer] = useState<'X' | 'O'>('X');
     const [winner, setWinner] = useState<Player>(null);
@@ -63,6 +64,7 @@ const TicTacToe: React.FC<TicTacToeProps> = ({ onGameEnd }) => {
         setCurrentPlayer('X');
         setWinner(null);
         setGameOver(false);
+        onGameStart?.(); // Notify parent that a new game started
     };
 
     // Get cell style based on content

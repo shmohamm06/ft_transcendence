@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import PongScene from '../components/PongScene';
 import { Link, useSearchParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import axios from 'axios';
 
 interface GameState {
     ball: { x: number; y: number };
@@ -25,8 +26,14 @@ const GamePage = () => {
     const [gameState, setGameState] = useState<GameState | null>(null);
     const [connectionStatus, setConnectionStatus] = useState('Connecting...');
     const [tournamentMatch, setTournamentMatch] = useState<TournamentMatch | null>(null);
+    const [gameResultSaved, setGameResultSaved] = useState(false);
+    const [lastSavedGameId, setLastSavedGameId] = useState<string | null>(null);
+    const [lastSaveTime, setLastSaveTime] = useState<number>(0);
+    const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+    const saveBlockedRef = useRef<boolean>(false);
+    const processingGameOverRef = useRef<boolean>(false);
     const socketRef = useRef<WebSocket | null>(null);
-    const { token } = useAuth();
+    const { token, user } = useAuth();
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
     const gameMode = searchParams.get('mode');
@@ -95,9 +102,70 @@ const GamePage = () => {
         }
     };
 
+        // Save AI game result to user stats with ultra-strict protection
+    const saveGameResult = async (winner: 'player1' | 'player2', gameId: string) => {
+        console.log('🎯 saveGameResult called', { winner, gameId, saveBlocked: saveBlockedRef.current });
+
+        // Ultra-strict early exit
+        if (saveBlockedRef.current) {
+            console.log('🚫 BLOCKED by saveBlockedRef');
+            return;
+        }
+
+        if (!user || isPvPMode || isTournamentMode) {
+            console.log('🚫 BLOCKED by game mode or no user');
+            return;
+        }
+
+        const now = Date.now();
+
+        // Check if we already saved this exact game
+        if (gameResultSaved || lastSavedGameId === gameId) {
+            console.log(`🚫 BLOCKED: Game result already saved for game ${gameId}`);
+            return;
+        }
+
+        // Check if we saved anything in the last 5 seconds (debounce)
+        if (now - lastSaveTime < 5000) {
+            console.log(`🚫 BLOCKED: Debounce - Last save was ${now - lastSaveTime}ms ago`);
+            return;
+        }
+
+        // Set blocking flag IMMEDIATELY
+        saveBlockedRef.current = true;
+
+        console.log(`💾 PROCEEDING with save for game ${gameId}`);
+        setGameResultSaved(true);
+        setLastSavedGameId(gameId);
+        setLastSaveTime(now);
+
+        try {
+            const result = winner === 'player1' ? 'win' : 'loss';
+
+            console.log(`💾 Making API call: ${result} for user ${user.id}`);
+
+            await axios.post(`/api/users/${user.id}/stats`, {
+                game: 'pong',
+                result: result
+            });
+
+            console.log('✅ Game result saved successfully!');
+
+            // Show notification only once
+            setTimeout(() => {
+                alert(`🎮 Game result saved to your profile: ${result.toUpperCase()}!`);
+            }, 2000);
+
+        } catch (error) {
+            console.error('❌ Failed to save game result:', error);
+            // Don't reset flags on error to prevent multiple attempts
+        }
+    };
+
     useEffect(() => {
         const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-        let wsUrl = `${wsProtocol}//${window.location.host}/ws/game`;
+        // Connect directly to game-service on port 8080
+        let wsUrl = `${wsProtocol}//localhost:8080/ws/game`;
 
         // Add token as query parameter if available
         if (token) {
@@ -147,6 +215,8 @@ const GamePage = () => {
                     setGameState(data);
                 }
 
+
+
                 // Handle tournament auto-winner detection at 3 points
                 if (isTournamentMode && tournamentMatch && processedData.score) {
                     const { player1: p1Score, player2: p2Score } = processedData.score;
@@ -168,6 +238,31 @@ const GamePage = () => {
                             alert(`🏆 Tournament Match Complete!\n${winnerName} wins with ${p1Score}-${p2Score}!\n\nClick "Continue Tournament" to proceed.`);
                         }
                     }
+                }
+
+                                // Handle game end - save stats for AI games
+                if (processedData.gameStatus === 'gameOver' && processedData.winner) {
+                    console.log(`🎮 Game over: ${processedData.winner} wins`, { processingGameOver: processingGameOverRef.current });
+
+                    // Prevent processing multiple gameOver messages
+                    if (processingGameOverRef.current) {
+                        console.log('🚫 BLOCKED: Already processing gameOver');
+                        return;
+                    }
+
+                    processingGameOverRef.current = true;
+
+                    // Save result for AI games (not PvP or tournament)
+                    if (!isPvPMode && !isTournamentMode) {
+                        // Create unique game ID based on score and timestamp
+                        const gameId = `${processedData.score.player1}-${processedData.score.player2}-${Date.now()}`;
+                        saveGameResult(processedData.winner, gameId);
+                    }
+
+                    // Reset processing flag after a delay
+                    setTimeout(() => {
+                        processingGameOverRef.current = false;
+                    }, 3000);
                 }
 
                 // Handle tournament game end (for games that end naturally)
@@ -249,8 +344,22 @@ const GamePage = () => {
         }
     };
 
-    const handleRestart = () => {
+        const handleRestart = () => {
         if (socketRef.current?.readyState === WebSocket.OPEN) {
+            // Reset ALL game result saved flags for new game
+            console.log('🎮 Restarting game - resetting ALL save flags');
+            setGameResultSaved(false);
+            setLastSavedGameId(null);
+            setLastSaveTime(0);
+            saveBlockedRef.current = false;
+            processingGameOverRef.current = false;
+
+            // Clear any pending save timeout
+            if (saveTimeoutRef.current) {
+                clearTimeout(saveTimeoutRef.current);
+                saveTimeoutRef.current = null;
+            }
+
             // Send settings before starting new match
             sendSettings();
             setTimeout(() => {

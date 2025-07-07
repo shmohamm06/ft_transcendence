@@ -7,6 +7,8 @@ import TicTacToePage from "../pages/TicTacToePage";
 import TournamentPage from "../pages/TournamentPage";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
+import ProfilePage from "../pages/ProfilePage";
+import TestPage from "../pages/TestPage";
 import { AuthProvider } from "../contexts/AuthContext";
 import ProtectedRoute from "./ProtectedRoute";
 
@@ -15,11 +17,17 @@ const AppRouter = () => {
         <AuthProvider>
             <Router>
                 <Routes>
+                    <Route path="/test" element={<TestPage />} />
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/register" element={<RegisterPage />} />
                     <Route path="/" element={
                         <ProtectedRoute>
                             <HomePage />
+                        </ProtectedRoute>
+                    } />
+                    <Route path="/profile" element={
+                        <ProtectedRoute>
+                            <ProfilePage />
                         </ProtectedRoute>
                     } />
                     <Route path="/game" element={

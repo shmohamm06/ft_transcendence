@@ -31,7 +31,7 @@ async function userRoutes(server: FastifyInstance) {
             }
         },
     }, getUserProfileHandler);
-    
+
     server.post('/:id/stats', {
     schema: {
         body: {
