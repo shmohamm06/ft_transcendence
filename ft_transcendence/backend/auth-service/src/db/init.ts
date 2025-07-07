@@ -1,6 +1,6 @@
 import sqlite3 from 'sqlite3';
 
-const db = new sqlite3.Database('/tmp/db.sqlite');
+const db = new sqlite3.Database('./db.sqlite');
 
 export const initializeDatabase = () => {
     db.serialize(() => {
@@ -27,6 +27,19 @@ export const initializeDatabase = () => {
                 value TEXT NOT NULL,
                 FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
                 UNIQUE(user_id, key)
+            )
+        `);
+        
+        // Add this inside db.serialize() in initializeDatabase
+        db.run(`
+            CREATE TABLE IF NOT EXISTS user_stats (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_id INTEGER NOT NULL UNIQUE,
+                pong_wins INTEGER DEFAULT 0,
+                pong_losses INTEGER DEFAULT 0,
+                ttt_wins INTEGER DEFAULT 0,
+                ttt_losses INTEGER DEFAULT 0,
+                FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
             )
         `);
 

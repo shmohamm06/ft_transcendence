@@ -13,6 +13,14 @@ export async function registerUser(input: RegisterUserInput) {
             db.get('SELECT id, username, email FROM users WHERE id = ?', this.lastID, (err: any, row: any) => {
                 if (err) return reject(err);
                 resolve(row);
+                const userId = row.id;
+                db.run(
+                    'INSERT INTO user_stats (user_id) VALUES (?)',
+                    [userId],
+                    (err: any) => {
+                        if (err) console.error("Failed to insert user_stats:", err);
+                    }
+                );
             });
         });
         stmt.finalize();

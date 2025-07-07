@@ -5,6 +5,7 @@ import userRoutes from './modules/user/user.route';
 import { userSchemas } from './modules/user/user.schema';
 import settingsRoutes from './modules/settings/settings.route';
 import { settingsSchemas } from './modules/settings/settings.schema';
+import { FastifyRequest, FastifyReply } from 'fastify';
 
 const fastify = Fastify({ logger: true });
 
@@ -28,7 +29,7 @@ fastify.register(userRoutes, { prefix: '/api/users' });
 fastify.register(settingsRoutes, { prefix: '/api/settings' });
 
 // Add a new route to verify tokens for other services
-fastify.post('/api/verify', async (request, reply) => {
+fastify.post('/api/verify', async (request: FastifyRequest, reply: FastifyReply) => {
     try {
         await request.jwtVerify();
         reply.send(request.user);
@@ -46,4 +47,16 @@ const start = async () => {
   }
 };
 
+fastify.decorate("authenticate", async function (
+  request: FastifyRequest,
+  reply: FastifyReply
+) {
+    try {
+        await request.jwtVerify();
+    } catch (err) {
+        reply.send(err);
+    }
+});
+
 start();
+
