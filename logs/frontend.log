@@ -2,11 +2,41 @@
 > ft_transcendence@1.0.0 dev
 > vite
 
-Port 3000 is in use, trying another one...
 
-  VITE v4.5.14  ready in 135 ms
+  VITE v4.5.14  ready in 127 ms
 
-  ➜  Local:   http://localhost:3001/
-  ➜  Network: http://192.168.0.105:3001/
-(node:13859) [DEP0060] DeprecationWarning: (node:14054) [DEP0060] DeprecationWarning: The `util._extend` API is deprecated. Please use Object.assign() instead.
+  ➜  Local:   http://localhost:3000/
+  ➜  Network: http://192.168.0.105:3000/
+  ➜  Network: http://10.144.78.153:3000/
+(node:18564) [DEP0060] DeprecationWarning: The `util._extend` API is deprecated. Please use Object.assign() instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
+20:45:06 [vite] http proxy error at /api/users/register:
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1139:18)
+    at afterConnectMultiple (node:net:1714:7)
+20:45:09 [vite] http proxy error at /api/users/register:
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1139:18)
+    at afterConnectMultiple (node:net:1714:7)
+20:45:18 [vite] http proxy error at /api/users/register:
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1139:18)
+    at afterConnectMultiple (node:net:1714:7)
+20:45:18 [vite] http proxy error at /api/users/register:
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1139:18)
+    at afterConnectMultiple (node:net:1714:7)
+20:45:18 [vite] http proxy error at /api/users/register:
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1139:18)
+    at afterConnectMultiple (node:net:1714:7)
+20:45:19 [vite] http proxy error at /api/users/nonexistent:
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1139:18)
+    at afterConnectMultiple (node:net:1714:7)
+20:45:19 [vite] http proxy error at /api/users/register:
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1139:18)
+    at afterConnectMultiple (node:net:1714:7)
+20:47:10 [vite] hmr update /src/pages/RegisterPage.tsx, /src/index.css
+20:47:10 [vite] hmr update /src/pages/RegisterPage.tsx, /src/index.css

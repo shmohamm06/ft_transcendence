@@ -29,8 +29,10 @@ const RegisterPage = () => {
 
             if (err.response?.data?.message) {
                 setError(err.response.data.message);
+            } else if (err.response?.status === 409) {
+                setError('User already exists. Please try different username or email.');
             } else if (err.response?.status === 500) {
-                setError('Server error. User might already exist.');
+                setError('Server error. Please try again later.');
             } else {
                 setError('Failed to register. Please try again.');
             }

@@ -9,11 +9,24 @@ export async function registerUserHandler(
     request: FastifyRequest<{ Body: RegisterUserInput }>,
     reply: FastifyReply
 ) {
-        try {
+    try {
         const user = await registerUser(request.body);
         return reply.code(201).send(user);
-        } catch (e: any) {
+    } catch (e: any) {
         console.error('Registration failed:', e.message);
+        console.error('Full error:', e);
+
+        // Check for specific SQLite constraint errors
+        if (e.message && e.message.includes('UNIQUE constraint failed')) {
+            if (e.message.includes('users.email')) {
+                return reply.code(409).send({ message: 'Email already exists' });
+            }
+            if (e.message.includes('users.username')) {
+                return reply.code(409).send({ message: 'Username already exists' });
+            }
+            return reply.code(409).send({ message: 'User already exists' });
+        }
+
         return reply.code(500).send({ message: 'Error creating user' });
     }
 }
