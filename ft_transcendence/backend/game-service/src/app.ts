@@ -5,7 +5,6 @@ const gameGateway = new GameGateway();
 
 const wss = new WebSocket.Server({
     port: 8080,
-    host: '0.0.0.0',
     path: '/ws/game'   // This must match nginx proxy path
 });
 
