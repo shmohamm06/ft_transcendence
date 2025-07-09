@@ -36,6 +36,17 @@ const GamePage = () => {
     const { token, user } = useAuth();
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
+
+    // Debug user state
+    useEffect(() => {
+        console.log('GamePage: Current user state:', {
+            user,
+            userId: user?.id,
+            userType: typeof user?.id,
+            token: token ? 'PRESENT' : 'MISSING',
+            isAuthenticated: !!user && !!token
+        });
+    }, [user, token]);
     const gameMode = searchParams.get('mode');
 
     const isPvPMode = gameMode === 'pvp';
@@ -104,7 +115,14 @@ const GamePage = () => {
 
         // Save AI game result to user stats with ultra-strict protection
     const saveGameResult = async (winner: 'player1' | 'player2', gameId: string) => {
-        console.log('🎯 saveGameResult called', { winner, gameId, saveBlocked: saveBlockedRef.current });
+        console.log('🎯 saveGameResult called', {
+            winner,
+            gameId,
+            saveBlocked: saveBlockedRef.current,
+            user: user ? `ID:${user.id}` : 'NO_USER',
+            isPvPMode,
+            isTournamentMode
+        });
 
         // Ultra-strict early exit
         if (saveBlockedRef.current) {
@@ -112,8 +130,18 @@ const GamePage = () => {
             return;
         }
 
-        if (!user || isPvPMode || isTournamentMode) {
-            console.log('🚫 BLOCKED by game mode or no user');
+        if (!user) {
+            console.log('🚫 BLOCKED: No user logged in');
+            return;
+        }
+
+        if (isPvPMode) {
+            console.log('🚫 BLOCKED: PvP mode - stats not saved');
+            return;
+        }
+
+        if (isTournamentMode) {
+            console.log('🚫 BLOCKED: Tournament mode - stats not saved');
             return;
         }
 
@@ -142,14 +170,19 @@ const GamePage = () => {
         try {
             const result = winner === 'player1' ? 'win' : 'loss';
 
-            console.log(`💾 Making API call: ${result} for user ${user.id}`);
+            console.log(`💾 Making API call:`, {
+                userId: user.id,
+                result,
+                endpoint: `/api/users/${user.id}/stats`,
+                payload: { game: 'pong', result }
+            });
 
-            await axios.post(`/api/users/${user.id}/stats`, {
+            const response = await axios.post(`/api/users/${user.id}/stats`, {
                 game: 'pong',
                 result: result
             });
 
-            console.log('✅ Game result saved successfully!');
+            console.log('✅ Game result saved successfully!', response.data);
 
             // Show notification only once
             setTimeout(() => {
@@ -158,6 +191,10 @@ const GamePage = () => {
 
         } catch (error) {
             console.error('❌ Failed to save game result:', error);
+            if (error.response) {
+                console.error('Response data:', error.response.data);
+                console.error('Response status:', error.response.status);
+            }
             // Don't reset flags on error to prevent multiple attempts
         }
     };
@@ -242,7 +279,14 @@ const GamePage = () => {
 
                                 // Handle game end - save stats for AI games
                 if (processedData.gameStatus === 'gameOver' && processedData.winner) {
-                    console.log(`🎮 Game over: ${processedData.winner} wins`, { processingGameOver: processingGameOverRef.current });
+                    console.log(`🎮 Game over detected!`, {
+                        winner: processedData.winner,
+                        score: processedData.score,
+                        processingGameOver: processingGameOverRef.current,
+                        isPvPMode,
+                        isTournamentMode,
+                        user: user ? `ID:${user.id}` : 'NO_USER'
+                    });
 
                     // Prevent processing multiple gameOver messages
                     if (processingGameOverRef.current) {
@@ -256,7 +300,10 @@ const GamePage = () => {
                     if (!isPvPMode && !isTournamentMode) {
                         // Create unique game ID based on score and timestamp
                         const gameId = `${processedData.score.player1}-${processedData.score.player2}-${Date.now()}`;
+                        console.log(`💾 Calling saveGameResult for AI game:`, { winner: processedData.winner, gameId });
                         saveGameResult(processedData.winner, gameId);
+                    } else {
+                        console.log('🚫 SKIPPING save for non-AI game:', { isPvPMode, isTournamentMode });
                     }
 
                     // Reset processing flag after a delay

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import TicTacToe from '../components/TicTacToe';
 import { useAuth } from '../contexts/AuthContext';
@@ -24,9 +24,28 @@ const TicTacToePage: React.FC = () => {
     const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
     const { user } = useAuth();
 
+    // Debug user state
+    useEffect(() => {
+        console.log('TicTacToePage: Current user state:', {
+            user,
+            userId: user?.id,
+            userType: typeof user?.id,
+            isAuthenticated: !!user
+        });
+    }, [user]);
+
     // Save Tic-Tac-Toe result to user stats with debounce
     const saveTicTacToeResult = async (winner: 'X' | 'O' | null, gameId: string) => {
-        if (!user) return;
+        console.log('🎯 saveTicTacToeResult called', {
+            winner,
+            gameId,
+            user: user ? `ID:${user.id}` : 'NO_USER'
+        });
+
+        if (!user) {
+            console.log('🚫 BLOCKED: No user logged in');
+            return;
+        }
 
         const now = Date.now();
 
@@ -61,17 +80,23 @@ const TicTacToePage: React.FC = () => {
                 return;
             }
 
-            console.log(`💾 Saving Tic-Tac-Toe game result for game ${gameId}: ${result} for user ${user.id}`);
+            console.log(`💾 Making TicTacToe API call:`, {
+                userId: user.id,
+                result,
+                gameId,
+                endpoint: `/api/users/${user.id}/stats`,
+                payload: { game: 'tictactoe', result }
+            });
             setGameResultSaved(true);
             setLastSavedGameId(gameId);
             setLastSaveTime(now);
 
-            await axios.post(`/api/users/${user.id}/stats`, {
+            const response = await axios.post(`/api/users/${user.id}/stats`, {
                 game: 'tictactoe',
                 result: result
             });
 
-            console.log('✅ Tic-Tac-Toe result saved successfully!');
+            console.log('✅ Tic-Tac-Toe result saved successfully!', response.data);
 
             // Show notification only once
             setTimeout(() => {
@@ -80,11 +105,17 @@ const TicTacToePage: React.FC = () => {
 
         } catch (error) {
             console.error('❌ Failed to save Tic-Tac-Toe result:', error);
+            if (error.response) {
+                console.error('Response data:', error.response.data);
+                console.error('Response status:', error.response.status);
+            }
             // Don't reset flags on error to prevent multiple attempts
         }
     };
 
     const handleGameEnd = (winner: 'X' | 'O' | null) => {
+        console.log('🎯 TicTacToe game ended', { winner, user: user ? `ID:${user.id}` : 'NO_USER' });
+
         const newGame: GameResult = {
             id: Date.now(),
             winner,
@@ -102,6 +133,7 @@ const TicTacToePage: React.FC = () => {
 
         // Create unique game ID and save result to user profile
         const gameId = `ttt-${winner || 'draw'}-${Date.now()}`;
+        console.log('💾 Calling saveTicTacToeResult', { winner, gameId });
         saveTicTacToeResult(winner, gameId);
     };
 

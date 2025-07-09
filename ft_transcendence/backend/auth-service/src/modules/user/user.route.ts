@@ -1,6 +1,6 @@
 import { FastifyInstance } from 'fastify';
 import { updateUserStatsHandler } from './user.controller';
-import { registerUserHandler, loginHandler } from './user.controller';
+import { registerUserHandler, loginHandler, oauthAuthorizeHandler, oauthCallbackHandler } from './user.controller';
 import { getUserProfileHandler } from './user.controller';
 import { $ref } from './user.schema';
 
@@ -21,6 +21,36 @@ async function userRoutes(server: FastifyInstance) {
             },
         },
     }, loginHandler);
+
+    // OAuth routes
+    server.get('/oauth/42/authorize', {
+        schema: {
+            response: {
+                200: {
+                    type: 'object',
+                    properties: {
+                        authURL: { type: 'string' },
+                        state: { type: 'string' }
+                    }
+                },
+            },
+        },
+    }, oauthAuthorizeHandler);
+
+    server.post('/oauth/42/callback', {
+        schema: {
+            body: $ref('oauthCallbackSchema'),
+            response: {
+                200: {
+                    type: 'object',
+                    properties: {
+                        accessToken: { type: 'string' },
+                        user: { type: 'object' }
+                    }
+                },
+            },
+        },
+    }, oauthCallbackHandler);
 
     server.get('/profile', {
         preHandler: async (request, reply) => {

@@ -1,3 +1,16 @@
+import 'dotenv/config';
+import * as dotenv from 'dotenv';
+import * as path from 'path';
+
+// Load .env file from current directory
+dotenv.config({ path: path.join(__dirname, '../.env') });
+
+// Debug: Check if environment variables are loaded
+console.log('Environment variables loaded:', {
+    CLIENT_ID: process.env.OAUTH_CLIENT_ID ? 'LOADED' : 'MISSING',
+    CLIENT_SECRET: process.env.OAUTH_CLIENT_SECRET ? 'LOADED' : 'MISSING',
+    JWT_SECRET: process.env.JWT_SECRET ? 'LOADED' : 'MISSING'
+});
 import Fastify from 'fastify';
 import jwt from '@fastify/jwt';
 import cors from '@fastify/cors';
@@ -23,7 +36,7 @@ fastify.register(cors, {
 
 // Register JWT
 fastify.register(jwt, {
-  secret: 'a-super-secret-key-that-is-long-enough', // This MUST be the same across services
+  secret: process.env.JWT_SECRET || 'a-super-secret-key-that-is-long-enough', // This MUST be the same across services
 });
 
 // Add schemas

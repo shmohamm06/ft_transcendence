@@ -5,6 +5,10 @@ interface User {
     id: number;
     username: string;
     email: string;
+    avatar?: string;
+    intra_id?: number;
+    intra_login?: string;
+    auth_provider?: string;
 }
 
 interface AuthContextType {
@@ -28,11 +32,44 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         const storedToken = localStorage.getItem('token');
         const storedUser = localStorage.getItem('user');
 
+        console.log('AuthContext: Restoring from localStorage:', {
+            hasToken: !!storedToken,
+            hasUser: !!storedUser,
+            storedUser: storedUser,
+            parsedUser: storedUser ? JSON.parse(storedUser) : null
+        });
+
         if (storedToken && storedUser) {
             try {
                 const parsedUser = JSON.parse(storedUser);
+
+                // If user object is empty, try to extract from JWT token
+                if (!parsedUser.id && storedToken) {
+                    console.log('AuthContext: User object empty, extracting from JWT...');
+                    try {
+                        const payload = JSON.parse(atob(storedToken.split('.')[1]));
+                        console.log('AuthContext: JWT payload:', payload);
+
+                        if (payload.id) {
+                            const userFromJWT = {
+                                id: payload.id,
+                                username: payload.username,
+                                email: payload.email,
+                                avatar: payload.avatar,
+                                auth_provider: payload.auth_provider
+                            };
+                            console.log('AuthContext: Using user from JWT:', userFromJWT);
+                            setUser(userFromJWT);
+                            localStorage.setItem('user', JSON.stringify(userFromJWT));
+                        }
+                    } catch (jwtError) {
+                        console.error('AuthContext: Failed to parse JWT:', jwtError);
+                    }
+                } else {
+                    setUser(parsedUser);
+                }
+
                 setToken(storedToken);
-                setUser(parsedUser);
                 axios.defaults.headers.common['Authorization'] = `Bearer ${storedToken}`;
             } catch (error) {
                 console.error('AuthContext: Failed to parse stored user data', error);
@@ -45,19 +82,45 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }, []);
 
     const login = (newToken: string, newUser: User) => {
+        console.log('AuthContext: Login called with:', {
+            token: newToken ? 'PROVIDED' : 'MISSING',
+            user: newUser,
+            userId: newUser?.id,
+            userIdType: typeof newUser?.id,
+            userKeys: newUser ? Object.keys(newUser) : []
+        });
+
         setToken(newToken);
         setUser(newUser);
+
         localStorage.setItem('token', newToken);
-        localStorage.setItem('user', JSON.stringify(newUser));
+        const userString = JSON.stringify(newUser);
+        localStorage.setItem('user', userString);
+
+        // Verify what was actually saved
+        const savedUserString = localStorage.getItem('user');
+        const parsedSavedUser = savedUserString ? JSON.parse(savedUserString) : null;
+        console.log('AuthContext: Saved to localStorage:', {
+            original: newUser,
+            serialized: userString,
+            parsedBack: parsedSavedUser,
+            savedUserId: parsedSavedUser?.id,
+            savedUserIdType: typeof parsedSavedUser?.id
+        });
+
         axios.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
+        console.log('AuthContext: Login completed, user authenticated:', !!newToken && !!newUser);
     };
 
     const logout = () => {
+        console.log('AuthContext: Logout called');
+        console.trace('AuthContext: Logout call stack');
         setToken(null);
         setUser(null);
         localStorage.removeItem('token');
         localStorage.removeItem('user');
         delete axios.defaults.headers.common['Authorization'];
+        console.log('AuthContext: Logout completed');
     };
 
     const isAuthenticated = !!token && !!user;

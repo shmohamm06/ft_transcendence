@@ -1,7 +1,8 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { registerUser, findUserByEmail } from './user.service';
-import { LoginInput, RegisterUserInput } from './user.schema';
+import { LoginInput, RegisterUserInput, OAuthCallbackInput } from './user.schema';
 import { verifyPassword } from '../../utils/hash';
+import { OAuthService } from './oauth.service';
 import db from '../../db/init';
 
 
@@ -121,4 +122,104 @@ export async function updateUserStatsHandler(
             }
         );
     });
+}
+
+export async function oauthAuthorizeHandler(
+    request: FastifyRequest,
+    reply: FastifyReply
+) {
+    try {
+        const state = Math.random().toString(36).substring(2, 15);
+        const authURL = OAuthService.generateAuthURL(state);
+
+        // Store state in session or return it to frontend for validation
+        return reply.send({
+            authURL,
+            state
+        });
+    } catch (error: any) {
+        console.error('OAuth authorization error:', error);
+        return reply.code(500).send({ message: 'Failed to generate authorization URL' });
+    }
+}
+
+export async function oauthCallbackHandler(
+    request: FastifyRequest<{ Body: OAuthCallbackInput }>,
+    reply: FastifyReply
+) {
+    console.log('OAuth callback received:', {
+        method: request.method,
+        url: request.url,
+        body: request.body,
+        query: request.query,
+        headers: request.headers
+    });
+
+    try {
+        const { code } = request.body;
+
+        console.log('Processing OAuth callback with code:', code ? `${code.substring(0, 10)}...` : 'MISSING');
+
+        if (!code) {
+            console.error('No authorization code provided');
+            return reply.code(400).send({ message: 'Authorization code is required' });
+        }
+
+        // Exchange code for access token
+        const accessToken = await OAuthService.exchangeCodeForToken(code);
+
+        // Get user info from 42 API
+        const userData = await OAuthService.getUserInfo(accessToken);
+
+        // Find or create user in our database
+        const user = await OAuthService.findOrCreateUser(userData);
+
+        console.log('OAuth: User from database:', {
+            user,
+            hasId: !!user.id,
+            idType: typeof user.id,
+            keys: Object.keys(user)
+        });
+
+        // Generate JWT token for our system
+        const jwtToken = request.server.jwt.sign(user);
+
+        // Create a plain object to ensure proper JSON serialization
+        const responseUser = {
+            id: Number(user.id),
+            username: String(user.username),
+            email: String(user.email),
+            avatar: user.avatar ? String(user.avatar) : null,
+            auth_provider: user.auth_provider ? String(user.auth_provider) : null
+        };
+
+        console.log('OAuth: Sending response user:', {
+            responseUser,
+            hasId: !!responseUser.id,
+            idType: typeof responseUser.id,
+            serialized: JSON.stringify(responseUser)
+        });
+
+        const responseData = {
+            accessToken: jwtToken,
+            user: responseUser
+        };
+
+        console.log('OAuth: Final response data:', {
+            responseData,
+            serializedResponse: JSON.stringify(responseData)
+        });
+
+        // Force JSON serialization by setting content-type and using JSON.stringify
+        return reply
+            .header('Content-Type', 'application/json')
+            .send(JSON.stringify(responseData));
+
+    } catch (error: any) {
+        console.error('OAuth callback error:', error);
+        return reply.code(500).send({
+            message: 'OAuth authentication failed',
+            error: error.message
+        });
+    }
 }

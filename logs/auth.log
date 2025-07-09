@@ -1,142 +1,239 @@
-
-> auth-service@1.0.0 dev
-> nodemon src/app.ts
-
-[33m[nodemon] 3.1.10[39m
-[33m[nodemon] to restart at any time, enter `rs`[39m
-[33m[nodemon] watching path(s): *.*[39m
-[33m[nodemon] watching extensions: ts,json[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-/Users/mac/Desktop/check/ft_transcendence/backend/auth-service/node_modules/ts-node/src/index.ts:859
-    return new TSError(diagnosticText, diagnosticCodes, diagnostics);
-           ^
-TSError: ⨯ Unable to compile TypeScript:
-src/app.ts(3,18): error TS2307: Cannot find module '@fastify/cors' or its corresponding type declarations.
-
-    at createTSError (/Users/mac/Desktop/check/ft_transcendence/backend/auth-service/node_modules/ts-node/src/index.ts:859:12)
-    at reportTSError (/Users/mac/Desktop/check/ft_transcendence/backend/auth-service/node_modules/ts-node/src/index.ts:863:19)
-    at getOutput (/Users/mac/Desktop/check/ft_transcendence/backend/auth-service/node_modules/ts-node/src/index.ts:1077:36)
-    at Object.compile (/Users/mac/Desktop/check/ft_transcendence/backend/auth-service/node_modules/ts-node/src/index.ts:1433:41)
-    at Module.m._compile (/Users/mac/Desktop/check/ft_transcendence/backend/auth-service/node_modules/ts-node/src/index.ts:1617:30)
-    at loadTS (node:internal/modules/cjs/loader:1826:10)
-    at Object.require.extensions.<computed> [as .ts] (/Users/mac/Desktop/check/ft_transcendence/backend/auth-service/node_modules/ts-node/src/index.ts:1621:12)
-    at Module.load (node:internal/modules/cjs/loader:1469:32)
-    at Function._load (node:internal/modules/cjs/loader:1286:12)
-    at TracingChannel.traceSync (node:diagnostics_channel:322:14) {
-  diagnosticCodes: [ 2307 ]
-}
-[31m[nodemon] app crashed - waiting for file changes before starting...[39m
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-Error: dlopen(/Users/mac/Desktop/check/ft_transcendence/backend/auth-service/node_modules/sqlite3/build/Release/node_sqlite3.node, 0x0001): tried: '/Users/mac/Desktop/check/ft_transcendence/backend/auth-service/node_modules/sqlite3/build/Release/node_sqlite3.node' (not a mach-o file), '/System/Volumes/Preboot/Cryptexes/OS/Users/mac/Desktop/check/ft_transcendence/backend/auth-service/node_modules/sqlite3/build/Release/node_sqlite3.node' (no such file), '/Users/mac/Desktop/check/ft_transcendence/backend/auth-service/node_modules/sqlite3/build/Release/node_sqlite3.node' (not a mach-o file)
-    at Object..node (node:internal/modules/cjs/loader:1925:18)
-    at Module.load (node:internal/modules/cjs/loader:1469:32)
-    at Function._load (node:internal/modules/cjs/loader:1286:12)
-    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
-    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
-    at Module.require (node:internal/modules/cjs/loader:1491:12)
-    at require (node:internal/modules/helpers:135:16)
-    at bindings (/Users/mac/Desktop/check/ft_transcendence/backend/auth-service/node_modules/bindings/bindings.js:112:48)
-    at Object.<anonymous> (/Users/mac/Desktop/check/ft_transcendence/backend/auth-service/node_modules/sqlite3/lib/sqlite3-binding.js:1:37)
-    at Module._compile (node:internal/modules/cjs/loader:1734:14) {
-  code: 'ERR_DLOPEN_FAILED'
-}
-[31m[nodemon] app crashed - waiting for file changes before starting...[39m
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-Error: dlopen(/Users/mac/Desktop/check/ft_transcendence/backend/auth-service/node_modules/sqlite3/build/Release/node_sqlite3.node, 0x0001): tried: '/Users/mac/Desktop/check/ft_transcendence/backend/auth-service/node_modules/sqlite3/build/Release/node_sqlite3.node' (not a mach-o file), '/System/Volumes/Preboot/Cryptexes/OS/Users/mac/Desktop/check/ft_transcendence/backend/auth-service/node_modules/sqlite3/build/Release/node_sqlite3.node' (no such file), '/Users/mac/Desktop/check/ft_transcendence/backend/auth-service/node_modules/sqlite3/build/Release/node_sqlite3.node' (not a mach-o file)
-    at Object..node (node:internal/modules/cjs/loader:1925:18)
-    at Module.load (node:internal/modules/cjs/loader:1469:32)
-    at Function._load (node:internal/modules/cjs/loader:1286:12)
-    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
-    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
-    at Module.require (node:internal/modules/cjs/loader:1491:12)
-    at require (node:internal/modules/helpers:135:16)
-    at bindings (/Users/mac/Desktop/check/ft_transcendence/backend/auth-service/node_modules/bindings/bindings.js:112:48)
-    at Object.<anonymous> (/Users/mac/Desktop/check/ft_transcendence/backend/auth-service/node_modules/sqlite3/lib/sqlite3-binding.js:1:37)
-    at Module._compile (node:internal/modules/cjs/loader:1734:14) {
-  code: 'ERR_DLOPEN_FAILED'
-}
-[31m[nodemon] app crashed - waiting for file changes before starting...[39m
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-/Users/mac/.nvm/versions/node/v23.11.0/lib/node_modules/ts-node/src/index.ts:859
-    return new TSError(diagnosticText, diagnosticCodes, diagnostics);
-           ^
-TSError: ⨯ Unable to compile TypeScript:
-src/app.ts(1,21): error TS2307: Cannot find module 'fastify' or its corresponding type declarations.
-src/app.ts(2,17): error TS2307: Cannot find module '@fastify/jwt' or its corresponding type declarations.
-src/app.ts(3,18): error TS2307: Cannot find module '@fastify/cors' or its corresponding type declarations.
-src/app.ts(9,46): error TS2307: Cannot find module 'fastify' or its corresponding type declarations.
-src/app.ts(55,5): error TS2580: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node`.
-
-    at createTSError (/Users/mac/.nvm/versions/node/v23.11.0/lib/node_modules/ts-node/src/index.ts:859:12)
-    at reportTSError (/Users/mac/.nvm/versions/node/v23.11.0/lib/node_modules/ts-node/src/index.ts:863:19)
-    at getOutput (/Users/mac/.nvm/versions/node/v23.11.0/lib/node_modules/ts-node/src/index.ts:1077:36)
-    at Object.compile (/Users/mac/.nvm/versions/node/v23.11.0/lib/node_modules/ts-node/src/index.ts:1433:41)
-    at Module.m._compile (/Users/mac/.nvm/versions/node/v23.11.0/lib/node_modules/ts-node/src/index.ts:1617:30)
-    at loadTS (node:internal/modules/cjs/loader:1826:10)
-    at Object.require.extensions.<computed> [as .ts] (/Users/mac/.nvm/versions/node/v23.11.0/lib/node_modules/ts-node/src/index.ts:1621:12)
-    at Module.load (node:internal/modules/cjs/loader:1469:32)
-    at Function._load (node:internal/modules/cjs/loader:1286:12)
-    at TracingChannel.traceSync (node:diagnostics_channel:322:14) {
-  diagnosticCodes: [ 2307, 2307, 2307, 2307, 2580 ]
-}
-[31m[nodemon] app crashed - waiting for file changes before starting...[39m
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
+[dotenv@17.1.0] injecting env (0) from .env (tip: ⚙️  load multiple .env files with { path: ['.env.local', '.env'] })
+Environment variables loaded: { CLIENT_ID: 'LOADED', CLIENT_SECRET: 'LOADED', JWT_SECRET: 'LOADED' }
 Database path: /Users/mac/Desktop/check/ft_transcendence/backend/auth-service/db.sqlite
 Initializing database...
 Database initialized successfully.
-{"level":30,"time":1751993277703,"pid":21136,"hostname":"macs-MacBook-Pro.local","msg":"Server listening at http://0.0.0.0:3001"}
+{"level":30,"time":1752073244823,"pid":52547,"hostname":"macs-MacBook-Pro.local","msg":"Server listening at http://0.0.0.0:3001"}
 Database connection opened successfully
 Users table created/verified
 Game_settings table created/verified
 User_stats table created/verified
-{"level":30,"time":1751993301138,"pid":21136,"hostname":"macs-MacBook-Pro.local","reqId":"req-1","req":{"method":"POST","url":"/api/users/register","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":54724},"msg":"incoming request"}
-Registration failed: SQLITE_CONSTRAINT: UNIQUE constraint failed: users.username
-Full error: [Error: SQLITE_CONSTRAINT: UNIQUE constraint failed: users.username] {
-  errno: 19,
-  code: 'SQLITE_CONSTRAINT'
+{"level":30,"time":1752073254227,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-1","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":65401},"msg":"incoming request"}
+{"level":30,"time":1752073254229,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-2","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":65402},"msg":"incoming request"}
+{"level":30,"time":1752073254232,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-1","res":{"statusCode":200},"responseTime":4.6336669921875,"msg":"request completed"}
+{"level":30,"time":1752073254233,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-2","res":{"statusCode":200},"responseTime":3.6872920989990234,"msg":"request completed"}
+{"level":30,"time":1752073268566,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-3","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":65477},"msg":"incoming request"}
+{"level":30,"time":1752073268567,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-4","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":65478},"msg":"incoming request"}
+{"level":30,"time":1752073268567,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-3","res":{"statusCode":200},"responseTime":1.5738749504089355,"msg":"request completed"}
+{"level":30,"time":1752073268568,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-4","res":{"statusCode":200},"responseTime":1.0344157218933105,"msg":"request completed"}
+{"level":30,"time":1752073268955,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-5","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":65484},"msg":"incoming request"}
+{"level":30,"time":1752073268956,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-6","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":65485},"msg":"incoming request"}
+{"level":30,"time":1752073268956,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-6","res":{"statusCode":200},"responseTime":0.46075010299682617,"msg":"request completed"}
+{"level":30,"time":1752073268956,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-5","res":{"statusCode":200},"responseTime":1.4292502403259277,"msg":"request completed"}
+{"level":30,"time":1752073278514,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-7","req":{"method":"POST","url":"/api/users/12/stats","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":65529},"msg":"incoming request"}
+{"level":30,"time":1752073278520,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-7","res":{"statusCode":200},"responseTime":5.487249851226807,"msg":"request completed"}
+{"level":30,"time":1752073282848,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-8","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":49171},"msg":"incoming request"}
+{"level":30,"time":1752073282849,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-9","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":49172},"msg":"incoming request"}
+{"level":30,"time":1752073282851,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-8","res":{"statusCode":200},"responseTime":3.3022499084472656,"msg":"request completed"}
+{"level":30,"time":1752073282852,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-9","res":{"statusCode":200},"responseTime":3.0570831298828125,"msg":"request completed"}
+{"level":30,"time":1752073287571,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-a","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":49191},"msg":"incoming request"}
+{"level":30,"time":1752073287573,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-a","res":{"statusCode":200},"responseTime":1.2555418014526367,"msg":"request completed"}
+{"level":30,"time":1752073329415,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-b","req":{"method":"POST","url":"/api/users/12/stats","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":49367},"msg":"incoming request"}
+{"level":30,"time":1752073329419,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-b","res":{"statusCode":200},"responseTime":4.478458881378174,"msg":"request completed"}
+{"level":30,"time":1752073335198,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-c","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":49394},"msg":"incoming request"}
+{"level":30,"time":1752073335200,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-c","res":{"statusCode":200},"responseTime":1.682790756225586,"msg":"request completed"}
+{"level":30,"time":1752073335205,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-d","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":49397},"msg":"incoming request"}
+{"level":30,"time":1752073335206,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-d","res":{"statusCode":200},"responseTime":0.9262080192565918,"msg":"request completed"}
+{"level":30,"time":1752073362995,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-e","req":{"method":"GET","url":"/api/users/oauth/42/authorize","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":49513},"msg":"incoming request"}
+{"level":30,"time":1752073362996,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-e","res":{"statusCode":200},"responseTime":0.8798341751098633,"msg":"request completed"}
+{"level":30,"time":1752073374583,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-f","req":{"method":"POST","url":"/api/users/oauth/42/callback","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":49568},"msg":"incoming request"}
+OAuth callback received: {
+  method: 'POST',
+  url: '/api/users/oauth/42/callback',
+  body: {
+    code: '73b918ae89010d86c42d8e4ce250639d9ae583454d2195dbd3aa4a9bec4d1e4e',
+    state: 'gx6ufd0vk5e'
+  },
+  query: {},
+  headers: {
+    'accept-language': 'en',
+    'accept-encoding': 'gzip, deflate, br, zstd',
+    referer: 'http://localhost:3000/auth/42/callback?code=73b918ae89010d86c42d8e4ce250639d9ae583454d2195dbd3aa4a9bec4d1e4e&state=gx6ufd0vk5e',
+    'sec-fetch-dest': 'empty',
+    'sec-fetch-mode': 'cors',
+    'sec-fetch-site': 'same-origin',
+    origin: 'http://localhost:3000',
+    'sec-ch-ua-mobile': '?0',
+    'content-type': 'application/json',
+    'sec-ch-ua': '"Google Chrome";v="137", "Chromium";v="137", "Not/A)Brand";v="24"',
+    accept: 'application/json, text/plain, */*',
+    'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36',
+    'sec-ch-ua-platform': '"macOS"',
+    'content-length': '97',
+    connection: 'close',
+    host: 'localhost:3001'
+  }
 }
-{"level":30,"time":1751993301200,"pid":21136,"hostname":"macs-MacBook-Pro.local","reqId":"req-1","res":{"statusCode":409},"responseTime":62.222583293914795,"msg":"request completed"}
-{"level":30,"time":1751993313712,"pid":21136,"hostname":"macs-MacBook-Pro.local","reqId":"req-2","req":{"method":"POST","url":"/api/users/register","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":54748},"msg":"incoming request"}
-{"level":30,"time":1751993313772,"pid":21136,"hostname":"macs-MacBook-Pro.local","reqId":"req-2","res":{"statusCode":201},"responseTime":60.363916873931885,"msg":"request completed"}
-{"level":30,"time":1751993320672,"pid":21136,"hostname":"macs-MacBook-Pro.local","reqId":"req-3","req":{"method":"POST","url":"/api/users/register","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":54749},"msg":"incoming request"}
-Registration failed: SQLITE_CONSTRAINT: UNIQUE constraint failed: users.username
-Full error: [Error: SQLITE_CONSTRAINT: UNIQUE constraint failed: users.username] {
-  errno: 19,
-  code: 'SQLITE_CONSTRAINT'
+Processing OAuth callback with code: 73b918ae89...
+Exchanging code for token with: {
+  grant_type: 'authorization_code',
+  client_id: 'u-s4t2ud-c9b994e544f314d00e5c9704fd12bad9a0535c183d2444bc9c44329a7ff29ab1',
+  client_secret: '[HIDDEN]',
+  code: '73b918ae89...',
+  redirect_uri: 'http://localhost:3000/auth/42/callback',
+  url: 'https://api.intra.42.fr/oauth/token'
 }
-{"level":30,"time":1751993320732,"pid":21136,"hostname":"macs-MacBook-Pro.local","reqId":"req-3","res":{"statusCode":409},"responseTime":59.48799991607666,"msg":"request completed"}
-{"level":30,"time":1751993339425,"pid":21136,"hostname":"macs-MacBook-Pro.local","reqId":"req-4","req":{"method":"POST","url":"/api/users/login","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":54787},"msg":"incoming request"}
-{"level":30,"time":1751993339508,"pid":21136,"hostname":"macs-MacBook-Pro.local","reqId":"req-4","res":{"statusCode":200},"responseTime":82.87529230117798,"msg":"request completed"}
-{"level":30,"time":1751993343261,"pid":21136,"hostname":"macs-MacBook-Pro.local","reqId":"req-5","req":{"method":"GET","url":"/api/users/nonexistent","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":54790},"msg":"incoming request"}
-{"level":30,"time":1751993343261,"pid":21136,"hostname":"macs-MacBook-Pro.local","reqId":"req-5","msg":"Route GET:/api/users/nonexistent not found"}
-{"level":30,"time":1751993343262,"pid":21136,"hostname":"macs-MacBook-Pro.local","reqId":"req-5","res":{"statusCode":404},"responseTime":0.6451668739318848,"msg":"request completed"}
-{"level":30,"time":1751993343268,"pid":21136,"hostname":"macs-MacBook-Pro.local","reqId":"req-6","req":{"method":"POST","url":"/api/users/register","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":54793},"msg":"incoming request"}
-{"level":30,"time":1751993343345,"pid":21136,"hostname":"macs-MacBook-Pro.local","reqId":"req-6","res":{"statusCode":201},"responseTime":77.63087511062622,"msg":"request completed"}
-{"level":30,"time":1751993343355,"pid":21136,"hostname":"macs-MacBook-Pro.local","reqId":"req-7","req":{"method":"POST","url":"/api/users/register","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":54796},"msg":"incoming request"}
-{"level":30,"time":1751993343411,"pid":21136,"hostname":"macs-MacBook-Pro.local","reqId":"req-7","res":{"statusCode":201},"responseTime":56.49612474441528,"msg":"request completed"}
-{"level":30,"time":1751993379604,"pid":21136,"hostname":"macs-MacBook-Pro.local","reqId":"req-8","req":{"method":"POST","url":"/api/users/register","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":54800},"msg":"incoming request"}
-{"level":30,"time":1751993379685,"pid":21136,"hostname":"macs-MacBook-Pro.local","reqId":"req-8","res":{"statusCode":201},"responseTime":80.08512496948242,"msg":"request completed"}
-{"level":30,"time":1751993389041,"pid":21136,"hostname":"macs-MacBook-Pro.local","reqId":"req-9","req":{"method":"POST","url":"/api/users/login","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":54806},"msg":"incoming request"}
-{"level":30,"time":1751993389122,"pid":21136,"hostname":"macs-MacBook-Pro.local","reqId":"req-9","res":{"statusCode":200},"responseTime":81.17675018310547,"msg":"request completed"}
-{"level":30,"time":1751993391896,"pid":21136,"hostname":"macs-MacBook-Pro.local","reqId":"req-a","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":54809},"msg":"incoming request"}
-{"level":30,"time":1751993391899,"pid":21136,"hostname":"macs-MacBook-Pro.local","reqId":"req-a","res":{"statusCode":200},"responseTime":3.45912504196167,"msg":"request completed"}
-{"level":30,"time":1751993391902,"pid":21136,"hostname":"macs-MacBook-Pro.local","reqId":"req-b","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":54812},"msg":"incoming request"}
-{"level":30,"time":1751993391907,"pid":21136,"hostname":"macs-MacBook-Pro.local","reqId":"req-b","res":{"statusCode":200},"responseTime":4.108749866485596,"msg":"request completed"}
-{"level":30,"time":1751993399093,"pid":21136,"hostname":"macs-MacBook-Pro.local","reqId":"req-c","req":{"method":"POST","url":"/api/users/11/stats","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":54818},"msg":"incoming request"}
-{"level":30,"time":1751993399096,"pid":21136,"hostname":"macs-MacBook-Pro.local","reqId":"req-c","res":{"statusCode":200},"responseTime":3.2320003509521484,"msg":"request completed"}
-{"level":30,"time":1751993404037,"pid":21136,"hostname":"macs-MacBook-Pro.local","reqId":"req-d","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":54821},"msg":"incoming request"}
-{"level":30,"time":1751993404040,"pid":21136,"hostname":"macs-MacBook-Pro.local","reqId":"req-d","res":{"statusCode":200},"responseTime":2.220749855041504,"msg":"request completed"}
-{"level":30,"time":1751993404042,"pid":21136,"hostname":"macs-MacBook-Pro.local","reqId":"req-e","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":54824},"msg":"incoming request"}
-{"level":30,"time":1751993404044,"pid":21136,"hostname":"macs-MacBook-Pro.local","reqId":"req-e","res":{"statusCode":200},"responseTime":1.1839170455932617,"msg":"request completed"}
-{"level":30,"time":1751993436323,"pid":21136,"hostname":"macs-MacBook-Pro.local","reqId":"req-f","req":{"method":"POST","url":"/api/users/11/stats","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":54831},"msg":"incoming request"}
-{"level":30,"time":1751993436325,"pid":21136,"hostname":"macs-MacBook-Pro.local","reqId":"req-f","res":{"statusCode":200},"responseTime":2.362791061401367,"msg":"request completed"}
-{"level":30,"time":1751993440681,"pid":21136,"hostname":"macs-MacBook-Pro.local","reqId":"req-g","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":54834},"msg":"incoming request"}
-{"level":30,"time":1751993440683,"pid":21136,"hostname":"macs-MacBook-Pro.local","reqId":"req-g","res":{"statusCode":200},"responseTime":1.9246249198913574,"msg":"request completed"}
-{"level":30,"time":1751993440686,"pid":21136,"hostname":"macs-MacBook-Pro.local","reqId":"req-h","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":54837},"msg":"incoming request"}
-{"level":30,"time":1751993440687,"pid":21136,"hostname":"macs-MacBook-Pro.local","reqId":"req-h","res":{"statusCode":200},"responseTime":0.8150830268859863,"msg":"request completed"}
+Token exchange successful
+OAuth: User from database: {
+  user: {
+    id: 12,
+    username: 'tzhakypo',
+    email: 'tzhakypo@student.42abudhabi.ae',
+    avatar: 'https://cdn.intra.42.fr/users/57ab954fc14b936a12f327d252a45a56/medium_tzhakypo.jpg',
+    intra_id: 133443,
+    intra_login: 'tzhakypo',
+    auth_provider: '42'
+  },
+  hasId: true,
+  idType: 'number',
+  keys: [
+    'id',
+    'username',
+    'email',
+    'avatar',
+    'intra_id',
+    'intra_login',
+    'auth_provider'
+  ]
+}
+OAuth: Sending response user: {
+  responseUser: {
+    id: 12,
+    username: 'tzhakypo',
+    email: 'tzhakypo@student.42abudhabi.ae',
+    avatar: 'https://cdn.intra.42.fr/users/57ab954fc14b936a12f327d252a45a56/medium_tzhakypo.jpg',
+    auth_provider: '42'
+  },
+  hasId: true,
+  idType: 'number',
+  serialized: '{"id":12,"username":"tzhakypo","email":"tzhakypo@student.42abudhabi.ae","avatar":"https://cdn.intra.42.fr/users/57ab954fc14b936a12f327d252a45a56/medium_tzhakypo.jpg","auth_provider":"42"}'
+}
+OAuth: Final response data: {
+  responseData: {
+    accessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoidHpoYWt5cG8iLCJlbWFpbCI6InR6aGFreXBvQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzLzU3YWI5NTRmYzE0YjkzNmExMmYzMjdkMjUyYTQ1YTU2L21lZGl1bV90emhha3lwby5qcGciLCJpbnRyYV9pZCI6MTMzNDQzLCJpbnRyYV9sb2dpbiI6InR6aGFreXBvIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzUyMDczMzc1fQ.Z8rSqI5Q3HyX9a5mpgOsjFxSDHRSGX68RYnZqEUYjjM',
+    user: {
+      id: 12,
+      username: 'tzhakypo',
+      email: 'tzhakypo@student.42abudhabi.ae',
+      avatar: 'https://cdn.intra.42.fr/users/57ab954fc14b936a12f327d252a45a56/medium_tzhakypo.jpg',
+      auth_provider: '42'
+    }
+  },
+  serializedResponse: '{"accessToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoidHpoYWt5cG8iLCJlbWFpbCI6InR6aGFreXBvQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzLzU3YWI5NTRmYzE0YjkzNmExMmYzMjdkMjUyYTQ1YTU2L21lZGl1bV90emhha3lwby5qcGciLCJpbnRyYV9pZCI6MTMzNDQzLCJpbnRyYV9sb2dpbiI6InR6aGFreXBvIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzUyMDczMzc1fQ.Z8rSqI5Q3HyX9a5mpgOsjFxSDHRSGX68RYnZqEUYjjM","user":{"id":12,"username":"tzhakypo","email":"tzhakypo@student.42abudhabi.ae","avatar":"https://cdn.intra.42.fr/users/57ab954fc14b936a12f327d252a45a56/medium_tzhakypo.jpg","auth_provider":"42"}}'
+}
+{"level":30,"time":1752073375911,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-f","res":{"statusCode":200},"responseTime":1327.8966670036316,"msg":"request completed"}
+{"level":30,"time":1752073379510,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-g","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":49591},"msg":"incoming request"}
+{"level":30,"time":1752073379511,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-g","res":{"statusCode":200},"responseTime":1.1954998970031738,"msg":"request completed"}
+{"level":30,"time":1752073379514,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-h","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":49593},"msg":"incoming request"}
+{"level":30,"time":1752073379515,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-h","res":{"statusCode":200},"responseTime":0.8555407524108887,"msg":"request completed"}
+{"level":30,"time":1752073387299,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-i","req":{"method":"POST","url":"/api/users/12/stats","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":49628},"msg":"incoming request"}
+{"level":30,"time":1752073387302,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-i","res":{"statusCode":200},"responseTime":2.408083915710449,"msg":"request completed"}
+{"level":30,"time":1752073391756,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-j","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":49647},"msg":"incoming request"}
+{"level":30,"time":1752073391757,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-j","res":{"statusCode":200},"responseTime":1.6505827903747559,"msg":"request completed"}
+{"level":30,"time":1752073391762,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-k","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":49650},"msg":"incoming request"}
+{"level":30,"time":1752073391762,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-k","res":{"statusCode":200},"responseTime":0.7670831680297852,"msg":"request completed"}
+{"level":30,"time":1752073419660,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-l","req":{"method":"POST","url":"/api/users/12/stats","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":49780},"msg":"incoming request"}
+{"level":30,"time":1752073419663,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-l","res":{"statusCode":200},"responseTime":2.5876669883728027,"msg":"request completed"}
+{"level":30,"time":1752073423625,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-m","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":49799},"msg":"incoming request"}
+{"level":30,"time":1752073423626,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-m","res":{"statusCode":200},"responseTime":0.8211250305175781,"msg":"request completed"}
+{"level":30,"time":1752073423629,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-n","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":49802},"msg":"incoming request"}
+{"level":30,"time":1752073423629,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-n","res":{"statusCode":200},"responseTime":0.6383748054504395,"msg":"request completed"}
+{"level":30,"time":1752073598978,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-o","req":{"method":"GET","url":"/api/users/oauth/42/authorize","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":50564},"msg":"incoming request"}
+{"level":30,"time":1752073598981,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-o","res":{"statusCode":200},"responseTime":2.4934582710266113,"msg":"request completed"}
+{"level":30,"time":1752073599750,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-p","req":{"method":"POST","url":"/api/users/oauth/42/callback","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":50574},"msg":"incoming request"}
+OAuth callback received: {
+  method: 'POST',
+  url: '/api/users/oauth/42/callback',
+  body: {
+    code: 'a95fb3bcfa467d2133cad35da4c50f47fc85681b822d15630aa5d4704be41cd6',
+    state: '1bud5qzxwku'
+  },
+  query: {},
+  headers: {
+    cookie: 'csrftoken=y5uEpcwZCBx6i5UZo9xLvCHsaYi5RYWe',
+    'accept-language': 'en,ru-RU;q=0.9,ru;q=0.8,en-US;q=0.7',
+    'accept-encoding': 'gzip, deflate, br, zstd',
+    referer: 'http://localhost:3000/auth/42/callback?code=a95fb3bcfa467d2133cad35da4c50f47fc85681b822d15630aa5d4704be41cd6&state=1bud5qzxwku',
+    'sec-fetch-dest': 'empty',
+    'sec-fetch-mode': 'cors',
+    'sec-fetch-site': 'same-origin',
+    origin: 'http://localhost:3000',
+    'sec-ch-ua-mobile': '?0',
+    'content-type': 'application/json',
+    'sec-ch-ua': '"Google Chrome";v="137", "Chromium";v="137", "Not/A)Brand";v="24"',
+    accept: 'application/json, text/plain, */*',
+    'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36',
+    'sec-ch-ua-platform': '"macOS"',
+    'content-length': '97',
+    connection: 'close',
+    host: 'localhost:3001'
+  }
+}
+Processing OAuth callback with code: a95fb3bcfa...
+Exchanging code for token with: {
+  grant_type: 'authorization_code',
+  client_id: 'u-s4t2ud-c9b994e544f314d00e5c9704fd12bad9a0535c183d2444bc9c44329a7ff29ab1',
+  client_secret: '[HIDDEN]',
+  code: 'a95fb3bcfa...',
+  redirect_uri: 'http://localhost:3000/auth/42/callback',
+  url: 'https://api.intra.42.fr/oauth/token'
+}
+Token exchange successful
+OAuth: User from database: {
+  user: {
+    id: 12,
+    username: 'tzhakypo',
+    email: 'tzhakypo@student.42abudhabi.ae',
+    avatar: 'https://cdn.intra.42.fr/users/57ab954fc14b936a12f327d252a45a56/medium_tzhakypo.jpg',
+    intra_id: 133443,
+    intra_login: 'tzhakypo',
+    auth_provider: '42'
+  },
+  hasId: true,
+  idType: 'number',
+  keys: [
+    'id',
+    'username',
+    'email',
+    'avatar',
+    'intra_id',
+    'intra_login',
+    'auth_provider'
+  ]
+}
+OAuth: Sending response user: {
+  responseUser: {
+    id: 12,
+    username: 'tzhakypo',
+    email: 'tzhakypo@student.42abudhabi.ae',
+    avatar: 'https://cdn.intra.42.fr/users/57ab954fc14b936a12f327d252a45a56/medium_tzhakypo.jpg',
+    auth_provider: '42'
+  },
+  hasId: true,
+  idType: 'number',
+  serialized: '{"id":12,"username":"tzhakypo","email":"tzhakypo@student.42abudhabi.ae","avatar":"https://cdn.intra.42.fr/users/57ab954fc14b936a12f327d252a45a56/medium_tzhakypo.jpg","auth_provider":"42"}'
+}
+OAuth: Final response data: {
+  responseData: {
+    accessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoidHpoYWt5cG8iLCJlbWFpbCI6InR6aGFreXBvQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzLzU3YWI5NTRmYzE0YjkzNmExMmYzMjdkMjUyYTQ1YTU2L21lZGl1bV90emhha3lwby5qcGciLCJpbnRyYV9pZCI6MTMzNDQzLCJpbnRyYV9sb2dpbiI6InR6aGFreXBvIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzUyMDczNjAxfQ.LbqdPDZ2gQCrIIYDReoWuGN6ahXqwujR7AWg8NdIwFk',
+    user: {
+      id: 12,
+      username: 'tzhakypo',
+      email: 'tzhakypo@student.42abudhabi.ae',
+      avatar: 'https://cdn.intra.42.fr/users/57ab954fc14b936a12f327d252a45a56/medium_tzhakypo.jpg',
+      auth_provider: '42'
+    }
+  },
+  serializedResponse: '{"accessToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoidHpoYWt5cG8iLCJlbWFpbCI6InR6aGFreXBvQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzLzU3YWI5NTRmYzE0YjkzNmExMmYzMjdkMjUyYTQ1YTU2L21lZGl1bV90emhha3lwby5qcGciLCJpbnRyYV9pZCI6MTMzNDQzLCJpbnRyYV9sb2dpbiI6InR6aGFreXBvIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzUyMDczNjAxfQ.LbqdPDZ2gQCrIIYDReoWuGN6ahXqwujR7AWg8NdIwFk","user":{"id":12,"username":"tzhakypo","email":"tzhakypo@student.42abudhabi.ae","avatar":"https://cdn.intra.42.fr/users/57ab954fc14b936a12f327d252a45a56/medium_tzhakypo.jpg","auth_provider":"42"}}'
+}
+{"level":30,"time":1752073601015,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-p","res":{"statusCode":200},"responseTime":1264.1990842819214,"msg":"request completed"}
+{"level":30,"time":1752073604333,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-q","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":50579},"msg":"incoming request"}
+{"level":30,"time":1752073604335,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-q","res":{"statusCode":200},"responseTime":2.2554173469543457,"msg":"request completed"}
+{"level":30,"time":1752073604345,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-r","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":50582},"msg":"incoming request"}
+{"level":30,"time":1752073604346,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-r","res":{"statusCode":200},"responseTime":0.5623331069946289,"msg":"request completed"}
+{"level":30,"time":1752073610441,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-s","req":{"method":"POST","url":"/api/users/12/stats","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":50586},"msg":"incoming request"}
+{"level":30,"time":1752073610444,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-s","res":{"statusCode":200},"responseTime":2.1215410232543945,"msg":"request completed"}
+{"level":30,"time":1752073614850,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-t","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":50589},"msg":"incoming request"}
+{"level":30,"time":1752073614852,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-t","res":{"statusCode":200},"responseTime":1.4327917098999023,"msg":"request completed"}
+{"level":30,"time":1752073614854,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-u","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":50592},"msg":"incoming request"}
+{"level":30,"time":1752073614855,"pid":52547,"hostname":"macs-MacBook-Pro.local","reqId":"req-u","res":{"statusCode":200},"responseTime":0.7144160270690918,"msg":"request completed"}

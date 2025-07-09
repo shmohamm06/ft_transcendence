@@ -38,6 +38,20 @@ const LoginPage = () => {
         console.log('Register link clicked!');
     };
 
+    const handle42Login = async () => {
+        try {
+            console.log('Initiating 42 OAuth login...');
+            const response = await axios.get('/api/users/oauth/42/authorize');
+            const { authURL } = response.data;
+
+            // Redirect to 42 OAuth
+            window.location.href = authURL;
+        } catch (err) {
+            console.error('Failed to initiate 42 OAuth:', err);
+            setError('Failed to initiate 42 login. Please try again.');
+        }
+    };
+
     const testClick = () => {
         alert('Test button works!');
         console.log('Test button clicked!');
@@ -54,6 +68,23 @@ const LoginPage = () => {
                 >
                     🧪 Test Click (Should Show Alert)
                 </button>
+
+                {/* 42 OAuth Login Button */}
+                <button
+                    onClick={handle42Login}
+                    className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded-md transition mb-4 flex items-center justify-center"
+                >
+                    <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                    </svg>
+                    Login with 42
+                </button>
+
+                <div className="flex items-center my-4">
+                    <div className="flex-grow border-t border-gray-600"></div>
+                    <span className="px-3 text-gray-400">or</span>
+                    <div className="flex-grow border-t border-gray-600"></div>
+                </div>
 
                 <form onSubmit={handleSubmit}>
                     <div className="mb-4">

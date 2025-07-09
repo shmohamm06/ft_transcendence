@@ -9,6 +9,7 @@ import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
 import ProfilePage from "../pages/ProfilePage";
 import TestPage from "../pages/TestPage";
+import OAuthCallbackPage from "../pages/OAuthCallbackPage";
 import { AuthProvider } from "../contexts/AuthContext";
 import ProtectedRoute from "./ProtectedRoute";
 
@@ -20,6 +21,7 @@ const AppRouter = () => {
                     <Route path="/test" element={<TestPage />} />
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/register" element={<RegisterPage />} />
+                    <Route path="/auth/42/callback" element={<OAuthCallbackPage />} />
                     <Route path="/" element={
                         <ProtectedRoute>
                             <HomePage />

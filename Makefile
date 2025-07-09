@@ -1,7 +1,7 @@
 # ft_transcendence - Simple Project Management
 # Main commands: start, restart, stop
 
-.PHONY: help start restart stop install clean
+.PHONY: help start restart stop install clean build
 
 # Default target
 .DEFAULT_GOAL := help
@@ -29,7 +29,12 @@ help:
 	@echo ""
 	@echo "$(YELLOW)Setup Commands:$(NC)"
 	@echo "  $(BLUE)make install$(NC) - 📦 Install dependencies"
+	@echo "  $(BLUE)make build$(NC)   - 🔨 Build all services"
 	@echo "  $(BLUE)make clean$(NC)   - 🧹 Clean everything"
+	@echo ""
+	@echo "$(YELLOW)Individual Services:$(NC)"
+	@echo "  $(BLUE)make auth-start$(NC)  - 🔐 Start only auth service"
+	@echo "  $(BLUE)make auth-stop$(NC)   - 🔐 Stop only auth service"
 	@echo ""
 	@echo "$(YELLOW)Service URLs:$(NC)"
 	@echo "  Frontend:     http://localhost:3000"
@@ -47,11 +52,20 @@ install:
 	@cd $(FRONTEND_DIR) && npm install
 	@echo "$(GREEN)✅ All dependencies installed!$(NC)"
 
+## build: 🔨 Build all services
+build:
+	@echo "$(GREEN)🔨 Building services...$(NC)"
+	@echo "$(YELLOW)  ➤ Building auth service...$(NC)"
+	@cd $(AUTH_SERVICE_DIR) && npm run build
+	@echo "$(YELLOW)  ➤ Building game service...$(NC)"
+	@cd $(GAME_SERVICE_DIR) && npm run build
+	@echo "$(GREEN)✅ All services built!$(NC)"
+
 ## start: 🚀 Start all services
-start:
+start: logs build
 	@echo "$(GREEN)🚀 Starting ft_transcendence services...$(NC)"
 	@echo "$(YELLOW)  ➤ Starting auth-service (port 3001)...$(NC)"
-	@cd $(AUTH_SERVICE_DIR) && npm run dev > ../../../logs/auth.log 2>&1 &
+	@cd $(AUTH_SERVICE_DIR) && node dist/app.js > ../../../logs/auth.log 2>&1 &
 	@sleep 2
 	@echo "$(YELLOW)  ➤ Starting game-service (port 8080)...$(NC)"
 	@cd $(GAME_SERVICE_DIR) && npm run dev > ../../../logs/game.log 2>&1 &
@@ -64,6 +78,20 @@ start:
 	@echo "$(BLUE)🌐 Open: http://localhost:3000$(NC)"
 	@echo "$(YELLOW)📋 Logs: tail -f logs/*.log$(NC)"
 	@echo "$(RED)🛑 Stop: make stop$(NC)"
+
+## auth-start: 🔐 Start only auth service
+auth-start: logs
+	@echo "$(GREEN)🔐 Starting auth service...$(NC)"
+	@cd $(AUTH_SERVICE_DIR) && npm run build > /dev/null 2>&1
+	@cd $(AUTH_SERVICE_DIR) && node dist/app.js > ../../../logs/auth.log 2>&1 &
+	@sleep 2
+	@echo "$(GREEN)✅ Auth service started on port 3001$(NC)"
+
+## auth-stop: 🔐 Stop only auth service
+auth-stop:
+	@echo "$(RED)🔐 Stopping auth service...$(NC)"
+	@lsof -ti:3001 | xargs kill -9 2>/dev/null || echo "  ➤ Port 3001 is free"
+	@echo "$(GREEN)✅ Auth service stopped!$(NC)"
 
 ## restart: 🔄 Restart all services
 restart: stop start
@@ -79,6 +107,7 @@ stop:
 	@lsof -ti:8080 | xargs kill -9 2>/dev/null || echo "  ➤ Port 8080 is free"
 	@pkill -f "npm run dev" 2>/dev/null || echo "  ➤ No npm dev processes"
 	@pkill -f "nodemon" 2>/dev/null || echo "  ➤ No nodemon processes"
+	@pkill -f "node dist/app.js" 2>/dev/null || echo "  ➤ No auth service processes"
 	@sleep 1
 	@echo "$(GREEN)✅ All services stopped!$(NC)"
 
