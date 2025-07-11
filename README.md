@@ -1,3 +1,14 @@
+
+                  PENDING WORK
+                 --------------
+         1. Player Vs Player                            ---> Tim
+         2. Makefile                                    ---> Tim
+         3. Database and SQL injections                 ---> Wahab & Fahad
+         4. Frontend Remake                             ---> Aleksei
+         5. Check Windows Compatibility                 ---> Shah
+         6. Check Eval Log                              ---> Everyone
+
+
 # 🎮 ft_transcendence
 
 A modern Pong game with JWT authentication, real-time gameplay, and game statistics tracking.
@@ -195,3 +206,9 @@ MIT License
 ---
 
 **Need help?** Run `make help` or check the logs in `logs/` directory.
+
+
+
+
+
+
