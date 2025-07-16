@@ -1,0 +1,30 @@
+
+> game-service@1.0.0 dev
+> nodemon src/app.ts
+
+[33m[nodemon] 3.1.10[39m
+[33m[nodemon] to restart at any time, enter `rs`[39m
+[33m[nodemon] watching path(s): *.*[39m
+[33m[nodemon] watching extensions: ts,json[39m
+[32m[nodemon] starting `ts-node src/app.ts`[39m
+GameGateway initialized
+Game service WebSocket server starting on port 8080 with path /ws/game
+Game service is running on port 8080
+Error: listen EADDRINUSE: address already in use :::8080
+    at Server.setupListenHandle [as _listen2] (node:net:1939:16)
+    at listenInCluster (node:net:1996:12)
+    at Server.listen (node:net:2101:7)
+    at new WebSocketServer (/Users/mac/Desktop/mm/ft_transcendence/backend/game-service/node_modules/ws/lib/websocket-server.js:102:20)
+    at Object.<anonymous> (/Users/mac/Desktop/mm/ft_transcendence/backend/game-service/src/app.ts:6:13)
+    at Module._compile (node:internal/modules/cjs/loader:1734:14)
+    at Module.m._compile (/Users/mac/Desktop/mm/ft_transcendence/backend/game-service/node_modules/ts-node/src/index.ts:1618:23)
+    at loadTS (node:internal/modules/cjs/loader:1826:10)
+    at Object.require.extensions.<computed> [as .ts] (/Users/mac/Desktop/mm/ft_transcendence/backend/game-service/node_modules/ts-node/src/index.ts:1621:12)
+    at Module.load (node:internal/modules/cjs/loader:1469:32) {
+  code: 'EADDRINUSE',
+  errno: -48,
+  syscall: 'listen',
+  address: '::',
+  port: 8080
+}
+[31m[nodemon] app crashed - waiting for file changes before starting...[39m

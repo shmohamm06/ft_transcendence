@@ -53,7 +53,7 @@ install:
 	@echo "$(GREEN)✅ All dependencies installed!$(NC)"
 
 ## build: 🔨 Build all services
-build:
+build: install
 	@echo "$(GREEN)🔨 Building services...$(NC)"
 	@echo "$(YELLOW)  ➤ Building auth service...$(NC)"
 	@cd $(AUTH_SERVICE_DIR) && npm run build
@@ -62,7 +62,7 @@ build:
 	@echo "$(GREEN)✅ All services built!$(NC)"
 
 ## start: 🚀 Start all services
-start: logs build
+start: install logs build
 	@echo "$(GREEN)🚀 Starting ft_transcendence services...$(NC)"
 	@echo "$(YELLOW)  ➤ Starting auth-service (port 3001)...$(NC)"
 	@cd $(AUTH_SERVICE_DIR) && node dist/app.js > ../../../logs/auth.log 2>&1 &
