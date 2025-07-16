@@ -52,22 +52,12 @@ const LoginPage = () => {
         }
     };
 
-    const testClick = () => {
-        alert('Test button works!');
-        console.log('Test button clicked!');
-    };
+
 
     return (
         <div className="min-h-screen bg-gray-900 flex items-center justify-center">
             <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-md">
                 <h2 className="text-2xl font-bold text-white mb-6 text-center">Login</h2>
-
-                <button
-                    onClick={testClick}
-                    className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md transition mb-4"
-                >
-                    🧪 Test Click (Should Show Alert)
-                </button>
 
                 {/* 42 OAuth Login Button */}
                 <button

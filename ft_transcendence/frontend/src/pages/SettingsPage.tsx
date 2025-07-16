@@ -43,11 +43,11 @@ const SettingsPage: React.FC = () => {
       // Simulate async operation
       await new Promise(resolve => setTimeout(resolve, 500));
 
-      setMessage('Настройки сохранены успешно!');
+      setMessage('Settings saved successfully!');
       setTimeout(() => setMessage(''), 3000);
     } catch (error) {
       console.error('Error saving settings:', error);
-      setMessage('Ошибка при сохранении настроек');
+      setMessage('Error saving settings');
     } finally {
       setSaving(false);
     }
@@ -56,7 +56,7 @@ const SettingsPage: React.FC = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-900 py-8 flex items-center justify-center">
-        <div className="text-xl text-gray-400">Загрузка настроек...</div>
+        <div className="text-xl text-gray-400">Loading settings...</div>
       </div>
     );
   }
@@ -65,8 +65,8 @@ const SettingsPage: React.FC = () => {
     <div className="min-h-screen bg-gray-900 py-8">
       <div className="max-w-4xl mx-auto px-4">
         <div className="flex items-center justify-between mb-8">
-          <h1 className="text-3xl font-bold text-white">Настройки игры</h1>
-          <Link to="/" className="text-blue-400 hover:underline">← Назад к игре</Link>
+          <h1 className="text-3xl font-bold text-white">Game Settings</h1>
+          <Link to="/" className="text-blue-400 hover:underline">← Back to Game</Link>
         </div>
 
         <div className="bg-gray-800 shadow rounded-lg p-6 border border-gray-700">
@@ -74,7 +74,7 @@ const SettingsPage: React.FC = () => {
             {/* Ball Speed Setting */}
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">
-                Скорость мяча: <span className="font-bold text-yellow-400">{ballSpeed}</span>
+                Ball Speed: <span className="font-bold text-yellow-400">{ballSpeed}</span>
               </label>
               <input
                 type="range"
@@ -88,15 +88,15 @@ const SettingsPage: React.FC = () => {
                 }}
               />
               <div className="flex justify-between text-xs text-gray-500 mt-1">
-                <span>Медленно (1)</span>
-                <span>Быстро (10)</span>
+                <span>Slow (1)</span>
+                <span>Fast (10)</span>
               </div>
             </div>
 
             {/* Paddle Speed Setting */}
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">
-                Скорость ракетки: <span className="font-bold text-green-400">{paddleSpeed}</span>
+                Paddle Speed: <span className="font-bold text-green-400">{paddleSpeed}</span>
               </label>
               <input
                 type="range"
@@ -110,8 +110,8 @@ const SettingsPage: React.FC = () => {
                 }}
               />
               <div className="flex justify-between text-xs text-gray-500 mt-1">
-                <span>Медленно (1)</span>
-                <span>Быстро (10)</span>
+                <span>Slow (1)</span>
+                <span>Fast (10)</span>
               </div>
             </div>
 
@@ -122,40 +122,40 @@ const SettingsPage: React.FC = () => {
                 disabled={saving}
                 className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-bold py-3 px-6 rounded-lg focus:outline-none focus:shadow-outline transition"
               >
-                {saving ? 'Сохранение...' : 'Сохранить настройки'}
+                {saving ? 'Saving...' : 'Save Settings'}
               </button>
             </div>
 
             {/* Message */}
             {message && (
               <div className={`p-3 rounded-lg ${message.includes('Ошибка') ? 'bg-red-900 text-red-300 border border-red-700' : 'bg-green-900 text-green-300 border border-green-700'}`}>
-                {message}
+                {message.includes('Ошибка') ? 'Error saving settings' : 'Settings saved successfully!'}
               </div>
             )}
           </div>
 
           {/* Game Controls Info */}
           <div className="mt-8 pt-6 border-t border-gray-700">
-            <h3 className="text-lg font-medium text-white mb-4">Управление в игре</h3>
+            <h3 className="text-lg font-medium text-white mb-4">Game Controls</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-gray-300">
               <div>
-                <strong className="text-white">Режим AI:</strong>
+                <strong className="text-white">AI Mode:</strong>
                 <ul className="mt-2 space-y-1">
-                  <li>W или ↑ - движение вверх</li>
-                  <li>S или ↓ - движение вниз</li>
+                  <li>W or ↑ – move up</li>
+                  <li>S or ↓ – move down</li>
                 </ul>
               </div>
               <div>
-                <strong className="text-white">Режим PvP:</strong>
+                <strong className="text-white">PvP Mode:</strong>
                 <ul className="mt-2 space-y-1">
-                  <li>Player 1: W (вверх) / S (вниз)</li>
-                  <li>Player 2: ↑ (вверх) / ↓ (вниз)</li>
+                  <li>Player 1: W (up) / S (down)</li>
+                  <li>Player 2: ↑ (up) / ↓ (down)</li>
                 </ul>
               </div>
             </div>
             <div className="mt-4">
-              <strong className="text-white">Цель игры:</strong>
-              <p className="mt-2 text-gray-300">Забить 3 гола противнику</p>
+              <strong className="text-white">Goal:</strong>
+              <p className="mt-2 text-gray-300">Score 3 goals against your opponent</p>
             </div>
           </div>
         </div>

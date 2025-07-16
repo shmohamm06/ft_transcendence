@@ -9,7 +9,7 @@ interface ProtectedRouteProps {
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
     const { isAuthenticated, isLoading } = useAuth();
 
-    // Показываем загрузку пока AuthContext восстанавливает состояние из localStorage
+    // Show loading while AuthContext restores state from localStorage
     if (isLoading) {
         return (
             <div className="min-h-screen bg-gray-900 flex items-center justify-center">
@@ -21,7 +21,7 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
         );
     }
 
-    // Только после завершения загрузки проверяем аутентификацию
+    // Only check authentication after loading is complete
     if (!isAuthenticated) {
         return <Navigate to="/login" replace />;
     }

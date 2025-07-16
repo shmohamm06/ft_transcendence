@@ -115,7 +115,7 @@ export class GameGateway {
             console.log('Attempting to load user settings with token:', token.substring(0, 20) + '...');
 
             // Make request to auth service to get user settings
-            const response = await fetch('http://auth-service:3001/api/settings', {
+            const response = await fetch('http://localhost:3001/api/settings', {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
