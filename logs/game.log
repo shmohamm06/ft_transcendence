@@ -10,21 +10,85 @@
 GameGateway initialized
 Game service WebSocket server starting on port 8080 with path /ws/game
 Game service is running on port 8080
-Error: listen EADDRINUSE: address already in use :::8080
-    at Server.setupListenHandle [as _listen2] (node:net:1939:16)
-    at listenInCluster (node:net:1996:12)
-    at Server.listen (node:net:2101:7)
-    at new WebSocketServer (/Users/mac/Desktop/mm/ft_transcendence/backend/game-service/node_modules/ws/lib/websocket-server.js:102:20)
-    at Object.<anonymous> (/Users/mac/Desktop/mm/ft_transcendence/backend/game-service/src/app.ts:6:13)
-    at Module._compile (node:internal/modules/cjs/loader:1734:14)
-    at Module.m._compile (/Users/mac/Desktop/mm/ft_transcendence/backend/game-service/node_modules/ts-node/src/index.ts:1618:23)
-    at loadTS (node:internal/modules/cjs/loader:1826:10)
-    at Object.require.extensions.<computed> [as .ts] (/Users/mac/Desktop/mm/ft_transcendence/backend/game-service/node_modules/ts-node/src/index.ts:1621:12)
-    at Module.load (node:internal/modules/cjs/loader:1469:32) {
-  code: 'EADDRINUSE',
-  errno: -48,
-  syscall: 'listen',
-  address: '::',
-  port: 8080
+New WebSocket connection received
+Request URL: /ws/game?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTQsInVzZXJuYW1lIjoic2htb2hhbW0iLCJlbWFpbCI6InNobW9oYW1tQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzL2Q5NTJjY2M1OTU5Zjg0M2M2ODllZTZmNzc5NThkOWFmL21lZGl1bV9zaG1vaGFtbS5qcGciLCJpbnRyYV9pZCI6MTUwNTgzLCJpbnRyYV9sb2dpbiI6InNobW9oYW1tIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzUzMDg0MTYzfQ.K24NGsMdVBWOm75VKXSpZNzZVf9b_VhNnJA8a5NU1sU
+Request headers: {
+  host: 'localhost:8080',
+  'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:140.0) Gecko/20100101 Firefox/140.0',
+  accept: '*/*',
+  'accept-language': 'en-US,en;q=0.5',
+  'accept-encoding': 'gzip, deflate, br, zstd',
+  'sec-websocket-version': '13',
+  origin: 'http://localhost:3000',
+  'sec-websocket-extensions': 'permessage-deflate',
+  'sec-websocket-key': 'itfShtlL+19V0SZeHu3mcg==',
+  dnt: '1',
+  connection: 'keep-alive, Upgrade',
+  'sec-fetch-dest': 'empty',
+  'sec-fetch-mode': 'websocket',
+  'sec-fetch-site': 'same-site',
+  pragma: 'no-cache',
+  'cache-control': 'no-cache',
+  upgrade: 'websocket'
 }
+Client /ws/game?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTQsInVzZXJuYW1lIjoic2htb2hhbW0iLCJlbWFpbCI6InNobW9oYW1tQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzL2Q5NTJjY2M1OTU5Zjg0M2M2ODllZTZmNzc5NThkOWFmL21lZGl1bV9zaG1vaGFtbS5qcGciLCJpbnRyYV9pZCI6MTUwNTgzLCJpbnRyYV9sb2dpbiI6InNobW9oYW1tIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzUzMDg0MTYzfQ.K24NGsMdVBWOm75VKXSpZNzZVf9b_VhNnJA8a5NU1sU connected to game service
+Game mode: ai
+Attempting to load user settings with token: eyJhbGciOiJIUzI1NiIs...
+Loaded user settings: {}
+Global ball speed multiplier set to: 0.8333333333333334
+Global ball speed multiplier set to: 0.8333333333333334
+Game in countdown, ball speed will be applied when game starts: 6
+Ball speed set to 5 (multiplier: 0.8333333333333334)
+Updated ball speed to: 5 (multiplier: 0.8333333333333334) for all active games
+Global paddle speed multiplier set to: 0.75
+Global paddle speed multiplier set to: 0.75
+Paddle speed set to 6 (multiplier: 0.75)
+Updated paddle speed to: 6 (multiplier: 0.75) for all active games
+Ball speed changed from 6 to 5, updating velocity...
+Game in countdown, ball speed will be applied when game starts: 5
+Ball velocity updated: x=4.47, y=2.24, speed=5
+AI mode move: player1 up
+Ball velocity updated: x=4.61, y=1.94, speed=5
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 up
+AI mode move: player1 up
+Ball velocity updated: x=4.96, y=-0.64, speed=5
+AI mode move: player1 up
+Client /ws/game?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTQsInVzZXJuYW1lIjoic2htb2hhbW0iLCJlbWFpbCI6InNobW9oYW1tQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzL2Q5NTJjY2M1OTU5Zjg0M2M2ODllZTZmNzc5NThkOWFmL21lZGl1bV9zaG1vaGFtbS5qcGciLCJpbnRyYV9pZCI6MTUwNTgzLCJpbnRyYV9sb2dpbiI6InNobW9oYW1tIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzUzMDg0MTYzfQ.K24NGsMdVBWOm75VKXSpZNzZVf9b_VhNnJA8a5NU1sU disconnected from game service
+Killed
 [31m[nodemon] app crashed - waiting for file changes before starting...[39m

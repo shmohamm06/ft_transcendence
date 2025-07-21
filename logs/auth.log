@@ -1,6 +1,104 @@
-[dotenv@17.2.0] injecting env (0) from .env (tip: ⚙️  override existing env vars with { override: true })
+[dotenv@17.2.0] injecting env (0) from .env (tip: ⚙️  load multiple .env files with { path: ['.env.local', '.env'] })
 Environment variables loaded: { CLIENT_ID: 'LOADED', CLIENT_SECRET: 'LOADED', JWT_SECRET: 'LOADED' }
-Database path: /Users/mac/Desktop/mm/ft_transcendence/backend/auth-service/db.sqlite
+Database path: /home/shmohamm06/trans/ft_transcendence/backend/auth-service/db.sqlite
 Initializing database...
 Database initialized successfully.
-{"level":50,"time":1752698964465,"pid":4873,"hostname":"macs-MBP","err":{"type":"Error","message":"listen EADDRINUSE: address already in use 0.0.0.0:3001","stack":"Error: listen EADDRINUSE: address already in use 0.0.0.0:3001\n    at Server.setupListenHandle [as _listen2] (node:net:1939:16)\n    at listenInCluster (node:net:1996:12)\n    at node:net:2205:7\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)","code":"EADDRINUSE","errno":-48,"syscall":"listen","address":"0.0.0.0","port":3001},"msg":"listen EADDRINUSE: address already in use 0.0.0.0:3001"}
+{"level":30,"time":1753084108869,"pid":7497,"hostname":"Shahriars-Laptop","msg":"Server listening at http://0.0.0.0:3001"}
+Database connection opened successfully
+Users table created/verified
+Game_settings table created/verified
+User_stats table created/verified
+{"level":30,"time":1753084160077,"pid":7497,"hostname":"Shahriars-Laptop","reqId":"req-1","req":{"method":"GET","url":"/api/users/oauth/42/authorize","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":58620},"msg":"incoming request"}
+{"level":30,"time":1753084160090,"pid":7497,"hostname":"Shahriars-Laptop","reqId":"req-1","res":{"statusCode":200},"responseTime":13.386734999949113,"msg":"request completed"}
+{"level":30,"time":1753084160947,"pid":7497,"hostname":"Shahriars-Laptop","reqId":"req-2","req":{"method":"POST","url":"/api/users/oauth/42/callback","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":58622},"msg":"incoming request"}
+OAuth callback received: {
+  method: 'POST',
+  url: '/api/users/oauth/42/callback',
+  body: {
+    code: '4b536a2fb9d2305d92389b31e025a25b8d474c7dd139e4e964a81e6933ccd5c0',
+    state: 'sqxp1sz7ca9'
+  },
+  query: {},
+  headers: {
+    'sec-fetch-site': 'same-origin',
+    'sec-fetch-mode': 'cors',
+    'sec-fetch-dest': 'empty',
+    referer: 'http://localhost:3000/auth/42/callback?code=4b536a2fb9d2305d92389b31e025a25b8d474c7dd139e4e964a81e6933ccd5c0&state=sqxp1sz7ca9',
+    connection: 'close',
+    dnt: '1',
+    origin: 'http://localhost:3000',
+    'content-length': '97',
+    'content-type': 'application/json',
+    'accept-encoding': 'gzip, deflate, br, zstd',
+    'accept-language': 'en-US,en;q=0.5',
+    accept: 'application/json, text/plain, */*',
+    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:140.0) Gecko/20100101 Firefox/140.0',
+    host: 'localhost:3001'
+  }
+}
+Processing OAuth callback with code: 4b536a2fb9...
+Exchanging code for token with: {
+  grant_type: 'authorization_code',
+  client_id: 'u-s4t2ud-c9b994e544f314d00e5c9704fd12bad9a0535c183d2444bc9c44329a7ff29ab1',
+  client_secret: '[HIDDEN]',
+  code: '4b536a2fb9...',
+  redirect_uri: 'http://localhost:3000/auth/42/callback',
+  url: 'https://api.intra.42.fr/oauth/token'
+}
+Token exchange successful
+OAuth: User from database: {
+  user: {
+    id: 14,
+    username: 'shmohamm',
+    email: 'shmohamm@student.42abudhabi.ae',
+    avatar: 'https://cdn.intra.42.fr/users/d952ccc5959f843c689ee6f77958d9af/medium_shmohamm.jpg',
+    intra_id: 150583,
+    intra_login: 'shmohamm',
+    auth_provider: '42'
+  },
+  hasId: true,
+  idType: 'number',
+  keys: [
+    'id',
+    'username',
+    'email',
+    'avatar',
+    'intra_id',
+    'intra_login',
+    'auth_provider'
+  ]
+}
+OAuth: Sending response user: {
+  responseUser: {
+    id: 14,
+    username: 'shmohamm',
+    email: 'shmohamm@student.42abudhabi.ae',
+    avatar: 'https://cdn.intra.42.fr/users/d952ccc5959f843c689ee6f77958d9af/medium_shmohamm.jpg',
+    auth_provider: '42'
+  },
+  hasId: true,
+  idType: 'number',
+  serialized: '{"id":14,"username":"shmohamm","email":"shmohamm@student.42abudhabi.ae","avatar":"https://cdn.intra.42.fr/users/d952ccc5959f843c689ee6f77958d9af/medium_shmohamm.jpg","auth_provider":"42"}'
+}
+OAuth: Final response data: {
+  responseData: {
+    accessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTQsInVzZXJuYW1lIjoic2htb2hhbW0iLCJlbWFpbCI6InNobW9oYW1tQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzL2Q5NTJjY2M1OTU5Zjg0M2M2ODllZTZmNzc5NThkOWFmL21lZGl1bV9zaG1vaGFtbS5qcGciLCJpbnRyYV9pZCI6MTUwNTgzLCJpbnRyYV9sb2dpbiI6InNobW9oYW1tIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzUzMDg0MTYzfQ.K24NGsMdVBWOm75VKXSpZNzZVf9b_VhNnJA8a5NU1sU',
+    user: {
+      id: 14,
+      username: 'shmohamm',
+      email: 'shmohamm@student.42abudhabi.ae',
+      avatar: 'https://cdn.intra.42.fr/users/d952ccc5959f843c689ee6f77958d9af/medium_shmohamm.jpg',
+      auth_provider: '42'
+    }
+  },
+  serializedResponse: '{"accessToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTQsInVzZXJuYW1lIjoic2htb2hhbW0iLCJlbWFpbCI6InNobW9oYW1tQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzL2Q5NTJjY2M1OTU5Zjg0M2M2ODllZTZmNzc5NThkOWFmL21lZGl1bV9zaG1vaGFtbS5qcGciLCJpbnRyYV9pZCI6MTUwNTgzLCJpbnRyYV9sb2dpbiI6InNobW9oYW1tIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzUzMDg0MTYzfQ.K24NGsMdVBWOm75VKXSpZNzZVf9b_VhNnJA8a5NU1sU","user":{"id":14,"username":"shmohamm","email":"shmohamm@student.42abudhabi.ae","avatar":"https://cdn.intra.42.fr/users/d952ccc5959f843c689ee6f77958d9af/medium_shmohamm.jpg","auth_provider":"42"}}'
+}
+{"level":30,"time":1753084163380,"pid":7497,"hostname":"Shahriars-Laptop","reqId":"req-2","res":{"statusCode":200},"responseTime":2433.0486709999386,"msg":"request completed"}
+{"level":30,"time":1753084167028,"pid":7497,"hostname":"Shahriars-Laptop","reqId":"req-3","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":51438},"msg":"incoming request"}
+{"level":30,"time":1753084167034,"pid":7497,"hostname":"Shahriars-Laptop","reqId":"req-3","res":{"statusCode":200},"responseTime":5.598956999834627,"msg":"request completed"}
+{"level":30,"time":1753084167053,"pid":7497,"hostname":"Shahriars-Laptop","reqId":"req-4","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":51450},"msg":"incoming request"}
+{"level":30,"time":1753084167055,"pid":7497,"hostname":"Shahriars-Laptop","reqId":"req-4","res":{"statusCode":200},"responseTime":2.1996810000855476,"msg":"request completed"}
+{"level":30,"time":1753084172659,"pid":7497,"hostname":"Shahriars-Laptop","reqId":"req-5","req":{"method":"GET","url":"/api/settings","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":51460},"msg":"incoming request"}
+{"level":30,"time":1753084172661,"pid":7497,"hostname":"Shahriars-Laptop","reqId":"req-5","res":{"statusCode":200},"responseTime":1.4395930001046509,"msg":"request completed"}
+{"level":30,"time":1753084185200,"pid":7497,"hostname":"Shahriars-Laptop","reqId":"req-6","req":{"method":"POST","url":"/api/users/14/stats","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":57832},"msg":"incoming request"}
+{"level":30,"time":1753084185227,"pid":7497,"hostname":"Shahriars-Laptop","reqId":"req-6","res":{"statusCode":200},"responseTime":26.843563999980688,"msg":"request completed"}
