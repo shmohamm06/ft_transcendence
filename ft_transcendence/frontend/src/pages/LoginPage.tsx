@@ -13,7 +13,7 @@ const LoginPage = () => {
     const navigate = useNavigate();
 
     const handle42Login = () => {
-        window.location.href = 'http://localhost:3001/auth/42';
+        window.location.href = 'http://localhost:3001/api/users/oauth/42/authorize';
     };
 
     const handleSubmit = async (e: React.FormEvent) => {

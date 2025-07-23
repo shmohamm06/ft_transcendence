@@ -117,37 +117,60 @@ const OAuthCallbackPage = () => {
             case 'loading':
                 return (
                     <div className="text-center">
-                        <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-white mx-auto mb-4"></div>
-                        <h2 className="text-2xl font-bold text-white mb-2 tracking-wider uppercase">Completing Login...</h2>
-                        <p className="text-gray-400 tracking-wide">Processing your 42 authentication</p>
+                        <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-electric-green mx-auto mb-4"></div>
+                        <h2 className="text-2xl font-bold text-white mb-2">Completing Login...</h2>
+                        <p className="text-gray-300">Processing your 42 authentication</p>
                     </div>
                 );
 
             case 'success':
                 return (
                     <div className="text-center">
-                        <div className="text-white text-6xl mb-4">✓</div>
-                        <h2 className="text-2xl font-bold text-white mb-2 tracking-wider uppercase">Login Successful!</h2>
-                        <p className="text-gray-400 tracking-wide">Redirecting you to the home page...</p>
+                        <div className="text-electric-green text-6xl mb-4">✓</div>
+                        <h2 className="text-2xl font-bold text-white mb-2">Login Successful!</h2>
+                        <p className="text-gray-300">Redirecting you to the home page...</p>
                     </div>
                 );
 
             case 'error':
                 return (
                     <div className="text-center">
-                        <div className="text-red-500 text-6xl mb-4">✗</div>
-                        <h2 className="text-2xl font-bold text-white mb-2 tracking-wider uppercase">Login Failed</h2>
-                        <p className="text-gray-400 mb-4 tracking-wide">{error}</p>
-                        <p className="text-gray-500 tracking-wide">Redirecting to login page...</p>
+                        <div className="text-red-400 text-6xl mb-4">✗</div>
+                        <h2 className="text-2xl font-bold text-white mb-2">Login Failed</h2>
+                        <p className="text-gray-300 mb-4">{error}</p>
+                        <p className="text-gray-400">Redirecting to login page...</p>
                     </div>
                 );
         }
     };
 
     return (
-        <div className="min-h-screen bg-black flex items-center justify-center">
-            <div className="bg-black border-2 border-white p-8 rounded w-full max-w-md">
-                {renderContent()}
+        <div className="min-h-screen text-white flex items-center justify-center relative overflow-hidden">
+            {/* Animated Background */}
+            <div className="absolute inset-0 pointer-events-none">
+                {/* Floating Elements */}
+                {Array.from({ length: 6 }).map((_, i) => (
+                    <div 
+                        key={i}
+                        className="absolute w-2 h-2 bg-electric-green rounded-full opacity-20 animate-pulse"
+                        style={{
+                            left: `${15 + i * 15}%`,
+                            top: `${25 + (i % 3) * 20}%`,
+                            animationDelay: `${i * 0.8}s`
+                        }}
+                    />
+                ))}
+                
+                {/* Corner Accents */}
+                <div className="absolute top-8 left-8 w-16 h-16 border-l-2 border-t-2 border-electric-green opacity-30" />
+                <div className="absolute bottom-8 right-8 w-16 h-16 border-r-2 border-b-2 border-electric-green opacity-30" />
+            </div>
+
+            {/* Main Content */}
+            <div className="relative z-10 w-full max-w-md px-6">
+                <div className="bg-white bg-opacity-5 border border-white border-opacity-10 rounded-2xl p-8 backdrop-blur-20">
+                    {renderContent()}
+                </div>
             </div>
         </div>
     );
