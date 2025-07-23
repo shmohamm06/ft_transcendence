@@ -1,283 +1,89 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import TicTacToe from '../components/TicTacToe';
-import { useAuth } from '../contexts/AuthContext';
-import axios from 'axios';
 
-interface GameResult {
-    id: number;
-    winner: 'X' | 'O' | null;
-    timestamp: Date;
-}
-
-const TicTacToePage: React.FC = () => {
-    const [gameHistory, setGameHistory] = useState<GameResult[]>([]);
-    const [stats, setStats] = useState({
-        xWins: 0,
-        oWins: 0,
-        draws: 0,
-        totalGames: 0
-    });
-    const [gameResultSaved, setGameResultSaved] = useState(false);
-    const [lastSavedGameId, setLastSavedGameId] = useState<string | null>(null);
-    const [lastSaveTime, setLastSaveTime] = useState<number>(0);
-    const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-    const { user } = useAuth();
-
-    // Debug user state
-    useEffect(() => {
-        console.log('TicTacToePage: Current user state:', {
-            user,
-            userId: user?.id,
-            userType: typeof user?.id,
-            isAuthenticated: !!user
-        });
-    }, [user]);
-
-    // Save Tic-Tac-Toe result to user stats with debounce
-    const saveTicTacToeResult = async (winner: 'X' | 'O' | null, gameId: string) => {
-        console.log('🎯 saveTicTacToeResult called', {
-            winner,
-            gameId,
-            user: user ? `ID:${user.id}` : 'NO_USER'
-        });
-
-        if (!user) {
-            console.log('🚫 BLOCKED: No user logged in');
-            return;
-        }
-
-        const now = Date.now();
-
-        // Check if we already saved this exact game
-        if (gameResultSaved || lastSavedGameId === gameId) {
-            console.log(`🚫 Tic-Tac-Toe result already saved for game ${gameId}`);
-            return;
-        }
-
-        // Check if we saved anything in the last 3 seconds (debounce)
-        if (now - lastSaveTime < 3000) {
-            console.log(`🚫 TicTacToe Debounce: Last save was ${now - lastSaveTime}ms ago, skipping`);
-            return;
-        }
-
-        // Clear any pending save timeout
-        if (saveTimeoutRef.current) {
-            clearTimeout(saveTimeoutRef.current);
-            saveTimeoutRef.current = null;
-        }
-
-        try {
-            // Assume user always plays as X (first player)
-            let result: string;
-            if (winner === 'X') {
-                result = 'win';
-            } else if (winner === 'O') {
-                result = 'loss';
-            } else {
-                // Draw - don't save to stats
-                console.log('💾 Tic-Tac-Toe game ended in draw - not saving to stats');
-                return;
-            }
-
-            console.log(`💾 Making TicTacToe API call:`, {
-                userId: user.id,
-                result,
-                gameId,
-                endpoint: `/api/users/${user.id}/stats`,
-                payload: { game: 'tictactoe', result }
-            });
-            setGameResultSaved(true);
-            setLastSavedGameId(gameId);
-            setLastSaveTime(now);
-
-            const response = await axios.post(`/api/users/${user.id}/stats`, {
-                game: 'tictactoe',
-                result: result
-            });
-
-            console.log('✅ Tic-Tac-Toe result saved successfully!', response.data);
-
-            // Show notification only once
-            setTimeout(() => {
-                alert(`🎯 Tic-Tac-Toe result saved to your profile: ${result.toUpperCase()}!`);
-            }, 1500);
-
-        } catch (error) {
-            console.error('❌ Failed to save Tic-Tac-Toe result:', error);
-            if (error.response) {
-                console.error('Response data:', error.response.data);
-                console.error('Response status:', error.response.status);
-            }
-            // Don't reset flags on error to prevent multiple attempts
-        }
-    };
-
-    const handleGameEnd = (winner: 'X' | 'O' | null) => {
-        console.log('🎯 TicTacToe game ended', { winner, user: user ? `ID:${user.id}` : 'NO_USER' });
-
-        const newGame: GameResult = {
-            id: Date.now(),
-            winner,
-            timestamp: new Date()
-        };
-
-        setGameHistory(prev => [newGame, ...prev.slice(0, 9)]); // Keep last 10 games
-
-        setStats(prev => ({
-            xWins: prev.xWins + (winner === 'X' ? 1 : 0),
-            oWins: prev.oWins + (winner === 'O' ? 1 : 0),
-            draws: prev.draws + (winner === null ? 1 : 0),
-            totalGames: prev.totalGames + 1
-        }));
-
-        // Create unique game ID and save result to user profile
-        const gameId = `ttt-${winner || 'draw'}-${Date.now()}`;
-        console.log('💾 Calling saveTicTacToeResult', { winner, gameId });
-        saveTicTacToeResult(winner, gameId);
-    };
-
-    const handleGameStart = () => {
-        console.log('🎯 Starting new Tic-Tac-Toe game - resetting save flags');
-        setGameResultSaved(false);
-        setLastSavedGameId(null);
-        setLastSaveTime(0);
-
-        // Clear any pending save timeout
-        if (saveTimeoutRef.current) {
-            clearTimeout(saveTimeoutRef.current);
-            saveTimeoutRef.current = null;
-        }
-    };
-
-    const resetStats = () => {
-        setGameHistory([]);
-        setStats({
-            xWins: 0,
-            oWins: 0,
-            draws: 0,
-            totalGames: 0
-        });
-        setGameResultSaved(false);
-        setLastSavedGameId(null);
-        setLastSaveTime(0);
-
-        // Clear any pending save timeout
-        if (saveTimeoutRef.current) {
-            clearTimeout(saveTimeoutRef.current);
-            saveTimeoutRef.current = null;
-        }
-    };
-
-    const formatTime = (date: Date) => {
-        return date.toLocaleTimeString('en-US', {
-            hour: '2-digit',
-            minute: '2-digit'
-        });
-    };
-
+const TicTacToePage = () => {
     return (
-        <div className="min-h-screen bg-gray-900 text-white">
-            {/* Header */}
-            <div className="bg-gray-800 border-b border-gray-700 p-4">
-                <div className="max-w-6xl mx-auto flex items-center justify-between">
-                    <div className="flex items-center space-x-4">
-                        <Link to="/" className="text-blue-400 hover:underline">
-                            ← Back to Home
-                        </Link>
-                        <h1 className="text-2xl font-bold">Tic-Tac-Toe</h1>
-                    </div>
-                    <button
-                        onClick={resetStats}
-                        className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded transition"
-                    >
-                        Reset Statistics
-                    </button>
+        <div className="min-h-screen text-white relative overflow-hidden">
+            {/* Animated Background */}
+            <div className="absolute inset-0 pointer-events-none">
+                {/* Grid Pattern */}
+                <div className="absolute inset-0 opacity-10">
+                    {Array.from({ length: 9 }).map((_, i) => (
+                        <div 
+                            key={i}
+                            className="absolute border border-electric-green animate-pulse"
+                            style={{
+                                left: `${i * 11}%`,
+                                top: '15%',
+                                width: '1px',
+                                height: '70%',
+                                animationDelay: `${i * 0.2}s`
+                            }}
+                        />
+                    ))}
                 </div>
+                
+                {/* Floating Game Symbols */}
+                {Array.from({ length: 8 }).map((_, i) => (
+                    <div 
+                        key={i}
+                        className="absolute text-electric-green opacity-20 animate-float text-4xl font-bold"
+                        style={{
+                            left: `${10 + i * 12}%`,
+                            top: `${20 + (i % 3) * 20}%`,
+                            animationDelay: `${i * 0.8}s`
+                        }}
+                    >
+                        {i % 2 === 0 ? 'X' : 'O'}
+                    </div>
+                ))}
+                
+                {/* Corner Accents */}
+                <div className="absolute top-8 left-8 w-16 h-16 border-l-2 border-t-2 border-electric-green opacity-30" />
+                <div className="absolute bottom-8 right-8 w-16 h-16 border-r-2 border-b-2 border-electric-green opacity-30" />
             </div>
 
-            <div className="max-w-6xl mx-auto p-6">
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    {/* Game Area */}
-                    <div className="lg:col-span-2">
-                        <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
-                            <TicTacToe onGameEnd={handleGameEnd} onGameStart={handleGameStart} />
+            {/* Main Content */}
+            <div className="relative z-10 min-h-screen flex flex-col">
+                {/* Header */}
+                <header className="text-center pt-24 pb-12">
+                    <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-white to-electric-green bg-clip-text text-transparent">
+                        TIC TAC TOE
+                    </h1>
+                    <div className="w-32 h-px bg-gradient-to-r from-transparent via-electric-green to-transparent mx-auto mb-6"></div>
+                    <p className="text-lg text-gray-300">
+                        Classic strategy game
+                    </p>
+                </header>
+
+                {/* Game Content */}
+                <main className="flex-1 flex items-center justify-center px-6">
+                    <div className="w-full max-w-2xl">
+                        <div className="bg-white bg-opacity-5 rounded-2xl p-8 backdrop-blur-20 border border-white border-opacity-10">
+                            <TicTacToe />
                         </div>
                     </div>
+                </main>
 
-                    {/* Statistics and History */}
-                    <div className="space-y-6">
-                        {/* Statistics */}
-                        <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
-                            <h3 className="text-xl font-bold mb-4 text-center">Statistics</h3>
-                            <div className="space-y-3">
-                                <div className="flex justify-between">
-                                    <span>Total Games:</span>
-                                    <span className="font-bold text-blue-400">{stats.totalGames}</span>
-                                </div>
-                                <div className="flex justify-between">
-                                    <span>X Wins:</span>
-                                    <span className="font-bold text-red-400">{stats.xWins}</span>
-                                </div>
-                                <div className="flex justify-between">
-                                    <span>O Wins:</span>
-                                    <span className="font-bold text-blue-400">{stats.oWins}</span>
-                                </div>
-                                <div className="flex justify-between">
-                                    <span>Draws:</span>
-                                    <span className="font-bold text-yellow-400">{stats.draws}</span>
-                                </div>
-                                {stats.totalGames > 0 && (
-                                    <>
-                                        <hr className="border-gray-600" />
-                                        <div className="flex justify-between">
-                                            <span>X Win Rate:</span>
-                                            <span className="font-bold text-red-400">
-                                                {((stats.xWins / stats.totalGames) * 100).toFixed(1)}%
-                                            </span>
-                                        </div>
-                                        <div className="flex justify-between">
-                                            <span>O Win Rate:</span>
-                                            <span className="font-bold text-blue-400">
-                                                {((stats.oWins / stats.totalGames) * 100).toFixed(1)}%
-                                            </span>
-                                        </div>
-                                    </>
-                                )}
-                            </div>
-                        </div>
-
-                        {/* Game History */}
-                        <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
-                            <h3 className="text-xl font-bold mb-4 text-center">Game History</h3>
-                            {gameHistory.length === 0 ? (
-                                <p className="text-gray-400 text-center">No games yet</p>
-                            ) : (
-                                <div className="space-y-2 max-h-64 overflow-y-auto">
-                                    {gameHistory.map((game) => (
-                                        <div
-                                            key={game.id}
-                                            className="flex justify-between items-center p-2 bg-gray-700 rounded"
-                                        >
-                                            <span className="text-sm text-gray-300">
-                                                {formatTime(game.timestamp)}
-                                            </span>
-                                            <span className="font-bold">
-                                                {game.winner ? (
-                                                    <span className={game.winner === 'X' ? 'text-red-400' : 'text-blue-400'}>
-                                                        {game.winner} Won
-                                                    </span>
-                                                ) : (
-                                                    <span className="text-yellow-400">Draw</span>
-                                                )}
-                                            </span>
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
-                        </div>
+                {/* Footer */}
+                <footer className="text-center pb-8">
+                    <div className="w-24 h-px bg-gradient-to-r from-transparent via-electric-green to-transparent mx-auto mb-6"></div>
+                    <div className="flex justify-center gap-4">
+                        <Link
+                            to="/"
+                            className="btn btn-secondary px-8 py-3"
+                        >
+                            Back to Home
+                        </Link>
+                        <Link
+                            to="/game"
+                            className="btn btn-primary px-8 py-3"
+                        >
+                            Play Pong
+                        </Link>
                     </div>
-                </div>
+                </footer>
             </div>
         </div>
     );

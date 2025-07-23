@@ -444,21 +444,55 @@ const GamePage = () => {
     const settings = getSettings();
 
     return (
-        <div className="relative w-screen h-screen bg-black">
-            <div className="absolute top-0 left-0 right-0 z-10 p-4 flex justify-between items-center text-white bg-black bg-opacity-50">
+        <div className="relative w-screen h-screen text-white overflow-hidden" style={{background: 'linear-gradient(135deg, #1e1b3c 0%, #2a2550 30%, #1a1a3a 70%, #0f1419 100%)'}}>
+            {/* Animated Background Elements */}
+            <div className="absolute inset-0 pointer-events-none">
+                {/* Game Grid Pattern */}
+                <div className="absolute inset-0 opacity-5">
+                    {Array.from({ length: 8 }).map((_, i) => (
+                        <div 
+                            key={i}
+                            className="absolute border border-electric-green animate-pulse"
+                            style={{
+                                left: `${i * 12}%`,
+                                top: '0%',
+                                width: '1px',
+                                height: '100%',
+                                animationDelay: `${i * 0.2}s`
+                            }}
+                        />
+                    ))}
+                </div>
+                
+                {/* Floating Game Particles */}
+                {Array.from({ length: 6 }).map((_, i) => (
+                    <div 
+                        key={i}
+                        className="absolute w-1 h-1 bg-electric-green rounded-full opacity-20 animate-pulse"
+                        style={{
+                            left: `${15 + i * 15}%`,
+                            top: `${20 + (i % 3) * 20}%`,
+                            animationDelay: `${i * 0.8}s`
+                        }}
+                    />
+                ))}
+            </div>
+
+            {/* Header */}
+            <div className="absolute top-0 left-0 right-0 z-10 p-4 flex justify-between items-center text-white bg-white bg-opacity-5 border-b border-white border-opacity-10 backdrop-blur-20">
                 <div>
-                    <Link to={getBackLink()} className="text-blue-400 hover:underline">
+                    <Link to={getBackLink()} className="text-electric-green hover:text-electric-green-dark font-medium transition-colors duration-300">
                         {getBackText()}
                     </Link>
                 </div>
                 <div className="text-2xl font-bold">
-                    <span>{playerNames.player1}: {gameState?.score.player1 ?? 0}</span>
-                    <span className="mx-4">|</span>
-                    <span>{playerNames.player2}: {gameState?.score.player2 ?? 0}</span>
+                    <span className="text-blue-400">{playerNames.player1}: {gameState?.score.player1 ?? 0}</span>
+                    <span className="mx-4 text-electric-green">|</span>
+                    <span className="text-red-400">{playerNames.player2}: {gameState?.score.player2 ?? 0}</span>
                 </div>
-                <div className="text-sm">
-                    <div>Status: {connectionStatus}</div>
-                    <div className="text-gray-400">
+                <div className="text-sm text-right">
+                    <div className="text-electric-green font-medium">Status: {connectionStatus}</div>
+                    <div className="text-gray-300">
                         {getGameModeText()}
                     </div>
                 </div>
@@ -468,8 +502,8 @@ const GamePage = () => {
 
             {/* Countdown overlay */}
             {isCountdown && gameState?.countdown && gameState.countdown > 0 && (
-                <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 z-20">
-                    <div className="text-8xl font-bold text-white animate-pulse">
+                <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-60 z-20 backdrop-blur-sm">
+                    <div className="text-8xl font-bold text-electric-green animate-pulse drop-shadow-lg">
                         {gameState.countdown}
                     </div>
                 </div>
@@ -477,46 +511,46 @@ const GamePage = () => {
 
             {/* Game Over overlay */}
             {isGameOver && (
-                <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-75 z-20">
-                    <div className="bg-gray-800 p-8 rounded-lg text-center border-2 border-white">
-                        <h2 className="text-4xl font-bold text-white mb-4">Game Over!</h2>
+                <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-60 z-20 backdrop-blur-sm">
+                    <div className="bg-white bg-opacity-5 p-8 rounded-2xl text-center border border-electric-green border-opacity-30 backdrop-blur-20 max-w-lg mx-4">
+                        <h2 className="text-4xl font-bold text-electric-green mb-4">Game Over!</h2>
                         <div className="text-2xl text-yellow-400 mb-6">
                             {gameState.winner === 'player1' ? playerNames.player1 : playerNames.player2} Wins!
                         </div>
                         <div className="text-xl text-gray-300 mb-8">
-                            Final Score: {gameState.score.player1} - {gameState.score.player2}
+                            Final Score: <span className="text-blue-400">{gameState.score.player1}</span> - <span className="text-red-400">{gameState.score.player2}</span>
                         </div>
                         {isTournamentMode ? (
                             <div className="space-y-4">
-                                <div className="text-lg text-green-400">
-                                    Tournament result recorded!
+                                <div className="text-lg text-electric-green font-medium">
+                                    ✅ Tournament result recorded!
                                 </div>
-                                <div className="space-x-4">
+                                <div className="flex flex-col sm:flex-row gap-4 justify-center">
                                     <Link
                                         to="/tournament"
-                                        className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-lg font-semibold transition inline-block"
+                                        className="btn btn-primary px-6 py-3 text-lg"
                                     >
                                         Continue Tournament
                                     </Link>
                                     <button
                                         onClick={handleRestart}
-                                        className="px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-md text-lg font-semibold transition"
+                                        className="btn btn-secondary px-6 py-3 text-lg"
                                     >
                                         Play Again
                                     </button>
                                 </div>
                             </div>
                         ) : (
-                            <div className="space-x-4">
+                            <div className="flex flex-col sm:flex-row gap-4 justify-center">
                                 <button
                                     onClick={handleRestart}
-                                    className="px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-md text-lg font-semibold transition"
+                                    className="btn btn-primary px-6 py-3 text-lg"
                                 >
                                     Play Again
                                 </button>
                                 <Link
                                     to="/"
-                                    className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-lg font-semibold transition inline-block"
+                                    className="btn btn-secondary px-6 py-3 text-lg"
                                 >
                                     Home
                                 </Link>
@@ -527,25 +561,26 @@ const GamePage = () => {
             )}
 
             {/* Controls info */}
-            <div className="absolute bottom-4 left-4 text-white bg-black bg-opacity-50 p-3 rounded">
-                <div className="text-sm font-semibold mb-2">Controls:</div>
+            <div className="absolute bottom-4 left-4 text-white bg-white bg-opacity-5 p-3 rounded-lg border border-white border-opacity-10 backdrop-blur-20">
+                <div className="text-sm font-semibold mb-2 text-electric-green">Controls:</div>
                 {isPvPMode || isTournamentMode ? (
-                    <div className="text-xs">
-                        <div>Player 1: W (up) / S (down)</div>
-                        <div>Player 2: ↑ (up) / ↓ (down)</div>
+                    <div className="text-xs space-y-1">
+                        <div><span className="text-blue-400">Player 1:</span> W (up) / S (down)</div>
+                        <div><span className="text-red-400">Player 2:</span> ↑ (up) / ↓ (down)</div>
                     </div>
                 ) : (
                     <div className="text-xs">
-                        <div>Player: W/S or ↑/↓</div>
+                        <div><span className="text-blue-400">Player:</span> W/S or ↑/↓</div>
                     </div>
                 )}
             </div>
 
             {/* Settings display */}
-            <div className="absolute bottom-4 right-4 text-white bg-black bg-opacity-50 p-3 rounded">
-                <div className="text-xs">
-                    <div>Ball Speed: {settings.ballSpeed}</div>
-                    <div>Paddle Speed: {settings.paddleSpeed}</div>
+            <div className="absolute bottom-4 right-4 text-white bg-white bg-opacity-5 p-3 rounded-lg border border-white border-opacity-10 backdrop-blur-20">
+                <div className="text-xs space-y-1">
+                    <div className="text-electric-green text-sm font-semibold mb-1">Settings:</div>
+                    <div>Ball Speed: <span className="text-electric-green">{settings.ballSpeed}</span></div>
+                    <div>Paddle Speed: <span className="text-electric-green">{settings.paddleSpeed}</span></div>
                 </div>
             </div>
         </div>

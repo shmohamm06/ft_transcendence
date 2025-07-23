@@ -287,9 +287,9 @@ const Tournament: React.FC = () => {
 
     const renderRegistration = () => (
         <div className="max-w-2xl mx-auto p-6">
-            <h2 className="text-3xl font-bold text-center mb-8">Tournament Registration</h2>
+            <h2 className="text-3xl font-bold text-center mb-8 text-electric-green">Tournament Registration</h2>
 
-            <div className="bg-gray-800 rounded-lg p-6 mb-6">
+            <div className="bg-white bg-opacity-5 rounded-2xl p-6 mb-6 backdrop-blur-20 border border-white border-opacity-10">
                 <h3 className="text-xl font-semibold mb-4">Add Players ({players.length}/4)</h3>
 
                 <div className="flex gap-4 mb-4">
@@ -298,14 +298,14 @@ const Tournament: React.FC = () => {
                         value={newPlayerName}
                         onChange={(e) => setNewPlayerName(e.target.value)}
                         placeholder="Enter player nickname"
-                        className="flex-1 px-4 py-2 bg-gray-700 text-white rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none"
+                        className="form-input flex-1"
                         maxLength={20}
                         onKeyPress={(e) => e.key === 'Enter' && addPlayer()}
                     />
                     <button
                         onClick={addPlayer}
                         disabled={!newPlayerName.trim() || players.length >= 4}
-                        className="px-6 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 text-white rounded-lg transition"
+                        className="btn btn-primary px-6 py-2"
                     >
                         Add Player
                     </button>
@@ -313,11 +313,11 @@ const Tournament: React.FC = () => {
 
                 <div className="space-y-2">
                     {players.map((player) => (
-                        <div key={player.id} className="flex items-center justify-between p-3 bg-gray-700 rounded-lg">
-                            <span className="font-semibold">{player.nickname}</span>
+                        <div key={player.id} className="flex items-center justify-between p-3 bg-white bg-opacity-5 rounded-lg border border-white border-opacity-10">
+                            <span className="font-semibold text-white">{player.nickname}</span>
                             <button
                                 onClick={() => removePlayer(player.id)}
-                                className="px-3 py-1 bg-red-600 hover:bg-red-700 text-white rounded text-sm transition"
+                                className="btn btn-danger px-3 py-1 text-sm"
                             >
                                 Remove
                             </button>
@@ -330,12 +330,12 @@ const Tournament: React.FC = () => {
                 <button
                     onClick={initializeTournament}
                     disabled={players.length !== 4}
-                    className="px-8 py-3 bg-green-600 hover:bg-green-700 disabled:bg-gray-600 text-white rounded-lg text-lg font-semibold transition"
+                    className="btn btn-primary px-8 py-3 text-lg"
                 >
                     Start Tournament
                 </button>
                 {players.length !== 4 && (
-                    <p className="text-gray-400 mt-2">Need exactly 4 players to start</p>
+                    <p className="text-gray-300 mt-2">Need exactly 4 players to start</p>
                 )}
             </div>
         </div>
@@ -343,29 +343,29 @@ const Tournament: React.FC = () => {
 
     const renderBracket = () => (
         <div className="max-w-4xl mx-auto p-6">
-            <h2 className="text-3xl font-bold text-center mb-8">Tournament Bracket</h2>
+            <h2 className="text-3xl font-bold text-center mb-8 text-electric-green">Tournament Bracket</h2>
 
             {/* Progress indicator */}
             <div className="mb-6 text-center">
-                <div className="text-sm text-gray-400">
-                    Matches completed: {matches.filter(m => m.isCompleted).length} / {matches.length}
+                <div className="text-sm text-gray-300">
+                    Matches completed: <span className="text-electric-green font-bold">{matches.filter(m => m.isCompleted).length} / {matches.length}</span>
                 </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {/* Semifinals */}
                 <div className="space-y-4">
-                    <h3 className="text-xl font-semibold text-center">Semifinals</h3>
+                    <h3 className="text-xl font-semibold text-center text-electric-green">Semifinals</h3>
                     {matches.filter(m => m.round === 'semifinal').map((match) => (
-                        <div key={match.id} className="bg-gray-800 rounded-lg p-4 border-l-4 border-blue-500">
+                        <div key={match.id} className="bg-white bg-opacity-5 rounded-lg p-4 border-l-4 border-blue-400 backdrop-blur-20">
                             <div className="flex items-center justify-between mb-3">
-                                <span className="font-semibold">{match.player1?.nickname}</span>
-                                <span className="text-gray-400">vs</span>
-                                <span className="font-semibold">{match.player2?.nickname}</span>
+                                <span className="font-semibold text-white">{match.player1?.nickname}</span>
+                                <span className="text-gray-300">vs</span>
+                                <span className="font-semibold text-white">{match.player2?.nickname}</span>
                             </div>
                             {match.isCompleted ? (
                                 <div className="text-center">
-                                    <span className="text-green-400 font-bold">
+                                    <span className="text-electric-green font-bold">
                                         ✅ Winner: {match.winner?.nickname}
                                     </span>
                                 </div>
@@ -378,7 +378,7 @@ const Tournament: React.FC = () => {
                             ) : (
                                 <button
                                     onClick={() => startMatch(match)}
-                                    className="w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition"
+                                    className="btn btn-primary w-full"
                                 >
                                     Start Match
                                 </button>
@@ -389,19 +389,19 @@ const Tournament: React.FC = () => {
 
                 {/* Final */}
                 <div className="space-y-4">
-                    <h3 className="text-xl font-semibold text-center">Final</h3>
+                    <h3 className="text-xl font-semibold text-center text-electric-green">Final</h3>
                     {matches.filter(m => m.round === 'final').map((match) => (
-                        <div key={match.id} className="bg-gray-800 rounded-lg p-4 border-l-4 border-yellow-500">
+                        <div key={match.id} className="bg-white bg-opacity-5 rounded-lg p-4 border-l-4 border-yellow-400 backdrop-blur-20">
                             {match.player1 && match.player2 ? (
                                 <>
                                     <div className="flex items-center justify-between mb-3">
-                                        <span className="font-semibold">{match.player1.nickname}</span>
-                                        <span className="text-gray-400">vs</span>
-                                        <span className="font-semibold">{match.player2.nickname}</span>
+                                        <span className="font-semibold text-white">{match.player1.nickname}</span>
+                                        <span className="text-gray-300">vs</span>
+                                        <span className="font-semibold text-white">{match.player2.nickname}</span>
                                     </div>
                                     {match.isCompleted ? (
                                         <div className="text-center">
-                                            <span className="text-green-400 font-bold">
+                                            <span className="text-electric-green font-bold">
                                                 🏆 Champion: {match.winner?.nickname}
                                             </span>
                                         </div>
@@ -414,14 +414,14 @@ const Tournament: React.FC = () => {
                                     ) : (
                                         <button
                                             onClick={() => startMatch(match)}
-                                            className="w-full px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition"
+                                            className="btn btn-primary w-full"
                                         >
                                             Start Final
                                         </button>
                                     )}
                                 </>
                             ) : (
-                                <div className="text-center text-gray-400">
+                                <div className="text-center text-gray-300">
                                     Waiting for semifinal winners...
                                 </div>
                             )}
@@ -434,42 +434,42 @@ const Tournament: React.FC = () => {
 
     const renderPlaying = () => (
         <div className="max-w-2xl mx-auto p-6 text-center">
-            <h2 className="text-3xl font-bold mb-4">Match in Progress</h2>
+            <h2 className="text-3xl font-bold mb-4 text-electric-green">Match in Progress</h2>
             {currentMatch && (
-                <div className="bg-gray-800 rounded-lg p-6 mb-6 border border-yellow-500">
+                <div className="bg-white bg-opacity-5 rounded-2xl p-6 mb-6 border border-yellow-400 backdrop-blur-20">
                     <h3 className="text-xl font-semibold mb-4 text-yellow-400">
                         🏓 {currentMatch.round === 'semifinal' ? 'Semifinal Match' : 'Final Match'}
                     </h3>
                     <div className="flex items-center justify-center gap-4 mb-6">
                         <div className="text-center">
                             <div className="text-2xl font-bold text-blue-400">{currentMatch.player1?.nickname}</div>
-                            <div className="text-sm text-gray-400">(W/S keys)</div>
+                            <div className="text-sm text-gray-300">(W/S keys)</div>
                         </div>
-                        <span className="text-3xl text-gray-400">⚔️</span>
+                        <span className="text-3xl text-gray-300">⚔️</span>
                         <div className="text-center">
                             <div className="text-2xl font-bold text-red-400">{currentMatch.player2?.nickname}</div>
-                            <div className="text-sm text-gray-400">(Arrow keys)</div>
+                            <div className="text-sm text-gray-300">(Arrow keys)</div>
                         </div>
                     </div>
 
                     <div className="space-y-4">
-                        <div className="bg-gray-700 rounded-lg p-4">
+                        <div className="bg-white bg-opacity-5 rounded-lg p-4 border border-white border-opacity-10">
                             <p className="text-lg text-gray-300 mb-2">Ready to battle?</p>
-                            <p className="text-sm text-gray-400">Click the button below to start your Pong match!</p>
-                            <div className="mt-2 p-2 bg-blue-900 rounded text-xs text-blue-200">
+                            <p className="text-sm text-gray-300">Click the button below to start your Pong match!</p>
+                            <div className="mt-2 p-2 bg-blue-900 bg-opacity-30 rounded text-xs text-blue-200 border border-blue-400 border-opacity-30">
                                 🏆 <strong>Tournament Rule:</strong> First player to reach 3 points wins the match!
                             </div>
                         </div>
 
                         <Link
                             to="/game?mode=tournament"
-                            className="inline-block px-8 py-4 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white rounded-lg text-lg font-semibold transition transform hover:scale-105"
+                            className="btn btn-primary inline-block px-8 py-4 text-lg"
                         >
                             🏓 Play Pong Game
                         </Link>
 
-                        <div className="mt-6 pt-4 border-t border-gray-600">
-                            <div className="text-center text-gray-400">
+                        <div className="mt-6 pt-4 border-t border-white border-opacity-10">
+                            <div className="text-center text-gray-300">
                                 <div className="animate-pulse mb-2">
                                     <span className="text-yellow-400">⚠️</span> Waiting for game result...
                                 </div>
@@ -490,7 +490,7 @@ const Tournament: React.FC = () => {
                         setCurrentMatch(null);
                         setPhase('bracket');
                     }}
-                    className="inline-block px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition text-sm"
+                    className="btn btn-secondary px-4 py-2 text-sm"
                 >
                     ← Back to Bracket
                 </button>
@@ -500,24 +500,24 @@ const Tournament: React.FC = () => {
 
     const renderCompleted = () => (
         <div className="max-w-2xl mx-auto p-6 text-center">
-            <h2 className="text-3xl font-bold mb-4">Tournament Complete!</h2>
+            <h2 className="text-3xl font-bold mb-4 text-electric-green">Tournament Complete!</h2>
             {champion && (
-                <div className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-black rounded-lg p-6 mb-6">
+                <div className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-black rounded-2xl p-6 mb-6">
                     <h3 className="text-4xl font-bold mb-2">🏆 Champion 🏆</h3>
                     <p className="text-2xl font-semibold">{champion.nickname}</p>
                 </div>
             )}
 
             {/* Tournament Results Summary */}
-            <div className="bg-gray-800 rounded-lg p-6 mb-6">
-                <h4 className="text-xl font-semibold mb-4">Tournament Results</h4>
+            <div className="bg-white bg-opacity-5 rounded-2xl p-6 mb-6 backdrop-blur-20 border border-white border-opacity-10">
+                <h4 className="text-xl font-semibold mb-4 text-electric-green">Tournament Results</h4>
                 <div className="space-y-2">
                     {matches.filter(m => m.isCompleted).map((match) => (
-                        <div key={match.id} className="flex justify-between items-center p-2 bg-gray-700 rounded">
-                            <span className="text-sm">
+                        <div key={match.id} className="flex justify-between items-center p-2 bg-white bg-opacity-5 rounded border border-white border-opacity-10">
+                            <span className="text-sm text-white">
                                 {match.round === 'semifinal' ? 'Semifinal' : 'Final'}: {match.player1?.nickname} vs {match.player2?.nickname}
                             </span>
-                            <span className="font-bold text-green-400">
+                            <span className="font-bold text-electric-green">
                                 {match.winner?.nickname} Won
                             </span>
                         </div>
@@ -528,14 +528,14 @@ const Tournament: React.FC = () => {
             <div className="space-y-4">
                 <button
                     onClick={resetTournament}
-                    className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-lg font-semibold transition"
+                    className="btn btn-primary px-8 py-3 text-lg"
                 >
                     Start New Tournament
                 </button>
                 <div>
                     <Link
                         to="/"
-                        className="inline-block px-6 py-3 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition"
+                        className="btn btn-secondary px-6 py-3"
                     >
                         Back to Home
                     </Link>
@@ -545,35 +545,45 @@ const Tournament: React.FC = () => {
     );
 
     return (
-        <div className="min-h-screen bg-gray-900 text-white">
-            {/* Header */}
-            <div className="bg-gray-800 border-b border-gray-700 p-4">
-                <div className="max-w-6xl mx-auto flex items-center justify-between">
-                    <div className="flex items-center space-x-4">
-                        <Link to="/" className="text-blue-400 hover:underline">
-                            ← Back to Home
-                        </Link>
-                        <h1 className="text-2xl font-bold">Pong Tournament</h1>
-                        {phase !== 'registration' && (
-                            <span className="text-sm text-gray-400">
-                                ({phase === 'bracket' ? 'Bracket' : phase === 'playing' ? 'Playing' : 'Completed'})
-                            </span>
-                        )}
+        <div className="text-white">
+            <div className="max-w-6xl mx-auto">
+                {/* Tournament Status */}
+                <div className="bg-white bg-opacity-5 rounded-2xl p-4 mb-8 backdrop-blur-20 border border-white border-opacity-10">
+                    <div className="flex justify-between items-center">
+                        <div>
+                            <h2 className="text-xl font-bold text-electric-green">Status: {phase}</h2>
+                            <p className="text-gray-300">Players: {players.length}</p>
+                        </div>
+                        <div className="text-right">
+                            <p className="text-gray-300">Current Round: {currentMatch?.round || 'None'}</p>
+                            <p className="text-gray-300">Total Rounds: 2</p>
+                        </div>
                     </div>
-                    <button
-                        onClick={resetTournament}
-                        className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded transition"
-                    >
-                        Reset Tournament
-                    </button>
                 </div>
-            </div>
 
-            <div className="p-6">
+                {/* Players Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                    {players.map((player: any) => (
+                        <div key={player.id} className="bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg p-4 text-center backdrop-blur-20">
+                            <h3 className="font-bold text-white">{player.nickname}</h3>
+                            <p className="text-gray-300 text-sm">Player {player.id}</p>
+                        </div>
+                    ))}
+                </div>
+
+                {/* Render different phases */}
                 {phase === 'registration' && renderRegistration()}
                 {phase === 'bracket' && renderBracket()}
                 {phase === 'playing' && renderPlaying()}
                 {phase === 'completed' && renderCompleted()}
+
+                {/* Winner Display */}
+                {champion && (
+                    <div className="bg-white bg-opacity-5 rounded-2xl p-6 mt-8 text-center backdrop-blur-20 border border-electric-green">
+                        <h2 className="text-2xl font-bold text-electric-green mb-2">Tournament Winner!</h2>
+                        <h3 className="text-xl text-white">{champion.nickname}</h3>
+                    </div>
+                )}
             </div>
         </div>
     );

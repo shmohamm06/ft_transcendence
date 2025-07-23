@@ -14,7 +14,6 @@ const SettingsPage: React.FC = () => {
 
   const loadSettings = () => {
     try {
-      // Load settings from localStorage
       const savedBallSpeed = localStorage.getItem('ballSpeed');
       const savedPaddleSpeed = localStorage.getItem('paddleSpeed');
 
@@ -36,11 +35,9 @@ const SettingsPage: React.FC = () => {
     setMessage('');
 
     try {
-      // Save settings to localStorage
       localStorage.setItem('ballSpeed', ballSpeed.toString());
       localStorage.setItem('paddleSpeed', paddleSpeed.toString());
 
-      // Simulate async operation
       await new Promise(resolve => setTimeout(resolve, 500));
 
       setMessage('Settings saved successfully!');
@@ -55,110 +52,158 @@ const SettingsPage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-900 py-8 flex items-center justify-center">
-        <div className="text-xl text-gray-400">Loading settings...</div>
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-8 h-8 border-2 border-electric-green border-t-transparent animate-spin mx-auto mb-4 rounded-full"></div>
+          <p className="text-white">Loading settings...</p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 py-8">
-      <div className="max-w-4xl mx-auto px-4">
-        <div className="flex items-center justify-between mb-8">
-          <h1 className="text-3xl font-bold text-white">Game Settings</h1>
-          <Link to="/" className="text-blue-400 hover:underline">← Back to Game</Link>
+    <div className="min-h-screen text-white relative overflow-hidden">
+      {/* Background Elements */}
+      <div className="absolute inset-0 pointer-events-none">
+        {/* Circuit Pattern */}
+        <div className="absolute inset-0 opacity-10">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <div 
+              key={i}
+              className="absolute border border-electric-green"
+              style={{
+                left: `${i * 16}%`,
+                top: '20%',
+                width: '1px',
+                height: '60%'
+              }}
+            />
+          ))}
         </div>
+        
+        {/* Corner Elements */}
+        <div className="absolute top-8 left-8 w-12 h-12 border-l-2 border-t-2 border-electric-green opacity-30" />
+        <div className="absolute bottom-8 right-8 w-12 h-12 border-r-2 border-b-2 border-electric-green opacity-30" />
+      </div>
 
-        <div className="bg-gray-800 shadow rounded-lg p-6 border border-gray-700">
-          <div className="space-y-6">
-            {/* Ball Speed Setting */}
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
-                Ball Speed: <span className="font-bold text-yellow-400">{ballSpeed}</span>
-              </label>
-              <input
-                type="range"
-                min="1"
-                max="10"
-                value={ballSpeed}
-                onChange={(e) => setBallSpeed(parseInt(e.target.value))}
-                className="w-full h-2 bg-gray-600 rounded-lg appearance-none cursor-pointer"
-                style={{
-                  background: `linear-gradient(to right, #fbbf24 0%, #fbbf24 ${(ballSpeed - 1) * 11.11}%, #4b5563 ${(ballSpeed - 1) * 11.11}%, #4b5563 100%)`
-                }}
-              />
-              <div className="flex justify-between text-xs text-gray-500 mt-1">
-                <span>Slow (1)</span>
-                <span>Fast (10)</span>
+      {/* Main Content */}
+      <div className="relative z-10 min-h-screen flex flex-col">
+        {/* Header */}
+        <header className="text-center pt-24 pb-12">
+          <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-white to-electric-green bg-clip-text text-transparent">
+            SETTINGS
+          </h1>
+          <div className="w-24 h-px bg-gradient-to-r from-transparent via-electric-green to-transparent mx-auto mb-6"></div>
+          <p className="text-lg text-gray-300">
+            Customize your game experience
+          </p>
+        </header>
+
+        {/* Settings Form */}
+        <main className="flex-1 flex items-center justify-center px-6">
+          <div className="w-full max-w-lg">
+            <div className="settings-form">
+              
+              {/* Ball Speed Setting */}
+              <div className="form-group">
+                <div className="text-center mb-6">
+                  <label className="block text-lg font-bold mb-2">
+                    Ball Speed
+                  </label>
+                  <div className="text-3xl font-bold text-electric-green mb-4">{ballSpeed}</div>
+                </div>
+                <div className="relative mb-8">
+                  <input
+                    type="range"
+                    min="1"
+                    max="10"
+                    value={ballSpeed}
+                    onChange={(e) => setBallSpeed(parseInt(e.target.value))}
+                    className="form-range w-full"
+                  />
+                  <div className="flex justify-between text-xs text-gray-400 mt-3">
+                    <span>Slow</span>
+                    <span>Fast</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Paddle Speed Setting */}
+              <div className="form-group">
+                <div className="text-center mb-6">
+                  <label className="block text-lg font-bold mb-2">
+                    Paddle Speed
+                  </label>
+                  <div className="text-3xl font-bold text-electric-green mb-4">{paddleSpeed}</div>
+                </div>
+                <div className="relative mb-8">
+                  <input
+                    type="range"
+                    min="1"
+                    max="10"
+                    value={paddleSpeed}
+                    onChange={(e) => setPaddleSpeed(parseInt(e.target.value))}
+                    className="form-range w-full"
+                  />
+                  <div className="flex justify-between text-xs text-gray-400 mt-3">
+                    <span>Slow</span>
+                    <span>Fast</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Save Button */}
+              <div className="text-center mb-8">
+                <button
+                  onClick={saveSettings}
+                  disabled={saving}
+                  className="btn btn-primary px-12 py-4"
+                >
+                  {saving ? 'Saving...' : 'Save Settings'}
+                </button>
+              </div>
+
+              {/* Message */}
+              {message && (
+                <div className="text-center p-4 border border-electric-green bg-electric-green bg-opacity-10 rounded-lg">
+                  <span className="text-electric-green font-medium">{message}</span>
+                </div>
+              )}
+
+              {/* Controls Info */}
+              <div className="mt-12 pt-8 border-t border-white border-opacity-10">
+                <h3 className="text-center text-xl font-bold mb-6">Game Controls</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="text-center p-4 bg-white bg-opacity-5 rounded-lg">
+                    <div className="text-electric-green text-xl font-bold mb-2">Player 1</div>
+                    <div className="space-y-1 text-sm text-gray-300">
+                      <div>W - Move Up</div>
+                      <div>S - Move Down</div>
+                    </div>
+                  </div>
+                  <div className="text-center p-4 bg-white bg-opacity-5 rounded-lg">
+                    <div className="text-electric-green text-xl font-bold mb-2">Player 2</div>
+                    <div className="space-y-1 text-sm text-gray-300">
+                      <div>↑ - Move Up</div>
+                      <div>↓ - Move Down</div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-
-            {/* Paddle Speed Setting */}
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
-                Paddle Speed: <span className="font-bold text-green-400">{paddleSpeed}</span>
-              </label>
-              <input
-                type="range"
-                min="1"
-                max="10"
-                value={paddleSpeed}
-                onChange={(e) => setPaddleSpeed(parseInt(e.target.value))}
-                className="w-full h-2 bg-gray-600 rounded-lg appearance-none cursor-pointer"
-                style={{
-                  background: `linear-gradient(to right, #10b981 0%, #10b981 ${(paddleSpeed - 1) * 11.11}%, #4b5563 ${(paddleSpeed - 1) * 11.11}%, #4b5563 100%)`
-                }}
-              />
-              <div className="flex justify-between text-xs text-gray-500 mt-1">
-                <span>Slow (1)</span>
-                <span>Fast (10)</span>
-              </div>
-            </div>
-
-            {/* Save Button */}
-            <div className="pt-4">
-              <button
-                onClick={saveSettings}
-                disabled={saving}
-                className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-bold py-3 px-6 rounded-lg focus:outline-none focus:shadow-outline transition"
-              >
-                {saving ? 'Saving...' : 'Save Settings'}
-              </button>
-            </div>
-
-            {/* Message */}
-            {message && (
-              <div className={`p-3 rounded-lg ${message.includes('Ошибка') ? 'bg-red-900 text-red-300 border border-red-700' : 'bg-green-900 text-green-300 border border-green-700'}`}>
-                {message.includes('Ошибка') ? 'Error saving settings' : 'Settings saved successfully!'}
-              </div>
-            )}
           </div>
+        </main>
 
-          {/* Game Controls Info */}
-          <div className="mt-8 pt-6 border-t border-gray-700">
-            <h3 className="text-lg font-medium text-white mb-4">Game Controls</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-gray-300">
-              <div>
-                <strong className="text-white">AI Mode:</strong>
-                <ul className="mt-2 space-y-1">
-                  <li>W or ↑ – move up</li>
-                  <li>S or ↓ – move down</li>
-                </ul>
-              </div>
-              <div>
-                <strong className="text-white">PvP Mode:</strong>
-                <ul className="mt-2 space-y-1">
-                  <li>Player 1: W (up) / S (down)</li>
-                  <li>Player 2: ↑ (up) / ↓ (down)</li>
-                </ul>
-              </div>
-            </div>
-            <div className="mt-4">
-              <strong className="text-white">Goal:</strong>
-              <p className="mt-2 text-gray-300">Score 3 goals against your opponent</p>
-            </div>
-          </div>
-        </div>
+        {/* Footer */}
+        <footer className="text-center pb-8">
+          <div className="w-24 h-px bg-gradient-to-r from-transparent via-electric-green to-transparent mx-auto mb-6"></div>
+          <Link
+            to="/"
+            className="btn btn-secondary px-8 py-3"
+          >
+            Back to Home
+          </Link>
+        </footer>
       </div>
     </div>
   );

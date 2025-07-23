@@ -1,142 +1,252 @@
 import React, { useState, useEffect } from 'react';
 
 type Player = 'X' | 'O' | null;
-type Board = Player[];
 
-interface TicTacToeProps {
-    onGameEnd?: (winner: Player) => void;
-    onGameStart?: () => void;
+interface GameState {
+    board: Player[];
+    currentPlayer: Player;
+    winner: Player;
+    gameOver: boolean;
 }
 
-const TicTacToe: React.FC<TicTacToeProps> = ({ onGameEnd, onGameStart }) => {
-    const [board, setBoard] = useState<Board>(Array(9).fill(null));
-    const [currentPlayer, setCurrentPlayer] = useState<'X' | 'O'>('X');
-    const [winner, setWinner] = useState<Player>(null);
-    const [gameOver, setGameOver] = useState(false);
+const TicTacToe: React.FC = () => {
+    const [gameState, setGameState] = useState<GameState>({
+        board: Array(9).fill(null),
+        currentPlayer: 'X',
+        winner: null,
+        gameOver: false
+    });
 
-    // Winning combinations
-    const winningCombinations = [
-        [0, 1, 2], [3, 4, 5], [6, 7, 8], // rows
-        [0, 3, 6], [1, 4, 7], [2, 5, 8], // columns
-        [0, 4, 8], [2, 4, 6] // diagonals
-    ];
+    const [scores, setScores] = useState({
+        X: 0,
+        O: 0,
+        draws: 0
+    });
 
-    // Check for winner
-    const checkWinner = (board: Board): Player => {
-        for (const combination of winningCombinations) {
-            const [a, b, c] = combination;
+    const [isThinking, setIsThinking] = useState(false);
+
+    const checkWinner = (board: Player[]): Player => {
+        const lines = [
+            [0, 1, 2], [3, 4, 5], [6, 7, 8], // rows
+            [0, 3, 6], [1, 4, 7], [2, 5, 8], // columns
+            [0, 4, 8], [2, 4, 6] // diagonals
+        ];
+
+        for (let i = 0; i < lines.length; i++) {
+            const [a, b, c] = lines[i];
             if (board[a] && board[a] === board[b] && board[a] === board[c]) {
                 return board[a];
             }
         }
+
         return null;
     };
 
-    // Check if board is full (draw)
-    const isBoardFull = (board: Board): boolean => {
-        return board.every(cell => cell !== null);
+    const getAvailableMoves = (board: Player[]): number[] => {
+        return board.map((cell, index) => cell === null ? index : null)
+                   .filter(val => val !== null) as number[];
     };
 
-    // Handle cell click
-    const handleCellClick = (index: number) => {
-        if (board[index] || winner || gameOver) return;
+    const minimax = (board: Player[], depth: number, isMaximizing: boolean): number => {
+        const winner = checkWinner(board);
+        
+        if (winner === 'O') return 10 - depth;
+        if (winner === 'X') return depth - 10;
+        if (getAvailableMoves(board).length === 0) return 0;
 
-        const newBoard = [...board];
-        newBoard[index] = currentPlayer;
-        setBoard(newBoard);
-
-        const gameWinner = checkWinner(newBoard);
-        if (gameWinner) {
-            setWinner(gameWinner);
-            setGameOver(true);
-            onGameEnd?.(gameWinner);
-        } else if (isBoardFull(newBoard)) {
-            setGameOver(true);
-            onGameEnd?.(null); // Draw
+        if (isMaximizing) {
+            let bestScore = -Infinity;
+            for (let move of getAvailableMoves(board)) {
+                board[move] = 'O';
+                let score = minimax(board, depth + 1, false);
+                board[move] = null;
+                bestScore = Math.max(score, bestScore);
+            }
+            return bestScore;
         } else {
-            setCurrentPlayer(currentPlayer === 'X' ? 'O' : 'X');
+            let bestScore = Infinity;
+            for (let move of getAvailableMoves(board)) {
+                board[move] = 'X';
+                let score = minimax(board, depth + 1, true);
+                board[move] = null;
+                bestScore = Math.min(score, bestScore);
+            }
+            return bestScore;
         }
     };
 
-    // Reset game
+    const getBestMove = (board: Player[]): number => {
+        let bestScore = -Infinity;
+        let bestMove = -1;
+
+        for (let move of getAvailableMoves(board)) {
+            board[move] = 'O';
+            let score = minimax(board, 0, false);
+            board[move] = null;
+
+            if (score > bestScore) {
+                bestScore = score;
+                bestMove = move;
+            }
+        }
+
+        return bestMove;
+    };
+
+    const makeMove = (index: number) => {
+        if (gameState.board[index] || gameState.gameOver) return;
+
+        const newBoard = [...gameState.board];
+        newBoard[index] = gameState.currentPlayer;
+
+        const winner = checkWinner(newBoard);
+        const isDraw = !winner && getAvailableMoves(newBoard).length === 0;
+
+        setGameState({
+            board: newBoard,
+            currentPlayer: gameState.currentPlayer === 'X' ? 'O' : 'X',
+            winner: winner,
+            gameOver: winner !== null || isDraw
+        });
+
+        if (winner) {
+            setScores(prev => ({
+                ...prev,
+                [winner]: prev[winner] + 1
+            }));
+        } else if (isDraw) {
+            setScores(prev => ({
+                ...prev,
+                draws: prev.draws + 1
+            }));
+        }
+    };
+
+    // AI move
+    useEffect(() => {
+        if (gameState.currentPlayer === 'O' && !gameState.gameOver) {
+            setIsThinking(true);
+            const timer = setTimeout(() => {
+                const bestMove = getBestMove([...gameState.board]);
+                if (bestMove !== -1) {
+                    makeMove(bestMove);
+                }
+                setIsThinking(false);
+            }, 800); // AI thinking delay
+
+            return () => clearTimeout(timer);
+        }
+    }, [gameState.currentPlayer, gameState.gameOver]);
+
     const resetGame = () => {
-        setBoard(Array(9).fill(null));
-        setCurrentPlayer('X');
-        setWinner(null);
-        setGameOver(false);
-        onGameStart?.(); // Notify parent that a new game started
+        setGameState({
+            board: Array(9).fill(null),
+            currentPlayer: 'X',
+            winner: null,
+            gameOver: false
+        });
+        setIsThinking(false);
     };
 
-    // Get cell style based on content
-    const getCellStyle = (cell: Player) => {
-        const baseStyle = "w-20 h-20 border-2 border-gray-300 flex items-center justify-center text-4xl font-bold cursor-pointer transition-all duration-200 hover:bg-gray-100";
+    const resetScores = () => {
+        setScores({
+            X: 0,
+            O: 0,
+            draws: 0
+        });
+    };
 
-        if (cell === 'X') {
-            return `${baseStyle} text-red-500 bg-red-50`;
-        } else if (cell === 'O') {
-            return `${baseStyle} text-blue-500 bg-blue-50`;
-        } else {
-            return `${baseStyle} hover:bg-gray-50`;
+    const getStatusMessage = () => {
+        if (gameState.winner) {
+            return gameState.winner === 'X' ? 'You Win! 🎉' : 'AI Wins! 🤖';
         }
+        if (gameState.gameOver) {
+            return "It's a Draw! 🤝";
+        }
+        if (isThinking) {
+            return 'AI is thinking... 🤔';
+        }
+        return gameState.currentPlayer === 'X' ? 'Your Turn' : 'AI Turn';
     };
 
     return (
-        <div className="flex flex-col items-center space-y-6 p-6">
-            {/* Current Player Display */}
-            {!gameOver && (
-                <div className="text-center">
-                    <h2 className="text-3xl font-bold mb-2">
-                        Current Turn: <span className={currentPlayer === 'X' ? 'text-red-500' : 'text-blue-500'}>{currentPlayer}</span>
-                    </h2>
-                    <p className="text-lg text-gray-600">
-                        Player {currentPlayer === 'X' ? 'X' : 'O'}'s turn
-                    </p>
-                </div>
-            )}
-
+        <div className="text-center text-white">
             {/* Game Status */}
-            <div className="text-center">
-                {gameOver && (
-                    <div className="space-y-2">
-                        {winner ? (
-                            <h2 className="text-3xl font-bold text-green-600">
-                                Player {winner} Wins!
-                            </h2>
-                        ) : (
-                            <h2 className="text-3xl font-bold text-yellow-600">
-                                It's a Draw!
-                            </h2>
-                        )}
-                        <button
-                            onClick={resetGame}
-                            className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition"
-                        >
-                            Play Again
-                        </button>
+            <div className="mb-8">
+                <h2 className="text-2xl font-bold mb-4 text-electric-green">
+                    {getStatusMessage()}
+                </h2>
+                
+                {/* Scores */}
+                <div className="grid grid-cols-3 gap-4 mb-6 max-w-md mx-auto">
+                    <div className="bg-white bg-opacity-5 rounded-lg p-4 border border-white border-opacity-10">
+                        <div className="text-2xl font-bold text-blue-400">X</div>
+                        <div className="text-sm text-gray-300">You</div>
+                        <div className="text-xl font-bold text-electric-green">{scores.X}</div>
                     </div>
-                )}
+                    <div className="bg-white bg-opacity-5 rounded-lg p-4 border border-white border-opacity-10">
+                        <div className="text-2xl font-bold text-gray-300">-</div>
+                        <div className="text-sm text-gray-300">Draws</div>
+                        <div className="text-xl font-bold text-electric-green">{scores.draws}</div>
+                    </div>
+                    <div className="bg-white bg-opacity-5 rounded-lg p-4 border border-white border-opacity-10">
+                        <div className="text-2xl font-bold text-red-400">O</div>
+                        <div className="text-sm text-gray-300">AI</div>
+                        <div className="text-xl font-bold text-electric-green">{scores.O}</div>
+                    </div>
+                </div>
             </div>
 
             {/* Game Board */}
-            <div className="grid grid-cols-3 gap-2 bg-gray-200 p-4 rounded-lg shadow-lg">
-                {board.map((cell, index) => (
-                    <button
-                        key={index}
-                        className={getCellStyle(cell)}
-                        onClick={() => handleCellClick(index)}
-                        disabled={gameOver || cell !== null}
-                    >
-                        {cell}
-                    </button>
-                ))}
+            <div className="inline-block mb-8">
+                <div className="grid grid-cols-3 gap-2 p-6 bg-white bg-opacity-5 rounded-2xl border border-electric-green border-opacity-30">
+                    {gameState.board.map((cell, index) => (
+                        <button
+                            key={index}
+                            onClick={() => makeMove(index)}
+                            disabled={gameState.gameOver || cell !== null || gameState.currentPlayer === 'O'}
+                            className={`
+                                w-20 h-20 rounded-lg border-2 text-3xl font-bold transition-all duration-300
+                                ${cell === null 
+                                    ? 'border-electric-green border-opacity-30 hover:border-opacity-60 hover:bg-electric-green hover:bg-opacity-10 text-white' 
+                                    : 'border-electric-green border-opacity-60'
+                                }
+                                ${cell === 'X' ? 'text-blue-400' : cell === 'O' ? 'text-red-400' : 'text-white'}
+                                ${gameState.currentPlayer === 'O' || gameState.gameOver ? 'cursor-not-allowed' : 'cursor-pointer'}
+                                hover:text-white
+                            `}
+                        >
+                            {cell}
+                        </button>
+                    ))}
+                </div>
             </div>
 
-            {/* Game Rules */}
-            <div className="text-center text-gray-600 max-w-md">
-                <h3 className="font-semibold mb-2">Game Rules:</h3>
-                <p className="text-sm">
-                    Players take turns placing X and O. The goal is to get three of your symbols in a row (horizontally, vertically, or diagonally).
-                </p>
+            {/* Game Controls */}
+            <div className="flex justify-center gap-4">
+                <button
+                    onClick={resetGame}
+                    className="btn btn-secondary px-6 py-3 text-white"
+                >
+                    New Game
+                </button>
+                <button
+                    onClick={resetScores}
+                    className="btn btn-primary px-6 py-3"
+                >
+                    Reset Scores
+                </button>
+            </div>
+
+            {/* Game Info */}
+            <div className="mt-8 p-4 bg-white bg-opacity-5 rounded-lg border border-white border-opacity-10 max-w-md mx-auto">
+                <h3 className="text-lg font-bold mb-2 text-electric-green">How to Play</h3>
+                <div className="text-sm text-gray-300 space-y-1">
+                    <p>• You are X, AI is O</p>
+                    <p>• Get 3 in a row to win</p>
+                    <p>• AI uses perfect strategy</p>
+                    <p>• Try to force a draw!</p>
+                </div>
             </div>
         </div>
     );

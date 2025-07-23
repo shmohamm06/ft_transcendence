@@ -1,121 +1,145 @@
-import { useState, FormEvent } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext';
 
-interface LoginResponse {
-  accessToken: string;
-  // add other fields here if your API returns more data
-}
-
 const LoginPage = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [formData, setFormData] = useState({
+        login: '',
+        password: ''
+    });
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
     const { login } = useAuth();
     const navigate = useNavigate();
 
-    const handleSubmit = async (e: FormEvent) => {
+    const handle42Login = () => {
+        window.location.href = 'http://localhost:3001/auth/42';
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError('');
-        console.log('Login form submitted!');
-        try {
-            const response = await axios.post<LoginResponse>('/api/users/login', { email, password });
-            const { accessToken } = response.data;
+        setLoading(true);
 
-            // A proper solution would decode the JWT to get user info
-            // For now, let's just create a mock user object.
-            const userPayload = JSON.parse(atob(accessToken.split('.')[1]));
-            login(accessToken, userPayload);
+        try {
+            await login(formData.login, formData.password);
             navigate('/');
-        } catch (err) {
-            setError('Invalid email or password.');
-            console.error(err);
+        } catch (error: any) {
+            setError(error.message || 'Login failed');
+        } finally {
+            setLoading(false);
         }
     };
-
-    const handleRegisterClick = () => {
-        console.log('Register link clicked!');
-    };
-
-    const handle42Login = async () => {
-        try {
-            console.log('Initiating 42 OAuth login...');
-            const response = await axios.get('/api/users/oauth/42/authorize');
-            const { authURL } = response.data;
-
-            // Redirect to 42 OAuth
-            window.location.href = authURL;
-        } catch (err) {
-            console.error('Failed to initiate 42 OAuth:', err);
-            setError('Failed to initiate 42 login. Please try again.');
-        }
-    };
-
-
 
     return (
-        <div className="min-h-screen bg-gray-900 flex items-center justify-center">
-            <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-md">
-                <h2 className="text-2xl font-bold text-white mb-6 text-center">Login</h2>
+        <div className="min-h-screen text-white flex items-center justify-center relative overflow-hidden">
+            {/* Animated Background */}
+            <div className="absolute inset-0 pointer-events-none">
+                {/* Floating Elements */}
+                {Array.from({ length: 8 }).map((_, i) => (
+                    <div 
+                        key={i}
+                        className="absolute w-2 h-2 bg-electric-green rounded-full opacity-20 animate-pulse"
+                        style={{
+                            left: `${10 + i * 12}%`,
+                            top: `${20 + (i % 4) * 15}%`,
+                            animationDelay: `${i * 0.7}s`
+                        }}
+                    />
+                ))}
+                
+                {/* Corner Accents */}
+                <div className="absolute top-8 left-8 w-16 h-16 border-l-2 border-t-2 border-electric-green opacity-30" />
+                <div className="absolute bottom-8 right-8 w-16 h-16 border-r-2 border-b-2 border-electric-green opacity-30" />
+            </div>
 
-                {/* 42 OAuth Login Button */}
-                <button
-                    onClick={handle42Login}
-                    className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded-md transition mb-4 flex items-center justify-center"
-                >
-                    <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-                    </svg>
-                    Login with 42
-                </button>
-
-                <div className="flex items-center my-4">
-                    <div className="flex-grow border-t border-gray-600"></div>
-                    <span className="px-3 text-gray-400">or</span>
-                    <div className="flex-grow border-t border-gray-600"></div>
+            {/* Main Content */}
+            <div className="relative z-10 w-full max-w-md px-6">
+                {/* Header */}
+                <div className="text-center mb-12">
+                    <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-white to-electric-green bg-clip-text text-transparent">
+                        PONG
+                    </h1>
+                    <div className="w-20 h-px bg-gradient-to-r from-transparent via-electric-green to-transparent mx-auto mb-6"></div>
+                    <p className="text-lg text-gray-300">
+                        Access your account
+                    </p>
                 </div>
 
-                <form onSubmit={handleSubmit}>
-                    <div className="mb-4">
-                        <label className="block text-gray-400 mb-2" htmlFor="email">Email</label>
-                        <input
-                            type="email"
-                            id="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            required
-                        />
-                    </div>
-                    <div className="mb-6">
-                        <label className="block text-gray-400 mb-2" htmlFor="password">Password</label>
-                        <input
-                            type="password"
-                            id="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            required
-                        />
-                    </div>
-                    {error && <p className="text-red-500 text-center mb-4">{error}</p>}
+                {/* Login Form */}
+                <div className="auth-form">
+                    {/* 42 OAuth Button */}
                     <button
-                        type="submit"
-                        className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md transition"
+                        onClick={handle42Login}
+                        className="w-full btn btn-primary mb-8 flex items-center justify-center"
                     >
-                        Login
+                        <svg className="w-5 h-5 mr-3" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                        </svg>
+                        Continue with 42
                     </button>
-                </form>
-                <p className="text-center text-gray-400 mt-6">
-                    Don't have an account? <Link
-                        to="/register"
-                        className="text-blue-400 hover:underline"
-                        onClick={handleRegisterClick}
-                    >
-                        Register here
-                    </Link>
-                </p>
+
+                    {/* Divider */}
+                    <div className="flex items-center my-8">
+                        <div className="flex-grow h-px bg-white bg-opacity-20"></div>
+                        <span className="px-4 text-sm text-gray-400">OR</span>
+                        <div className="flex-grow h-px bg-white bg-opacity-20"></div>
+                    </div>
+
+                    {/* Error Message */}
+                    {error && (
+                        <div className="border border-red-400 bg-red-400 bg-opacity-10 text-red-400 px-4 py-3 rounded-lg mb-6 text-center">
+                            <span className="text-sm">{error}</span>
+                        </div>
+                    )}
+
+                    {/* Login Form */}
+                    <form onSubmit={handleSubmit} className="space-y-6">
+                        <div className="form-group">
+                            <label htmlFor="login">Username or Email</label>
+                            <input
+                                id="login"
+                                type="text"
+                                value={formData.login}
+                                onChange={(e) => setFormData({ ...formData, login: e.target.value })}
+                                className="form-input"
+                                placeholder="Enter your credentials"
+                                required
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <label htmlFor="password">Password</label>
+                            <input
+                                id="password"
+                                type="password"
+                                value={formData.password}
+                                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                                className="form-input"
+                                placeholder="Enter your password"
+                                required
+                            />
+                        </div>
+
+                        <button
+                            type="submit"
+                            disabled={loading}
+                            className="btn btn-secondary w-full"
+                        >
+                            {loading ? 'Signing in...' : 'Sign In'}
+                        </button>
+                    </form>
+
+                    {/* Register Link */}
+                    <div className="text-center mt-8 pt-6 border-t border-white border-opacity-10">
+                        <p className="text-sm text-gray-400">
+                            New to Pong?{' '}
+                            <Link to="/register" className="text-electric-green hover:text-electric-green-dark font-medium">
+                                Create account
+                            </Link>
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
     );

@@ -117,18 +117,18 @@ const OAuthCallbackPage = () => {
             case 'loading':
                 return (
                     <div className="text-center">
-                        <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-500 mx-auto mb-4"></div>
-                        <h2 className="text-2xl font-bold text-white mb-2">Completing Login...</h2>
-                        <p className="text-gray-400">Processing your 42 authentication</p>
+                        <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-white mx-auto mb-4"></div>
+                        <h2 className="text-2xl font-bold text-white mb-2 tracking-wider uppercase">Completing Login...</h2>
+                        <p className="text-gray-400 tracking-wide">Processing your 42 authentication</p>
                     </div>
                 );
 
             case 'success':
                 return (
                     <div className="text-center">
-                        <div className="text-green-500 text-6xl mb-4">✓</div>
-                        <h2 className="text-2xl font-bold text-white mb-2">Login Successful!</h2>
-                        <p className="text-gray-400">Redirecting you to the home page...</p>
+                        <div className="text-white text-6xl mb-4">✓</div>
+                        <h2 className="text-2xl font-bold text-white mb-2 tracking-wider uppercase">Login Successful!</h2>
+                        <p className="text-gray-400 tracking-wide">Redirecting you to the home page...</p>
                     </div>
                 );
 
@@ -136,17 +136,17 @@ const OAuthCallbackPage = () => {
                 return (
                     <div className="text-center">
                         <div className="text-red-500 text-6xl mb-4">✗</div>
-                        <h2 className="text-2xl font-bold text-white mb-2">Login Failed</h2>
-                        <p className="text-gray-400 mb-4">{error}</p>
-                        <p className="text-gray-500">Redirecting to login page...</p>
+                        <h2 className="text-2xl font-bold text-white mb-2 tracking-wider uppercase">Login Failed</h2>
+                        <p className="text-gray-400 mb-4 tracking-wide">{error}</p>
+                        <p className="text-gray-500 tracking-wide">Redirecting to login page...</p>
                     </div>
                 );
         }
     };
 
     return (
-        <div className="min-h-screen bg-gray-900 flex items-center justify-center">
-            <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-md">
+        <div className="min-h-screen bg-black flex items-center justify-center">
+            <div className="bg-black border-2 border-white p-8 rounded w-full max-w-md">
                 {renderContent()}
             </div>
         </div>
