@@ -101,11 +101,8 @@ async function oauthAuthorizeHandler(request, reply) {
     try {
         const state = Math.random().toString(36).substring(2, 15);
         const authURL = oauth_service_1.OAuthService.generateAuthURL(state);
-        // Store state in session or return it to frontend for validation
-        return reply.send({
-            authURL,
-            state
-        });
+        // Redirect directly to 42 OAuth
+        return reply.redirect(302, authURL);
     }
     catch (error) {
         console.error('OAuth authorization error:', error);
