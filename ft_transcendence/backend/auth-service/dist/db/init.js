@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.initializeDatabase = void 0;
 const sqlite3_1 = __importDefault(require("sqlite3"));
 const path_1 = __importDefault(require("path"));
-// Используем абсолютный путь для базы данных
+// Use absolute path for database
 const dbPath = path_1.default.join(__dirname, '../../db.sqlite');
 console.log('Database path:', dbPath);
 const db = new sqlite3_1.default.Database(dbPath, sqlite3_1.default.OPEN_READWRITE | sqlite3_1.default.OPEN_CREATE, (err) => {

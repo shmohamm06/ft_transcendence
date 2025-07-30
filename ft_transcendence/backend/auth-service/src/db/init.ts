@@ -1,7 +1,7 @@
 import sqlite3 from 'sqlite3';
 import path from 'path';
 
-// Используем абсолютный путь для базы данных
+// Use absolute path for database
 const dbPath = path.join(__dirname, '../../db.sqlite');
 console.log('Database path:', dbPath);
 

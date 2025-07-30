@@ -20,11 +20,11 @@ class GameGateway {
         // Try to load user settings from query parameters or headers
         this.loadUserSettings(connectionInfo).then(settings => {
             if (settings.ballSpeed !== undefined) {
-                (0, game_engine_1.setGlobalBallSpeedMultiplier)(settings.ballSpeed / 6); // 6 - базовая скорость мяча
+                (0, game_engine_1.setGlobalBallSpeedMultiplier)(settings.ballSpeed / 6); // 6 - base ball speed
                 console.log(`Applied ball speed multiplier: ${settings.ballSpeed / 6}`);
             }
             if (settings.paddleSpeed !== undefined) {
-                (0, game_engine_1.setGlobalPaddleSpeedMultiplier)(settings.paddleSpeed / 8); // 8 - базовая скорость ракетки
+                (0, game_engine_1.setGlobalPaddleSpeedMultiplier)(settings.paddleSpeed / 8); // 8 - base paddle speed
                 console.log(`Applied paddle speed multiplier: ${settings.paddleSpeed / 8}`);
             }
         }).catch(err => {
@@ -139,10 +139,10 @@ class GameGateway {
                     break;
                 case 'settings':
                     if (message.ballSpeed !== undefined) {
-                        // Преобразуем значение от 1-10 в множитель
-                        const ballMultiplier = message.ballSpeed / 6; // 6 - базовая скорость
+                        // Convert value from 1-10 to multiplier
+                        const ballMultiplier = message.ballSpeed / 6; // 6 - base speed
                         (0, game_engine_1.setGlobalBallSpeedMultiplier)(ballMultiplier);
-                        // Применяем настройки ко всем активным играм
+                        // Apply settings to all active games
                         this.clients.forEach((clientData, id) => {
                             if (message.ballSpeed !== undefined) {
                                 clientData.gameEngine.setBallSpeed(message.ballSpeed);
@@ -151,10 +151,10 @@ class GameGateway {
                         console.log(`Updated ball speed to: ${message.ballSpeed} (multiplier: ${ballMultiplier}) for all active games`);
                     }
                     if (message.paddleSpeed !== undefined) {
-                        // Преобразуем значение от 1-10 в множитель
-                        const paddleMultiplier = message.paddleSpeed / 8; // 8 - базовая скорость
+                        // Convert value from 1-10 to multiplier
+                        const paddleMultiplier = message.paddleSpeed / 8; // 8 - base speed
                         (0, game_engine_1.setGlobalPaddleSpeedMultiplier)(paddleMultiplier);
-                        // Применяем настройки ко всем активным играм
+                        // Apply settings to all active games
                         this.clients.forEach((clientData, id) => {
                             if (message.paddleSpeed !== undefined) {
                                 clientData.gameEngine.setPaddleSpeed(message.paddleSpeed);

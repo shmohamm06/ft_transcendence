@@ -11,10 +11,10 @@ exports.BALL_SIZE = 12;
 exports.BASE_PADDLE_SPEED = 8;
 exports.BASE_BALL_SPEED = 6;
 exports.WINNING_SCORE = 3;
-// Глобальные множители скорости
+// Global speed multipliers
 exports.GLOBAL_PADDLE_SPEED_MULTIPLIER = 1;
 exports.GLOBAL_BALL_SPEED_MULTIPLIER = 1;
-// Функции для установки глобальных множителей
+// Functions for setting global multipliers
 function setGlobalPaddleSpeedMultiplier(multiplier) {
     exports.GLOBAL_PADDLE_SPEED_MULTIPLIER = Math.max(0.1, Math.min(3.0, multiplier));
     console.log(`Global paddle speed multiplier set to: ${exports.GLOBAL_PADDLE_SPEED_MULTIPLIER}`);
@@ -54,13 +54,13 @@ class GameEngine {
         const now = Date.now();
         const deltaTime = (now - this.lastUpdate) / 16.67; // Normalize to 60 FPS
         this.lastUpdate = now;
-        // Обновляем конфигурацию с текущими глобальными множителями
+        // Update configuration with current global multipliers
         const oldBallSpeed = this.gameState.config.ballSpeed;
         this.gameState.config.paddleSpeed = exports.BASE_PADDLE_SPEED * exports.GLOBAL_PADDLE_SPEED_MULTIPLIER;
         this.gameState.config.ballSpeed = exports.BASE_BALL_SPEED * exports.GLOBAL_BALL_SPEED_MULTIPLIER;
         this.gameState.config.paddleSpeedMultiplier = exports.GLOBAL_PADDLE_SPEED_MULTIPLIER;
         this.gameState.config.ballSpeedMultiplier = exports.GLOBAL_BALL_SPEED_MULTIPLIER;
-        // Если скорость мяча изменилась, обновляем его скорость немедленно
+        // If ball speed changed, update its velocity immediately
         if (oldBallSpeed !== this.gameState.config.ballSpeed) {
             console.log(`Ball speed changed from ${oldBallSpeed} to ${this.gameState.config.ballSpeed}, updating velocity...`);
             this.updateBallVelocity();
@@ -74,7 +74,7 @@ class GameEngine {
             }
             if (this.gameState.countdown <= 0) {
                 this.gameState.gameStatus = 'playing';
-                // При переходе в playing состояние обновляем скорость мяча
+                // When transitioning to playing state, update ball speed
                 this.updateBallVelocity();
             }
             return;
@@ -170,10 +170,10 @@ class GameEngine {
             }
         };
     }
-    // Обновленные методы для установки скорости через множители
+    // Updated methods for setting speed through multipliers
     setBallSpeed(speed) {
         setGlobalBallSpeedMultiplier(speed / exports.BASE_BALL_SPEED);
-        // Немедленно обновляем скорость мяча
+        // Immediately update ball speed
         this.updateBallVelocity();
         console.log(`Ball speed set to ${speed} (multiplier: ${exports.GLOBAL_BALL_SPEED_MULTIPLIER})`);
     }
@@ -181,31 +181,31 @@ class GameEngine {
         setGlobalPaddleSpeedMultiplier(speed / exports.BASE_PADDLE_SPEED);
         console.log(`Paddle speed set to ${speed} (multiplier: ${exports.GLOBAL_PADDLE_SPEED_MULTIPLIER})`);
     }
-    // Новый метод для обновления скорости мяча
+    // New method for updating ball speed
     updateBallVelocity() {
         const currentSpeed = this.gameState.config.ballSpeed;
-        // Если игра в состоянии countdown, просто обновляем конфигурацию
+        // If game is in countdown state, just update configuration
         if (this.gameState.gameStatus === 'countdown') {
             console.log(`Game in countdown, ball speed will be applied when game starts: ${currentSpeed}`);
             return;
         }
-        // Если мяч движется, обновляем его скорость, сохраняя направление
+        // If ball is moving, update its speed while preserving direction
         if (this.ballVelocity.x !== 0 || this.ballVelocity.y !== 0) {
             const magnitude = Math.sqrt(this.ballVelocity.x * this.ballVelocity.x + this.ballVelocity.y * this.ballVelocity.y);
             if (magnitude > 0) {
-                // Нормализуем направление и применяем новую скорость
+                // Normalize direction and apply new speed
                 this.ballVelocity.x = (this.ballVelocity.x / magnitude) * currentSpeed;
                 this.ballVelocity.y = (this.ballVelocity.y / magnitude) * currentSpeed;
             }
             else {
-                // Если мяч стоит на месте, даем ему случайное направление
+                // If ball is stationary, give it random direction
                 const angle = (Math.random() - 0.5) * Math.PI / 3;
                 this.ballVelocity.x = currentSpeed * Math.cos(angle);
                 this.ballVelocity.y = currentSpeed * Math.sin(angle);
             }
         }
         else {
-            // Если мяч стоит на месте, даем ему случайное направление
+            // If ball is stationary, give it random direction
             const angle = (Math.random() - 0.5) * Math.PI / 3;
             this.ballVelocity.x = currentSpeed * Math.cos(angle);
             this.ballVelocity.y = currentSpeed * Math.sin(angle);

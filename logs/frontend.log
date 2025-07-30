@@ -3,22 +3,8 @@
 > vite
 
 
-  VITE v4.5.14  ready in 2678 ms
+  VITE v4.5.14  ready in 370 ms
 
   ➜  Local:   http://localhost:3000/
-  ➜  Network: http://192.168.70.162:3000/
-  ➜  Network: http://10.144.78.153:3000/
-(node:76255) [DEP0060] DeprecationWarning: The `util._extend` API is deprecated. Please use Object.assign() instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-22:50:32 [vite] hmr update /src/contexts/AuthContext.tsx, /src/index.css
-22:50:35 [vite] hmr invalidate /src/contexts/AuthContext.tsx Could not Fast Refresh ("useAuth" export is incompatible). Learn more at https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react#consistent-components-exports
-22:50:35 [vite] hmr update /src/router/index.tsx, /src/index.css, /src/pages/HomePage.tsx, /src/router/ProtectedRoute.tsx, /src/pages/LoginPage.tsx, /src/pages/RegisterPage.tsx, /src/pages/GamePage.tsx, /src/pages/ProfilePage.tsx, /src/pages/OAuthCallbackPage.tsx
-22:51:02 [vite] hmr update /src/contexts/AuthContext.tsx, /src/index.css
-22:51:03 [vite] hmr update /src/contexts/AuthContext.tsx, /src/index.css
-22:51:03 [vite] hmr invalidate /src/contexts/AuthContext.tsx Could not Fast Refresh ("useAuth" export is incompatible). Learn more at https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react#consistent-components-exports
-22:51:03 [vite] hmr update /src/router/index.tsx, /src/index.css, /src/pages/HomePage.tsx, /src/router/ProtectedRoute.tsx, /src/pages/LoginPage.tsx, /src/pages/RegisterPage.tsx, /src/pages/GamePage.tsx, /src/pages/ProfilePage.tsx, /src/pages/OAuthCallbackPage.tsx
-22:51:03 [vite] hmr invalidate /src/contexts/AuthContext.tsx Could not Fast Refresh ("useAuth" export is incompatible). Learn more at https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react#consistent-components-exports
-22:51:03 [vite] hmr update /src/router/index.tsx, /src/index.css, /src/pages/HomePage.tsx, /src/router/ProtectedRoute.tsx, /src/pages/LoginPage.tsx, /src/pages/RegisterPage.tsx, /src/pages/GamePage.tsx, /src/pages/ProfilePage.tsx, /src/pages/OAuthCallbackPage.tsx
-22:51:04 [vite] hmr update /src/contexts/AuthContext.tsx, /src/index.css
-22:51:07 [vite] hmr invalidate /src/contexts/AuthContext.tsx Could not Fast Refresh ("useAuth" export is incompatible). Learn more at https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react#consistent-components-exports
-22:51:07 [vite] hmr update /src/router/index.tsx, /src/index.css, /src/pages/HomePage.tsx, /src/router/ProtectedRoute.tsx, /src/pages/LoginPage.tsx, /src/pages/RegisterPage.tsx, /src/pages/GamePage.tsx, /src/pages/ProfilePage.tsx, /src/pages/OAuthCallbackPage.tsx
+  ➜  Network: http://10.255.255.254:3000/
+  ➜  Network: http://172.17.76.254:3000/

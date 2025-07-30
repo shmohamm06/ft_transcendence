@@ -1,4 +1,4 @@
-// Клиентское приложение ft_transcendence
+// Client application ft_transcendence
 console.log('🚀 App.js loaded - Version: 2025-06-23-v2');
 
 class App {
@@ -20,7 +20,7 @@ class App {
         this.loadUserFromStorage();
         this.updateUI();
 
-        // Принудительно скрываем игровую страницу при инициализации
+        // Force hide game page on initialization
         this.ensureGamePageHidden();
     }
 
@@ -35,7 +35,7 @@ class App {
     createGamePage() {
         console.log('⚠️ WARNING: createGamePage called - this should not happen if game page exists in HTML!');
         console.log('Creating game page HTML...');
-        // Создаем игровую страницу динамически
+        // Create game page dynamically
         const gamePageHTML = `
         <div id="game-page" class="page">
             <div class="game-container">
@@ -54,11 +54,11 @@ class App {
             </div>
         </div>`;
 
-        // Добавляем в конец body
+        // Add to end of body
         document.body.insertAdjacentHTML('beforeend', gamePageHTML);
         console.log('Game page HTML inserted into DOM');
 
-        // Проверяем, что элементы действительно созданы
+        // Check that elements are actually created
         const gamePage = document.getElementById('game-page');
         const gameCanvas = document.getElementById('game-canvas');
         console.log('Game page element:', gamePage);
@@ -78,7 +78,7 @@ class App {
     }
 
     setupEventListeners() {
-        // Настройки
+        // Settings
         const paddleSpeed = document.getElementById('paddle-speed');
         const ballSpeed = document.getElementById('ball-speed');
 
@@ -94,7 +94,7 @@ class App {
             });
         }
 
-        // Обработка клавиш для игры
+        // Key handling for game
         document.addEventListener('keydown', (e) => {
             console.log('Key pressed:', e.key, 'Socket state:', this.socket?.readyState);
             if (this.socket && this.socket.readyState === WebSocket.OPEN) {
@@ -117,15 +117,15 @@ class App {
             }
         });
 
-        // Обработка кликов по canvas (для кнопки "Play Again")
+        // Handle clicks on canvas (for "Play Again" button)
         const gameCanvas = document.getElementById('game-canvas');
         if (gameCanvas) {
             gameCanvas.addEventListener('click', (e) => {
-                // Обработка кликов по кнопкам Game Over
+                // Handle clicks on Game Over buttons
                 if (this.gameOverButtons) {
                     const rect = gameCanvas.getBoundingClientRect();
 
-                    // Учитываем масштабирование canvas
+                    // Account for canvas scaling
                     const scaleX = gameCanvas.width / rect.width;
                     const scaleY = gameCanvas.height / rect.height;
 
@@ -137,7 +137,7 @@ class App {
                     console.log('Canvas scale:', { scaleX, scaleY });
                     console.log('Game over buttons:', this.gameOverButtons);
 
-                    // Проверяем клик по кнопке Restart Game
+                    // Check click on Restart Game button
                     if (x >= this.gameOverButtons.restart.x &&
                         x <= this.gameOverButtons.restart.x + this.gameOverButtons.restart.width &&
                         y >= this.gameOverButtons.restart.y &&
@@ -146,7 +146,7 @@ class App {
                         console.log('Restart Game button clicked');
                         this.restartGame();
                     }
-                    // Проверяем клик по кнопке Home
+                    // Check click on Home button
                     else if (x >= this.gameOverButtons.home.x &&
                              x <= this.gameOverButtons.home.x + this.gameOverButtons.home.width &&
                              y >= this.gameOverButtons.home.y &&
@@ -163,12 +163,12 @@ class App {
     }
 
     showPage(pageName) {
-        // Скрыть все страницы
+        // Hide all pages
         document.querySelectorAll('.page').forEach(page => {
             page.classList.remove('active');
         });
 
-        // Удалить игровую страницу если переходим не на игру
+        // Remove game page if not switching to game
         const gamePage = document.getElementById('game-page');
         if (pageName !== 'game' && gamePage) {
             gamePage.classList.remove('active');
@@ -176,10 +176,10 @@ class App {
             this.stopGame();
         }
 
-                // Специальная обработка игровой страницы
+                // Special handling for game page
         if (pageName === 'game') {
             console.log('Switching to game page...');
-            // Всегда используем существующую страницу из HTML
+            // Always use existing page from HTML
             let targetPage = document.getElementById('game-page');
             console.log('Game page from HTML:', targetPage);
 
@@ -189,11 +189,11 @@ class App {
                 console.log('Game page classes:', targetPage.className);
                 console.log('Game page display style:', window.getComputedStyle(targetPage).display);
 
-                // Проверяем canvas сразу
+                // Check canvas immediately
                 const canvasCheck = document.getElementById('game-canvas');
                 console.log('Canvas immediate check:', canvasCheck);
 
-                // Даем время DOM обновиться после добавления класса active
+                // Give time for DOM to update after adding active class
                 requestAnimationFrame(() => {
                     console.log('RAF: Checking canvas after DOM update...');
                     const canvas = document.getElementById('game-canvas');
@@ -202,7 +202,7 @@ class App {
                         this.initGame();
                     } else {
                         console.error('RAF: Canvas still not found!');
-                        // Последняя попытка
+                        // Last attempt
                         setTimeout(() => this.initGame(), 100);
                     }
                 });
@@ -212,14 +212,14 @@ class App {
                 console.log('Body innerHTML length:', document.body.innerHTML.length);
             }
         } else {
-            // Обработка всех остальных страниц
+            // Handle all other pages
             const targetPage = document.getElementById(`${pageName}-page`);
             if (targetPage) {
                 targetPage.classList.add('active');
             }
         }
 
-        // Обновить активную ссылку в навигации
+        // Update active link in navigation
         document.querySelectorAll('.nav-link').forEach(link => {
             link.classList.remove('active');
         });
@@ -229,10 +229,10 @@ class App {
             activeLink.classList.add('active');
         }
 
-        // Добавляем класс к body для специального стиля
+        // Add class to body for special styling
         if (pageName === 'game') {
             document.body.classList.add('game-active');
-            // Логика перенесена выше в обработку game страницы
+            // Logic moved above to game page handling
         } else {
             document.body.classList.remove('game-active');
             this.stopGame();
@@ -246,14 +246,14 @@ class App {
         const password = document.getElementById('login-password').value;
 
         try {
-            // Здесь должна быть реальная аутентификация
-            // Пока используем мок
+            // Here should be real authentication
+            // For now using mock
             this.currentUser = { username, id: Date.now() };
             this.saveUserToStorage();
             this.updateUI();
             this.showPage('home');
 
-            // Очистить форму
+            // Clear form
             event.target.reset();
         } catch (error) {
             alert('Login failed: ' + error.message);
@@ -274,14 +274,14 @@ class App {
         }
 
         try {
-            // Здесь должна быть реальная регистрация
-            // Пока используем мок
+            // Here should be real registration
+            // For now using mock
             this.currentUser = { username, email, id: Date.now() };
             this.saveUserToStorage();
             this.updateUI();
             this.showPage('home');
 
-            // Очистить форму
+            // Clear form
             event.target.reset();
         } catch (error) {
             alert('Registration failed: ' + error.message);
@@ -308,11 +308,11 @@ class App {
 
         localStorage.setItem('gameSettings', JSON.stringify(settings));
 
-        // Обновляем отображение значений
+        // Update value display
         document.getElementById('paddle-speed-value').textContent = paddleSpeed;
         document.getElementById('ball-speed-value').textContent = ballSpeed;
 
-        // Отправляем настройки на сервер если есть соединение
+        // Send settings to server if connection exists
         if (this.socket && this.socket.readyState === WebSocket.OPEN) {
             this.sendSettings();
             alert('Settings saved and applied to current game!');
@@ -343,7 +343,7 @@ class App {
         console.trace();
         console.log('Initializing game...');
 
-        // Дополнительная отладка
+        // Additional debugging
         console.log('Document ready state:', document.readyState);
         console.log('All canvas elements:', document.querySelectorAll('canvas'));
         console.log('Game page element:', document.getElementById('game-page'));
