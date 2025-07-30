@@ -54,11 +54,11 @@ const LoginPage = () => {
             </div>
 
             {/* Main Content */}
-            <div className="relative z-10 w-full max-w-md px-6">
-                {/* Header */}
-                <div className="text-center mb-12">
-                    <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-white to-electric-green bg-clip-text text-transparent">
-                        PONG
+            <div className="relative z-10 mx-auto max-w-4xl px-6">
+            {/* Header */}
+            <   div className="text-center mb-12">
+                    <h1 className="text-6xl md:text-7xl font-bold mb-4 bg-gradient-to-r from-white to-green-400 bg-clip-text text-transparent">
+                        FT_TRANSCENDENCE
                     </h1>
                     <div className="w-20 h-px bg-gradient-to-r from-transparent via-electric-green to-transparent mx-auto mb-6"></div>
                     <p className="text-lg text-gray-300">
