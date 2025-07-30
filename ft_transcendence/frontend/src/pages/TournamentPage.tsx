@@ -44,7 +44,7 @@ const TournamentPage: React.FC = () => {
                 {/* Tournament Grid Pattern */}
                 <div className="absolute inset-0 opacity-10">
                     {Array.from({ length: 6 }).map((_, i) => (
-                        <div 
+                        <div
                             key={i}
                             className="absolute border border-electric-green animate-pulse"
                             style={{
@@ -57,10 +57,10 @@ const TournamentPage: React.FC = () => {
                         />
                     ))}
                 </div>
-                
+
                 {/* Trophy Elements */}
                 {Array.from({ length: 4 }).map((_, i) => (
-                    <div 
+                    <div
                         key={i}
                         className="absolute w-1 h-1 bg-electric-green rounded-full opacity-30 animate-pulse"
                         style={{
@@ -70,7 +70,7 @@ const TournamentPage: React.FC = () => {
                         }}
                     />
                 ))}
-                
+
                 {/* Corner Accents */}
                 <div className="absolute top-8 left-8 w-16 h-16 border-l-2 border-t-2 border-electric-green opacity-30" />
                 <div className="absolute bottom-8 right-8 w-16 h-16 border-r-2 border-b-2 border-electric-green opacity-30" />
@@ -92,71 +92,10 @@ const TournamentPage: React.FC = () => {
                 {/* Content */}
                 <main className="flex-1 px-6 pb-12">
                     <div className="max-w-4xl mx-auto">
-                        {!tournament ? (
-                            // Tournament Setup
-                            <div className="bg-white bg-opacity-5 rounded-2xl p-8 backdrop-blur-20 border border-white border-opacity-10">
-                                <h2 className="text-3xl font-bold mb-8 text-center text-electric-green">Create Tournament</h2>
-                                
-                                <div className="max-w-lg mx-auto">
-                                    <div className="form-group">
-                                        <label className="block text-white text-lg font-bold mb-4">
-                                            Number of Players: <span className="text-electric-green">{numPlayers}</span>
-                                        </label>
-                                        <select
-                                            value={numPlayers}
-                                            onChange={(e) => setNumPlayers(parseInt(e.target.value))}
-                                            className="form-input w-full"
-                                        >
-                                            <option value={4}>4 Players</option>
-                                            <option value={8}>8 Players</option>
-                                        </select>
-                                    </div>
-
-                                    {playerNames.map((name, index) => (
-                                        <div key={index} className="form-group">
-                                            <label className="block text-white text-sm font-bold mb-2">
-                                                Player {index + 1}
-                                            </label>
-                                            <input
-                                                type="text"
-                                                value={name}
-                                                onChange={(e) => updatePlayerName(index, e.target.value)}
-                                                className="form-input w-full"
-                                                placeholder={`Player ${index + 1}`}
-                                            />
-                                        </div>
-                                    ))}
-
-                                    <button
-                                        onClick={createTournament}
-                                        className="btn btn-primary w-full py-4 text-lg mt-6"
-                                    >
-                                        Start Tournament
-                                    </button>
-                                </div>
-                            </div>
-                        ) : (
-                            // Tournament Display
-                            <div className="space-y-8">
-                                <div className="bg-white bg-opacity-5 rounded-2xl p-6 backdrop-blur-20 border border-white border-opacity-10">
-                                    <Tournament tournament={tournament} onMatchComplete={handleMatchComplete} />
-                                </div>
-                                
-                                {/* Reset Tournament Button */}
-                                <div className="text-center">
-                                    <button
-                                        onClick={() => {
-                                            setTournament(null);
-                                            setPlayerNames(Array(4).fill(''));
-                                            setNumPlayers(4);
-                                        }}
-                                        className="btn btn-danger px-8 py-3"
-                                    >
-                                        Reset Tournament
-                                    </button>
-                                </div>
-                            </div>
-                        )}
+                        {/* Always show Tournament component - it will handle its own logic */}
+                        <div className="bg-white bg-opacity-5 rounded-2xl p-6 backdrop-blur-20 border border-white border-opacity-10">
+                            <Tournament tournament={tournament} onMatchComplete={handleMatchComplete} />
+                        </div>
                     </div>
                 </main>
             </div>

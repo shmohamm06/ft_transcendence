@@ -63,7 +63,21 @@ export const initializeDatabase = () => {
             )
         `, (err) => {
             if (err) console.error('Error creating user_stats table:', err);
-            else console.log('User_stats table created/verified');
+            else {
+                console.log('User_stats table created/verified');
+
+                // Ensure all existing users have stats records
+                db.run(`
+                    INSERT OR IGNORE INTO user_stats (user_id)
+                    SELECT id FROM users WHERE id NOT IN (SELECT user_id FROM user_stats)
+                `, (statsErr) => {
+                    if (statsErr) {
+                        console.error('Error creating missing user_stats records:', statsErr);
+                    } else {
+                        console.log('Missing user_stats records created for existing users');
+                    }
+                });
+            }
         });
 
         // You can add more tables here later (e.g., friends, matches)

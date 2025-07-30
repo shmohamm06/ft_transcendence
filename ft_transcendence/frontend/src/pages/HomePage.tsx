@@ -5,11 +5,6 @@ import { Link } from "react-router-dom";
 const HomePage = () => {
     const { user, logout } = useAuth();
     const [hoveredCard, setHoveredCard] = useState<string | null>(null);
-    const [stats, setStats] = useState({
-        gamesPlayed: 42,
-        winRate: 73,
-        currentStreak: 5
-    });
 
     // Упрощенная автоматическая игра (только один мяч)
     const [ballPosition, setBallPosition] = useState({ x: 50, y: 50 });
@@ -105,41 +100,23 @@ const HomePage = () => {
     ];
 
     const quickActions = [
-        { 
-            title: 'View Stats', 
+        {
+            title: 'View Stats',
             icon: (
                 <svg viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8">
                     <path d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM9 17H7V10H9V17ZM13 17H11V7H13V17ZM17 17H15V13H17V17Z"/>
                 </svg>
-            ), 
-            path: '/profile' 
+            ),
+            path: '/profile'
         },
-        { 
-            title: 'Settings', 
+        {
+            title: 'Settings',
             icon: (
                 <svg viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8">
                     <path d="M12 15.5C10.1 15.5 8.5 13.9 8.5 12S10.1 8.5 12 8.5S15.5 10.1 15.5 12S13.9 15.5 12 15.5ZM19.4 13C19.2 13.4 19.2 13.6 19.4 14L20.5 15.8C20.8 16.3 20.7 16.9 20.2 17.2L18.2 18.2C17.7 18.5 17.1 18.3 16.8 17.8L15.7 16C15.3 16.2 15 16.2 14.6 16.2L14.5 17.9C14.5 18.5 14 19 13.4 19H10.6C10 19 9.5 18.5 9.5 17.9L9.4 16.2C9 16.2 8.7 16.2 8.3 16L7.2 17.8C6.9 18.3 6.3 18.5 5.8 18.2L3.8 17.2C3.3 16.9 3.2 16.3 3.5 15.8L4.6 14C4.8 13.6 4.8 13.4 4.6 13L3.5 11.2C3.2 10.7 3.3 10.1 3.8 9.8L5.8 8.8C6.3 8.5 6.9 8.7 7.2 9.2L8.3 11C8.7 10.8 9 10.8 9.4 10.8L9.5 9.1C9.5 8.5 10 8 10.6 8H13.4C14 8 14.5 8.5 14.5 9.1L14.6 10.8C15 10.8 15.3 10.8 15.7 11L16.8 9.2C17.1 8.7 17.7 8.5 18.2 8.8L20.2 9.8C20.7 10.1 20.8 10.7 20.5 11.2L19.4 13Z"/>
                 </svg>
-            ), 
-            path: '/settings' 
-        },
-        { 
-            title: 'Leaderboard', 
-            icon: (
-                <svg viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8">
-                    <path d="M18 2C19.1 2 20 2.9 20 4V20C20 21.1 19.1 22 18 22H6C4.9 22 4 21.1 4 20V4C4 2.9 4.9 2 6 2H18ZM9 4H6V20H9V4ZM18 4H11V20H18V4ZM13 6V8H16V6H13ZM13 10V12H16V10H13ZM13 14V16H16V14H13Z"/>
-                </svg>
-            ), 
-            path: '/leaderboard' 
-        },
-        { 
-            title: 'History', 
-            icon: (
-                <svg viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8">
-                    <path d="M13.5 8H12V13L16.28 15.54L17 14.33L13.5 12.25V8ZM13 3C8.03 3 4 7.03 4 12H1L4.89 15.89L4.96 16.03L9 12H6C6 8.13 9.13 5 13 5S20 8.13 20 12S16.87 19 13 19C11.07 19 9.32 18.21 8.06 16.94L6.64 18.36C8.27 20 10.5 21 13 21C18.97 21 23 16.97 23 11C23 5.03 18.97 1 13 1V3Z"/>
-                </svg>
-            ), 
-            path: '/history' 
+            ),
+            path: '/settings'
         }
     ];
 
@@ -148,19 +125,19 @@ const HomePage = () => {
             {/* Гармонично заполненный статичный фон */}
             <div className="absolute inset-0 pointer-events-none">
                 {/* Сетка линий поля */}
-                <div className="absolute left-1/2 top-0 bottom-0 w-px transform -translate-x-1/2 opacity-8" 
+                <div className="absolute left-1/2 top-0 bottom-0 w-px transform -translate-x-1/2 opacity-8"
                      style={{background: 'repeating-linear-gradient(to bottom, transparent 0px, transparent 30px, rgba(204,255,0,0.4) 30px, rgba(204,255,0,0.4) 35px)'}} />
-                
+
                 {/* Дополнительные вертикальные линии */}
-                <div className="absolute left-1/4 top-0 bottom-0 w-px opacity-5" 
+                <div className="absolute left-1/4 top-0 bottom-0 w-px opacity-5"
                      style={{background: 'repeating-linear-gradient(to bottom, transparent 0px, transparent 40px, rgba(204,255,0,0.3) 40px, rgba(204,255,0,0.3) 42px)'}} />
-                <div className="absolute right-1/4 top-0 bottom-0 w-px opacity-5" 
+                <div className="absolute right-1/4 top-0 bottom-0 w-px opacity-5"
                      style={{background: 'repeating-linear-gradient(to bottom, transparent 0px, transparent 40px, rgba(204,255,0,0.3) 40px, rgba(204,255,0,0.3) 42px)'}} />
 
                 {/* Горизонтальные линии */}
-                <div className="absolute left-0 right-0 top-1/4 h-px opacity-5" 
+                <div className="absolute left-0 right-0 top-1/4 h-px opacity-5"
                      style={{background: 'repeating-linear-gradient(to right, transparent 0px, transparent 40px, rgba(204,255,0,0.3) 40px, rgba(204,255,0,0.3) 42px)'}} />
-                <div className="absolute left-0 right-0 bottom-1/4 h-px opacity-5" 
+                <div className="absolute left-0 right-0 bottom-1/4 h-px opacity-5"
                      style={{background: 'repeating-linear-gradient(to right, transparent 0px, transparent 40px, rgba(204,255,0,0.3) 40px, rgba(204,255,0,0.3) 42px)'}} />
 
                 {/* Статичные мячики (больше для заполнения) */}
@@ -170,7 +147,7 @@ const HomePage = () => {
                 <div className="absolute w-1.5 h-1.5 bg-electric-green rounded-full opacity-10" style={{left: '62%', top: '40%'}} />
                 <div className="absolute w-2 h-2 bg-electric-green rounded-full opacity-12" style={{left: '78%', top: '32%'}} />
                 <div className="absolute w-1.5 h-1.5 bg-electric-green rounded-full opacity-10" style={{left: '88%', top: '22%'}} />
-                
+
                 <div className="absolute w-2 h-2 bg-electric-green rounded-full opacity-12" style={{left: '15%', top: '65%'}} />
                 <div className="absolute w-1.5 h-1.5 bg-electric-green rounded-full opacity-10" style={{left: '35%', top: '72%'}} />
                 <div className="absolute w-2 h-2 bg-electric-green rounded-full opacity-12" style={{left: '55%', top: '68%'}} />
@@ -211,7 +188,7 @@ const HomePage = () => {
                 <div className="absolute border border-electric-green opacity-5 rounded-full" style={{left: '50%', top: '80%', width: '10px', height: '10px'}} />
 
                 {/* Один движущийся мяч (главный элемент анимации) */}
-                <div 
+                <div
                     className="absolute w-3 h-3 bg-electric-green rounded-full opacity-40 transition-all duration-200 ease-linear"
                     style={{
                         left: `${ballPosition.x}%`,
@@ -219,7 +196,7 @@ const HomePage = () => {
                         boxShadow: '0 0 12px rgba(204, 255, 0, 0.4)'
                     }}
                 />
-                
+
                 {/* Угловые декоративные элементы */}
                 <div className="absolute top-6 left-6 w-16 h-16 border-l-2 border-t-2 border-electric-green opacity-12" />
                 <div className="absolute bottom-6 right-6 w-16 h-16 border-r-2 border-b-2 border-electric-green opacity-12" />
@@ -238,25 +215,9 @@ const HomePage = () => {
                         <p className="text-2xl md:text-3xl mb-4 text-green-400 font-light">
                             Welcome back, {user?.username || 'Player'}
                         </p>
-                        <p className="text-lg text-gray-300 mb-8 max-w-2xl mx-auto">
+                                                <p className="text-lg text-gray-300 mb-12 max-w-2xl mx-auto">
                             Experience the classic game reimagined with modern technology and competitive gameplay
                         </p>
-                        
-                        {/* Быстрая статистика */}
-                        <div className="flex justify-center gap-8 mb-12">
-                            <div className="text-center">
-                                <div className="text-3xl font-bold text-green-400">{stats.gamesPlayed}</div>
-                                <div className="text-sm text-gray-400">Games Played</div>
-                            </div>
-                            <div className="text-center">
-                                <div className="text-3xl font-bold text-green-400">{stats.winRate}%</div>
-                                <div className="text-sm text-gray-400">Win Rate</div>
-                            </div>
-                            <div className="text-center">
-                                <div className="text-3xl font-bold text-green-400">{stats.currentStreak}</div>
-                                <div className="text-sm text-gray-400">Current Streak</div>
-                            </div>
-                        </div>
                     </div>
                 </section>
 
@@ -264,10 +225,10 @@ const HomePage = () => {
                 <section className="flex-1 px-6 pb-12">
                     <div className="max-w-7xl mx-auto">
                         <h2 className="text-3xl font-bold text-center mb-12">Choose Your Game Mode</h2>
-                        
+
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
                             {gameCards.map((card, index) => (
-                                <Link 
+                                <Link
                                     key={card.id}
                                     to={card.path}
                                     className="game-card group"
@@ -283,7 +244,7 @@ const HomePage = () => {
                                         <p className="text-gray-300 text-sm mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                             {card.description}
                                         </p>
-                                        
+
                                         {/* Детали при наведении */}
                                         <div className="opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
                                             <div className="text-xs text-gray-400 space-y-1">
@@ -292,7 +253,7 @@ const HomePage = () => {
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                     {/* Интерактивная рамка */}
                                     <div className={`absolute inset-0 rounded-16 border-2 border-transparent transition-all duration-300 ${
                                         hoveredCard === card.id ? 'border-green-400 shadow-lg shadow-green-400/20' : ''
@@ -304,7 +265,7 @@ const HomePage = () => {
                         {/* Быстрые действия */}
                         <div className="bg-white bg-opacity-5 rounded-2xl p-8 backdrop-blur-20">
                             <h3 className="text-2xl font-bold text-center mb-8">Quick Actions</h3>
-                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-md mx-auto">
                                 {quickActions.map((action, index) => (
                                     <Link
                                         key={action.title}

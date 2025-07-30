@@ -26,7 +26,42 @@ interface TournamentState {
     champion: Player | null;
 }
 
-const Tournament: React.FC = () => {
+interface TournamentProps {
+    tournament?: {
+        players: { id: number; name: string }[];
+    };
+    onMatchComplete?: (winner: string) => void;
+}
+
+// Load tournament state from localStorage (moved outside component)
+const loadTournamentState = (): TournamentState => {
+    const saved = localStorage.getItem('tournamentState');
+    console.log('🔍 Loading tournament state from localStorage:', {
+        hasData: !!saved,
+        rawData: saved,
+    });
+
+    if (saved) {
+        try {
+            const parsed = JSON.parse(saved);
+            console.log('✅ Parsed tournament state:', parsed);
+            return parsed;
+        } catch (error) {
+            console.error('❌ Error loading tournament state:', error);
+        }
+    }
+
+    console.log('📝 No saved state, returning default');
+    return {
+        phase: 'registration',
+        players: [],
+        matches: [],
+        currentMatch: null,
+        champion: null
+    };
+};
+
+const Tournament: React.FC<TournamentProps> = ({ tournament, onMatchComplete }) => {
     const [phase, setPhase] = useState<TournamentPhase>('registration');
     const [players, setPlayers] = useState<Player[]>([]);
     const [matches, setMatches] = useState<Match[]>([]);
@@ -38,81 +73,204 @@ const Tournament: React.FC = () => {
     const saveTournamentState = (state: Partial<TournamentState>) => {
         const currentState = loadTournamentState();
         const newState = { ...currentState, ...state };
+        console.log('💾 Saving tournament state:', {
+            partialState: state,
+            currentState,
+            newState
+        });
         localStorage.setItem('tournamentState', JSON.stringify(newState));
+        console.log('✅ Tournament state saved to localStorage');
     };
 
-    // Load tournament state from localStorage
-    const loadTournamentState = (): TournamentState => {
-        const saved = localStorage.getItem('tournamentState');
-        if (saved) {
-            try {
-                return JSON.parse(saved);
-            } catch (error) {
-                console.error('Error loading tournament state:', error);
-            }
-        }
-        return {
-            phase: 'registration',
-            players: [],
-            matches: [],
-            currentMatch: null,
-            champion: null
-        };
-    };
-
-    // Load tournament state on component mount
+        // Initialize with passed tournament data or load from localStorage
     useEffect(() => {
+        // First, always try to load from localStorage (in case user is continuing a tournament)
         const savedState = loadTournamentState();
-        setPhase(savedState.phase);
-        setPlayers(savedState.players);
-        setMatches(savedState.matches);
-        setCurrentMatch(savedState.currentMatch);
-        setChampion(savedState.champion);
-    }, []);
+        console.log('🔍 Tournament initialization:', {
+            savedState,
+            hasSavedPlayers: savedState.players.length > 0,
+            tournament,
+            hasTournamentProps: tournament && tournament.players.length === 4,
+            currentPlayers: players.length
+        });
+
+        if (savedState.players.length > 0) {
+            // There's a saved tournament in progress, load it
+            console.log('✅ Loading saved tournament state');
+            setPhase(savedState.phase);
+            setPlayers(savedState.players);
+            setMatches(savedState.matches);
+            setCurrentMatch(savedState.currentMatch);
+            setChampion(savedState.champion);
+        } else if (tournament && tournament.players.length === 4) {
+            // No saved tournament, but new tournament data passed via props
+            console.log('🆕 Creating new tournament from props');
+            const tournamentPlayers: Player[] = tournament.players.map((p, index) => ({
+                id: index + 1,
+                nickname: p.name,
+                isReady: true
+            }));
+            setPlayers(tournamentPlayers);
+
+            // Directly initialize matches since we have 4 players
+            const semifinal1: Match = {
+                id: 1,
+                player1: tournamentPlayers[0],
+                player2: tournamentPlayers[1],
+                winner: null,
+                isCompleted: false,
+                round: 'semifinal'
+            };
+
+            const semifinal2: Match = {
+                id: 2,
+                player1: tournamentPlayers[2],
+                player2: tournamentPlayers[3],
+                winner: null,
+                isCompleted: false,
+                round: 'semifinal'
+            };
+
+            const final: Match = {
+                id: 3,
+                player1: null,
+                player2: null,
+                winner: null,
+                isCompleted: false,
+                round: 'final'
+            };
+
+            setMatches([semifinal1, semifinal2, final]);
+            setPhase('bracket');
+        } else if (players.length === 0) {
+            // No saved state, no tournament props, and no current players - show registration
+            console.log('📝 No saved state, props, or current players - showing registration');
+            setPhase('registration');
+            setPlayers([]);
+            setMatches([]);
+            setCurrentMatch(null);
+            setChampion(null);
+        } else {
+            // We already have players loaded, don't reset
+            console.log('⚠️ Keeping current state, already have players');
+        }
+    }, [tournament]);
 
     // Save state whenever it changes
     useEffect(() => {
-        saveTournamentState({
-            phase,
-            players,
-            matches,
-            currentMatch,
-            champion
-        });
+        // Only save state if we have players (don't overwrite existing state with empty state)
+        if (players.length > 0 || phase === 'completed') {
+            saveTournamentState({
+                phase,
+                players,
+                matches,
+                currentMatch,
+                champion
+            });
+        } else {
+            console.log('⚠️ Skipping save - no players and not completed phase');
+        }
     }, [phase, players, matches, currentMatch, champion]);
 
     // Listen for game results from localStorage
     useEffect(() => {
         const handleGameResult = () => {
             const gameResult = localStorage.getItem('tournamentGameResult');
-            console.log('🔍 Checking for tournament result:', gameResult);
+            console.log('🔍 Checking for tournament result:', {
+                hasResult: !!gameResult,
+                gameResult,
+                hasCurrentMatch: !!currentMatch,
+                currentMatch,
+                phase,
+                playersCount: players.length
+            });
 
-            if (gameResult && currentMatch) {
+            if (gameResult) {
                 try {
                     const result = JSON.parse(gameResult);
-                    console.log('📋 Parsed result:', result, 'Current match:', currentMatch);
+                    console.log('📋 Parsed result:', result);
 
-                    if (result.matchId === currentMatch.id) {
-                        console.log('✅ Match IDs match! Auto-completing match with result:', result);
-                        // Auto-complete match based on game result
-                        const winnerId = result.winner === 'player1' ? currentMatch.player1!.id : currentMatch.player2!.id;
-                        const winnerName = result.winner === 'player1' ? currentMatch.player1!.nickname : currentMatch.player2!.nickname;
+                    if (currentMatch) {
+                        console.log('🔍 Comparing IDs:', {
+                            resultMatchId: result.matchId,
+                            currentMatchId: currentMatch.id,
+                            idsMatch: result.matchId === currentMatch.id
+                        });
 
-                        console.log(`🏆 Setting winner: ${winnerName} (ID: ${winnerId})`);
-                        completeMatch(winnerId);
-                        localStorage.removeItem('tournamentGameResult');
-                        console.log('🧹 Cleaned up tournament result from localStorage');
+                        if (result.matchId === currentMatch.id) {
+                            console.log('✅ Match IDs match! Auto-completing match with result:', result);
+                            // Auto-complete match based on game result
+                            const winnerId = result.winner === 'player1' ? currentMatch.player1!.id : currentMatch.player2!.id;
+                            const winnerName = result.winner === 'player1' ? currentMatch.player1!.nickname : currentMatch.player2!.nickname;
+
+                            console.log(`🏆 Setting winner: ${winnerName} (ID: ${winnerId})`);
+                            completeMatch(winnerId);
+                            localStorage.removeItem('tournamentGameResult');
+                            console.log('🧹 Cleaned up tournament result from localStorage');
+                        } else {
+                            console.log('❌ Match ID mismatch:', result.matchId, 'vs', currentMatch.id);
+                        }
                     } else {
-                        console.log('❌ Match ID mismatch:', result.matchId, 'vs', currentMatch.id);
+                        // No current match - try to find the match by ID from stored result
+                        console.log('🔍 No current match, searching for match with ID:', result.matchId);
+                        const foundMatch = matches.find(m => m.id === result.matchId);
+                        if (foundMatch && !foundMatch.isCompleted) {
+                            console.log('✅ Found match in matches array:', foundMatch);
+                            const winnerId = result.winner === 'player1' ? foundMatch.player1!.id : foundMatch.player2!.id;
+                            const winnerName = result.winner === 'player1' ? foundMatch.player1!.nickname : foundMatch.player2!.nickname;
+
+                            console.log(`🏆 Processing stored result: ${winnerName} (ID: ${winnerId}) wins match ${foundMatch.id}`);
+
+                            // Update the specific match
+                            setMatches(prevMatches => {
+                                const updatedMatches = prevMatches.map(m => {
+                                    if (m.id === result.matchId) {
+                                        const winner = result.winner === 'player1' ? m.player1 : m.player2;
+                                        return { ...m, winner, isCompleted: true };
+                                    }
+                                    return m;
+                                });
+
+                                // Check if we need to set up final match
+                                const completedSemifinals = updatedMatches.filter(m => m.round === 'semifinal' && m.isCompleted);
+                                if (completedSemifinals.length === 2) {
+                                    const finalMatch = updatedMatches.find(m => m.round === 'final');
+                                    if (finalMatch && !finalMatch.player1) {
+                                        finalMatch.player1 = completedSemifinals[0].winner;
+                                        finalMatch.player2 = completedSemifinals[1].winner;
+                                        console.log('🏁 Final match set up:', finalMatch);
+                                    }
+                                }
+
+                                return updatedMatches;
+                            });
+
+                            // Check if tournament is complete
+                            if (foundMatch.round === 'final') {
+                                const winner = result.winner === 'player1' ? foundMatch.player1 : foundMatch.player2;
+                                console.log('🏆 Tournament complete! Setting champion:', winner);
+                                setChampion(winner);
+                                setPhase('completed');
+                            } else {
+                                console.log('🔄 Returning to bracket state');
+                                setPhase('bracket');
+                            }
+
+                            localStorage.removeItem('tournamentGameResult');
+                            console.log('🧹 Cleaned up tournament result from localStorage');
+                        } else if (foundMatch?.isCompleted) {
+                            console.log('⚠️ Match already completed, cleaning up old result');
+                            localStorage.removeItem('tournamentGameResult');
+                        } else {
+                            console.log('❌ Could not find match with ID:', result.matchId, 'in matches:', matches);
+                        }
                     }
                 } catch (error) {
                     console.error('❌ Error parsing game result:', error);
                     localStorage.removeItem('tournamentGameResult');
                 }
-            } else if (!gameResult) {
+            } else {
                 console.log('📭 No tournament result found in localStorage');
-            } else if (!currentMatch) {
-                console.log('🚫 No current match to process result for');
             }
         };
 
@@ -148,7 +306,7 @@ const Tournament: React.FC = () => {
             window.removeEventListener('focus', handleFocus);
             clearInterval(interval);
         };
-    }, [currentMatch]);
+    }, [currentMatch, matches]);
 
     // Auto-return to bracket if we're in playing state but no current match
     useEffect(() => {
@@ -274,15 +432,21 @@ const Tournament: React.FC = () => {
 
     // Reset tournament
     const resetTournament = () => {
-        setPhase('registration');
-        setPlayers([]);
-        setMatches([]);
-        setCurrentMatch(null);
-        setChampion(null);
-        setNewPlayerName('');
-        localStorage.removeItem('tournamentMatch');
-        localStorage.removeItem('tournamentGameResult');
-        localStorage.removeItem('tournamentState');
+        if (tournament) {
+            // If tournament was passed via props, reload the page to reset everything
+            window.location.reload();
+        } else {
+            // Normal reset for standalone tournament component
+            setPhase('registration');
+            setPlayers([]);
+            setMatches([]);
+            setCurrentMatch(null);
+            setChampion(null);
+            setNewPlayerName('');
+            localStorage.removeItem('tournamentMatch');
+            localStorage.removeItem('tournamentGameResult');
+            localStorage.removeItem('tournamentState');
+        }
     };
 
     const renderRegistration = () => (
@@ -582,6 +746,18 @@ const Tournament: React.FC = () => {
                     <div className="bg-white bg-opacity-5 rounded-2xl p-6 mt-8 text-center backdrop-blur-20 border border-electric-green">
                         <h2 className="text-2xl font-bold text-electric-green mb-2">Tournament Winner!</h2>
                         <h3 className="text-xl text-white">{champion.nickname}</h3>
+                    </div>
+                )}
+
+                {/* Reset Tournament Button - only show if tournament was passed via props */}
+                {tournament && phase !== 'completed' && (
+                    <div className="text-center mt-8">
+                        <button
+                            onClick={resetTournament}
+                            className="btn btn-danger px-6 py-3"
+                        >
+                            Reset Tournament
+                        </button>
                     </div>
                 )}
             </div>

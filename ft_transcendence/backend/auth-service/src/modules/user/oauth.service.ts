@@ -120,15 +120,26 @@ export class OAuthService {
                                     return reject(new Error('Failed to update user'));
                                 }
 
-                                // Return updated user data
-                                db.get(
-                                    'SELECT id, username, email, avatar, intra_id, intra_login, auth_provider FROM users WHERE intra_id = ?',
-                                    [userData.id],
-                                    (selectErr: any, updatedUser: any) => {
-                                        if (selectErr || !updatedUser) {
-                                            return reject(new Error('Failed to fetch updated user'));
+                                // Ensure user_stats record exists for existing user
+                                db.run(
+                                    'INSERT OR IGNORE INTO user_stats (user_id) VALUES (?)',
+                                    [existingUser.id],
+                                    (statsErr: any) => {
+                                        if (statsErr) {
+                                            console.error('Failed to create user stats for existing user:', statsErr);
                                         }
-                                        resolve(updatedUser);
+
+                                        // Return updated user data
+                                        db.get(
+                                            'SELECT id, username, email, avatar, intra_id, intra_login, auth_provider FROM users WHERE intra_id = ?',
+                                            [userData.id],
+                                            (selectErr: any, updatedUser: any) => {
+                                                if (selectErr || !updatedUser) {
+                                                    return reject(new Error('Failed to fetch updated user'));
+                                                }
+                                                resolve(updatedUser);
+                                            }
+                                        );
                                     }
                                 );
                             }

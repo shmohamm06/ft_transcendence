@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
 const ProfilePage = () => {
-    const { user } = useAuth();
+    const { user, token } = useAuth();
     const [stats, setStats] = useState({
         totalGames: 0,
         totalWins: 0,
@@ -18,31 +18,67 @@ const ProfilePage = () => {
     const [error, setError] = useState('');
 
     useEffect(() => {
-        fetchStats();
-    }, []);
+        if (user && token) {
+            fetchStats();
+        }
+    }, [user, token]);
 
     const fetchStats = async () => {
         setLoading(true);
         setError('');
-        
+
         try {
-            // Simulate API call
-            await new Promise(resolve => setTimeout(resolve, 1500));
-            
-            // Mock data with more interesting stats
-            const mockStats = {
-                totalGames: 28,
-                totalWins: 19,
-                totalLosses: 9,
-                winRate: 68,
-                pongGames: 25,
-                pongWins: 17,
-                pongLosses: 8,
-                pongWinRate: 68
+            // Check if user is authenticated
+            if (!token || !user) {
+                throw new Error('User not authenticated');
+            }
+
+            // Make real API call to get user profile with stats
+            const response = await fetch('/api/users/profile', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                if (response.status === 401) {
+                    throw new Error('Session expired. Please log in again.');
+                }
+                throw new Error(`Failed to fetch user profile: ${response.status}`);
+            }
+
+            const profileData = await response.json();
+
+            // Calculate total statistics from actual data
+            const pongWins = profileData.pong_wins || 0;
+            const pongLosses = profileData.pong_losses || 0;
+            const tttWins = profileData.ttt_wins || 0;
+            const tttLosses = profileData.ttt_losses || 0;
+
+            const totalWins = pongWins + tttWins;
+            const totalLosses = pongLosses + tttLosses;
+            const totalGames = totalWins + totalLosses;
+            const pongGames = pongWins + pongLosses;
+
+            const winRate = totalGames > 0 ? Math.round((totalWins / totalGames) * 100) : 0;
+            const pongWinRate = pongGames > 0 ? Math.round((pongWins / pongGames) * 100) : 0;
+
+            const realStats = {
+                totalGames,
+                totalWins,
+                totalLosses,
+                winRate,
+                pongGames,
+                pongWins,
+                pongLosses,
+                pongWinRate
             };
-            
-            setStats(mockStats);
+
+            setStats(realStats);
         } catch (err) {
+            console.error('Error fetching stats:', err);
             setError('Failed to load statistics');
         } finally {
             setLoading(false);
@@ -67,7 +103,7 @@ const ProfilePage = () => {
                 {/* Electric Grid */}
                 <div className="absolute inset-0 opacity-10">
                     {Array.from({ length: 8 }).map((_, i) => (
-                        <div 
+                        <div
                             key={i}
                             className="absolute border border-electric-green animate-pulse"
                             style={{
@@ -80,10 +116,10 @@ const ProfilePage = () => {
                         />
                     ))}
                 </div>
-                
+
                 {/* Floating Stats Particles */}
                 {Array.from({ length: 12 }).map((_, i) => (
-                    <div 
+                    <div
                         key={i}
                         className="absolute w-1 h-1 bg-electric-green rounded-full opacity-40 animate-pulse"
                         style={{
@@ -93,7 +129,7 @@ const ProfilePage = () => {
                         }}
                     />
                 ))}
-                
+
                 {/* Corner Accents */}
                 <div className="absolute top-8 left-8 w-20 h-20 border-l-2 border-t-2 border-electric-green opacity-30" />
                 <div className="absolute bottom-8 right-8 w-20 h-20 border-r-2 border-b-2 border-electric-green opacity-30" />
@@ -116,10 +152,10 @@ const ProfilePage = () => {
                 <main className="flex-1 px-6">
                     <div className="max-w-7xl mx-auto">
                         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                            
+
                             {/* User Info & Achievements */}
                             <div className="lg:col-span-1 space-y-6">
-                                
+
                                 {/* User Card */}
                                 <div className="profile-card group hover:border-electric-green transition-all duration-300">
                                     <h3 className="text-xl font-bold mb-6 text-center">User Information</h3>
@@ -153,11 +189,11 @@ const ProfilePage = () => {
                                     <h3 className="text-xl font-bold mb-6 text-center">Achievements</h3>
                                     <div className="space-y-3">
                                         {achievements.map((achievement, index) => (
-                                            <div 
+                                            <div
                                                 key={index}
                                                 className={`p-4 rounded-lg border transition-all duration-300 ${
-                                                    achievement.unlocked 
-                                                        ? 'border-electric-green bg-electric-green bg-opacity-10 hover:bg-opacity-20' 
+                                                    achievement.unlocked
+                                                        ? 'border-electric-green bg-electric-green bg-opacity-10 hover:bg-opacity-20'
                                                         : 'border-gray-600 bg-gray-600 bg-opacity-10'
                                                 }`}
                                             >
@@ -182,7 +218,7 @@ const ProfilePage = () => {
                             <div className="lg:col-span-2">
                                 <div className="profile-card">
                                     <h3 className="text-xl font-bold mb-6 text-center">Game Statistics</h3>
-                                    
+
                                     {loading ? (
                                         <div className="text-center py-20">
                                             <div className="w-12 h-12 border-4 border-electric-green border-t-transparent animate-spin mx-auto mb-4 rounded-full"></div>
@@ -202,7 +238,7 @@ const ProfilePage = () => {
                                     ) : (
                                         <>
                                             {/* Key Stats Row */}
-                                            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+                                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
                                                 <div className="text-center p-6 bg-white bg-opacity-5 rounded-lg hover:bg-opacity-10 transition-all duration-300">
                                                     <div className="text-3xl font-bold text-electric-green mb-2">{stats.totalGames}</div>
                                                     <div className="text-sm text-gray-400">Total Games</div>
@@ -214,10 +250,6 @@ const ProfilePage = () => {
                                                 <div className="text-center p-6 bg-white bg-opacity-5 rounded-lg hover:bg-opacity-10 transition-all duration-300">
                                                     <div className="text-3xl font-bold text-electric-green mb-2">{stats.winRate}%</div>
                                                     <div className="text-sm text-gray-400">Win Rate</div>
-                                                </div>
-                                                <div className="text-center p-6 bg-white bg-opacity-5 rounded-lg hover:bg-opacity-10 transition-all duration-300">
-                                                    <div className="text-3xl font-bold text-electric-green mb-2">#{Math.floor(Math.random() * 50) + 1}</div>
-                                                    <div className="text-sm text-gray-400">Rank</div>
                                                 </div>
                                             </div>
 
@@ -240,7 +272,7 @@ const ProfilePage = () => {
                                                             <span className="font-bold text-red-400">{stats.totalLosses}</span>
                                                         </div>
                                                         <div className="w-full bg-gray-600 bg-opacity-30 rounded-full h-2 mt-4">
-                                                            <div 
+                                                            <div
                                                                 className="bg-electric-green h-2 rounded-full transition-all duration-1000 glow-effect"
                                                                 style={{ width: `${stats.winRate}%` }}
                                                             ></div>
@@ -265,7 +297,7 @@ const ProfilePage = () => {
                                                             <span className="font-bold text-red-400">{stats.pongLosses}</span>
                                                         </div>
                                                         <div className="w-full bg-gray-600 bg-opacity-30 rounded-full h-2 mt-4">
-                                                            <div 
+                                                            <div
                                                                 className="bg-electric-green h-2 rounded-full transition-all duration-1000 glow-effect"
                                                                 style={{ width: `${stats.pongWinRate}%` }}
                                                             ></div>

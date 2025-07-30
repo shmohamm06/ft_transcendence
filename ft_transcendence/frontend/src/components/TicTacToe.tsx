@@ -49,7 +49,7 @@ const TicTacToe: React.FC = () => {
 
     const minimax = (board: Player[], depth: number, isMaximizing: boolean): number => {
         const winner = checkWinner(board);
-        
+
         if (winner === 'O') return 10 - depth;
         if (winner === 'X') return depth - 10;
         if (getAvailableMoves(board).length === 0) return 0;
@@ -76,10 +76,37 @@ const TicTacToe: React.FC = () => {
     };
 
     const getBestMove = (board: Player[]): number => {
+        const availableMoves = getAvailableMoves(board);
+
+        // 40% шанс сделать случайный ход (ошибку)
+        if (Math.random() < 0.4) {
+            const randomIndex = Math.floor(Math.random() * availableMoves.length);
+            return availableMoves[randomIndex];
+        }
+
+        // 30% шанс сделать "плохой" ход (не самый оптимальный)
+        if (Math.random() < 0.3) {
+            // Найдем все ходы и выберем не лучший
+            let moves = [];
+            for (let move of availableMoves) {
+                board[move] = 'O';
+                let score = minimax(board, 0, false);
+                board[move] = null;
+                moves.push({ move, score });
+            }
+
+            // Сортируем по убыванию и берем случайный из худших ходов
+            moves.sort((a, b) => a.score - b.score);
+            const worseMovesCount = Math.ceil(moves.length / 2);
+            const randomWorseMove = Math.floor(Math.random() * worseMovesCount);
+            return moves[randomWorseMove].move;
+        }
+
+        // Оставшиеся 30% - играем оптимально
         let bestScore = -Infinity;
         let bestMove = -1;
 
-        for (let move of getAvailableMoves(board)) {
+        for (let move of availableMoves) {
             board[move] = 'O';
             let score = minimax(board, 0, false);
             board[move] = null;
@@ -132,7 +159,7 @@ const TicTacToe: React.FC = () => {
                     makeMove(bestMove);
                 }
                 setIsThinking(false);
-            }, 800); // AI thinking delay
+            }, 500); // AI thinking delay (reduced since AI sometimes makes quick decisions)
 
             return () => clearTimeout(timer);
         }
@@ -176,7 +203,7 @@ const TicTacToe: React.FC = () => {
                 <h2 className="text-2xl font-bold mb-4 text-electric-green">
                     {getStatusMessage()}
                 </h2>
-                
+
                 {/* Scores */}
                 <div className="grid grid-cols-3 gap-4 mb-6 max-w-md mx-auto">
                     <div className="bg-white bg-opacity-5 rounded-lg p-4 border border-white border-opacity-10">
@@ -207,8 +234,8 @@ const TicTacToe: React.FC = () => {
                             disabled={gameState.gameOver || cell !== null || gameState.currentPlayer === 'O'}
                             className={`
                                 w-20 h-20 rounded-lg border-2 text-3xl font-bold transition-all duration-300
-                                ${cell === null 
-                                    ? 'border-electric-green border-opacity-30 hover:border-opacity-60 hover:bg-electric-green hover:bg-opacity-10 text-white' 
+                                ${cell === null
+                                    ? 'border-electric-green border-opacity-30 hover:border-opacity-60 hover:bg-electric-green hover:bg-opacity-10 text-white'
                                     : 'border-electric-green border-opacity-60'
                                 }
                                 ${cell === 'X' ? 'text-blue-400' : cell === 'O' ? 'text-red-400' : 'text-white'}
@@ -244,8 +271,8 @@ const TicTacToe: React.FC = () => {
                 <div className="text-sm text-gray-300 space-y-1">
                     <p>• You are X, AI is O</p>
                     <p>• Get 3 in a row to win</p>
-                    <p>• AI uses perfect strategy</p>
-                    <p>• Try to force a draw!</p>
+                    <p>• AI sometimes makes mistakes</p>
+                    <p>• You can actually win now! 🎯</p>
                 </div>
             </div>
         </div>

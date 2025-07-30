@@ -10,18 +10,25 @@ export async function registerUser(input: RegisterUserInput) {
         const stmt = db.prepare('INSERT INTO users (username, email, password) VALUES (?, ?, ?)');
         stmt.run(username, email, hashedPassword, function (this: any, err: any) {
             if (err) return reject(err);
-            db.get('SELECT id, username, email FROM users WHERE id = ?', this.lastID, (err: any, row: any) => {
-                if (err) return reject(err);
-                resolve(row);
-                const userId = row.id;
-                db.run(
-                    'INSERT INTO user_stats (user_id) VALUES (?)',
-                    [userId],
-                    (err: any) => {
-                        if (err) console.error("Failed to insert user_stats:", err);
+            const userId = this.lastID;
+
+            // First create user_stats record
+            db.run(
+                'INSERT INTO user_stats (user_id) VALUES (?)',
+                [userId],
+                (statsErr: any) => {
+                    if (statsErr) {
+                        console.error("Failed to insert user_stats:", statsErr);
+                        return reject(statsErr);
                     }
-                );
-            });
+
+                    // Then return user data
+                    db.get('SELECT id, username, email FROM users WHERE id = ?', userId, (err: any, row: any) => {
+                        if (err) return reject(err);
+                        resolve(row);
+                    });
+                }
+            );
         });
         stmt.finalize();
     });
