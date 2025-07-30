@@ -10,21 +10,111 @@
 GameGateway initialized
 Game service WebSocket server starting on port 8080 with path /ws/game
 Game service is running on port 8080
-Error: listen EADDRINUSE: address already in use :::8080
-    at Server.setupListenHandle [as _listen2] (node:net:1908:16)
-    at listenInCluster (node:net:1965:12)
-    at Server.listen (node:net:2067:7)
-    at new WebSocketServer (/home/shmohamm06/trans/ft_transcendence/backend/game-service/node_modules/ws/lib/websocket-server.js:102:20)
-    at Object.<anonymous> (/home/shmohamm06/trans/ft_transcendence/backend/game-service/src/app.ts:6:13)
-    at Module._compile (node:internal/modules/cjs/loader:1529:14)
-    at Module.m._compile (/home/shmohamm06/trans/ft_transcendence/backend/game-service/node_modules/ts-node/src/index.ts:1618:23)
-    at Module._extensions..js (node:internal/modules/cjs/loader:1613:10)
-    at Object.require.extensions.<computed> [as .ts] (/home/shmohamm06/trans/ft_transcendence/backend/game-service/node_modules/ts-node/src/index.ts:1621:12)
-    at Module.load (node:internal/modules/cjs/loader:1275:32) {
-  code: 'EADDRINUSE',
-  errno: -98,
-  syscall: 'listen',
-  address: '::',
-  port: 8080
+New WebSocket connection received
+Request URL: /ws/game?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoidHpoYWt5cG8iLCJlbWFpbCI6InR6aGFreXBvQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzLzU3YWI5NTRmYzE0YjkzNmExMmYzMjdkMjUyYTQ1YTU2L21lZGl1bV90emhha3lwby5qcGciLCJpbnRyYV9pZCI6MTMzNDQzLCJpbnRyYV9sb2dpbiI6InR6aGFreXBvIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzUzOTAxNTk1fQ.0zpsI_UB6p-4K6y14p84TTdVgJXNSH04zGc7Kws667c
+Request headers: {
+  host: 'localhost:8080',
+  connection: 'Upgrade',
+  pragma: 'no-cache',
+  'cache-control': 'no-cache',
+  'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36',
+  upgrade: 'websocket',
+  origin: 'http://localhost:3000',
+  'sec-websocket-version': '13',
+  'accept-encoding': 'gzip, deflate, br, zstd',
+  'accept-language': 'en,ru-RU;q=0.9,ru;q=0.8,en-US;q=0.7',
+  cookie: 'csrftoken=y5uEpcwZCBx6i5UZo9xLvCHsaYi5RYWe',
+  'sec-websocket-key': 'fuER5ec3d9LH0td08OcSaQ==',
+  'sec-websocket-extensions': 'permessage-deflate; client_max_window_bits'
 }
-[31m[nodemon] app crashed - waiting for file changes before starting...[39m
+Client /ws/game?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoidHpoYWt5cG8iLCJlbWFpbCI6InR6aGFreXBvQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzLzU3YWI5NTRmYzE0YjkzNmExMmYzMjdkMjUyYTQ1YTU2L21lZGl1bV90emhha3lwby5qcGciLCJpbnRyYV9pZCI6MTMzNDQzLCJpbnRyYV9sb2dpbiI6InR6aGFreXBvIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzUzOTAxNTk1fQ.0zpsI_UB6p-4K6y14p84TTdVgJXNSH04zGc7Kws667c connected to game service
+Game mode: ai
+Attempting to load user settings with token: eyJhbGciOiJIUzI1NiIs...
+Client /ws/game?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoidHpoYWt5cG8iLCJlbWFpbCI6InR6aGFreXBvQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzLzU3YWI5NTRmYzE0YjkzNmExMmYzMjdkMjUyYTQ1YTU2L21lZGl1bV90emhha3lwby5qcGciLCJpbnRyYV9pZCI6MTMzNDQzLCJpbnRyYV9sb2dpbiI6InR6aGFreXBvIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzUzOTAxNTk1fQ.0zpsI_UB6p-4K6y14p84TTdVgJXNSH04zGc7Kws667c disconnected from game service
+New WebSocket connection received
+Request URL: /ws/game?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoidHpoYWt5cG8iLCJlbWFpbCI6InR6aGFreXBvQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzLzU3YWI5NTRmYzE0YjkzNmExMmYzMjdkMjUyYTQ1YTU2L21lZGl1bV90emhha3lwby5qcGciLCJpbnRyYV9pZCI6MTMzNDQzLCJpbnRyYV9sb2dpbiI6InR6aGFreXBvIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzUzOTAxNTk1fQ.0zpsI_UB6p-4K6y14p84TTdVgJXNSH04zGc7Kws667c
+Request headers: {
+  host: 'localhost:8080',
+  connection: 'Upgrade',
+  pragma: 'no-cache',
+  'cache-control': 'no-cache',
+  'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36',
+  upgrade: 'websocket',
+  origin: 'http://localhost:3000',
+  'sec-websocket-version': '13',
+  'accept-encoding': 'gzip, deflate, br, zstd',
+  'accept-language': 'en,ru-RU;q=0.9,ru;q=0.8,en-US;q=0.7',
+  cookie: 'csrftoken=y5uEpcwZCBx6i5UZo9xLvCHsaYi5RYWe',
+  'sec-websocket-key': 'GBJRfQYz1K7wl3tmFRRu2Q==',
+  'sec-websocket-extensions': 'permessage-deflate; client_max_window_bits'
+}
+Client /ws/game?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoidHpoYWt5cG8iLCJlbWFpbCI6InR6aGFreXBvQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzLzU3YWI5NTRmYzE0YjkzNmExMmYzMjdkMjUyYTQ1YTU2L21lZGl1bV90emhha3lwby5qcGciLCJpbnRyYV9pZCI6MTMzNDQzLCJpbnRyYV9sb2dpbiI6InR6aGFreXBvIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzUzOTAxNTk1fQ.0zpsI_UB6p-4K6y14p84TTdVgJXNSH04zGc7Kws667c connected to game service
+Game mode: ai
+Attempting to load user settings with token: eyJhbGciOiJIUzI1NiIs...
+Loaded user settings: {}
+Loaded user settings: {}
+Global ball speed multiplier set to: 0.8333333333333334
+Global ball speed multiplier set to: 0.8333333333333334
+Game in countdown, ball speed will be applied when game starts: 6
+Ball speed set to 5 (multiplier: 0.8333333333333334)
+Updated ball speed to: 5 (multiplier: 0.8333333333333334) for all active games
+Global paddle speed multiplier set to: 0.75
+Global paddle speed multiplier set to: 0.75
+Paddle speed set to 6 (multiplier: 0.75)
+Updated paddle speed to: 6 (multiplier: 0.75) for all active games
+Ball speed changed from 6 to 5, updating velocity...
+Game in countdown, ball speed will be applied when game starts: 5
+Client /ws/game?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoidHpoYWt5cG8iLCJlbWFpbCI6InR6aGFreXBvQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzLzU3YWI5NTRmYzE0YjkzNmExMmYzMjdkMjUyYTQ1YTU2L21lZGl1bV90emhha3lwby5qcGciLCJpbnRyYV9pZCI6MTMzNDQzLCJpbnRyYV9sb2dpbiI6InR6aGFreXBvIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzUzOTAxNTk1fQ.0zpsI_UB6p-4K6y14p84TTdVgJXNSH04zGc7Kws667c disconnected from game service
+New WebSocket connection received
+Request URL: /ws/game?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoidHpoYWt5cG8iLCJlbWFpbCI6InR6aGFreXBvQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzLzU3YWI5NTRmYzE0YjkzNmExMmYzMjdkMjUyYTQ1YTU2L21lZGl1bV90emhha3lwby5qcGciLCJpbnRyYV9pZCI6MTMzNDQzLCJpbnRyYV9sb2dpbiI6InR6aGFreXBvIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzUzOTAxNTk1fQ.0zpsI_UB6p-4K6y14p84TTdVgJXNSH04zGc7Kws667c
+Request headers: {
+  host: 'localhost:8080',
+  connection: 'Upgrade',
+  pragma: 'no-cache',
+  'cache-control': 'no-cache',
+  'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36',
+  upgrade: 'websocket',
+  origin: 'http://localhost:3000',
+  'sec-websocket-version': '13',
+  'accept-encoding': 'gzip, deflate, br, zstd',
+  'accept-language': 'en,ru-RU;q=0.9,ru;q=0.8,en-US;q=0.7',
+  cookie: 'csrftoken=y5uEpcwZCBx6i5UZo9xLvCHsaYi5RYWe',
+  'sec-websocket-key': '2C1W2FuzJHQJOaBjIU47Jw==',
+  'sec-websocket-extensions': 'permessage-deflate; client_max_window_bits'
+}
+Client /ws/game?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoidHpoYWt5cG8iLCJlbWFpbCI6InR6aGFreXBvQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzLzU3YWI5NTRmYzE0YjkzNmExMmYzMjdkMjUyYTQ1YTU2L21lZGl1bV90emhha3lwby5qcGciLCJpbnRyYV9pZCI6MTMzNDQzLCJpbnRyYV9sb2dpbiI6InR6aGFreXBvIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzUzOTAxNTk1fQ.0zpsI_UB6p-4K6y14p84TTdVgJXNSH04zGc7Kws667c connected to game service
+Game mode: ai
+Attempting to load user settings with token: eyJhbGciOiJIUzI1NiIs...
+Loaded user settings: {}
+Client /ws/game?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoidHpoYWt5cG8iLCJlbWFpbCI6InR6aGFreXBvQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzLzU3YWI5NTRmYzE0YjkzNmExMmYzMjdkMjUyYTQ1YTU2L21lZGl1bV90emhha3lwby5qcGciLCJpbnRyYV9pZCI6MTMzNDQzLCJpbnRyYV9sb2dpbiI6InR6aGFreXBvIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzUzOTAxNTk1fQ.0zpsI_UB6p-4K6y14p84TTdVgJXNSH04zGc7Kws667c disconnected from game service
+New WebSocket connection received
+Request URL: /ws/game?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoidHpoYWt5cG8iLCJlbWFpbCI6InR6aGFreXBvQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzLzU3YWI5NTRmYzE0YjkzNmExMmYzMjdkMjUyYTQ1YTU2L21lZGl1bV90emhha3lwby5qcGciLCJpbnRyYV9pZCI6MTMzNDQzLCJpbnRyYV9sb2dpbiI6InR6aGFreXBvIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzUzOTAxNTk1fQ.0zpsI_UB6p-4K6y14p84TTdVgJXNSH04zGc7Kws667c
+Request headers: {
+  host: 'localhost:8080',
+  connection: 'Upgrade',
+  pragma: 'no-cache',
+  'cache-control': 'no-cache',
+  'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36',
+  upgrade: 'websocket',
+  origin: 'http://localhost:3000',
+  'sec-websocket-version': '13',
+  'accept-encoding': 'gzip, deflate, br, zstd',
+  'accept-language': 'en,ru-RU;q=0.9,ru;q=0.8,en-US;q=0.7',
+  cookie: 'csrftoken=y5uEpcwZCBx6i5UZo9xLvCHsaYi5RYWe',
+  'sec-websocket-key': 'Ar+3Y53XYfk+4G/4IJlCsQ==',
+  'sec-websocket-extensions': 'permessage-deflate; client_max_window_bits'
+}
+Client /ws/game?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoidHpoYWt5cG8iLCJlbWFpbCI6InR6aGFreXBvQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzLzU3YWI5NTRmYzE0YjkzNmExMmYzMjdkMjUyYTQ1YTU2L21lZGl1bV90emhha3lwby5qcGciLCJpbnRyYV9pZCI6MTMzNDQzLCJpbnRyYV9sb2dpbiI6InR6aGFreXBvIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzUzOTAxNTk1fQ.0zpsI_UB6p-4K6y14p84TTdVgJXNSH04zGc7Kws667c connected to game service
+Game mode: ai
+Attempting to load user settings with token: eyJhbGciOiJIUzI1NiIs...
+Loaded user settings: {}
+Global ball speed multiplier set to: 0.8333333333333334
+Global ball speed multiplier set to: 0.8333333333333334
+Game in countdown, ball speed will be applied when game starts: 5
+Ball speed set to 5 (multiplier: 0.8333333333333334)
+Updated ball speed to: 5 (multiplier: 0.8333333333333334) for all active games
+Global paddle speed multiplier set to: 0.75
+Global paddle speed multiplier set to: 0.75
+Paddle speed set to 6 (multiplier: 0.75)
+Updated paddle speed to: 6 (multiplier: 0.75) for all active games
+Client /ws/game?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoidHpoYWt5cG8iLCJlbWFpbCI6InR6aGFreXBvQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzLzU3YWI5NTRmYzE0YjkzNmExMmYzMjdkMjUyYTQ1YTU2L21lZGl1bV90emhha3lwby5qcGciLCJpbnRyYV9pZCI6MTMzNDQzLCJpbnRyYV9sb2dpbiI6InR6aGFreXBvIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzUzOTAxNTk1fQ.0zpsI_UB6p-4K6y14p84TTdVgJXNSH04zGc7Kws667c disconnected from game service
