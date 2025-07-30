@@ -15,6 +15,7 @@ interface AuthContextType {
     user: User | null;
     token: string | null;
     login: (token: string, user: User) => void;
+    register: (username: string, email: string, password: string) => Promise<void>;
     logout: () => void;
     isAuthenticated: boolean;
     isLoading: boolean;
@@ -112,6 +113,52 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         console.log('AuthContext: Login completed, user authenticated:', !!newToken && !!newUser);
     };
 
+    const register = async (username: string, email: string, password: string): Promise<void> => {
+        try {
+            console.log('AuthContext: Register called with:', { username, email });
+
+            // Call register API
+            const registerResponse = await axios.post('/api/users/register', {
+                username,
+                email,
+                password
+            });
+
+            console.log('AuthContext: Register successful:', registerResponse.data);
+
+            // After successful registration, log the user in
+            const loginResponse = await axios.post('/api/users/login', {
+                email,
+                password
+            });
+
+            console.log('AuthContext: Auto-login after register successful:', loginResponse.data);
+
+            const { accessToken } = loginResponse.data;
+
+            // Decode JWT to get user info
+            const payload = JSON.parse(atob(accessToken.split('.')[1]));
+            const user: User = {
+                id: payload.id,
+                username: payload.username,
+                email: payload.email,
+                avatar: payload.avatar,
+                auth_provider: payload.auth_provider
+            };
+
+            // Use existing login function to set token and user
+            login(accessToken, user);
+
+        } catch (error: any) {
+            console.error('AuthContext: Registration error:', error);
+            if (error.response?.data?.message) {
+                throw new Error(error.response.data.message);
+            } else {
+                throw new Error('Registration failed');
+            }
+        }
+    };
+
     const logout = () => {
         console.log('AuthContext: Logout called');
         console.trace('AuthContext: Logout call stack');
@@ -126,7 +173,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const isAuthenticated = !!token && !!user;
 
     return (
-        <AuthContext.Provider value={{ user, token, login, logout, isAuthenticated, isLoading }}>
+        <AuthContext.Provider value={{ user, token, login, register, logout, isAuthenticated, isLoading }}>
             {children}
         </AuthContext.Provider>
     );

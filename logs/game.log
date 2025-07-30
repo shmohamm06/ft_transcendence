@@ -1,0 +1,753 @@
+
+> game-service@1.0.0 dev
+> nodemon src/app.ts
+
+[33m[nodemon] 3.1.10[39m
+[33m[nodemon] to restart at any time, enter `rs`[39m
+[33m[nodemon] watching path(s): *.*[39m
+[33m[nodemon] watching extensions: ts,json[39m
+[32m[nodemon] starting `ts-node src/app.ts`[39m
+GameGateway initialized
+Game service WebSocket server starting on port 8080 with path /ws/game
+Game service is running on port 8080
+New WebSocket connection received
+Request URL: /ws/game?token=a%40a.a
+Request headers: {
+  host: 'localhost:8080',
+  connection: 'Upgrade',
+  pragma: 'no-cache',
+  'cache-control': 'no-cache',
+  'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36',
+  upgrade: 'websocket',
+  origin: 'http://localhost:3000',
+  'sec-websocket-version': '13',
+  'accept-encoding': 'gzip, deflate, br, zstd',
+  'accept-language': 'en,ru-RU;q=0.9,ru;q=0.8,en-US;q=0.7',
+  cookie: 'csrftoken=y5uEpcwZCBx6i5UZo9xLvCHsaYi5RYWe',
+  'sec-websocket-key': '5bQ0o9rEJTy/SeyAewYkwg==',
+  'sec-websocket-extensions': 'permessage-deflate; client_max_window_bits'
+}
+Client /ws/game?token=a%40a.a connected to game service
+Game mode: ai
+Attempting to load user settings with token: a@a.a...
+New WebSocket connection received
+Request URL: /ws/game?token=a%40a.a
+Request headers: {
+  host: 'localhost:8080',
+  connection: 'Upgrade',
+  pragma: 'no-cache',
+  'cache-control': 'no-cache',
+  'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36',
+  upgrade: 'websocket',
+  origin: 'http://localhost:3000',
+  'sec-websocket-version': '13',
+  'accept-encoding': 'gzip, deflate, br, zstd',
+  'accept-language': 'en,ru-RU;q=0.9,ru;q=0.8,en-US;q=0.7',
+  cookie: 'csrftoken=y5uEpcwZCBx6i5UZo9xLvCHsaYi5RYWe',
+  'sec-websocket-key': '8EEndKUpN6TidMuI0RKHWQ==',
+  'sec-websocket-extensions': 'permessage-deflate; client_max_window_bits'
+}
+Client /ws/game?token=a%40a.a connected to game service
+Game mode: ai
+Attempting to load user settings with token: a@a.a...
+Client /ws/game?token=a%40a.a disconnected from game service
+Failed to load user settings: Error: Auth service responded with 401
+    at GameGateway.loadUserSettings (/Users/mac/Desktop/main2/ft_transcendence/backend/game-service/src/modules/game/game.gateway.ts:125:23)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+Could not load user settings: Auth service responded with 401
+Failed to load user settings: Error: Auth service responded with 401
+    at GameGateway.loadUserSettings (/Users/mac/Desktop/main2/ft_transcendence/backend/game-service/src/modules/game/game.gateway.ts:125:23)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+Could not load user settings: Auth service responded with 401
+Client /ws/game?token=a%40a.a not found
+Client /ws/game?token=a%40a.a disconnected from game service
+Ball velocity updated: x=5.37, y=2.68, speed=6
+New WebSocket connection received
+Request URL: /ws/game?token=a%40a.a
+Request headers: {
+  host: 'localhost:8080',
+  connection: 'Upgrade',
+  pragma: 'no-cache',
+  'cache-control': 'no-cache',
+  'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36',
+  upgrade: 'websocket',
+  origin: 'http://localhost:3000',
+  'sec-websocket-version': '13',
+  'accept-encoding': 'gzip, deflate, br, zstd',
+  'accept-language': 'en,ru-RU;q=0.9,ru;q=0.8,en-US;q=0.7',
+  cookie: 'csrftoken=y5uEpcwZCBx6i5UZo9xLvCHsaYi5RYWe',
+  'sec-websocket-key': 'nIlhps7SEIi6Z4Ar8Rm94w==',
+  'sec-websocket-extensions': 'permessage-deflate; client_max_window_bits'
+}
+Client /ws/game?token=a%40a.a connected to game service
+Game mode: ai
+Attempting to load user settings with token: a@a.a...
+Client /ws/game?token=a%40a.a disconnected from game service
+Failed to load user settings: Error: Auth service responded with 401
+    at GameGateway.loadUserSettings (/Users/mac/Desktop/main2/ft_transcendence/backend/game-service/src/modules/game/game.gateway.ts:125:23)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+Could not load user settings: Auth service responded with 401
+New WebSocket connection received
+Request URL: /ws/game?token=a%40a.a
+Request headers: {
+  host: 'localhost:8080',
+  connection: 'Upgrade',
+  pragma: 'no-cache',
+  'cache-control': 'no-cache',
+  'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36',
+  upgrade: 'websocket',
+  origin: 'http://localhost:3000',
+  'sec-websocket-version': '13',
+  'accept-encoding': 'gzip, deflate, br, zstd',
+  'accept-language': 'en,ru-RU;q=0.9,ru;q=0.8,en-US;q=0.7',
+  cookie: 'csrftoken=y5uEpcwZCBx6i5UZo9xLvCHsaYi5RYWe',
+  'sec-websocket-key': '2gD2v6DEonsRcC9PlFVe3A==',
+  'sec-websocket-extensions': 'permessage-deflate; client_max_window_bits'
+}
+Client /ws/game?token=a%40a.a connected to game service
+Game mode: ai
+Attempting to load user settings with token: a@a.a...
+Failed to load user settings: Error: Auth service responded with 401
+    at GameGateway.loadUserSettings (/Users/mac/Desktop/main2/ft_transcendence/backend/game-service/src/modules/game/game.gateway.ts:125:23)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+Could not load user settings: Auth service responded with 401
+Global ball speed multiplier set to: 0.8333333333333334
+Global ball speed multiplier set to: 0.8333333333333334
+Game in countdown, ball speed will be applied when game starts: 6
+Ball speed set to 5 (multiplier: 0.8333333333333334)
+Updated ball speed to: 5 (multiplier: 0.8333333333333334) for all active games
+Global paddle speed multiplier set to: 0.75
+Global paddle speed multiplier set to: 0.75
+Paddle speed set to 6 (multiplier: 0.75)
+Updated paddle speed to: 6 (multiplier: 0.75) for all active games
+Ball speed changed from 6 to 5, updating velocity...
+Ball velocity updated: x=-4.91, y=-0.94, speed=5
+Ball speed changed from 6 to 5, updating velocity...
+Game in countdown, ball speed will be applied when game starts: 5
+Ball velocity updated: x=4.47, y=2.24, speed=5
+Client /ws/game?token=a%40a.a disconnected from game service
+New WebSocket connection received
+Request URL: /ws/game?token=a%40a.a
+Request headers: {
+  host: 'localhost:8080',
+  connection: 'Upgrade',
+  pragma: 'no-cache',
+  'cache-control': 'no-cache',
+  'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36',
+  upgrade: 'websocket',
+  origin: 'http://localhost:3000',
+  'sec-websocket-version': '13',
+  'accept-encoding': 'gzip, deflate, br, zstd',
+  'accept-language': 'en,ru-RU;q=0.9,ru;q=0.8,en-US;q=0.7',
+  cookie: 'csrftoken=y5uEpcwZCBx6i5UZo9xLvCHsaYi5RYWe',
+  'sec-websocket-key': 'gda4zV3WaQTnGYaHmO3TAg==',
+  'sec-websocket-extensions': 'permessage-deflate; client_max_window_bits'
+}
+Client /ws/game?token=a%40a.a connected to game service
+Game mode: ai
+Attempting to load user settings with token: a@a.a...
+Failed to load user settings: Error: Auth service responded with 401
+    at GameGateway.loadUserSettings (/Users/mac/Desktop/main2/ft_transcendence/backend/game-service/src/modules/game/game.gateway.ts:125:23)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+Could not load user settings: Auth service responded with 401
+Global ball speed multiplier set to: 0.8333333333333334
+Global ball speed multiplier set to: 0.8333333333333334
+Game in countdown, ball speed will be applied when game starts: 5
+Ball speed set to 5 (multiplier: 0.8333333333333334)
+Updated ball speed to: 5 (multiplier: 0.8333333333333334) for all active games
+Global paddle speed multiplier set to: 0.75
+Global paddle speed multiplier set to: 0.75
+Paddle speed set to 6 (multiplier: 0.75)
+Updated paddle speed to: 6 (multiplier: 0.75) for all active games
+Ball velocity updated: x=5.00, y=-0.04, speed=5
+Ball velocity updated: x=4.47, y=2.24, speed=5
+Client /ws/game?token=a%40a.a disconnected from game service
+New WebSocket connection received
+Request URL: /ws/game?token=a%40a.a&mode=pvp
+Request headers: {
+  host: 'localhost:8080',
+  connection: 'Upgrade',
+  pragma: 'no-cache',
+  'cache-control': 'no-cache',
+  'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36',
+  upgrade: 'websocket',
+  origin: 'http://localhost:3000',
+  'sec-websocket-version': '13',
+  'accept-encoding': 'gzip, deflate, br, zstd',
+  'accept-language': 'en,ru-RU;q=0.9,ru;q=0.8,en-US;q=0.7',
+  cookie: 'csrftoken=y5uEpcwZCBx6i5UZo9xLvCHsaYi5RYWe',
+  'sec-websocket-key': 'gpD0sd1MCvbpJxTE/QlzXw==',
+  'sec-websocket-extensions': 'permessage-deflate; client_max_window_bits'
+}
+Client /ws/game?token=a%40a.a&mode=pvp connected to game service
+Game mode: pvp
+Attempting to load user settings with token: a@a.a...
+Failed to load user settings: Error: Auth service responded with 401
+    at GameGateway.loadUserSettings (/Users/mac/Desktop/main2/ft_transcendence/backend/game-service/src/modules/game/game.gateway.ts:125:23)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+Could not load user settings: Auth service responded with 401
+Global ball speed multiplier set to: 0.8333333333333334
+Global ball speed multiplier set to: 0.8333333333333334
+Game in countdown, ball speed will be applied when game starts: 5
+Ball speed set to 5 (multiplier: 0.8333333333333334)
+Updated ball speed to: 5 (multiplier: 0.8333333333333334) for all active games
+Global paddle speed multiplier set to: 0.75
+Global paddle speed multiplier set to: 0.75
+Paddle speed set to 6 (multiplier: 0.75)
+Updated paddle speed to: 6 (multiplier: 0.75) for all active games
+Ball velocity updated: x=4.47, y=2.24, speed=5
+Client /ws/game?token=a%40a.a&mode=pvp disconnected from game service
+Ball velocity updated: x=4.96, y=-0.63, speed=5
+New WebSocket connection received
+Request URL: /ws/game?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsInVzZXJuYW1lIjoiYWFhIiwiZW1haWwiOiJhYWFAYS5hIiwiYXZhdGFyIjpudWxsLCJpbnRyYV9pZCI6bnVsbCwiaW50cmFfbG9naW4iOm51bGwsImF1dGhfcHJvdmlkZXIiOiJsb2NhbCIsImNyZWF0ZWRfYXQiOiIyMDI1LTA3LTMwIDE4OjUxOjQxIiwiaWF0IjoxNzUzOTAxNTAxfQ.N-2kt6SxsbQY1XZdOEtakJmHCYnwr3aqYSSD3uozAbM
+Request headers: {
+  host: 'localhost:8080',
+  connection: 'Upgrade',
+  pragma: 'no-cache',
+  'cache-control': 'no-cache',
+  'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36',
+  upgrade: 'websocket',
+  origin: 'http://localhost:3000',
+  'sec-websocket-version': '13',
+  'accept-encoding': 'gzip, deflate, br, zstd',
+  'accept-language': 'en,ru-RU;q=0.9,ru;q=0.8,en-US;q=0.7',
+  cookie: 'csrftoken=y5uEpcwZCBx6i5UZo9xLvCHsaYi5RYWe',
+  'sec-websocket-key': 'EBvM0AennlqySEYnOc1+SA==',
+  'sec-websocket-extensions': 'permessage-deflate; client_max_window_bits'
+}
+Client /ws/game?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsInVzZXJuYW1lIjoiYWFhIiwiZW1haWwiOiJhYWFAYS5hIiwiYXZhdGFyIjpudWxsLCJpbnRyYV9pZCI6bnVsbCwiaW50cmFfbG9naW4iOm51bGwsImF1dGhfcHJvdmlkZXIiOiJsb2NhbCIsImNyZWF0ZWRfYXQiOiIyMDI1LTA3LTMwIDE4OjUxOjQxIiwiaWF0IjoxNzUzOTAxNTAxfQ.N-2kt6SxsbQY1XZdOEtakJmHCYnwr3aqYSSD3uozAbM connected to game service
+Game mode: ai
+Attempting to load user settings with token: eyJhbGciOiJIUzI1NiIs...
+Client /ws/game?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsInVzZXJuYW1lIjoiYWFhIiwiZW1haWwiOiJhYWFAYS5hIiwiYXZhdGFyIjpudWxsLCJpbnRyYV9pZCI6bnVsbCwiaW50cmFfbG9naW4iOm51bGwsImF1dGhfcHJvdmlkZXIiOiJsb2NhbCIsImNyZWF0ZWRfYXQiOiIyMDI1LTA3LTMwIDE4OjUxOjQxIiwiaWF0IjoxNzUzOTAxNTAxfQ.N-2kt6SxsbQY1XZdOEtakJmHCYnwr3aqYSSD3uozAbM disconnected from game service
+Loaded user settings: {}
+New WebSocket connection received
+Request URL: /ws/game?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsInVzZXJuYW1lIjoiYWFhIiwiZW1haWwiOiJhYWFAYS5hIiwiYXZhdGFyIjpudWxsLCJpbnRyYV9pZCI6bnVsbCwiaW50cmFfbG9naW4iOm51bGwsImF1dGhfcHJvdmlkZXIiOiJsb2NhbCIsImNyZWF0ZWRfYXQiOiIyMDI1LTA3LTMwIDE4OjUxOjQxIiwiaWF0IjoxNzUzOTAxNTAxfQ.N-2kt6SxsbQY1XZdOEtakJmHCYnwr3aqYSSD3uozAbM
+Request headers: {
+  host: 'localhost:8080',
+  connection: 'Upgrade',
+  pragma: 'no-cache',
+  'cache-control': 'no-cache',
+  'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36',
+  upgrade: 'websocket',
+  origin: 'http://localhost:3000',
+  'sec-websocket-version': '13',
+  'accept-encoding': 'gzip, deflate, br, zstd',
+  'accept-language': 'en,ru-RU;q=0.9,ru;q=0.8,en-US;q=0.7',
+  cookie: 'csrftoken=y5uEpcwZCBx6i5UZo9xLvCHsaYi5RYWe',
+  'sec-websocket-key': 'iaD4umeH2tvqT0IM/oT2ig==',
+  'sec-websocket-extensions': 'permessage-deflate; client_max_window_bits'
+}
+Client /ws/game?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsInVzZXJuYW1lIjoiYWFhIiwiZW1haWwiOiJhYWFAYS5hIiwiYXZhdGFyIjpudWxsLCJpbnRyYV9pZCI6bnVsbCwiaW50cmFfbG9naW4iOm51bGwsImF1dGhfcHJvdmlkZXIiOiJsb2NhbCIsImNyZWF0ZWRfYXQiOiIyMDI1LTA3LTMwIDE4OjUxOjQxIiwiaWF0IjoxNzUzOTAxNTAxfQ.N-2kt6SxsbQY1XZdOEtakJmHCYnwr3aqYSSD3uozAbM connected to game service
+Game mode: ai
+Attempting to load user settings with token: eyJhbGciOiJIUzI1NiIs...
+Loaded user settings: {}
+Global ball speed multiplier set to: 0.8333333333333334
+Global ball speed multiplier set to: 0.8333333333333334
+Game in countdown, ball speed will be applied when game starts: 5
+Ball speed set to 5 (multiplier: 0.8333333333333334)
+Updated ball speed to: 5 (multiplier: 0.8333333333333334) for all active games
+Global paddle speed multiplier set to: 0.75
+Global paddle speed multiplier set to: 0.75
+Paddle speed set to 6 (multiplier: 0.75)
+Updated paddle speed to: 6 (multiplier: 0.75) for all active games
+Ball velocity updated: x=4.47, y=2.24, speed=5
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+Ball velocity updated: x=5.00, y=0.20, speed=5
+Ball velocity updated: x=4.57, y=-2.02, speed=5
+Client /ws/game?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsInVzZXJuYW1lIjoiYWFhIiwiZW1haWwiOiJhYWFAYS5hIiwiYXZhdGFyIjpudWxsLCJpbnRyYV9pZCI6bnVsbCwiaW50cmFfbG9naW4iOm51bGwsImF1dGhfcHJvdmlkZXIiOiJsb2NhbCIsImNyZWF0ZWRfYXQiOiIyMDI1LTA3LTMwIDE4OjUxOjQxIiwiaWF0IjoxNzUzOTAxNTAxfQ.N-2kt6SxsbQY1XZdOEtakJmHCYnwr3aqYSSD3uozAbM disconnected from game service
+New WebSocket connection received
+Request URL: /ws/game?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoidHpoYWt5cG8iLCJlbWFpbCI6InR6aGFreXBvQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzLzU3YWI5NTRmYzE0YjkzNmExMmYzMjdkMjUyYTQ1YTU2L21lZGl1bV90emhha3lwby5qcGciLCJpbnRyYV9pZCI6MTMzNDQzLCJpbnRyYV9sb2dpbiI6InR6aGFreXBvIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzUzOTAxNTk1fQ.0zpsI_UB6p-4K6y14p84TTdVgJXNSH04zGc7Kws667c&mode=pvp
+Request headers: {
+  host: 'localhost:8080',
+  connection: 'Upgrade',
+  pragma: 'no-cache',
+  'cache-control': 'no-cache',
+  'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36',
+  upgrade: 'websocket',
+  origin: 'http://localhost:3000',
+  'sec-websocket-version': '13',
+  'accept-encoding': 'gzip, deflate, br, zstd',
+  'accept-language': 'en,ru-RU;q=0.9,ru;q=0.8,en-US;q=0.7',
+  cookie: 'csrftoken=y5uEpcwZCBx6i5UZo9xLvCHsaYi5RYWe',
+  'sec-websocket-key': 'pFI2PisWfTvZRX7tcVqbzQ==',
+  'sec-websocket-extensions': 'permessage-deflate; client_max_window_bits'
+}
+Client /ws/game?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoidHpoYWt5cG8iLCJlbWFpbCI6InR6aGFreXBvQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzLzU3YWI5NTRmYzE0YjkzNmExMmYzMjdkMjUyYTQ1YTU2L21lZGl1bV90emhha3lwby5qcGciLCJpbnRyYV9pZCI6MTMzNDQzLCJpbnRyYV9sb2dpbiI6InR6aGFreXBvIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzUzOTAxNTk1fQ.0zpsI_UB6p-4K6y14p84TTdVgJXNSH04zGc7Kws667c&mode=pvp connected to game service
+Game mode: pvp
+Attempting to load user settings with token: eyJhbGciOiJIUzI1NiIs...
+Client /ws/game?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoidHpoYWt5cG8iLCJlbWFpbCI6InR6aGFreXBvQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzLzU3YWI5NTRmYzE0YjkzNmExMmYzMjdkMjUyYTQ1YTU2L21lZGl1bV90emhha3lwby5qcGciLCJpbnRyYV9pZCI6MTMzNDQzLCJpbnRyYV9sb2dpbiI6InR6aGFreXBvIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzUzOTAxNTk1fQ.0zpsI_UB6p-4K6y14p84TTdVgJXNSH04zGc7Kws667c&mode=pvp disconnected from game service
+Loaded user settings: {}
+New WebSocket connection received
+Request URL: /ws/game?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoidHpoYWt5cG8iLCJlbWFpbCI6InR6aGFreXBvQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzLzU3YWI5NTRmYzE0YjkzNmExMmYzMjdkMjUyYTQ1YTU2L21lZGl1bV90emhha3lwby5qcGciLCJpbnRyYV9pZCI6MTMzNDQzLCJpbnRyYV9sb2dpbiI6InR6aGFreXBvIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzUzOTAxNTk1fQ.0zpsI_UB6p-4K6y14p84TTdVgJXNSH04zGc7Kws667c&mode=pvp
+Request headers: {
+  host: 'localhost:8080',
+  connection: 'Upgrade',
+  pragma: 'no-cache',
+  'cache-control': 'no-cache',
+  'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36',
+  upgrade: 'websocket',
+  origin: 'http://localhost:3000',
+  'sec-websocket-version': '13',
+  'accept-encoding': 'gzip, deflate, br, zstd',
+  'accept-language': 'en,ru-RU;q=0.9,ru;q=0.8,en-US;q=0.7',
+  cookie: 'csrftoken=y5uEpcwZCBx6i5UZo9xLvCHsaYi5RYWe',
+  'sec-websocket-key': 'bNF1k6LHj0kNnALbTXfopg==',
+  'sec-websocket-extensions': 'permessage-deflate; client_max_window_bits'
+}
+Client /ws/game?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoidHpoYWt5cG8iLCJlbWFpbCI6InR6aGFreXBvQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzLzU3YWI5NTRmYzE0YjkzNmExMmYzMjdkMjUyYTQ1YTU2L21lZGl1bV90emhha3lwby5qcGciLCJpbnRyYV9pZCI6MTMzNDQzLCJpbnRyYV9sb2dpbiI6InR6aGFreXBvIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzUzOTAxNTk1fQ.0zpsI_UB6p-4K6y14p84TTdVgJXNSH04zGc7Kws667c&mode=pvp connected to game service
+Game mode: pvp
+Attempting to load user settings with token: eyJhbGciOiJIUzI1NiIs...
+Loaded user settings: {}
+Global ball speed multiplier set to: 0.8333333333333334
+Global ball speed multiplier set to: 0.8333333333333334
+Game in countdown, ball speed will be applied when game starts: 5
+Ball speed set to 5 (multiplier: 0.8333333333333334)
+Updated ball speed to: 5 (multiplier: 0.8333333333333334) for all active games
+Global paddle speed multiplier set to: 0.75
+Global paddle speed multiplier set to: 0.75
+Paddle speed set to 6 (multiplier: 0.75)
+Updated paddle speed to: 6 (multiplier: 0.75) for all active games
+Ball velocity updated: x=4.47, y=2.24, speed=5
+Ball velocity updated: x=-4.59, y=-1.99, speed=5
+Ball velocity updated: x=4.87, y=-1.15, speed=5
+Ball velocity updated: x=-4.94, y=0.76, speed=5
+PvP move: player1 up
+PvP move: player1 up
+PvP move: player1 up
+PvP move: player1 up
+PvP move: player1 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+Ball velocity updated: x=4.56, y=-2.05, speed=5
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+Client /ws/game?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoidHpoYWt5cG8iLCJlbWFpbCI6InR6aGFreXBvQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzLzU3YWI5NTRmYzE0YjkzNmExMmYzMjdkMjUyYTQ1YTU2L21lZGl1bV90emhha3lwby5qcGciLCJpbnRyYV9pZCI6MTMzNDQzLCJpbnRyYV9sb2dpbiI6InR6aGFreXBvIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzUzOTAxNTk1fQ.0zpsI_UB6p-4K6y14p84TTdVgJXNSH04zGc7Kws667c&mode=pvp disconnected from game service
+New WebSocket connection received
+Request URL: /ws/game?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoidHpoYWt5cG8iLCJlbWFpbCI6InR6aGFreXBvQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzLzU3YWI5NTRmYzE0YjkzNmExMmYzMjdkMjUyYTQ1YTU2L21lZGl1bV90emhha3lwby5qcGciLCJpbnRyYV9pZCI6MTMzNDQzLCJpbnRyYV9sb2dpbiI6InR6aGFreXBvIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzUzOTAxNTk1fQ.0zpsI_UB6p-4K6y14p84TTdVgJXNSH04zGc7Kws667c&mode=pvp
+Request headers: {
+  host: 'localhost:8080',
+  connection: 'Upgrade',
+  pragma: 'no-cache',
+  'cache-control': 'no-cache',
+  'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36',
+  upgrade: 'websocket',
+  origin: 'http://localhost:3000',
+  'sec-websocket-version': '13',
+  'accept-encoding': 'gzip, deflate, br, zstd',
+  'accept-language': 'en,ru-RU;q=0.9,ru;q=0.8,en-US;q=0.7',
+  cookie: 'csrftoken=y5uEpcwZCBx6i5UZo9xLvCHsaYi5RYWe',
+  'sec-websocket-key': 'M+AqgxtXp2i+cIN72i2T5w==',
+  'sec-websocket-extensions': 'permessage-deflate; client_max_window_bits'
+}
+Client /ws/game?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoidHpoYWt5cG8iLCJlbWFpbCI6InR6aGFreXBvQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzLzU3YWI5NTRmYzE0YjkzNmExMmYzMjdkMjUyYTQ1YTU2L21lZGl1bV90emhha3lwby5qcGciLCJpbnRyYV9pZCI6MTMzNDQzLCJpbnRyYV9sb2dpbiI6InR6aGFreXBvIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzUzOTAxNTk1fQ.0zpsI_UB6p-4K6y14p84TTdVgJXNSH04zGc7Kws667c&mode=pvp connected to game service
+Game mode: pvp
+Attempting to load user settings with token: eyJhbGciOiJIUzI1NiIs...
+Client /ws/game?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoidHpoYWt5cG8iLCJlbWFpbCI6InR6aGFreXBvQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzLzU3YWI5NTRmYzE0YjkzNmExMmYzMjdkMjUyYTQ1YTU2L21lZGl1bV90emhha3lwby5qcGciLCJpbnRyYV9pZCI6MTMzNDQzLCJpbnRyYV9sb2dpbiI6InR6aGFreXBvIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzUzOTAxNTk1fQ.0zpsI_UB6p-4K6y14p84TTdVgJXNSH04zGc7Kws667c&mode=pvp disconnected from game service
+Loaded user settings: {}
+New WebSocket connection received
+Request URL: /ws/game?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoidHpoYWt5cG8iLCJlbWFpbCI6InR6aGFreXBvQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzLzU3YWI5NTRmYzE0YjkzNmExMmYzMjdkMjUyYTQ1YTU2L21lZGl1bV90emhha3lwby5qcGciLCJpbnRyYV9pZCI6MTMzNDQzLCJpbnRyYV9sb2dpbiI6InR6aGFreXBvIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzUzOTAxNTk1fQ.0zpsI_UB6p-4K6y14p84TTdVgJXNSH04zGc7Kws667c&mode=pvp
+Request headers: {
+  host: 'localhost:8080',
+  connection: 'Upgrade',
+  pragma: 'no-cache',
+  'cache-control': 'no-cache',
+  'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36',
+  upgrade: 'websocket',
+  origin: 'http://localhost:3000',
+  'sec-websocket-version': '13',
+  'accept-encoding': 'gzip, deflate, br, zstd',
+  'accept-language': 'en,ru-RU;q=0.9,ru;q=0.8,en-US;q=0.7',
+  cookie: 'csrftoken=y5uEpcwZCBx6i5UZo9xLvCHsaYi5RYWe',
+  'sec-websocket-key': 'HTi+XYGMvp+oqQ00WRP13A==',
+  'sec-websocket-extensions': 'permessage-deflate; client_max_window_bits'
+}
+Client /ws/game?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoidHpoYWt5cG8iLCJlbWFpbCI6InR6aGFreXBvQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzLzU3YWI5NTRmYzE0YjkzNmExMmYzMjdkMjUyYTQ1YTU2L21lZGl1bV90emhha3lwby5qcGciLCJpbnRyYV9pZCI6MTMzNDQzLCJpbnRyYV9sb2dpbiI6InR6aGFreXBvIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzUzOTAxNTk1fQ.0zpsI_UB6p-4K6y14p84TTdVgJXNSH04zGc7Kws667c&mode=pvp connected to game service
+Game mode: pvp
+Attempting to load user settings with token: eyJhbGciOiJIUzI1NiIs...
+Loaded user settings: {}
+Global ball speed multiplier set to: 0.8333333333333334
+Global ball speed multiplier set to: 0.8333333333333334
+Game in countdown, ball speed will be applied when game starts: 5
+Ball speed set to 5 (multiplier: 0.8333333333333334)
+Updated ball speed to: 5 (multiplier: 0.8333333333333334) for all active games
+Global paddle speed multiplier set to: 0.75
+Global paddle speed multiplier set to: 0.75
+Paddle speed set to 6 (multiplier: 0.75)
+Updated paddle speed to: 6 (multiplier: 0.75) for all active games
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+Ball velocity updated: x=4.47, y=2.24, speed=5
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+Ball velocity updated: x=4.84, y=1.27, speed=5
+PvP move: player2 up
+Ball velocity updated: x=4.70, y=1.71, speed=5
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player1 down
+PvP move: player1 down
+PvP move: player1 down
+PvP move: player1 down
+PvP move: player1 down
+PvP move: player1 down
+PvP move: player1 down
+PvP move: player1 down
+PvP move: player1 down
+PvP move: player1 down
+PvP move: player1 down
+PvP move: player1 down
+PvP move: player1 down
+PvP move: player1 down
+PvP move: player1 down
+Client /ws/game?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoidHpoYWt5cG8iLCJlbWFpbCI6InR6aGFreXBvQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzLzU3YWI5NTRmYzE0YjkzNmExMmYzMjdkMjUyYTQ1YTU2L21lZGl1bV90emhha3lwby5qcGciLCJpbnRyYV9pZCI6MTMzNDQzLCJpbnRyYV9sb2dpbiI6InR6aGFreXBvIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzUzOTAxNTk1fQ.0zpsI_UB6p-4K6y14p84TTdVgJXNSH04zGc7Kws667c&mode=pvp disconnected from game service
+New WebSocket connection received
+Request URL: /ws/game?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoidHpoYWt5cG8iLCJlbWFpbCI6InR6aGFreXBvQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzLzU3YWI5NTRmYzE0YjkzNmExMmYzMjdkMjUyYTQ1YTU2L21lZGl1bV90emhha3lwby5qcGciLCJpbnRyYV9pZCI6MTMzNDQzLCJpbnRyYV9sb2dpbiI6InR6aGFreXBvIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzUzOTAxNTk1fQ.0zpsI_UB6p-4K6y14p84TTdVgJXNSH04zGc7Kws667c&mode=pvp
+Request headers: {
+  host: 'localhost:8080',
+  connection: 'Upgrade',
+  pragma: 'no-cache',
+  'cache-control': 'no-cache',
+  'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36',
+  upgrade: 'websocket',
+  origin: 'http://localhost:3000',
+  'sec-websocket-version': '13',
+  'accept-encoding': 'gzip, deflate, br, zstd',
+  'accept-language': 'en,ru-RU;q=0.9,ru;q=0.8,en-US;q=0.7',
+  cookie: 'csrftoken=y5uEpcwZCBx6i5UZo9xLvCHsaYi5RYWe',
+  'sec-websocket-key': 'kIwm97DhCaUGO7HrHRg/6Q==',
+  'sec-websocket-extensions': 'permessage-deflate; client_max_window_bits'
+}
+Client /ws/game?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoidHpoYWt5cG8iLCJlbWFpbCI6InR6aGFreXBvQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzLzU3YWI5NTRmYzE0YjkzNmExMmYzMjdkMjUyYTQ1YTU2L21lZGl1bV90emhha3lwby5qcGciLCJpbnRyYV9pZCI6MTMzNDQzLCJpbnRyYV9sb2dpbiI6InR6aGFreXBvIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzUzOTAxNTk1fQ.0zpsI_UB6p-4K6y14p84TTdVgJXNSH04zGc7Kws667c&mode=pvp connected to game service
+Game mode: pvp
+Attempting to load user settings with token: eyJhbGciOiJIUzI1NiIs...
+Client /ws/game?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoidHpoYWt5cG8iLCJlbWFpbCI6InR6aGFreXBvQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzLzU3YWI5NTRmYzE0YjkzNmExMmYzMjdkMjUyYTQ1YTU2L21lZGl1bV90emhha3lwby5qcGciLCJpbnRyYV9pZCI6MTMzNDQzLCJpbnRyYV9sb2dpbiI6InR6aGFreXBvIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzUzOTAxNTk1fQ.0zpsI_UB6p-4K6y14p84TTdVgJXNSH04zGc7Kws667c&mode=pvp disconnected from game service
+Loaded user settings: {}
+New WebSocket connection received
+Request URL: /ws/game?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoidHpoYWt5cG8iLCJlbWFpbCI6InR6aGFreXBvQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzLzU3YWI5NTRmYzE0YjkzNmExMmYzMjdkMjUyYTQ1YTU2L21lZGl1bV90emhha3lwby5qcGciLCJpbnRyYV9pZCI6MTMzNDQzLCJpbnRyYV9sb2dpbiI6InR6aGFreXBvIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzUzOTAxNTk1fQ.0zpsI_UB6p-4K6y14p84TTdVgJXNSH04zGc7Kws667c&mode=pvp
+Request headers: {
+  host: 'localhost:8080',
+  connection: 'Upgrade',
+  pragma: 'no-cache',
+  'cache-control': 'no-cache',
+  'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36',
+  upgrade: 'websocket',
+  origin: 'http://localhost:3000',
+  'sec-websocket-version': '13',
+  'accept-encoding': 'gzip, deflate, br, zstd',
+  'accept-language': 'en,ru-RU;q=0.9,ru;q=0.8,en-US;q=0.7',
+  cookie: 'csrftoken=y5uEpcwZCBx6i5UZo9xLvCHsaYi5RYWe',
+  'sec-websocket-key': 'xDo9XwsYxFw9HvOjWtvvew==',
+  'sec-websocket-extensions': 'permessage-deflate; client_max_window_bits'
+}
+Client /ws/game?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoidHpoYWt5cG8iLCJlbWFpbCI6InR6aGFreXBvQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzLzU3YWI5NTRmYzE0YjkzNmExMmYzMjdkMjUyYTQ1YTU2L21lZGl1bV90emhha3lwby5qcGciLCJpbnRyYV9pZCI6MTMzNDQzLCJpbnRyYV9sb2dpbiI6InR6aGFreXBvIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzUzOTAxNTk1fQ.0zpsI_UB6p-4K6y14p84TTdVgJXNSH04zGc7Kws667c&mode=pvp connected to game service
+Game mode: pvp
+Attempting to load user settings with token: eyJhbGciOiJIUzI1NiIs...
+Loaded user settings: {}
+Global ball speed multiplier set to: 0.8333333333333334
+Global ball speed multiplier set to: 0.8333333333333334
+Game in countdown, ball speed will be applied when game starts: 5
+Ball speed set to 5 (multiplier: 0.8333333333333334)
+Updated ball speed to: 5 (multiplier: 0.8333333333333334) for all active games
+Global paddle speed multiplier set to: 0.75
+Global paddle speed multiplier set to: 0.75
+Paddle speed set to 6 (multiplier: 0.75)
+Updated paddle speed to: 6 (multiplier: 0.75) for all active games
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+Ball velocity updated: x=4.47, y=2.24, speed=5
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player2 down
+PvP move: player1 down
+PvP move: player1 down
+PvP move: player1 down
+Ball velocity updated: x=4.87, y=1.13, speed=5
+Ball velocity updated: x=-4.72, y=-1.64, speed=5
+Ball velocity updated: x=4.98, y=-0.49, speed=5
+PvP move: player2 down
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+Ball velocity updated: x=-4.91, y=0.92, speed=5
+PvP move: player1 up
+PvP move: player1 up
+PvP move: player1 up
+Client /ws/game?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoidHpoYWt5cG8iLCJlbWFpbCI6InR6aGFreXBvQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzLzU3YWI5NTRmYzE0YjkzNmExMmYzMjdkMjUyYTQ1YTU2L21lZGl1bV90emhha3lwby5qcGciLCJpbnRyYV9pZCI6MTMzNDQzLCJpbnRyYV9sb2dpbiI6InR6aGFreXBvIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzUzOTAxNTk1fQ.0zpsI_UB6p-4K6y14p84TTdVgJXNSH04zGc7Kws667c&mode=pvp disconnected from game service
