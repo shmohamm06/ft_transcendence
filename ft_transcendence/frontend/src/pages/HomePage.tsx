@@ -208,12 +208,12 @@ const HomePage = () => {
             <div className="relative z-10 min-h-screen flex flex-col">
                 {/* Секция героя */}
                 <section className="pt-24 pb-12 text-center">
-                    <div className="max-w-4xl mx-auto px-6">
+                    <div className="max-w-42l mx-auto px-6">
                         <h1 className="text-6xl md:text-8xl font-bold mb-6 bg-gradient-to-r from-white to-green-400 bg-clip-text text-transparent">
-                            PONG
+                            FT_TRANSCENDENCE
                         </h1>
-                        <p className="text-2xl md:text-3xl mb-4 text-green-400 font-light">
-                            Welcome back, {user?.username || 'Player'}
+                        <p className="text-2xl md:text-5xl mb-4 text-green-400 font-light">
+                            Welcome {user?.username || 'Player'}
                         </p>
                                                 <p className="text-lg text-gray-300 mb-12 max-w-2xl mx-auto">
                             Experience the classic game reimagined with modern technology and competitive gameplay
