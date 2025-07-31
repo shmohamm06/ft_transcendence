@@ -257,7 +257,7 @@ const ProfilePage = () => {
                                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                                 {/* Overall Stats */}
                                                 <div className="p-6 bg-white bg-opacity-5 rounded-lg border border-white border-opacity-10 hover:border-electric-green hover:bg-opacity-10 transition-all duration-300">
-                                                    <h4 className="text-lg font-bold mb-4 text-center text-electric-green">Overall Performance</h4>
+                                                    <h4 className="text-lg font-bold mb-4 text-center text-electric-green">Overall Stats</h4>
                                                     <div className="space-y-3">
                                                         <div className="flex justify-between items-center">
                                                             <span className="text-gray-400">Games Played</span>
@@ -282,7 +282,7 @@ const ProfilePage = () => {
 
                                                 {/* Pong Stats */}
                                                 <div className="p-6 bg-white bg-opacity-5 rounded-lg border border-white border-opacity-10 hover:border-electric-green hover:bg-opacity-10 transition-all duration-300">
-                                                    <h4 className="text-lg font-bold mb-4 text-center text-electric-green">Pong Mastery</h4>
+                                                    <h4 className="text-lg font-bold mb-4 text-center text-electric-green">Pong Stats</h4>
                                                     <div className="space-y-3">
                                                         <div className="flex justify-between items-center">
                                                             <span className="text-gray-400">Pong Games</span>
