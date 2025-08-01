@@ -274,10 +274,9 @@ const TicTacToe: React.FC = () => {
                     ...prev,
                     draws: prev.draws + 1
                 }));
-                // For draws, we could add a 'draw' result type to the backend
-                // For now, we'll count it as a loss for the player
-                console.log('🎯 Game was a draw, updating backend stats...');
-                updateBackendStats('loss');
+                // Draws are not counted as wins or losses in the backend
+                // They only affect the local score display
+                console.log('🎯 Game was a draw - not updating backend stats (draws not tracked)');
             }
         }
     };

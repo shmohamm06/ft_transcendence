@@ -14,6 +14,8 @@ const ProfilePage = () => {
         pongLosses: 0,
         pongWinRate: 0
     });
+    const [profileData, setProfileData] = useState<any>(null);
+    const [currentDate] = useState(new Date().toLocaleDateString());
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
@@ -50,6 +52,7 @@ const ProfilePage = () => {
             }
 
             const profileData = await response.json();
+            setProfileData(profileData);
 
             // Calculate total statistics from actual data
             const pongWins = profileData.pong_wins || 0;
@@ -89,12 +92,41 @@ const ProfilePage = () => {
         return new Date(dateString).toLocaleDateString();
     };
 
-    const achievements = [
-        { title: 'First Victory', description: 'Win your first game', unlocked: true },
-        { title: 'Win Streak', description: 'Win 5 games in a row', unlocked: true },
-        { title: 'AI Slayer', description: 'Defeat AI 10 times', unlocked: true },
-        { title: 'Tournament Champion', description: 'Win a tournament', unlocked: false },
-    ];
+    // Achievement logic based on user stats
+    const getAchievements = () => {
+        const totalWins = stats.totalWins;
+        const pongWins = stats.pongWins;
+        const totalGames = stats.totalGames;
+        
+        // Simple win streak calculation (this could be enhanced with backend tracking)
+        // For now, we'll consider it unlocked if user has 5+ wins and a good win rate
+        const winStreakUnlocked = totalWins >= 5 && stats.winRate >= 60;
+        
+        return [
+            { 
+                title: 'First Victory', 
+                description: 'Win your first game', 
+                unlocked: totalWins >= 1 
+            },
+            { 
+                title: 'Win Streak', 
+                description: 'Win 5 games in a row', 
+                unlocked: winStreakUnlocked
+            },
+            { 
+                title: 'AI Slayer', 
+                description: 'Defeat AI 10 times', 
+                unlocked: pongWins >= 10 
+            },
+            { 
+                title: 'Tournament Champion', 
+                description: 'Win a tournament', 
+                unlocked: false // TODO: Implement tournament tracking
+            },
+        ];
+    };
+
+    const achievements = getAchievements();
 
     return (
         <div className="min-h-screen text-white relative overflow-hidden">
@@ -171,7 +203,7 @@ const ProfilePage = () => {
                                         <div className="flex justify-between items-center p-3 bg-white bg-opacity-5 rounded-lg group-hover:bg-opacity-10 transition-all duration-300">
                                             <span className="text-gray-400">Joined</span>
                                             <span className="font-bold text-sm text-white">
-                                                {user?.createdAt ? formatDate(user.createdAt) : 'N/A'}
+                                                {profileData?.created_at ? formatDate(profileData.created_at) : currentDate}
                                             </span>
                                         </div>
                                         <div className="flex justify-between items-center p-3 bg-electric-green bg-opacity-10 rounded-lg border border-electric-green border-opacity-30">

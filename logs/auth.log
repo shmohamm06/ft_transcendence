@@ -1,29 +1,107 @@
-[dotenv@17.2.0] injecting env (0) from .env (tip: ⚙️  write to custom object with { processEnv: myObject })
+[dotenv@17.2.0] injecting env (0) from .env (tip: 🛠️  run anywhere with `dotenvx run -- yourcommand`)
 Environment variables loaded: { CLIENT_ID: 'LOADED', CLIENT_SECRET: 'LOADED', JWT_SECRET: 'LOADED' }
 Database path: /home/shmohamm06/trans/ft_transcendence/backend/auth-service/db.sqlite
 Initializing database...
 Database initialized successfully.
-{"level":30,"time":1754065779328,"pid":61511,"hostname":"Shahriars-Laptop","msg":"Server listening at http://0.0.0.0:3001"}
+{"level":30,"time":1754073114938,"pid":95886,"hostname":"Shahriars-Laptop","msg":"Server listening at http://0.0.0.0:3001"}
 Database connection opened successfully
 Users table created/verified
 Game_settings table created/verified
 User_stats table created/verified
 Missing user_stats records created for existing users
-{"level":30,"time":1754065791872,"pid":61511,"hostname":"Shahriars-Laptop","reqId":"req-1","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":45794},"msg":"incoming request"}
-{"level":30,"time":1754065791877,"pid":61511,"hostname":"Shahriars-Laptop","reqId":"req-2","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":45796},"msg":"incoming request"}
-{"level":30,"time":1754065791883,"pid":61511,"hostname":"Shahriars-Laptop","reqId":"req-1","res":{"statusCode":200},"responseTime":9.941747999750078,"msg":"request completed"}
-{"level":30,"time":1754065791884,"pid":61511,"hostname":"Shahriars-Laptop","reqId":"req-2","res":{"statusCode":200},"responseTime":6.370392000302672,"msg":"request completed"}
-{"level":30,"time":1754065798025,"pid":61511,"hostname":"Shahriars-Laptop","reqId":"req-3","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":35700},"msg":"incoming request"}
-{"level":30,"time":1754065798027,"pid":61511,"hostname":"Shahriars-Laptop","reqId":"req-4","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":35702},"msg":"incoming request"}
-{"level":30,"time":1754065798031,"pid":61511,"hostname":"Shahriars-Laptop","reqId":"req-3","res":{"statusCode":200},"responseTime":5.494876000098884,"msg":"request completed"}
-{"level":30,"time":1754065798032,"pid":61511,"hostname":"Shahriars-Laptop","reqId":"req-4","res":{"statusCode":200},"responseTime":4.1151750003919005,"msg":"request completed"}
-{"level":30,"time":1754065801815,"pid":61511,"hostname":"Shahriars-Laptop","reqId":"req-5","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":35704},"msg":"incoming request"}
-{"level":30,"time":1754065801818,"pid":61511,"hostname":"Shahriars-Laptop","reqId":"req-5","res":{"statusCode":200},"responseTime":2.788638999685645,"msg":"request completed"}
-{"level":30,"time":1754065801820,"pid":61511,"hostname":"Shahriars-Laptop","reqId":"req-6","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":35714},"msg":"incoming request"}
-{"level":30,"time":1754065801823,"pid":61511,"hostname":"Shahriars-Laptop","reqId":"req-6","res":{"statusCode":200},"responseTime":1.9118689997121692,"msg":"request completed"}
-{"level":30,"time":1754065806715,"pid":61511,"hostname":"Shahriars-Laptop","reqId":"req-7","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":49576},"msg":"incoming request"}
-{"level":30,"time":1754065806718,"pid":61511,"hostname":"Shahriars-Laptop","reqId":"req-8","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":49588},"msg":"incoming request"}
-{"level":30,"time":1754065806719,"pid":61511,"hostname":"Shahriars-Laptop","reqId":"req-7","res":{"statusCode":200},"responseTime":3.4533430002629757,"msg":"request completed"}
-{"level":30,"time":1754065806720,"pid":61511,"hostname":"Shahriars-Laptop","reqId":"req-8","res":{"statusCode":200},"responseTime":2.0837430004030466,"msg":"request completed"}
-{"level":30,"time":1754065811543,"pid":61511,"hostname":"Shahriars-Laptop","reqId":"req-9","req":{"method":"GET","url":"/api/settings","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":49598},"msg":"incoming request"}
-{"level":30,"time":1754065811547,"pid":61511,"hostname":"Shahriars-Laptop","reqId":"req-9","res":{"statusCode":200},"responseTime":3.013172000646591,"msg":"request completed"}
+{"level":30,"time":1754073129764,"pid":95886,"hostname":"Shahriars-Laptop","reqId":"req-1","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":42952},"msg":"incoming request"}
+{"level":30,"time":1754073129768,"pid":95886,"hostname":"Shahriars-Laptop","reqId":"req-2","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":42958},"msg":"incoming request"}
+{"level":30,"time":1754073129773,"pid":95886,"hostname":"Shahriars-Laptop","reqId":"req-1","res":{"statusCode":200},"responseTime":8.377853000536561,"msg":"request completed"}
+{"level":30,"time":1754073129779,"pid":95886,"hostname":"Shahriars-Laptop","reqId":"req-2","res":{"statusCode":200},"responseTime":10.285629000514746,"msg":"request completed"}
+{"level":30,"time":1754073134389,"pid":95886,"hostname":"Shahriars-Laptop","reqId":"req-3","req":{"method":"POST","url":"/api/users/16/stats","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":54674},"msg":"incoming request"}
+Stats update request: {
+  id: '16',
+  game: 'tictactoe',
+  result: 'win',
+  user: {
+    id: 16,
+    username: 'fmaqdasi',
+    email: 'fmaqdasi@student.42abudhabi.ae',
+    avatar: 'https://cdn.intra.42.fr/users/1cf93861d308d56761523d8958b6936a/medium_fmaqdasi.jpg',
+    intra_id: 145764,
+    intra_login: 'fmaqdasi',
+    auth_provider: '42',
+    iat: 1754072949
+  }
+}
+Mapped values: { gameKey: 'ttt', resultKey: 'wins' }
+Updating column: ttt_wins
+Stats updated successfully for user: 16
+{"level":30,"time":1754073134416,"pid":95886,"hostname":"Shahriars-Laptop","reqId":"req-3","res":{"statusCode":200},"responseTime":26.632046999409795,"msg":"request completed"}
+{"level":30,"time":1754073134431,"pid":95886,"hostname":"Shahriars-Laptop","reqId":"req-4","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":54684},"msg":"incoming request"}
+{"level":30,"time":1754073134433,"pid":95886,"hostname":"Shahriars-Laptop","reqId":"req-4","res":{"statusCode":200},"responseTime":1.858194001019001,"msg":"request completed"}
+{"level":30,"time":1754073143669,"pid":95886,"hostname":"Shahriars-Laptop","reqId":"req-5","req":{"method":"POST","url":"/api/users/16/stats","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":34174},"msg":"incoming request"}
+Stats update request: {
+  id: '16',
+  game: 'tictactoe',
+  result: 'win',
+  user: {
+    id: 16,
+    username: 'fmaqdasi',
+    email: 'fmaqdasi@student.42abudhabi.ae',
+    avatar: 'https://cdn.intra.42.fr/users/1cf93861d308d56761523d8958b6936a/medium_fmaqdasi.jpg',
+    intra_id: 145764,
+    intra_login: 'fmaqdasi',
+    auth_provider: '42',
+    iat: 1754072949
+  }
+}
+Mapped values: { gameKey: 'ttt', resultKey: 'wins' }
+Updating column: ttt_wins
+Stats updated successfully for user: 16
+{"level":30,"time":1754073143695,"pid":95886,"hostname":"Shahriars-Laptop","reqId":"req-5","res":{"statusCode":200},"responseTime":25.562990000471473,"msg":"request completed"}
+{"level":30,"time":1754073143721,"pid":95886,"hostname":"Shahriars-Laptop","reqId":"req-6","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":34186},"msg":"incoming request"}
+{"level":30,"time":1754073143724,"pid":95886,"hostname":"Shahriars-Laptop","reqId":"req-6","res":{"statusCode":200},"responseTime":2.90888100117445,"msg":"request completed"}
+{"level":30,"time":1754073154933,"pid":95886,"hostname":"Shahriars-Laptop","reqId":"req-7","req":{"method":"POST","url":"/api/users/16/stats","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":38916},"msg":"incoming request"}
+Stats update request: {
+  id: '16',
+  game: 'tictactoe',
+  result: 'loss',
+  user: {
+    id: 16,
+    username: 'fmaqdasi',
+    email: 'fmaqdasi@student.42abudhabi.ae',
+    avatar: 'https://cdn.intra.42.fr/users/1cf93861d308d56761523d8958b6936a/medium_fmaqdasi.jpg',
+    intra_id: 145764,
+    intra_login: 'fmaqdasi',
+    auth_provider: '42',
+    iat: 1754072949
+  }
+}
+Mapped values: { gameKey: 'ttt', resultKey: 'losses' }
+Updating column: ttt_losses
+Stats updated successfully for user: 16
+{"level":30,"time":1754073154955,"pid":95886,"hostname":"Shahriars-Laptop","reqId":"req-7","res":{"statusCode":200},"responseTime":21.802590999752283,"msg":"request completed"}
+{"level":30,"time":1754073154977,"pid":95886,"hostname":"Shahriars-Laptop","reqId":"req-8","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":38920},"msg":"incoming request"}
+{"level":30,"time":1754073154979,"pid":95886,"hostname":"Shahriars-Laptop","reqId":"req-8","res":{"statusCode":200},"responseTime":1.8768070004880428,"msg":"request completed"}
+{"level":30,"time":1754073163691,"pid":95886,"hostname":"Shahriars-Laptop","reqId":"req-9","req":{"method":"POST","url":"/api/users/16/stats","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":53968},"msg":"incoming request"}
+Stats update request: {
+  id: '16',
+  game: 'tictactoe',
+  result: 'loss',
+  user: {
+    id: 16,
+    username: 'fmaqdasi',
+    email: 'fmaqdasi@student.42abudhabi.ae',
+    avatar: 'https://cdn.intra.42.fr/users/1cf93861d308d56761523d8958b6936a/medium_fmaqdasi.jpg',
+    intra_id: 145764,
+    intra_login: 'fmaqdasi',
+    auth_provider: '42',
+    iat: 1754072949
+  }
+}
+Mapped values: { gameKey: 'ttt', resultKey: 'losses' }
+Updating column: ttt_losses
+Stats updated successfully for user: 16
+{"level":30,"time":1754073163723,"pid":95886,"hostname":"Shahriars-Laptop","reqId":"req-9","res":{"statusCode":200},"responseTime":31.7072080001235,"msg":"request completed"}
+{"level":30,"time":1754073163752,"pid":95886,"hostname":"Shahriars-Laptop","reqId":"req-a","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":53980},"msg":"incoming request"}
+{"level":30,"time":1754073163755,"pid":95886,"hostname":"Shahriars-Laptop","reqId":"req-a","res":{"statusCode":200},"responseTime":3.6078919991850853,"msg":"request completed"}
+{"level":30,"time":1754073181650,"pid":95886,"hostname":"Shahriars-Laptop","reqId":"req-b","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":53878},"msg":"incoming request"}
+{"level":30,"time":1754073181653,"pid":95886,"hostname":"Shahriars-Laptop","reqId":"req-b","res":{"statusCode":200},"responseTime":2.232489999383688,"msg":"request completed"}
+{"level":30,"time":1754073181671,"pid":95886,"hostname":"Shahriars-Laptop","reqId":"req-c","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":53892},"msg":"incoming request"}
+{"level":30,"time":1754073181675,"pid":95886,"hostname":"Shahriars-Laptop","reqId":"req-c","res":{"statusCode":200},"responseTime":3.636567000299692,"msg":"request completed"}

@@ -52,7 +52,7 @@ async function getUserProfileHandler(request, reply) {
         await request.jwtVerify();
         const user = request.user;
         return new Promise((resolve, reject) => {
-            init_1.default.get(`SELECT u.id, u.username, u.email, us.pong_wins, us.pong_losses, us.ttt_wins, us.ttt_losses
+            init_1.default.get(`SELECT u.id, u.username, u.email, u.created_at, us.pong_wins, us.pong_losses, us.ttt_wins, us.ttt_losses
                FROM users u
                JOIN user_stats us ON u.id = us.user_id
                WHERE u.id = ?`, [user.id], (err, row) => {

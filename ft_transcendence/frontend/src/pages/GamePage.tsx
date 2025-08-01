@@ -136,13 +136,15 @@ const GamePage = () => {
         }
 
         if (isPvPMode) {
-            console.log('🚫 BLOCKED: PvP mode - stats not saved');
-            return;
+            console.log('🎮 PvP mode detected - will save stats for logged-in user (Player 1)');
+            // In PvP mode, the logged-in user is always Player 1
+            // So if player1 wins, user wins. If player2 wins, user loses
         }
 
         if (isTournamentMode) {
-            console.log('🚫 BLOCKED: Tournament mode - stats not saved');
-            return;
+            console.log('🎮 Tournament mode detected - will save stats for logged-in user (Player 1)');
+            // In tournament mode, the logged-in user is always Player 1
+            // So if player1 wins, user wins. If player2 wins, user loses
         }
 
         const now = Date.now();
@@ -173,6 +175,7 @@ const GamePage = () => {
             console.log(`💾 Making API call:`, {
                 userId: user.id,
                 result,
+                gameMode: isPvPMode ? 'PvP' : isTournamentMode ? 'Tournament' : 'AI',
                 endpoint: `/api/users/${user.id}/stats`,
                 payload: { game: 'pong', result }
             });
@@ -186,7 +189,8 @@ const GamePage = () => {
 
             // Show notification only once
             setTimeout(() => {
-                alert(`🎮 Game result saved to your profile: ${result.toUpperCase()}!`);
+                const gameModeText = isPvPMode ? 'PvP' : isTournamentMode ? 'Tournament' : 'AI';
+                alert(`🎮 ${gameModeText} game result saved to your profile: ${result.toUpperCase()}!`);
             }, 2000);
 
         } catch (error) {

@@ -62,7 +62,7 @@ export async function getUserProfileHandler(
 
         return new Promise((resolve, reject) => {
             db.get(
-              `SELECT u.id, u.username, u.email, us.pong_wins, us.pong_losses, us.ttt_wins, us.ttt_losses
+              `SELECT u.id, u.username, u.email, u.created_at, us.pong_wins, us.pong_losses, us.ttt_wins, us.ttt_losses
                FROM users u
                JOIN user_stats us ON u.id = us.user_id
                WHERE u.id = ?`,
