@@ -1,77 +1,61 @@
-[dotenv@17.2.0] injecting env (0) from .env (tip: ⚙️  load multiple .env files with { path: ['.env.local', '.env'] })
+[dotenv@17.2.0] injecting env (0) from .env (tip: ⚙️  override existing env vars with { override: true })
 Environment variables loaded: { CLIENT_ID: 'LOADED', CLIENT_SECRET: 'LOADED', JWT_SECRET: 'LOADED' }
-Database path: /Users/mac/Desktop/main3/ft_transcendence/backend/auth-service/db.sqlite
+Database path: /home/shmohamm06/trans/ft_transcendence/backend/auth-service/db.sqlite
 Initializing database...
 Database initialized successfully.
-{"level":30,"time":1753909421646,"pid":79405,"hostname":"macs-MBP","msg":"Server listening at http://0.0.0.0:3001"}
+{"level":30,"time":1754060620655,"pid":11209,"hostname":"Shahriars-Laptop","msg":"Server listening at http://0.0.0.0:3001"}
 Database connection opened successfully
 Users table created/verified
 Game_settings table created/verified
 User_stats table created/verified
 Missing user_stats records created for existing users
-{"level":30,"time":1753909438618,"pid":79405,"hostname":"macs-MBP","reqId":"req-1","req":{"method":"GET","url":"/api/settings","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":60399},"msg":"incoming request"}
-{"level":30,"time":1753909438619,"pid":79405,"hostname":"macs-MBP","reqId":"req-2","req":{"method":"GET","url":"/api/settings","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":60401},"msg":"incoming request"}
-{"level":30,"time":1753909438622,"pid":79405,"hostname":"macs-MBP","reqId":"req-1","res":{"statusCode":200},"responseTime":4.2827500104904175,"msg":"request completed"}
-{"level":30,"time":1753909438625,"pid":79405,"hostname":"macs-MBP","reqId":"req-2","res":{"statusCode":200},"responseTime":5.762290954589844,"msg":"request completed"}
-{"level":30,"time":1753909440458,"pid":79405,"hostname":"macs-MBP","reqId":"req-3","req":{"method":"GET","url":"/api/settings","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":60399},"msg":"incoming request"}
-{"level":30,"time":1753909440458,"pid":79405,"hostname":"macs-MBP","reqId":"req-3","res":{"statusCode":200},"responseTime":0.6422079801559448,"msg":"request completed"}
-{"level":30,"time":1753909440468,"pid":79405,"hostname":"macs-MBP","reqId":"req-4","req":{"method":"GET","url":"/api/settings","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":60399},"msg":"incoming request"}
-{"level":30,"time":1753909440469,"pid":79405,"hostname":"macs-MBP","reqId":"req-4","res":{"statusCode":200},"responseTime":1.1630419492721558,"msg":"request completed"}
-{"level":30,"time":1753909443524,"pid":79405,"hostname":"macs-MBP","reqId":"req-5","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":60408},"msg":"incoming request"}
-{"level":30,"time":1753909443526,"pid":79405,"hostname":"macs-MBP","reqId":"req-5","res":{"statusCode":200},"responseTime":1.6719169616699219,"msg":"request completed"}
-{"level":30,"time":1753909443530,"pid":79405,"hostname":"macs-MBP","reqId":"req-6","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":60410},"msg":"incoming request"}
-{"level":30,"time":1753909443531,"pid":79405,"hostname":"macs-MBP","reqId":"req-6","res":{"statusCode":200},"responseTime":1.0059159994125366,"msg":"request completed"}
-{"level":30,"time":1753909447392,"pid":79405,"hostname":"macs-MBP","reqId":"req-7","req":{"method":"GET","url":"/api/users/oauth/42/authorize","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":60413},"msg":"incoming request"}
-(node:79405) [FSTDEP021] DeprecationWarning: The `reply.redirect()` method has a new signature: `reply.redirect(url: string, code?: number)`. It will be enforced in `fastify@v5`
+{"level":30,"time":1754060635350,"pid":11209,"hostname":"Shahriars-Laptop","reqId":"req-1","req":{"method":"GET","url":"/api/users/oauth/42/authorize","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":44066},"msg":"incoming request"}
+(node:11209) [FSTDEP021] DeprecationWarning: The `reply.redirect()` method has a new signature: `reply.redirect(url: string, code?: number)`. It will be enforced in `fastify@v5`
 (Use `node --trace-deprecation ...` to show where the warning was created)
-{"level":30,"time":1753909447394,"pid":79405,"hostname":"macs-MBP","reqId":"req-7","res":{"statusCode":302},"responseTime":1.768375039100647,"msg":"request completed"}
-{"level":30,"time":1753909448411,"pid":79405,"hostname":"macs-MBP","reqId":"req-8","req":{"method":"POST","url":"/api/users/oauth/42/callback","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":60427},"msg":"incoming request"}
+{"level":30,"time":1754060635357,"pid":11209,"hostname":"Shahriars-Laptop","reqId":"req-1","res":{"statusCode":302},"responseTime":5.647092999890447,"msg":"request completed"}
+{"level":30,"time":1754060636047,"pid":11209,"hostname":"Shahriars-Laptop","reqId":"req-2","req":{"method":"POST","url":"/api/users/oauth/42/callback","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":44070},"msg":"incoming request"}
 OAuth callback received: {
   method: 'POST',
   url: '/api/users/oauth/42/callback',
   body: {
-    code: '21d3b51d5c3ec8ebafce336070369e76e465a7733c287bb68c0c629b7eebb3ab',
-    state: 'zjk2kc6673m'
+    code: 'f29440b74ab62707451162a2bf26f9e01aa820cfa62ae66da7e47d97b0f4a930',
+    state: 'fcngvojtu7i'
   },
   query: {},
   headers: {
-    cookie: 'csrftoken=y5uEpcwZCBx6i5UZo9xLvCHsaYi5RYWe',
-    'accept-language': 'en,ru-RU;q=0.9,ru;q=0.8,en-US;q=0.7',
-    'accept-encoding': 'gzip, deflate, br, zstd',
-    referer: 'http://localhost:3000/auth/42/callback?code=21d3b51d5c3ec8ebafce336070369e76e465a7733c287bb68c0c629b7eebb3ab&state=zjk2kc6673m',
-    'sec-fetch-dest': 'empty',
-    'sec-fetch-mode': 'cors',
     'sec-fetch-site': 'same-origin',
-    origin: 'http://localhost:3000',
-    'sec-ch-ua-mobile': '?0',
-    'content-type': 'application/json',
-    'sec-ch-ua': '"Not)A;Brand";v="8", "Chromium";v="138", "Google Chrome";v="138"',
-    accept: 'application/json, text/plain, */*',
-    'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36',
-    'sec-ch-ua-platform': '"macOS"',
-    'content-length': '97',
+    'sec-fetch-mode': 'cors',
+    'sec-fetch-dest': 'empty',
+    referer: 'http://localhost:3000/auth/42/callback?code=f29440b74ab62707451162a2bf26f9e01aa820cfa62ae66da7e47d97b0f4a930&state=fcngvojtu7i',
     connection: 'close',
+    origin: 'http://localhost:3000',
+    'content-length': '97',
+    'content-type': 'application/json',
+    'accept-encoding': 'gzip, deflate, br, zstd',
+    'accept-language': 'en-US,en;q=0.5',
+    accept: 'application/json, text/plain, */*',
+    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:141.0) Gecko/20100101 Firefox/141.0',
     host: 'localhost:3001'
   }
 }
-Processing OAuth callback with code: 21d3b51d5c...
+Processing OAuth callback with code: f29440b74a...
 Exchanging code for token with: {
   grant_type: 'authorization_code',
   client_id: 'u-s4t2ud-c9b994e544f314d00e5c9704fd12bad9a0535c183d2444bc9c44329a7ff29ab1',
   client_secret: '[HIDDEN]',
-  code: '21d3b51d5c...',
+  code: 'f29440b74a...',
   redirect_uri: 'http://localhost:3000/auth/42/callback',
   url: 'https://api.intra.42.fr/oauth/token'
 }
 Token exchange successful
 OAuth: User from database: {
   user: {
-    id: 12,
-    username: 'tzhakypo',
-    email: 'tzhakypo@student.42abudhabi.ae',
-    avatar: 'https://cdn.intra.42.fr/users/57ab954fc14b936a12f327d252a45a56/medium_tzhakypo.jpg',
-    intra_id: 133443,
-    intra_login: 'tzhakypo',
+    id: 14,
+    username: 'shmohamm',
+    email: 'shmohamm@student.42abudhabi.ae',
+    avatar: 'https://cdn.intra.42.fr/users/d952ccc5959f843c689ee6f77958d9af/medium_shmohamm.jpg',
+    intra_id: 150583,
+    intra_login: 'shmohamm',
     auth_provider: '42'
   },
   hasId: true,
@@ -88,27 +72,37 @@ OAuth: User from database: {
 }
 OAuth: Sending response user: {
   responseUser: {
-    id: 12,
-    username: 'tzhakypo',
-    email: 'tzhakypo@student.42abudhabi.ae',
-    avatar: 'https://cdn.intra.42.fr/users/57ab954fc14b936a12f327d252a45a56/medium_tzhakypo.jpg',
+    id: 14,
+    username: 'shmohamm',
+    email: 'shmohamm@student.42abudhabi.ae',
+    avatar: 'https://cdn.intra.42.fr/users/d952ccc5959f843c689ee6f77958d9af/medium_shmohamm.jpg',
     auth_provider: '42'
   },
   hasId: true,
   idType: 'number',
-  serialized: '{"id":12,"username":"tzhakypo","email":"tzhakypo@student.42abudhabi.ae","avatar":"https://cdn.intra.42.fr/users/57ab954fc14b936a12f327d252a45a56/medium_tzhakypo.jpg","auth_provider":"42"}'
+  serialized: '{"id":14,"username":"shmohamm","email":"shmohamm@student.42abudhabi.ae","avatar":"https://cdn.intra.42.fr/users/d952ccc5959f843c689ee6f77958d9af/medium_shmohamm.jpg","auth_provider":"42"}'
 }
 OAuth: Final response data: {
   responseData: {
-    accessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoidHpoYWt5cG8iLCJlbWFpbCI6InR6aGFreXBvQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzLzU3YWI5NTRmYzE0YjkzNmExMmYzMjdkMjUyYTQ1YTU2L21lZGl1bV90emhha3lwby5qcGciLCJpbnRyYV9pZCI6MTMzNDQzLCJpbnRyYV9sb2dpbiI6InR6aGFreXBvIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzUzOTA5NDQ5fQ.Ah8hYNpUYlz4zP5KaOc2iUpPMd2sUnPXB9_9_iIde6M',
+    accessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTQsInVzZXJuYW1lIjoic2htb2hhbW0iLCJlbWFpbCI6InNobW9oYW1tQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzL2Q5NTJjY2M1OTU5Zjg0M2M2ODllZTZmNzc5NThkOWFmL21lZGl1bV9zaG1vaGFtbS5qcGciLCJpbnRyYV9pZCI6MTUwNTgzLCJpbnRyYV9sb2dpbiI6InNobW9oYW1tIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzU0MDYwNjM3fQ.lImX-aHBy6vhHoO37Tl7FciVfx5LYCn1-3X-jg0bL0A',
     user: {
-      id: 12,
-      username: 'tzhakypo',
-      email: 'tzhakypo@student.42abudhabi.ae',
-      avatar: 'https://cdn.intra.42.fr/users/57ab954fc14b936a12f327d252a45a56/medium_tzhakypo.jpg',
+      id: 14,
+      username: 'shmohamm',
+      email: 'shmohamm@student.42abudhabi.ae',
+      avatar: 'https://cdn.intra.42.fr/users/d952ccc5959f843c689ee6f77958d9af/medium_shmohamm.jpg',
       auth_provider: '42'
     }
   },
-  serializedResponse: '{"accessToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoidHpoYWt5cG8iLCJlbWFpbCI6InR6aGFreXBvQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzLzU3YWI5NTRmYzE0YjkzNmExMmYzMjdkMjUyYTQ1YTU2L21lZGl1bV90emhha3lwby5qcGciLCJpbnRyYV9pZCI6MTMzNDQzLCJpbnRyYV9sb2dpbiI6InR6aGFreXBvIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzUzOTA5NDQ5fQ.Ah8hYNpUYlz4zP5KaOc2iUpPMd2sUnPXB9_9_iIde6M","user":{"id":12,"username":"tzhakypo","email":"tzhakypo@student.42abudhabi.ae","avatar":"https://cdn.intra.42.fr/users/57ab954fc14b936a12f327d252a45a56/medium_tzhakypo.jpg","auth_provider":"42"}}'
+  serializedResponse: '{"accessToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTQsInVzZXJuYW1lIjoic2htb2hhbW0iLCJlbWFpbCI6InNobW9oYW1tQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzL2Q5NTJjY2M1OTU5Zjg0M2M2ODllZTZmNzc5NThkOWFmL21lZGl1bV9zaG1vaGFtbS5qcGciLCJpbnRyYV9pZCI6MTUwNTgzLCJpbnRyYV9sb2dpbiI6InNobW9oYW1tIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzU0MDYwNjM3fQ.lImX-aHBy6vhHoO37Tl7FciVfx5LYCn1-3X-jg0bL0A","user":{"id":14,"username":"shmohamm","email":"shmohamm@student.42abudhabi.ae","avatar":"https://cdn.intra.42.fr/users/d952ccc5959f843c689ee6f77958d9af/medium_shmohamm.jpg","auth_provider":"42"}}'
 }
-{"level":30,"time":1753909449620,"pid":79405,"hostname":"macs-MBP","reqId":"req-8","res":{"statusCode":200},"responseTime":1209.1381249427795,"msg":"request completed"}
+{"level":30,"time":1754060637467,"pid":11209,"hostname":"Shahriars-Laptop","reqId":"req-2","res":{"statusCode":200},"responseTime":1419.5244439998642,"msg":"request completed"}
+{"level":30,"time":1754060641837,"pid":11209,"hostname":"Shahriars-Laptop","reqId":"req-3","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":58144},"msg":"incoming request"}
+{"level":30,"time":1754060641843,"pid":11209,"hostname":"Shahriars-Laptop","reqId":"req-3","res":{"statusCode":200},"responseTime":5.974140000063926,"msg":"request completed"}
+{"level":30,"time":1754060641855,"pid":11209,"hostname":"Shahriars-Laptop","reqId":"req-4","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":58160},"msg":"incoming request"}
+{"level":30,"time":1754060641858,"pid":11209,"hostname":"Shahriars-Laptop","reqId":"req-4","res":{"statusCode":200},"responseTime":2.6300600001122802,"msg":"request completed"}
+{"level":30,"time":1754060645233,"pid":11209,"hostname":"Shahriars-Laptop","reqId":"req-5","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":58174},"msg":"incoming request"}
+{"level":30,"time":1754060645236,"pid":11209,"hostname":"Shahriars-Laptop","reqId":"req-5","res":{"statusCode":200},"responseTime":2.271851999917999,"msg":"request completed"}
+{"level":30,"time":1754060645251,"pid":11209,"hostname":"Shahriars-Laptop","reqId":"req-6","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":58178},"msg":"incoming request"}
+{"level":30,"time":1754060645255,"pid":11209,"hostname":"Shahriars-Laptop","reqId":"req-6","res":{"statusCode":200},"responseTime":3.7984029999934137,"msg":"request completed"}
+{"level":30,"time":1754060652066,"pid":11209,"hostname":"Shahriars-Laptop","reqId":"req-7","req":{"method":"GET","url":"/api/settings","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":34372},"msg":"incoming request"}
+{"level":30,"time":1754060652068,"pid":11209,"hostname":"Shahriars-Laptop","reqId":"req-7","res":{"statusCode":200},"responseTime":1.7334680000785738,"msg":"request completed"}

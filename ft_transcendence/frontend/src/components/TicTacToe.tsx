@@ -78,15 +78,15 @@ const TicTacToe: React.FC = () => {
     const getBestMove = (board: Player[]): number => {
         const availableMoves = getAvailableMoves(board);
 
-        // 40% шанс сделать случайный ход (ошибку)
+                    // 40% chance to make a random move (mistake)
         if (Math.random() < 0.4) {
             const randomIndex = Math.floor(Math.random() * availableMoves.length);
             return availableMoves[randomIndex];
         }
 
-        // 30% шанс сделать "плохой" ход (не самый оптимальный)
+                    // 30% chance to make a "bad" move (not the most optimal)
         if (Math.random() < 0.3) {
-            // Найдем все ходы и выберем не лучший
+            // Find all moves and choose a non-optimal one
             let moves = [];
             for (let move of availableMoves) {
                 board[move] = 'O';
@@ -95,14 +95,14 @@ const TicTacToe: React.FC = () => {
                 moves.push({ move, score });
             }
 
-            // Сортируем по убыванию и берем случайный из худших ходов
+            // Sort in descending order and take a random move from the worst ones
             moves.sort((a, b) => a.score - b.score);
             const worseMovesCount = Math.ceil(moves.length / 2);
             const randomWorseMove = Math.floor(Math.random() * worseMovesCount);
             return moves[randomWorseMove].move;
         }
 
-        // Оставшиеся 30% - играем оптимально
+                    // Remaining 30% - play optimally
         let bestScore = -Infinity;
         let bestMove = -1;
 

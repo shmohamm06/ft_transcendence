@@ -17,12 +17,12 @@ class WebSocketManager {
             this.updateConnectionStatus('Connected');
             console.log('WebSocket connected');
 
-            // Отправляем сохраненные настройки
+            // Send saved settings
             setTimeout(() => {
                 this.sendSettings();
             }, 100);
 
-            // Начинаем новый матч при подключении
+            // Start a new match on connection
             setTimeout(() => {
                 if (this.app.socket && this.app.socket.readyState === WebSocket.OPEN) {
                     this.app.socket.send(JSON.stringify({ type: 'startNewMatch' }));
@@ -45,12 +45,12 @@ class WebSocketManager {
                 const data = JSON.parse(event.data);
                 console.log('Received game state:', data);
 
-                // Обрабатываем новый формат сообщений
+                // Handle new message format
                 if (data.type === 'gameState') {
                     const gameState = data.data;
                     console.log('Received game state:', gameState);
 
-                    // Отладочная информация для Game Over
+                    // Debug information for Game Over
                     if (gameState.gameStatus === 'gameOver') {
                         console.log('GAME OVER DETECTED! Winner:', gameState.winner);
                         console.log('Final score:', gameState.score);
@@ -58,13 +58,13 @@ class WebSocketManager {
 
                     this.updateGameDisplay(gameState);
 
-                    // Если игра закончилась (кто-то достиг 3 очков), показываем экран Game Over
+                    // If the game ended (someone reached 3 points), show Game Over screen
                     if (gameState.gameStatus === 'gameOver') {
                         console.log('Game over! Winner:', gameState.winner);
                         this.updateConnectionStatus('Game Finished');
                     }
                 } else {
-                    // Обратная совместимость со старым форматом
+                    // Backward compatibility with old format
                     this.app.gameState = data;
                     this.updateGameDisplay(this.app.gameState);
                 }
@@ -76,7 +76,7 @@ class WebSocketManager {
         };
     }
 
-    // Отправка настроек на сервер
+    // Send settings to server
     sendSettings() {
         if (this.app.socket && this.app.socket.readyState === WebSocket.OPEN) {
             const ballSpeed = document.getElementById('ball-speed')?.value || 5;
@@ -92,7 +92,7 @@ class WebSocketManager {
         }
     }
 
-    // Отправка команды начала нового матча
+    // Send command to start new match
     sendStartNewMatch() {
         if (this.app.socket && this.app.socket.readyState === WebSocket.OPEN) {
             this.app.socket.send(JSON.stringify({ type: 'startNewMatch' }));
@@ -107,13 +107,13 @@ class WebSocketManager {
     }
 
     updateGameDisplay(gameState) {
-        // Обновляем состояние игры
+        // Update game state
         this.app.gameState = gameState;
 
-        // Обновляем счёт
+        // Update score
         this.app.uiManager.updateScore();
 
-        // Если игра в состоянии countdown, показываем обратный отсчёт
+        // If game is in countdown state, show countdown
         if (gameState.gameStatus === 'countdown' && gameState.countdown !== undefined) {
             this.updateConnectionStatus(`Game starting in ${gameState.countdown}...`);
         } else if (gameState.gameStatus === 'playing') {

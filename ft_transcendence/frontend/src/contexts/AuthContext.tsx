@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        // Восстанавливаем токен и пользователя из localStorage при инициализации
+        // Restore token and user from localStorage on initialization
         const storedToken = localStorage.getItem('token');
         const storedUser = localStorage.getItem('user');
 

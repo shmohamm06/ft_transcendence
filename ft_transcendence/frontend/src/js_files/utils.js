@@ -65,13 +65,13 @@ class App {
     }
 }
 
-// Глобальные функции для доступа из HTML
+    // Global functions for access from HTML
 function startGame() {
     if (window.app) {
         window.app.startGame();
     } else {
         console.error('App not initialized yet!');
-        // Попробуем еще раз через небольшую задержку
+        // Try again after a small delay
         setTimeout(() => {
             if (window.app) {
                 window.app.startGame();
@@ -120,17 +120,17 @@ function saveSettings() {
     }
 }
 
-// Инициализация приложения после загрузки DOM
+    // Initialize application after DOM load
 let app;
 
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
         console.log('DOM loaded, initializing app...');
         app = new App();
-        window.app = app; // Делаем доступным глобально для onclick в HTML
+        window.app = app; // Make it globally available for onclick in HTML
     });
 } else {
-    // DOM уже загружен
+    // DOM already loaded
     console.log('DOM already loaded, initializing app...');
     app = new App();
     window.app = app;

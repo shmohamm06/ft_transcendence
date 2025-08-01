@@ -147,7 +147,7 @@ class UIManager {
     }
 
     updateUI() {
-        // Обновить приветствие на главной странице
+        // Update greeting on main page
         const welcomeElement = document.querySelector('#home-page h1');
         if (welcomeElement && this.app.currentUser) {
             welcomeElement.textContent = `Welcome, ${this.app.currentUser.username}!`;
@@ -155,13 +155,13 @@ class UIManager {
             welcomeElement.textContent = 'Welcome to ft_transcendence!';
         }
 
-        // Показать/скрыть кнопки в зависимости от статуса аутентификации
+        // Show/hide buttons depending on authentication status
         const logoutBtn = document.querySelector('#home-page .btn-danger');
         if (logoutBtn) {
             logoutBtn.style.display = this.app.currentUser ? 'inline-block' : 'none';
         }
 
-        // Загрузить настройки
+        // Load settings
         this.app.settingsManager.loadSettings();
     }
 }
