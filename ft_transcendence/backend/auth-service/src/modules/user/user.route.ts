@@ -63,14 +63,21 @@ async function userRoutes(server: FastifyInstance) {
     }, getUserProfileHandler);
 
     server.post('/:id/stats', {
-    schema: {
-        body: {
-            type: 'object',
-            properties: {
-                game: { type: 'string', enum: ['pong', 'tictactoe'] },
-                result: { type: 'string', enum: ['win', 'loss'] }
+        preHandler: async (request, reply) => {
+            try {
+                await request.jwtVerify();
+            } catch (err) {
+                reply.send(err);
+            }
+        },
+        schema: {
+            body: {
+                type: 'object',
+                properties: {
+                    game: { type: 'string', enum: ['pong', 'tictactoe'] },
+                    result: { type: 'string', enum: ['win', 'loss'] }
                 },
-            required: ['game', 'result']
+                required: ['game', 'result']
             }
         }
     }, updateUserStatsHandler);

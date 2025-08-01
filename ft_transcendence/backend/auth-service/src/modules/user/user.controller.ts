@@ -88,6 +88,8 @@ export async function updateUserStatsHandler(
     const { id } = request.params;
     const { game, result } = request.body;
 
+    console.log('Stats update request:', { id, game, result, user: request.user });
+
     const gameMap: Record<string, string> = {
         pong: 'pong',
         tictactoe: 'ttt',
@@ -101,11 +103,15 @@ export async function updateUserStatsHandler(
     const gameKey = gameMap[game];
     const resultKey = resultMap[result];
 
+    console.log('Mapped values:', { gameKey, resultKey });
+
     if (!gameKey || !resultKey) {
+        console.error('Invalid game or result type:', { game, result });
         return reply.code(400).send({ message: 'Invalid game or result type' });
     }
 
     const column = `${gameKey}_${resultKey}`;
+    console.log('Updating column:', column);
 
     return new Promise<void>((resolve, reject) => {
         db.run(
@@ -113,9 +119,11 @@ export async function updateUserStatsHandler(
             [id],
             function (err: Error | null) {
                 if (err) {
+                    console.error('Database error updating stats:', err);
                     reply.code(500).send({ message: 'Failed to update stats' });
                     reject(err);
                 } else {
+                    console.log('Stats updated successfully for user:', id);
                     reply.code(200).send({ message: 'Stats updated successfully' });
                     resolve();
                 }

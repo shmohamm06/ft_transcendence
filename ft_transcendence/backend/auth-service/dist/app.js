@@ -60,7 +60,7 @@ const fastify = (0, fastify_1.default)({ logger: true });
 (0, init_1.initializeDatabase)();
 // Register CORS
 fastify.register(cors_1.default, {
-    origin: ['http://localhost:3000', 'http://127.0.0.1:3000'],
+    origin: ['http://localhost:3000', 'http://127.0.0.1:3000', 'http://localhost:8081', 'http://127.0.0.1:8081'],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true

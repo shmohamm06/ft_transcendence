@@ -58,6 +58,14 @@ async function userRoutes(server) {
         },
     }, user_controller_3.getUserProfileHandler);
     server.post('/:id/stats', {
+        preHandler: async (request, reply) => {
+            try {
+                await request.jwtVerify();
+            }
+            catch (err) {
+                reply.send(err);
+            }
+        },
         schema: {
             body: {
                 type: 'object',
