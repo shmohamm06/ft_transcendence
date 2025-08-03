@@ -29,6 +29,11 @@ const GamePage = () => {
     const [gameResultSaved, setGameResultSaved] = useState(false);
     const [lastSavedGameId, setLastSavedGameId] = useState<string | null>(null);
     const [lastSaveTime, setLastSaveTime] = useState<number>(0);
+
+    // Track pressed keys for simultaneous movement
+    const pressedKeys = useRef<Set<string>>(new Set());
+    const movementInterval = useRef<NodeJS.Timeout | null>(null);
+
     const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
     const saveBlockedRef = useRef<boolean>(false);
     const processingGameOverRef = useRef<boolean>(false);
@@ -79,6 +84,60 @@ const GamePage = () => {
                 ballSpeed: settings.ballSpeed,
                 paddleSpeed: settings.paddleSpeed
             }));
+        }
+    };
+
+    // Send movement based on pressed keys
+    const sendMovement = () => {
+        if (socketRef.current?.readyState !== WebSocket.OPEN) return;
+
+        const keys = Array.from(pressedKeys.current);
+
+        if (isPvPMode || isTournamentMode) {
+            // Check for player 1 movements (W/S)
+            if (keys.includes('w') || keys.includes('W')) {
+                socketRef.current.send(JSON.stringify({
+                    action: 'move',
+                    direction: 'up',
+                    player: 'player1'
+                }));
+            } else if (keys.includes('s') || keys.includes('S')) {
+                socketRef.current.send(JSON.stringify({
+                    action: 'move',
+                    direction: 'down',
+                    player: 'player1'
+                }));
+            }
+
+            // Check for player 2 movements (Arrow keys)
+            if (keys.includes('ArrowUp')) {
+                socketRef.current.send(JSON.stringify({
+                    action: 'move',
+                    direction: 'up',
+                    player: 'player2'
+                }));
+            } else if (keys.includes('ArrowDown')) {
+                socketRef.current.send(JSON.stringify({
+                    action: 'move',
+                    direction: 'down',
+                    player: 'player2'
+                }));
+            }
+        } else {
+            // AI mode: only player 1 can move
+            if (keys.includes('w') || keys.includes('W') || keys.includes('ArrowUp')) {
+                socketRef.current.send(JSON.stringify({
+                    action: 'move',
+                    direction: 'up',
+                    player: 'player1'
+                }));
+            } else if (keys.includes('s') || keys.includes('S') || keys.includes('ArrowDown')) {
+                socketRef.current.send(JSON.stringify({
+                    action: 'move',
+                    direction: 'down',
+                    player: 'player1'
+                }));
+            }
         }
     };
 
@@ -337,49 +396,30 @@ const GamePage = () => {
 
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
-            if (socketRef.current?.readyState !== WebSocket.OPEN) return;
-
-            let action = null;
-            let player = null;
-
-            if (isPvPMode || isTournamentMode) {
-                // Player vs Player mode: W/S for player 1, Arrow keys for player 2
-                if (e.key === 'w' || e.key === 'W') {
-                    action = 'move';
-                    player = 'player1';
-                } else if (e.key === 's' || e.key === 'S') {
-                    action = 'move';
-                    player = 'player1';
-                } else if (e.key === 'ArrowUp') {
-                    action = 'move';
-                    player = 'player2';
-                } else if (e.key === 'ArrowDown') {
-                    action = 'move';
-                    player = 'player2';
-                }
-            } else {
-                // AI mode: W/S or Arrow keys for player 1
-                if (e.key === 'w' || e.key === 'W' || e.key === 'ArrowUp') {
-                    action = 'move';
-                    player = 'player1';
-                } else if (e.key === 's' || e.key === 'S' || e.key === 'ArrowDown') {
-                    action = 'move';
-                    player = 'player1';
-                }
-            }
-
-            if (action && player) {
-                const direction = (e.key === 'w' || e.key === 'W' || e.key === 'ArrowUp') ? 'up' : 'down';
-                socketRef.current.send(JSON.stringify({
-                    action,
-                    direction,
-                    player
-                }));
-            }
+            pressedKeys.current.add(e.key);
         };
 
+        const handleKeyUp = (e: KeyboardEvent) => {
+            pressedKeys.current.delete(e.key);
+        };
+
+        // Start movement interval
+        movementInterval.current = setInterval(() => {
+            if (pressedKeys.current.size > 0) {
+                sendMovement();
+            }
+        }, 50); // Send movement every 50ms
+
         window.addEventListener('keydown', handleKeyDown);
-        return () => window.removeEventListener('keydown', handleKeyDown);
+        window.addEventListener('keyup', handleKeyUp);
+
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+            window.removeEventListener('keyup', handleKeyUp);
+            if (movementInterval.current) {
+                clearInterval(movementInterval.current);
+            }
+        };
     }, [isPvPMode, isTournamentMode]);
 
     const getPlayerNames = () => {
@@ -454,7 +494,7 @@ const GamePage = () => {
                 {/* Game Grid Pattern */}
                 <div className="absolute inset-0 opacity-5">
                     {Array.from({ length: 8 }).map((_, i) => (
-                        <div 
+                        <div
                             key={i}
                             className="absolute border border-electric-green animate-pulse"
                             style={{
@@ -467,10 +507,10 @@ const GamePage = () => {
                         />
                     ))}
                 </div>
-                
+
                 {/* Floating Game Particles */}
                 {Array.from({ length: 6 }).map((_, i) => (
-                    <div 
+                    <div
                         key={i}
                         className="absolute w-1 h-1 bg-electric-green rounded-full opacity-20 animate-pulse"
                         style={{

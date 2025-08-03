@@ -164,7 +164,7 @@ export class GameEngine {
             const hitPoint = (ball.y - player1.y) / PADDLE_HEIGHT;
             const angle = (hitPoint - 0.5) * Math.PI / 2;
             // Increase speed progressively with each paddle hit
-            this.progressiveSpeedMultiplier = Math.min(2.5, this.progressiveSpeedMultiplier + 0.1);
+            this.progressiveSpeedMultiplier = Math.min(10.0, this.progressiveSpeedMultiplier + 0.3);
             const currentSpeed = this.baseBallSpeed * this.progressiveSpeedMultiplier;
             this.ballVelocity.x = currentSpeed * Math.cos(angle);
             this.ballVelocity.y = currentSpeed * Math.sin(angle);
