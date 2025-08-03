@@ -1,7 +1,7 @@
 # ft_transcendence - Simple Project Management
 # Main commands: start, restart, stop
 
-.PHONY: help start restart stop install clean build
+.PHONY: help start restart stop force-stop install clean build
 
 # Default target
 .DEFAULT_GOAL := help
@@ -23,9 +23,10 @@ help:
 	@echo "$(GREEN)🎮 ft_transcendence Project$(NC)"
 	@echo ""
 	@echo "$(YELLOW)Main Commands:$(NC)"
-	@echo "  $(BLUE)make start$(NC)   - 🚀 Start all services (auth, game, frontend)"
-	@echo "  $(BLUE)make restart$(NC) - 🔄 Restart all services"
-	@echo "  $(BLUE)make stop$(NC)    - 🛑 Stop all services"
+	@echo "  $(BLUE)make start$(NC)      - 🚀 Start all services (with force cleanup)"
+	@echo "  $(BLUE)make restart$(NC)    - 🔄 Restart all services (with force cleanup)"
+	@echo "  $(BLUE)make stop$(NC)       - 🛑 Stop all services"
+	@echo "  $(BLUE)make force-stop$(NC) - 💀 Force kill all processes and free ports"
 	@echo ""
 	@echo "$(YELLOW)Setup Commands:$(NC)"
 	@echo "  $(BLUE)make install$(NC) - 📦 Install dependencies"
@@ -62,7 +63,7 @@ build: install
 	@echo "$(GREEN)✅ All services built!$(NC)"
 
 ## start: 🚀 Start all services
-start: install logs build
+start: force-stop install logs build
 	@echo "$(GREEN)🚀 Starting ft_transcendence services...$(NC)"
 	@echo "$(YELLOW)  ➤ Starting auth-service (port 3001)...$(NC)"
 	@cd $(AUTH_SERVICE_DIR) && node dist/app.js > ../../../logs/auth.log 2>&1 &
@@ -93,8 +94,33 @@ auth-stop:
 	@lsof -ti:3001 | xargs kill -9 2>/dev/null || echo "  ➤ Port 3001 is free"
 	@echo "$(GREEN)✅ Auth service stopped!$(NC)"
 
+## force-stop: 💀 Aggressively stop all processes
+force-stop:
+	@echo "$(RED)💀 Force stopping all processes...$(NC)"
+	@mkdir -p logs
+	@echo "$(YELLOW)  ➤ Killing all Node.js processes...$(NC)"
+	@pkill -f "node.*app.js" 2>/dev/null || echo "  ➤ No app.js processes"
+	@pkill -f "ts-node" 2>/dev/null || echo "  ➤ No ts-node processes"
+	@pkill -f "nodemon" 2>/dev/null || echo "  ➤ No nodemon processes"
+	@pkill -f "npm run dev" 2>/dev/null || echo "  ➤ No npm dev processes"
+	@pkill -f "vite" 2>/dev/null || echo "  ➤ No vite processes"
+	@echo "$(YELLOW)  ➤ Killing processes by port...$(NC)"
+	@lsof -ti:3001 | xargs kill -9 2>/dev/null || echo "  ➤ Port 3001 is free"
+	@lsof -ti:3000 | xargs kill -9 2>/dev/null || echo "  ➤ Port 3000 is free"
+	@lsof -ti:8080 | xargs kill -9 2>/dev/null || echo "  ➤ Port 8080 is free"
+	@echo "$(YELLOW)  ➤ Killing remaining ft_transcendence processes...$(NC)"
+	@pkill -f "ft_transcendence" 2>/dev/null || echo "  ➤ No ft_transcendence processes"
+	@sleep 2
+	@echo "$(YELLOW)  ➤ Final port check...$(NC)"
+	@if lsof -ti:3000,3001,8080 >/dev/null 2>&1; then \
+		echo "$(RED)  ⚠️  Some ports still occupied, force killing...$(NC)"; \
+		lsof -ti:3000,3001,8080 | xargs kill -9 2>/dev/null || true; \
+		sleep 1; \
+	fi
+	@echo "$(GREEN)✅ All processes forcefully stopped!$(NC)"
+
 ## restart: 🔄 Restart all services
-restart: stop start
+restart: force-stop start
 	@echo "$(GREEN)✅ Services restarted!$(NC)"
 
 ## stop: 🛑 Stop all services
