@@ -1,0 +1,53 @@
+[dotenv@17.2.0] injecting env (0) from .env (tip: 🛠️  run anywhere with `dotenvx run -- yourcommand`)
+Environment variables loaded: { CLIENT_ID: 'LOADED', CLIENT_SECRET: 'LOADED', JWT_SECRET: 'LOADED' }
+Database path: /Users/mac/Desktop/muhilio/ft_transcendence/backend/auth-service/db.sqlite
+Initializing database...
+Database initialized successfully.
+{"level":30,"time":1754241858838,"pid":33644,"hostname":"macs-MacBook-Pro.local","msg":"Server listening at http://0.0.0.0:3001"}
+Database connection opened successfully
+Users table created/verified
+Game_settings table created/verified
+User_stats table created/verified
+Missing user_stats records created for existing users
+{"level":30,"time":1754241863986,"pid":33644,"hostname":"macs-MacBook-Pro.local","reqId":"req-1","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":61706},"msg":"incoming request"}
+{"level":30,"time":1754241863993,"pid":33644,"hostname":"macs-MacBook-Pro.local","reqId":"req-1","res":{"statusCode":200},"responseTime":5.873041987419128,"msg":"request completed"}
+{"level":30,"time":1754241863996,"pid":33644,"hostname":"macs-MacBook-Pro.local","reqId":"req-2","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":61708},"msg":"incoming request"}
+{"level":30,"time":1754241863997,"pid":33644,"hostname":"macs-MacBook-Pro.local","reqId":"req-2","res":{"statusCode":200},"responseTime":0.6494170427322388,"msg":"request completed"}
+{"level":30,"time":1754241864977,"pid":33644,"hostname":"macs-MacBook-Pro.local","reqId":"req-3","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":61711},"msg":"incoming request"}
+{"level":30,"time":1754241864979,"pid":33644,"hostname":"macs-MacBook-Pro.local","reqId":"req-3","res":{"statusCode":200},"responseTime":1.165624976158142,"msg":"request completed"}
+{"level":30,"time":1754241865666,"pid":33644,"hostname":"macs-MacBook-Pro.local","reqId":"req-4","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":61713},"msg":"incoming request"}
+{"level":30,"time":1754241865668,"pid":33644,"hostname":"macs-MacBook-Pro.local","reqId":"req-4","res":{"statusCode":200},"responseTime":1.8404589891433716,"msg":"request completed"}
+{"level":30,"time":1754241867173,"pid":33644,"hostname":"macs-MacBook-Pro.local","reqId":"req-5","req":{"method":"GET","url":"/api/settings","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":61716},"msg":"incoming request"}
+{"level":30,"time":1754241867175,"pid":33644,"hostname":"macs-MacBook-Pro.local","reqId":"req-5","res":{"statusCode":200},"responseTime":1.1291669607162476,"msg":"request completed"}
+{"level":30,"time":1754241946671,"pid":33644,"hostname":"macs-MacBook-Pro.local","reqId":"req-6","req":{"method":"POST","url":"/api/users/12/stats","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":61729},"msg":"incoming request"}
+Stats update request: {
+  id: '12',
+  game: 'pong',
+  result: 'win',
+  user: {
+    id: 12,
+    username: 'tzhakypo',
+    email: 'tzhakypo@student.42abudhabi.ae',
+    avatar: 'https://cdn.intra.42.fr/users/57ab954fc14b936a12f327d252a45a56/medium_tzhakypo.jpg',
+    intra_id: 133443,
+    intra_login: 'tzhakypo',
+    auth_provider: '42',
+    iat: 1754230704
+  }
+}
+Mapped values: { gameKey: 'pong', resultKey: 'wins' }
+Updating column: pong_wins
+Stats updated successfully for user: 12
+{"level":30,"time":1754241946675,"pid":33644,"hostname":"macs-MacBook-Pro.local","reqId":"req-6","res":{"statusCode":200},"responseTime":4.448333024978638,"msg":"request completed"}
+{"level":30,"time":1754241952622,"pid":33644,"hostname":"macs-MacBook-Pro.local","reqId":"req-7","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":61733},"msg":"incoming request"}
+{"level":30,"time":1754241952623,"pid":33644,"hostname":"macs-MacBook-Pro.local","reqId":"req-7","res":{"statusCode":200},"responseTime":0.8975000381469727,"msg":"request completed"}
+{"level":30,"time":1754241952626,"pid":33644,"hostname":"macs-MacBook-Pro.local","reqId":"req-8","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":61736},"msg":"incoming request"}
+{"level":30,"time":1754241952627,"pid":33644,"hostname":"macs-MacBook-Pro.local","reqId":"req-8","res":{"statusCode":200},"responseTime":0.9617500305175781,"msg":"request completed"}
+{"level":30,"time":1754241957508,"pid":33644,"hostname":"macs-MacBook-Pro.local","reqId":"req-9","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":61751},"msg":"incoming request"}
+{"level":30,"time":1754241957513,"pid":33644,"hostname":"macs-MacBook-Pro.local","reqId":"req-9","res":{"statusCode":200},"responseTime":4.2200000286102295,"msg":"request completed"}
+{"level":30,"time":1754241963122,"pid":33644,"hostname":"macs-MacBook-Pro.local","reqId":"req-a","req":{"method":"GET","url":"/api/settings","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":61754},"msg":"incoming request"}
+{"level":30,"time":1754241963122,"pid":33644,"hostname":"macs-MacBook-Pro.local","reqId":"req-a","res":{"statusCode":200},"responseTime":0.5425840616226196,"msg":"request completed"}
+{"level":30,"time":1754241987267,"pid":33644,"hostname":"macs-MacBook-Pro.local","reqId":"req-b","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":61757},"msg":"incoming request"}
+{"level":30,"time":1754241987269,"pid":33644,"hostname":"macs-MacBook-Pro.local","reqId":"req-b","res":{"statusCode":200},"responseTime":1.636165976524353,"msg":"request completed"}
+{"level":30,"time":1754241987271,"pid":33644,"hostname":"macs-MacBook-Pro.local","reqId":"req-c","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":61760},"msg":"incoming request"}
+{"level":30,"time":1754241987272,"pid":33644,"hostname":"macs-MacBook-Pro.local","reqId":"req-c","res":{"statusCode":200},"responseTime":0.5201250314712524,"msg":"request completed"}

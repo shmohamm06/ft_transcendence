@@ -1,62 +1,36 @@
-export const GAME_WIDTH = 960;
-export const GAME_HEIGHT = 540;
-export const PADDLE_WIDTH = 20;
-export const PADDLE_HEIGHT = 120;
-export const BALL_SIZE = 12;
-export const BASE_PADDLE_SPEED = 8;
-export const BASE_BALL_SPEED = 6;
-export const WINNING_SCORE = 3;
-
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.GameEngine = exports.GLOBAL_BALL_SPEED_MULTIPLIER = exports.GLOBAL_PADDLE_SPEED_MULTIPLIER = exports.WINNING_SCORE = exports.BASE_BALL_SPEED = exports.BASE_PADDLE_SPEED = exports.BALL_SIZE = exports.PADDLE_HEIGHT = exports.PADDLE_WIDTH = exports.GAME_HEIGHT = exports.GAME_WIDTH = void 0;
+exports.setGlobalPaddleSpeedMultiplier = setGlobalPaddleSpeedMultiplier;
+exports.setGlobalBallSpeedMultiplier = setGlobalBallSpeedMultiplier;
+exports.GAME_WIDTH = 960;
+exports.GAME_HEIGHT = 540;
+exports.PADDLE_WIDTH = 20;
+exports.PADDLE_HEIGHT = 120;
+exports.BALL_SIZE = 12;
+exports.BASE_PADDLE_SPEED = 8;
+exports.BASE_BALL_SPEED = 6;
+exports.WINNING_SCORE = 3;
 // Global speed multipliers - kept for backward compatibility but not used internally
-export let GLOBAL_PADDLE_SPEED_MULTIPLIER = 1;
-export let GLOBAL_BALL_SPEED_MULTIPLIER = 1;
-
+exports.GLOBAL_PADDLE_SPEED_MULTIPLIER = 1;
+exports.GLOBAL_BALL_SPEED_MULTIPLIER = 1;
 // Functions for setting global multipliers - kept for compatibility
-export function setGlobalPaddleSpeedMultiplier(multiplier: number) {
-    GLOBAL_PADDLE_SPEED_MULTIPLIER = Math.max(0.1, Math.min(3.0, multiplier));
-    console.log(`Global paddle speed multiplier set to: ${GLOBAL_PADDLE_SPEED_MULTIPLIER}`);
+function setGlobalPaddleSpeedMultiplier(multiplier) {
+    exports.GLOBAL_PADDLE_SPEED_MULTIPLIER = Math.max(0.1, Math.min(3.0, multiplier));
+    console.log(`Global paddle speed multiplier set to: ${exports.GLOBAL_PADDLE_SPEED_MULTIPLIER}`);
 }
-
-export function setGlobalBallSpeedMultiplier(multiplier: number) {
-    GLOBAL_BALL_SPEED_MULTIPLIER = Math.max(0.1, Math.min(3.0, multiplier));
-    console.log(`Global ball speed multiplier set to: ${GLOBAL_BALL_SPEED_MULTIPLIER}`);
+function setGlobalBallSpeedMultiplier(multiplier) {
+    exports.GLOBAL_BALL_SPEED_MULTIPLIER = Math.max(0.1, Math.min(3.0, multiplier));
+    console.log(`Global ball speed multiplier set to: ${exports.GLOBAL_BALL_SPEED_MULTIPLIER}`);
 }
-
-export interface GameState {
-    ball: { x: number; y: number; };
-    player1: { y: number; score: number; };
-    player2: { y: number; score: number; };
-    gameStatus: 'countdown' | 'playing' | 'gameOver';
-    countdown: number;
-    winner?: 'player1' | 'player2';
-    score: { player1: number; player2: number; };
-    config: {
-        paddleSpeed: number;
-        ballSpeed: number;
-        paddleSpeedMultiplier: number;
-        ballSpeedMultiplier: number;
-    };
-}
-
-export class GameEngine {
-    private gameState: GameState;
-    private ballVelocity: { x: number, y: number };
-    private lastUpdate: number;
-    private countdownStartTime: number;
-    private progressiveSpeedMultiplier: number;
-    private baseBallSpeed: number;
-    // Индивидуальные множители для этого экземпляра игры
-    private instancePaddleSpeedMultiplier: number;
-    private instanceBallSpeedMultiplier: number;
-
+class GameEngine {
     constructor() {
         // Инициализируем с глобальными значениями, но делаем их независимыми
-        this.instancePaddleSpeedMultiplier = GLOBAL_PADDLE_SPEED_MULTIPLIER;
-        this.instanceBallSpeedMultiplier = GLOBAL_BALL_SPEED_MULTIPLIER;
-
+        this.instancePaddleSpeedMultiplier = exports.GLOBAL_PADDLE_SPEED_MULTIPLIER;
+        this.instanceBallSpeedMultiplier = exports.GLOBAL_BALL_SPEED_MULTIPLIER;
         this.gameState = this.getInitialState();
         this.progressiveSpeedMultiplier = 1.0;
-        this.baseBallSpeed = BASE_BALL_SPEED * this.instanceBallSpeedMultiplier;
+        this.baseBallSpeed = exports.BASE_BALL_SPEED * this.instanceBallSpeedMultiplier;
         this.ballVelocity = {
             x: this.baseBallSpeed,
             y: this.baseBallSpeed / 2
@@ -64,43 +38,38 @@ export class GameEngine {
         this.lastUpdate = Date.now();
         this.countdownStartTime = this.lastUpdate;
     }
-
-    private getInitialState(): GameState {
+    getInitialState() {
         return {
-            ball: { x: GAME_WIDTH / 2, y: GAME_HEIGHT / 2 },
-            player1: { y: GAME_HEIGHT / 2 - PADDLE_HEIGHT / 2, score: 0 },
-            player2: { y: GAME_HEIGHT / 2 - PADDLE_HEIGHT / 2, score: 0 },
+            ball: { x: exports.GAME_WIDTH / 2, y: exports.GAME_HEIGHT / 2 },
+            player1: { y: exports.GAME_HEIGHT / 2 - exports.PADDLE_HEIGHT / 2, score: 0 },
+            player2: { y: exports.GAME_HEIGHT / 2 - exports.PADDLE_HEIGHT / 2, score: 0 },
             gameStatus: 'countdown',
             countdown: 3,
             winner: undefined,
             score: { player1: 0, player2: 0 },
             config: {
-                paddleSpeed: BASE_PADDLE_SPEED * this.instancePaddleSpeedMultiplier,
-                ballSpeed: BASE_BALL_SPEED * this.instanceBallSpeedMultiplier,
+                paddleSpeed: exports.BASE_PADDLE_SPEED * this.instancePaddleSpeedMultiplier,
+                ballSpeed: exports.BASE_BALL_SPEED * this.instanceBallSpeedMultiplier,
                 paddleSpeedMultiplier: this.instancePaddleSpeedMultiplier,
                 ballSpeedMultiplier: this.instanceBallSpeedMultiplier,
             },
         };
     }
-
-    public update() {
+    update() {
         const now = Date.now();
         const deltaTime = Math.min((now - this.lastUpdate) / 16.67, 5.0); // Ограничиваем deltaTime максимум 5 кадрами
         this.lastUpdate = now;
-
         // Update configuration with current instance multipliers (not global)
         const oldBallSpeed = this.gameState.config.ballSpeed;
-        this.gameState.config.paddleSpeed = BASE_PADDLE_SPEED * this.instancePaddleSpeedMultiplier;
-        this.gameState.config.ballSpeed = BASE_BALL_SPEED * this.instanceBallSpeedMultiplier;
+        this.gameState.config.paddleSpeed = exports.BASE_PADDLE_SPEED * this.instancePaddleSpeedMultiplier;
+        this.gameState.config.ballSpeed = exports.BASE_BALL_SPEED * this.instanceBallSpeedMultiplier;
         this.gameState.config.paddleSpeedMultiplier = this.instancePaddleSpeedMultiplier;
         this.gameState.config.ballSpeedMultiplier = this.instanceBallSpeedMultiplier;
-
         // If ball speed changed, update its velocity immediately
         if (oldBallSpeed !== this.gameState.config.ballSpeed) {
             console.log(`Ball speed changed from ${oldBallSpeed} to ${this.gameState.config.ballSpeed}, updating velocity...`);
             this.updateBallVelocity();
         }
-
         // Countdown logic
         if (this.gameState.gameStatus === 'countdown') {
             const elapsed = now - this.countdownStartTime;
@@ -115,49 +84,43 @@ export class GameEngine {
             }
             return;
         }
-
         if (this.gameState.gameStatus !== 'playing') {
             return;
         }
-
         // Ball movement с защитой от выхода за границы
         this.gameState.ball.x += this.ballVelocity.x * deltaTime;
         this.gameState.ball.y += this.ballVelocity.y * deltaTime;
-
         // Защита от выхода мяча за границы экрана
-        this.gameState.ball.x = Math.max(0, Math.min(GAME_WIDTH - BALL_SIZE, this.gameState.ball.x));
-        this.gameState.ball.y = Math.max(0, Math.min(GAME_HEIGHT - BALL_SIZE, this.gameState.ball.y));
-
+        this.gameState.ball.x = Math.max(0, Math.min(exports.GAME_WIDTH - exports.BALL_SIZE, this.gameState.ball.x));
+        this.gameState.ball.y = Math.max(0, Math.min(exports.GAME_HEIGHT - exports.BALL_SIZE, this.gameState.ball.y));
         // Ball collision with top/bottom walls
-        if (this.gameState.ball.y <= 0 || this.gameState.ball.y >= GAME_HEIGHT - BALL_SIZE) {
+        if (this.gameState.ball.y <= 0 || this.gameState.ball.y >= exports.GAME_HEIGHT - exports.BALL_SIZE) {
             this.ballVelocity.y *= -1;
             // Дополнительная защита от застревания
-            this.gameState.ball.y = Math.max(0, Math.min(GAME_HEIGHT - BALL_SIZE, this.gameState.ball.y));
+            this.gameState.ball.y = Math.max(0, Math.min(exports.GAME_HEIGHT - exports.BALL_SIZE, this.gameState.ball.y));
         }
-
         // Ball collision with paddles
         this.handlePaddleCollision();
-
         // Scoring
         if (this.gameState.ball.x <= 0) {
             this.scorePoint('player2');
-        } else if (this.gameState.ball.x >= GAME_WIDTH - BALL_SIZE) {
+        }
+        else if (this.gameState.ball.x >= exports.GAME_WIDTH - exports.BALL_SIZE) {
             this.scorePoint('player1');
         }
     }
-
-    private scorePoint(player: 'player1' | 'player2') {
+    scorePoint(player) {
         this.gameState[player].score++;
-        if (this.gameState[player].score >= WINNING_SCORE) {
+        if (this.gameState[player].score >= exports.WINNING_SCORE) {
             this.gameState.winner = player;
             this.gameState.gameStatus = 'gameOver';
-        } else {
+        }
+        else {
             this.resetBall(player === 'player1' ? -1 : 1);
         }
     }
-
-    private resetBall(direction: number) {
-        this.gameState.ball = { x: GAME_WIDTH / 2, y: GAME_HEIGHT / 2 };
+    resetBall(direction) {
+        this.gameState.ball = { x: exports.GAME_WIDTH / 2, y: exports.GAME_HEIGHT / 2 };
         // Reset progressive speed when ball is reset (after scoring)
         this.progressiveSpeedMultiplier = 1.0;
         const angle = (Math.random() - 0.5) * Math.PI / 3;
@@ -168,66 +131,60 @@ export class GameEngine {
         };
         this.startCountdown();
     }
-
-    private handlePaddleCollision() {
+    handlePaddleCollision() {
         const { ball, player1, player2 } = this.gameState;
-
         // Player 1 collision
-        if (this.ballVelocity.x < 0 && ball.x <= PADDLE_WIDTH && ball.y + BALL_SIZE >= player1.y && ball.y <= player1.y + PADDLE_HEIGHT) {
-            const hitPoint = (ball.y - player1.y) / PADDLE_HEIGHT;
+        if (this.ballVelocity.x < 0 && ball.x <= exports.PADDLE_WIDTH && ball.y + exports.BALL_SIZE >= player1.y && ball.y <= player1.y + exports.PADDLE_HEIGHT) {
+            const hitPoint = (ball.y - player1.y) / exports.PADDLE_HEIGHT;
             const angle = (hitPoint - 0.5) * Math.PI / 2;
             // Increase speed progressively with each paddle hit
             this.progressiveSpeedMultiplier = Math.min(10.0, this.progressiveSpeedMultiplier + 0.3);
             const currentSpeed = this.baseBallSpeed * this.progressiveSpeedMultiplier;
             this.ballVelocity.x = currentSpeed * Math.cos(angle);
             this.ballVelocity.y = currentSpeed * Math.sin(angle);
-            ball.x = PADDLE_WIDTH + 1;
+            ball.x = exports.PADDLE_WIDTH + 1;
             console.log(`Ball speed increased to ${currentSpeed.toFixed(2)} (multiplier: ${this.progressiveSpeedMultiplier.toFixed(2)})`);
         }
-
         // Player 2 collision
-        if (this.ballVelocity.x > 0 && ball.x + BALL_SIZE >= GAME_WIDTH - PADDLE_WIDTH && ball.y + BALL_SIZE >= player2.y && ball.y <= player2.y + PADDLE_HEIGHT) {
-            const hitPoint = (ball.y - player2.y) / PADDLE_HEIGHT;
+        if (this.ballVelocity.x > 0 && ball.x + exports.BALL_SIZE >= exports.GAME_WIDTH - exports.PADDLE_WIDTH && ball.y + exports.BALL_SIZE >= player2.y && ball.y <= player2.y + exports.PADDLE_HEIGHT) {
+            const hitPoint = (ball.y - player2.y) / exports.PADDLE_HEIGHT;
             const angle = (hitPoint - 0.5) * Math.PI / 2;
             // Increase speed progressively with each paddle hit
             this.progressiveSpeedMultiplier = Math.min(2.5, this.progressiveSpeedMultiplier + 0.1);
             const currentSpeed = this.baseBallSpeed * this.progressiveSpeedMultiplier;
             this.ballVelocity.x = -currentSpeed * Math.cos(angle);
             this.ballVelocity.y = currentSpeed * Math.sin(angle);
-            ball.x = GAME_WIDTH - PADDLE_WIDTH - BALL_SIZE - 1;
+            ball.x = exports.GAME_WIDTH - exports.PADDLE_WIDTH - exports.BALL_SIZE - 1;
             console.log(`Ball speed increased to ${currentSpeed.toFixed(2)} (multiplier: ${this.progressiveSpeedMultiplier.toFixed(2)})`);
         }
     }
-
-    public movePaddle(player: 'player1' | 'player2', direction: 'up' | 'down') {
-        if (this.gameState.gameStatus !== 'playing') return;
+    movePaddle(player, direction) {
+        if (this.gameState.gameStatus !== 'playing')
+            return;
         const paddle = this.gameState[player];
         const move = this.gameState.config.paddleSpeed;
         if (direction === 'up') {
             paddle.y = Math.max(0, paddle.y - move);
-        } else {
-            paddle.y = Math.min(GAME_HEIGHT - PADDLE_HEIGHT, paddle.y + move);
+        }
+        else {
+            paddle.y = Math.min(exports.GAME_HEIGHT - exports.PADDLE_HEIGHT, paddle.y + move);
         }
     }
-
-    public moveAIPaddle(direction: 'up' | 'down') {
+    moveAIPaddle(direction) {
         this.movePaddle('player2', direction);
     }
-
-    public startNewMatch() {
+    startNewMatch() {
         this.gameState = this.getInitialState();
         this.progressiveSpeedMultiplier = 1.0;
-        this.baseBallSpeed = BASE_BALL_SPEED * this.instanceBallSpeedMultiplier;
+        this.baseBallSpeed = exports.BASE_BALL_SPEED * this.instanceBallSpeedMultiplier;
         this.startCountdown();
     }
-
-    public startCountdown() {
+    startCountdown() {
         this.gameState.gameStatus = 'countdown';
         this.gameState.countdown = 3;
         this.countdownStartTime = Date.now();
     }
-
-    public getGameState(): GameState {
+    getGameState() {
         return {
             ...this.gameState,
             score: {
@@ -236,31 +193,26 @@ export class GameEngine {
             }
         };
     }
-
     // Обновленные методы для установки скорости через индивидуальные множители
-    public setBallSpeed(speed: number) {
-        this.instanceBallSpeedMultiplier = Math.max(0.1, Math.min(3.0, speed / BASE_BALL_SPEED));
-        this.baseBallSpeed = BASE_BALL_SPEED * this.instanceBallSpeedMultiplier;
+    setBallSpeed(speed) {
+        this.instanceBallSpeedMultiplier = Math.max(0.1, Math.min(3.0, speed / exports.BASE_BALL_SPEED));
+        this.baseBallSpeed = exports.BASE_BALL_SPEED * this.instanceBallSpeedMultiplier;
         // Immediately update ball speed
         this.updateBallVelocity();
         console.log(`Ball speed set to ${speed} (instance multiplier: ${this.instanceBallSpeedMultiplier})`);
     }
-
-    public setPaddleSpeed(speed: number) {
-        this.instancePaddleSpeedMultiplier = Math.max(0.1, Math.min(3.0, speed / BASE_PADDLE_SPEED));
+    setPaddleSpeed(speed) {
+        this.instancePaddleSpeedMultiplier = Math.max(0.1, Math.min(3.0, speed / exports.BASE_PADDLE_SPEED));
         console.log(`Paddle speed set to ${speed} (instance multiplier: ${this.instancePaddleSpeedMultiplier})`);
     }
-
     // New method for updating ball speed
-    private updateBallVelocity() {
+    updateBallVelocity() {
         const currentSpeed = this.baseBallSpeed * this.progressiveSpeedMultiplier;
-
         // If game is in countdown state, just update configuration
         if (this.gameState.gameStatus === 'countdown') {
             console.log(`Game in countdown, ball speed will be applied when game starts: ${currentSpeed}`);
             return;
         }
-
         // If ball is moving, update its speed while preserving direction
         if (this.ballVelocity.x !== 0 || this.ballVelocity.y !== 0) {
             const magnitude = Math.sqrt(this.ballVelocity.x * this.ballVelocity.x + this.ballVelocity.y * this.ballVelocity.y);
@@ -268,19 +220,21 @@ export class GameEngine {
                 // Normalize direction and apply new speed
                 this.ballVelocity.x = (this.ballVelocity.x / magnitude) * currentSpeed;
                 this.ballVelocity.y = (this.ballVelocity.y / magnitude) * currentSpeed;
-            } else {
+            }
+            else {
                 // If ball is stationary, give it random direction
                 const angle = (Math.random() - 0.5) * Math.PI / 3;
                 this.ballVelocity.x = currentSpeed * Math.cos(angle);
                 this.ballVelocity.y = currentSpeed * Math.sin(angle);
             }
-        } else {
+        }
+        else {
             // If ball is stationary, give it random direction
             const angle = (Math.random() - 0.5) * Math.PI / 3;
             this.ballVelocity.x = currentSpeed * Math.cos(angle);
             this.ballVelocity.y = currentSpeed * Math.sin(angle);
         }
-
         console.log(`Ball velocity updated: x=${this.ballVelocity.x.toFixed(2)}, y=${this.ballVelocity.y.toFixed(2)}, speed=${currentSpeed}, progressive multiplier=${this.progressiveSpeedMultiplier.toFixed(2)}`);
     }
 }
+exports.GameEngine = GameEngine;

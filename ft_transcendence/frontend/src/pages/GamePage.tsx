@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PongScene from '../components/PongScene';
 import { Link, useSearchParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
@@ -32,12 +32,14 @@ const GamePage = () => {
 
     // Track pressed keys for simultaneous movement
     const pressedKeys = useRef<Set<string>>(new Set());
-    const movementInterval = useRef<NodeJS.Timeout | null>(null);
+    const movementInterval = useRef<number | null>(null);
 
-    const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+    const saveTimeoutRef = useRef<number | null>(null);
     const saveBlockedRef = useRef<boolean>(false);
     const processingGameOverRef = useRef<boolean>(false);
     const socketRef = useRef<WebSocket | null>(null);
+    const reconnectTimeoutRef = useRef<number | null>(null);
+    const lastConnectTime = useRef<number>(0);
     const { token, user } = useAuth();
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
@@ -249,7 +251,6 @@ const GamePage = () => {
             // Show notification only once
             setTimeout(() => {
                 const gameModeText = isPvPMode ? 'PvP' : isTournamentMode ? 'Tournament' : 'AI';
-                alert(`🎮 ${gameModeText} game result saved to your profile: ${result.toUpperCase()}!`);
             }, 2000);
 
         } catch (error) {
@@ -263,6 +264,29 @@ const GamePage = () => {
     };
 
     useEffect(() => {
+        const connectWebSocket = () => {
+            const now = Date.now();
+
+            // Debounce: не подключаемся если прошло меньше 1 секунды с последнего подключения
+            if (now - lastConnectTime.current < 1000) {
+                console.log('🚫 Debouncing WebSocket connection');
+                return;
+            }
+
+            // Очищаем старое соединение если оно существует
+            if (socketRef.current) {
+                console.log('🧹 Cleaning up old WebSocket connection');
+                socketRef.current.onopen = null;
+                socketRef.current.onclose = null;
+                socketRef.current.onerror = null;
+                socketRef.current.onmessage = null;
+
+                if (socketRef.current.readyState === WebSocket.OPEN) {
+                    socketRef.current.close();
+                }
+                socketRef.current = null;
+            }
+
         const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
         // Connect directly to game-service on port 8080
         let wsUrl = `${wsProtocol}//localhost:8080/ws/game`;
@@ -278,7 +302,13 @@ const GamePage = () => {
             wsUrl += 'mode=pvp'; // Tournament uses PvP mode
         }
 
+            // Добавляем timestamp для уникальности URL
+            wsUrl += (token || isPvPMode || isTournamentMode) ? '&' : '?';
+            wsUrl += `t=${now}`;
+
         console.log('Connecting to WebSocket:', wsUrl);
+            lastConnectTime.current = now;
+
         const socket = new WebSocket(wsUrl);
         socketRef.current = socket;
 
@@ -292,9 +322,14 @@ const GamePage = () => {
             }, 100);
         };
 
-        socket.onclose = () => {
-            console.log('WebSocket disconnected');
+            socket.onclose = (event) => {
+                console.log('WebSocket disconnected', event.code, event.reason);
             setConnectionStatus('Disconnected');
+
+                // Переподключение только если компонент еще смонтирован
+                if (socketRef.current === socket) {
+                    socketRef.current = null;
+                }
         };
 
         socket.onerror = (error) => {
@@ -304,6 +339,13 @@ const GamePage = () => {
 
         socket.onmessage = (event) => {
             try {
+                // Throttling: обрабатываем сообщения не чаще чем раз в 16ms
+                const now = Date.now();
+                if (now - (socketRef.current as any).lastMessageTime < 16) {
+                    return; // Пропускаем слишком частые сообщения
+                }
+                (socketRef.current as any).lastMessageTime = now;
+
                 const data = JSON.parse(event.data);
                 let processedData = data;
 
@@ -314,8 +356,6 @@ const GamePage = () => {
                 } else {
                     setGameState(data);
                 }
-
-
 
                 // Handle tournament auto-winner detection at 3 points
                 if (isTournamentMode && tournamentMatch && processedData.score) {
@@ -333,14 +373,11 @@ const GamePage = () => {
                         if (!existingResult) {
                             console.log(`🏆 Tournament winner detected: ${winnerName} (${winner}) with score ${p1Score}-${p2Score}`);
                             handleTournamentGameEnd(winner);
-
-                            // Also show a visual notification
-                            alert(`🏆 Tournament Match Complete!\n${winnerName} wins with ${p1Score}-${p2Score}!\n\nClick "Continue Tournament" to proceed.`);
                         }
                     }
                 }
 
-                                // Handle game end - save stats for AI games
+                // Handle game end - save stats for AI games
                 if (processedData.gameStatus === 'gameOver' && processedData.winner) {
                     console.log(`🎮 Game over detected!`, {
                         winner: processedData.winner,
@@ -385,12 +422,39 @@ const GamePage = () => {
                 }
             } catch (error) {
                 console.error('Error parsing game state:', error);
+                // Не прерываем обработку при ошибке парсинга
             }
         };
 
+        };
+
+        // Очищаем предыдущий timeout если есть
+        if (reconnectTimeoutRef.current) {
+            clearTimeout(reconnectTimeoutRef.current);
+        }
+
+        // Задержка перед подключением для предотвращения множественных подключений
+        reconnectTimeoutRef.current = setTimeout(() => {
+            connectWebSocket();
+        }, 100);
+
         return () => {
             console.log('Cleaning up WebSocket connection');
-            socket.close();
+
+            // Очищаем timeout
+            if (reconnectTimeoutRef.current) {
+                clearTimeout(reconnectTimeoutRef.current);
+            }
+
+            // Очищаем WebSocket
+            if (socketRef.current) {
+                socketRef.current.onopen = null;
+                socketRef.current.onclose = null;
+                socketRef.current.onerror = null;
+                socketRef.current.onmessage = null;
+                socketRef.current.close();
+                socketRef.current = null;
+            }
         };
     }, [token, isPvPMode, isTournamentMode, navigate, tournamentMatch]);
 

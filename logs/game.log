@@ -1,0 +1,671 @@
+
+> game-service@1.0.0 dev
+> nodemon src/app.ts
+
+[33m[nodemon] 3.1.10[39m
+[33m[nodemon] to restart at any time, enter `rs`[39m
+[33m[nodemon] watching path(s): *.*[39m
+[33m[nodemon] watching extensions: ts,json[39m
+[32m[nodemon] starting `ts-node src/app.ts`[39m
+GameGateway initialized
+Game service WebSocket server starting on port 8080 with path /ws/game
+Game service is running on port 8080
+New WebSocket connection received
+Request URL: /ws/game?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoidHpoYWt5cG8iLCJlbWFpbCI6InR6aGFreXBvQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzLzU3YWI5NTRmYzE0YjkzNmExMmYzMjdkMjUyYTQ1YTU2L21lZGl1bV90emhha3lwby5qcGciLCJpbnRyYV9pZCI6MTMzNDQzLCJpbnRyYV9sb2dpbiI6InR6aGFreXBvIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzU0MjMwNzA0fQ.cc4eYWY5mfJcJXYH9FOCXtQMfgQ0gxmgoRmTnrqMz88&t=1754241867142
+Request headers: {
+  host: 'localhost:8080',
+  connection: 'Upgrade',
+  pragma: 'no-cache',
+  'cache-control': 'no-cache',
+  'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36',
+  upgrade: 'websocket',
+  origin: 'http://localhost:3000',
+  'sec-websocket-version': '13',
+  'accept-encoding': 'gzip, deflate, br, zstd',
+  'accept-language': 'en,ru-RU;q=0.9,ru;q=0.8,en-US;q=0.7',
+  cookie: 'csrftoken=y5uEpcwZCBx6i5UZo9xLvCHsaYi5RYWe',
+  'sec-websocket-key': 'prUDeZGn5yfg8rmD9DPH5Q==',
+  'sec-websocket-extensions': 'permessage-deflate; client_max_window_bits'
+}
+Client /ws/game?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoidHpoYWt5cG8iLCJlbWFpbCI6InR6aGFreXBvQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzLzU3YWI5NTRmYzE0YjkzNmExMmYzMjdkMjUyYTQ1YTU2L21lZGl1bV90emhha3lwby5qcGciLCJpbnRyYV9pZCI6MTMzNDQzLCJpbnRyYV9sb2dpbiI6InR6aGFreXBvIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzU0MjMwNzA0fQ.cc4eYWY5mfJcJXYH9FOCXtQMfgQ0gxmgoRmTnrqMz88&t=1754241867142 connected to game service
+Game mode: ai
+Attempting to load user settings with token: eyJhbGciOiJIUzI1NiIs...
+Loaded user settings: {}
+Global ball speed multiplier set to: 0.8333333333333334
+Game in countdown, ball speed will be applied when game starts: 5
+Ball speed set to 5 (instance multiplier: 0.8333333333333334)
+Updated ball speed to: 5 (multiplier: 0.8333333333333334) for all active games
+Global paddle speed multiplier set to: 1.25
+Paddle speed set to 10 (instance multiplier: 1.25)
+Updated paddle speed to: 10 (multiplier: 1.25) for all active games
+Ball speed changed from 6 to 5, updating velocity...
+Game in countdown, ball speed will be applied when game starts: 5
+Ball velocity updated: x=4.47, y=2.24, speed=5, progressive multiplier=1.00
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+Ball speed increased to 5.50 (multiplier: 1.10)
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+Ball speed increased to 7.00 (multiplier: 1.40)
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+Ball speed increased to 7.50 (multiplier: 1.50)
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+Ball speed increased to 9.00 (multiplier: 1.80)
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+Ball speed increased to 9.50 (multiplier: 1.90)
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+Ball speed increased to 11.00 (multiplier: 2.20)
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+Ball speed increased to 11.50 (multiplier: 2.30)
+AI mode move: player1 down
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+Ball speed increased to 13.00 (multiplier: 2.60)
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+Ball speed increased to 12.50 (multiplier: 2.50)
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 up
+AI mode move: player1 up
+Ball speed increased to 14.00 (multiplier: 2.80)
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+Ball speed increased to 12.50 (multiplier: 2.50)
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+Ball speed increased to 14.00 (multiplier: 2.80)
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+Ball velocity updated: x=-4.88, y=-1.07, speed=5, progressive multiplier=1.00
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+Ball speed increased to 6.50 (multiplier: 1.30)
+Ball speed increased to 7.00 (multiplier: 1.40)
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 up
+AI mode move: player1 up
+Ball speed increased to 8.50 (multiplier: 1.70)
+AI mode move: player1 up
+Ball speed increased to 9.00 (multiplier: 1.80)
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+Ball speed increased to 10.50 (multiplier: 2.10)
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+Ball speed increased to 11.00 (multiplier: 2.20)
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+Ball velocity updated: x=4.34, y=-2.48, speed=5, progressive multiplier=1.00
+Ball speed increased to 5.50 (multiplier: 1.10)
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 up
+AI mode move: player1 up
+Ball speed increased to 7.00 (multiplier: 1.40)
+AI mode move: player1 up
+Ball speed increased to 7.50 (multiplier: 1.50)
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+Ball speed increased to 9.00 (multiplier: 1.80)
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+Ball speed increased to 9.50 (multiplier: 1.90)
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+Ball speed increased to 11.00 (multiplier: 2.20)
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+Ball velocity updated: x=-4.99, y=-0.37, speed=5, progressive multiplier=1.00
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+Ball speed increased to 6.50 (multiplier: 1.30)
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+Ball speed increased to 7.00 (multiplier: 1.40)
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+Ball speed increased to 8.50 (multiplier: 1.70)
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+Ball speed increased to 9.00 (multiplier: 1.80)
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+Ball speed increased to 10.50 (multiplier: 2.10)
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+Ball speed increased to 11.00 (multiplier: 2.20)
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+Ball speed increased to 12.50 (multiplier: 2.50)
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+Ball speed increased to 12.50 (multiplier: 2.50)
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+Ball speed increased to 14.00 (multiplier: 2.80)
+Client /ws/game?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoidHpoYWt5cG8iLCJlbWFpbCI6InR6aGFreXBvQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzLzU3YWI5NTRmYzE0YjkzNmExMmYzMjdkMjUyYTQ1YTU2L21lZGl1bV90emhha3lwby5qcGciLCJpbnRyYV9pZCI6MTMzNDQzLCJpbnRyYV9sb2dpbiI6InR6aGFreXBvIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzU0MjMwNzA0fQ.cc4eYWY5mfJcJXYH9FOCXtQMfgQ0gxmgoRmTnrqMz88&t=1754241867142 disconnected from game service
+Cleaned up game loop for client /ws/game?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoidHpoYWt5cG8iLCJlbWFpbCI6InR6aGFreXBvQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzLzU3YWI5NTRmYzE0YjkzNmExMmYzMjdkMjUyYTQ1YTU2L21lZGl1bV90emhha3lwby5qcGciLCJpbnRyYV9pZCI6MTMzNDQzLCJpbnRyYV9sb2dpbiI6InR6aGFreXBvIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzU0MjMwNzA0fQ.cc4eYWY5mfJcJXYH9FOCXtQMfgQ0gxmgoRmTnrqMz88&t=1754241867142
+New WebSocket connection received
+Request URL: /ws/game?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoidHpoYWt5cG8iLCJlbWFpbCI6InR6aGFreXBvQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzLzU3YWI5NTRmYzE0YjkzNmExMmYzMjdkMjUyYTQ1YTU2L21lZGl1bV90emhha3lwby5qcGciLCJpbnRyYV9pZCI6MTMzNDQzLCJpbnRyYV9sb2dpbiI6InR6aGFreXBvIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzU0MjMwNzA0fQ.cc4eYWY5mfJcJXYH9FOCXtQMfgQ0gxmgoRmTnrqMz88&mode=pvp&t=1754241963114
+Request headers: {
+  host: 'localhost:8080',
+  connection: 'Upgrade',
+  pragma: 'no-cache',
+  'cache-control': 'no-cache',
+  'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36',
+  upgrade: 'websocket',
+  origin: 'http://localhost:3000',
+  'sec-websocket-version': '13',
+  'accept-encoding': 'gzip, deflate, br, zstd',
+  'accept-language': 'en,ru-RU;q=0.9,ru;q=0.8,en-US;q=0.7',
+  cookie: 'csrftoken=y5uEpcwZCBx6i5UZo9xLvCHsaYi5RYWe',
+  'sec-websocket-key': '14XRlcOKIZ9XpK8VUfFnyQ==',
+  'sec-websocket-extensions': 'permessage-deflate; client_max_window_bits'
+}
+Client /ws/game?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoidHpoYWt5cG8iLCJlbWFpbCI6InR6aGFreXBvQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzLzU3YWI5NTRmYzE0YjkzNmExMmYzMjdkMjUyYTQ1YTU2L21lZGl1bV90emhha3lwby5qcGciLCJpbnRyYV9pZCI6MTMzNDQzLCJpbnRyYV9sb2dpbiI6InR6aGFreXBvIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzU0MjMwNzA0fQ.cc4eYWY5mfJcJXYH9FOCXtQMfgQ0gxmgoRmTnrqMz88&mode=pvp&t=1754241963114 connected to game service
+Game mode: pvp
+Attempting to load user settings with token: eyJhbGciOiJIUzI1NiIs...
+Loaded user settings: {}
+Global ball speed multiplier set to: 0.8333333333333334
+Game in countdown, ball speed will be applied when game starts: 5
+Ball speed set to 5 (instance multiplier: 0.8333333333333334)
+Updated ball speed to: 5 (multiplier: 0.8333333333333334) for all active games
+Global paddle speed multiplier set to: 1.25
+Paddle speed set to 10 (instance multiplier: 1.25)
+Updated paddle speed to: 10 (multiplier: 1.25) for all active games
+PvP move: player1 up
+Ball velocity updated: x=4.47, y=2.24, speed=5, progressive multiplier=1.00
+PvP move: player1 up
+PvP move: player1 up
+PvP move: player1 up
+PvP move: player1 up
+PvP move: player1 up
+PvP move: player1 down
+PvP move: player1 down
+PvP move: player1 down
+PvP move: player1 down
+PvP move: player1 down
+PvP move: player1 down
+PvP move: player1 down
+PvP move: player1 down
+PvP move: player1 down
+PvP move: player1 down
+PvP move: player1 up
+PvP move: player1 up
+PvP move: player1 up
+PvP move: player1 up
+PvP move: player1 up
+PvP move: player1 up
+PvP move: player1 up
+PvP move: player1 up
+PvP move: player1 up
+PvP move: player1 up
+PvP move: player1 up
+PvP move: player1 up
+PvP move: player1 up
+Ball velocity updated: x=-4.82, y=1.32, speed=5, progressive multiplier=1.00
+PvP move: player1 down
+PvP move: player1 down
+PvP move: player1 down
+PvP move: player1 down
+PvP move: player1 down
+PvP move: player1 down
+PvP move: player1 down
+Ball speed increased to 6.50 (multiplier: 1.30)
+PvP move: player1 up
+PvP move: player1 up
+PvP move: player1 up
+PvP move: player1 up
+Ball velocity updated: x=-5.00, y=-0.02, speed=5, progressive multiplier=1.00
+PvP move: player1 up
+PvP move: player1 up
+PvP move: player1 up
+PvP move: player1 up
+PvP move: player1 up
+PvP move: player1 up
+PvP move: player1 up
+PvP move: player1 up
+PvP move: player1 up
+PvP move: player1 up
+PvP move: player1 up
+PvP move: player1 up
+Ball speed increased to 6.50 (multiplier: 1.30)
+PvP move: player1 down
+PvP move: player1 down
+PvP move: player1 down
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+PvP move: player2 up
+Client /ws/game?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoidHpoYWt5cG8iLCJlbWFpbCI6InR6aGFreXBvQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzLzU3YWI5NTRmYzE0YjkzNmExMmYzMjdkMjUyYTQ1YTU2L21lZGl1bV90emhha3lwby5qcGciLCJpbnRyYV9pZCI6MTMzNDQzLCJpbnRyYV9sb2dpbiI6InR6aGFreXBvIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzU0MjMwNzA0fQ.cc4eYWY5mfJcJXYH9FOCXtQMfgQ0gxmgoRmTnrqMz88&mode=pvp&t=1754241963114 disconnected from game service
+Cleaned up game loop for client /ws/game?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoidHpoYWt5cG8iLCJlbWFpbCI6InR6aGFreXBvQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzLzU3YWI5NTRmYzE0YjkzNmExMmYzMjdkMjUyYTQ1YTU2L21lZGl1bV90emhha3lwby5qcGciLCJpbnRyYV9pZCI6MTMzNDQzLCJpbnRyYV9sb2dpbiI6InR6aGFreXBvIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzU0MjMwNzA0fQ.cc4eYWY5mfJcJXYH9FOCXtQMfgQ0gxmgoRmTnrqMz88&mode=pvp&t=1754241963114

@@ -1,43 +1,26 @@
-import { GameEngine, setGlobalBallSpeedMultiplier, setGlobalPaddleSpeedMultiplier } from './game.engine';
-import { AIOpponent } from './ai.opponent';
-
-export interface GameMessage {
-    action?: 'move' | 'settings';
-    type?: 'move' | 'settings' | 'startNewMatch' | 'startGame';
-    direction?: 'up' | 'down';
-    player?: 'player1' | 'player2';
-    ballSpeed?: number;
-    paddleSpeed?: number;
-}
-
-export class GameGateway {
-    private clients: Map<string, {
-        socket: any;
-        gameEngine: GameEngine;
-        aiOpponent: AIOpponent;
-        gameLoop: NodeJS.Timeout;
-        gameMode: 'ai' | 'pvp';
-    }> = new Map();
-    private performanceStats = {
-        totalClients: 0,
-        activeClients: 0,
-        lastCleanup: Date.now()
-    };
-
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.GameGateway = void 0;
+const game_engine_1 = require("./game.engine");
+const ai_opponent_1 = require("./ai.opponent");
+class GameGateway {
     constructor() {
+        this.clients = new Map();
+        this.performanceStats = {
+            totalClients: 0,
+            activeClients: 0,
+            lastCleanup: Date.now()
+        };
         console.log('GameGateway initialized');
-
         // Периодическая очистка проблемных соединений
         setInterval(() => {
             this.cleanupStaleConnections();
         }, 30000); // Каждые 30 секунд
     }
-
     // Новый метод для очистки проблемных соединений
-    private cleanupStaleConnections() {
+    cleanupStaleConnections() {
         const now = Date.now();
         let cleanedCount = 0;
-
         for (const [clientId, clientData] of this.clients.entries()) {
             // Проверяем соединения которые не отвечают
             if (clientData.socket.readyState !== 1) {
@@ -46,95 +29,86 @@ export class GameGateway {
                 cleanedCount++;
             }
         }
-
         if (cleanedCount > 0) {
             console.log(`Cleaned up ${cleanedCount} stale connections`);
         }
-
         this.performanceStats.activeClients = this.clients.size;
         this.performanceStats.lastCleanup = now;
     }
-
     // Новый метод для очистки клиента
-    private cleanupClient(clientId: string) {
+    cleanupClient(clientId) {
         const clientData = this.clients.get(clientId);
         if (clientData) {
             try {
                 clearInterval(clientData.gameLoop);
                 console.log(`Cleaned up game loop for client ${clientId}`);
-            } catch (error) {
+            }
+            catch (error) {
                 console.error(`Error cleaning up client ${clientId}:`, error);
             }
             this.clients.delete(clientId);
         }
     }
-
-    public handleConnection(client: any, connectionInfo: any) {
+    handleConnection(client, connectionInfo) {
         const clientId = connectionInfo.url || Math.random().toString(36);
         console.log(`Client ${clientId} connected to game service`);
-
         // Determine game mode from URL parameters
         const url = new URL(connectionInfo.url, 'http://localhost');
         const gameMode = url.searchParams.get('mode') === 'pvp' ? 'pvp' : 'ai';
         console.log(`Game mode: ${gameMode}`);
-
-        const gameEngine = new GameEngine();
-        const aiOpponent = new AIOpponent();
-
+        const gameEngine = new game_engine_1.GameEngine();
+        const aiOpponent = new ai_opponent_1.AIOpponent();
         // Try to load user settings from query parameters or headers
         this.loadUserSettings(connectionInfo).then(settings => {
             if (settings.ballSpeed !== undefined) {
-                setGlobalBallSpeedMultiplier(settings.ballSpeed / 6); // 6 - base ball speed
+                (0, game_engine_1.setGlobalBallSpeedMultiplier)(settings.ballSpeed / 6); // 6 - base ball speed
                 console.log(`Applied ball speed multiplier: ${settings.ballSpeed / 6}`);
             }
             if (settings.paddleSpeed !== undefined) {
-                setGlobalPaddleSpeedMultiplier(settings.paddleSpeed / 8); // 8 - base paddle speed
+                (0, game_engine_1.setGlobalPaddleSpeedMultiplier)(settings.paddleSpeed / 8); // 8 - base paddle speed
                 console.log(`Applied paddle speed multiplier: ${settings.paddleSpeed / 8}`);
             }
         }).catch(err => {
             console.log('Could not load user settings:', err.message);
         });
-
         // Start game loop с оптимизациями производительности
         let lastSendTime = 0;
         const minSendInterval = 16; // Минимум 16ms между отправками (60 FPS)
-
         const gameLoop = setInterval(() => {
             try {
                 gameEngine.update();
                 const gameState = gameEngine.getGameState();
-
                 if (gameState.gameStatus === 'playing' && gameMode === 'ai') {
                     const aiMove = aiOpponent.getMove(gameState);
                     if (aiMove) {
                         gameEngine.moveAIPaddle(aiMove);
                     }
                 }
-
                 // Отправляем состояние только если соединение активно и прошло достаточно времени
                 const now = Date.now();
                 if (client.readyState === 1 && (now - lastSendTime >= minSendInterval)) {
                     try {
                         const message = JSON.stringify({ type: 'gameState', data: gameState });
-
                         // Проверяем буфер отправки WebSocket
                         if (client.bufferedAmount < 1024 * 1024) { // Максимум 1MB в буфере
                             client.send(message);
                             lastSendTime = now;
-                        } else {
+                        }
+                        else {
                             console.warn(`WebSocket buffer overflow for client ${clientId}, skipping send`);
                         }
-                    } catch (sendError) {
+                    }
+                    catch (sendError) {
                         console.error(`Error sending game state to client ${clientId}:`, sendError);
                         // Не прерываем игровой цикл при ошибке отправки
                     }
                 }
-            } catch (error) {
+            }
+            catch (error) {
                 console.error(`Error in game loop for client ${clientId}:`, error);
                 // Не прерываем цикл при ошибке, только логируем
             }
         }, 1000 / 60); // 60 FPS
-
         // Store client data
         this.clients.set(clientId, {
             socket: client,
@@ -143,82 +117,67 @@ export class GameGateway {
             gameLoop,
             gameMode
         });
-
-        client.on('message', (data: Buffer) => {
+        client.on('message', (data) => {
             this.handleMessage(clientId, data);
         });
-
         client.on('close', () => {
             console.log(`Client ${clientId} disconnected from game service`);
             this.cleanupClient(clientId);
         });
-
-        client.on('error', (error: Error) => {
+        client.on('error', (error) => {
             console.error(`WebSocket error for client ${clientId}:`, error);
             this.cleanupClient(clientId);
         });
-
         // Start a new match immediately
         gameEngine.startNewMatch();
     }
-
-    private async loadUserSettings(connectionInfo: any): Promise<{ballSpeed?: number, paddleSpeed?: number}> {
+    async loadUserSettings(connectionInfo) {
         try {
             // Try to extract token from URL parameters
             const url = new URL(connectionInfo.url, 'http://localhost');
             const token = url.searchParams.get('token') || connectionInfo.headers?.authorization?.replace('Bearer ', '');
-
             if (!token) {
                 throw new Error('No token provided');
             }
-
             console.log('Attempting to load user settings with token:', token.substring(0, 20) + '...');
-
             // Make request to auth service to get user settings
             const response = await fetch('http://localhost:3001/api/settings', {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
             });
-
             if (!response.ok) {
                 throw new Error(`Auth service responded with ${response.status}`);
             }
-
             const settings = await response.json();
-            const result: {ballSpeed?: number, paddleSpeed?: number} = {};
-
-            settings.forEach((setting: {key: string, value: string}) => {
+            const result = {};
+            settings.forEach((setting) => {
                 if (setting.key === 'ballSpeed') {
                     result.ballSpeed = parseInt(setting.value);
-                } else if (setting.key === 'paddleSpeed') {
+                }
+                else if (setting.key === 'paddleSpeed') {
                     result.paddleSpeed = parseInt(setting.value);
                 }
             });
-
             console.log('Loaded user settings:', result);
             return result;
-        } catch (error) {
+        }
+        catch (error) {
             console.log('Failed to load user settings:', error);
             throw error;
         }
     }
-
-    private handleMessage(clientId: string, data: Buffer) {
+    handleMessage(clientId, data) {
         try {
-            const message: GameMessage = JSON.parse(data.toString());
+            const message = JSON.parse(data.toString());
             const clientData = this.clients.get(clientId);
-
             if (!clientData) {
                 console.error(`Client ${clientId} not found`);
                 return;
             }
-
             const { gameEngine, gameMode } = clientData;
-
             // Handle both 'action' and 'type' formats for compatibility
             const actionType = message.action || message.type;
-
             switch (actionType) {
                 case 'move':
                     if (message.direction) {
@@ -226,7 +185,8 @@ export class GameGateway {
                             // PvP mode: handle specific player moves
                             gameEngine.movePaddle(message.player, message.direction);
                             console.log(`PvP move: ${message.player} ${message.direction}`);
-                        } else {
+                        }
+                        else {
                             // AI mode: always move player1
                             gameEngine.movePaddle('player1', message.direction);
                             console.log(`AI mode move: player1 ${message.direction}`);
@@ -237,29 +197,25 @@ export class GameGateway {
                     if (message.ballSpeed !== undefined) {
                         // Convert value from 1-10 to multiplier
                         const ballMultiplier = message.ballSpeed / 6; // 6 - base speed
-                        setGlobalBallSpeedMultiplier(ballMultiplier);
-
+                        (0, game_engine_1.setGlobalBallSpeedMultiplier)(ballMultiplier);
                         // Apply settings to all active games
                         this.clients.forEach((clientData, id) => {
                             if (message.ballSpeed !== undefined) {
                                 clientData.gameEngine.setBallSpeed(message.ballSpeed);
                             }
                         });
-
                         console.log(`Updated ball speed to: ${message.ballSpeed} (multiplier: ${ballMultiplier}) for all active games`);
                     }
                     if (message.paddleSpeed !== undefined) {
                         // Convert value from 1-10 to multiplier
                         const paddleMultiplier = message.paddleSpeed / 8; // 8 - base speed
-                        setGlobalPaddleSpeedMultiplier(paddleMultiplier);
-
+                        (0, game_engine_1.setGlobalPaddleSpeedMultiplier)(paddleMultiplier);
                         // Apply settings to all active games
                         this.clients.forEach((clientData, id) => {
                             if (message.paddleSpeed !== undefined) {
                                 clientData.gameEngine.setPaddleSpeed(message.paddleSpeed);
                             }
                         });
-
                         console.log(`Updated paddle speed to: ${message.paddleSpeed} (multiplier: ${paddleMultiplier}) for all active games`);
                     }
                     break;
@@ -272,13 +228,14 @@ export class GameGateway {
                     console.log('Started countdown');
                     break;
             }
-        } catch (error) {
+        }
+        catch (error) {
             console.error('Error parsing message:', error);
         }
     }
-
-    public handleDisconnect(client: any) {
+    handleDisconnect(client) {
         // This method is called when a client disconnects
         console.log('Client disconnected from game service');
     }
 }
+exports.GameGateway = GameGateway;
