@@ -1,0 +1,2625 @@
+I'll provide you with an extremely detailed analysis of your backend architecture and comprehensive information essential for a lead backend developer. Let me examine your codebase more thoroughly first.
+
+Read file: ft_transcendence/backend/auth-service/src/modules/user/user.route.ts
+Read file: ft_transcendence/backend/auth-service/src/modules/user/user.controller.ts
+Read file: ft_transcendence/backend/game-service/src/modules/game/game.gateway.ts
+Read file: ft_transcendence/backend/auth-service/package.json
+Read file: ft_transcendence/backend/game-service/package.json
+Now I'll provide you with an extremely detailed analysis of your backend architecture and comprehensive information essential for a lead backend developer.
+
+# COMPREHENSIVE BACKEND ARCHITECTURE ANALYSIS
+
+## 1. WHAT IS BACKEND? (Detailed Analysis)
+
+The **backend** is the server-side foundation of your application that operates behind the scenes. In your Transcendence project, it's a sophisticated multi-service architecture:
+
+### Core Components:
+- **Business Logic Layer**: Handles application rules, data processing, and complex operations
+- **Data Access Layer**: Manages database interactions and data persistence
+- **Authentication Layer**: Secures user access and manages sessions
+- **API Gateway**: Routes requests and manages service communication
+- **Real-time Communication Layer**: Handles WebSocket connections for live game updates
+
+### Your Backend Architecture:
+```
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   Frontend      │    │   Nginx Proxy   │    │   Auth Service  │
+│   (React)       │◄──►│   (Port 8081)   │◄──►│   (Port 3001)   │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+                                │                        │
+                                ▼                        ▼
+                       ┌─────────────────┐    ┌─────────────────┐
+                       │  Game Service   │    │   SQLite DB     │
+                       │  (Port 3002)    │    │   (File-based)  │
+                       └─────────────────┘    └─────────────────┘
+```
+
+### Key Responsibilities:
+1. **Request Processing**: Validates, authenticates, and processes incoming requests
+2. **Data Management**: CRUD operations on user data, game settings, statistics
+3. **Real-time Communication**: WebSocket connections for live game updates
+4. **Security**: JWT token management, password hashing, input validation
+5. **Service Coordination**: Inter-service communication and data synchronization
+
+## 2. HOW DOES BACKEND WORK WITH FRONTEND? (Detailed Analysis)
+
+### Communication Patterns:
+
+#### HTTP REST API Communication:
+```typescript
+// Frontend makes HTTP requests to auth-service
+const response = await fetch('http://localhost:3001/api/users/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, password })
+});
+```
+
+#### WebSocket Real-time Communication:
+```typescript
+// Frontend connects to game-service via WebSocket
+const ws = new WebSocket('ws://localhost:3002/ws/game?token=jwt_token');
+ws.onmessage = (event) => {
+    const gameState = JSON.parse(event.data);
+    updateGameDisplay(gameState);
+};
+```
+
+#### Nginx Reverse Proxy:
+```nginx
+# Routes requests from frontend to appropriate backend services
+location /api/ {
+    proxy_pass http://auth-service:3000;
+}
+
+location /ws/game {
+    proxy_pass http://game-service:8080;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+}
+```
+
+### Data Flow Architecture:
+1. **User Action** → Frontend sends request
+2. **Nginx Routing** → Routes to appropriate service
+3. **Service Processing** → Backend processes request
+4. **Database Interaction** → Data is stored/retrieved
+5. **Response Generation** → Backend sends response
+6. **Frontend Update** → UI updates with new data
+
+### Cross-Origin Resource Sharing (CORS):
+```typescript
+// Auth service CORS configuration
+fastify.register(cors, {
+    origin: ['http://localhost:3000', 'http://127.0.0.1:3000', 
+             'http://localhost:8081', 'http://127.0.0.1:8081'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true
+});
+```
+
+## 3. WHAT IS AN API? (Detailed Analysis)
+
+An **API (Application Programming Interface)** is a contract that defines how different software components communicate. In your project:
+
+### REST API (Representational State Transfer):
+```typescript
+// RESTful endpoints in your auth-service
+server.post('/register', registerUserHandler);     // Create user
+server.post('/login', loginHandler);               // Authenticate user
+server.get('/profile', getUserProfileHandler);     // Retrieve user data
+server.put('/settings', updateSettingsHandler);    // Update settings
+server.post('/:id/stats', updateUserStatsHandler); // Update statistics
+```
+
+### WebSocket API (Real-time Communication):
+```typescript
+// WebSocket message types in your game-service
+interface GameMessage {
+    action?: 'move' | 'settings';
+    type?: 'move' | 'settings' | 'startNewMatch' | 'startGame';
+    direction?: 'up' | 'down';
+    player?: 'player1' | 'player2';
+    ballSpeed?: number;
+    paddleSpeed?: number;
+}
+```
+
+### API Design Principles:
+1. **Stateless**: Each request contains all necessary information
+2. **Cacheable**: Responses can be cached for performance
+3. **Uniform Interface**: Consistent resource naming and operations
+4. **Layered System**: Services can be composed and layered
+
+### API Versioning Strategy:
+```typescript
+// Future API versioning approach
+fastify.register(userRoutes, { prefix: '/api/v1/users' });
+fastify.register(userRoutes, { prefix: '/api/v2/users' });
+```
+
+## 4. WHAT ARE ENDPOINTS? (Detailed Analysis)
+
+**Endpoints** are specific URLs that your backend responds to. Each endpoint has specific responsibilities:
+
+### Authentication Endpoints:
+```typescript
+// User Registration
+POST /api/users/register
+Body: { username: string, email: string, password: string }
+Response: { id: number, username: string, email: string }
+
+// User Login
+POST /api/users/login
+Body: { email: string, password: string }
+Response: { accessToken: string }
+
+// OAuth Authorization
+GET /api/users/oauth/42/authorize
+Response: Redirect to 42 OAuth
+
+// OAuth Callback
+POST /api/users/oauth/42/callback
+Body: { code: string, state?: string }
+Response: { accessToken: string, user: object }
+```
+
+### User Management Endpoints:
+```typescript
+// Get User Profile
+GET /api/users/profile
+Headers: { Authorization: 'Bearer <token>' }
+Response: { id, username, email, stats: { pong_wins, pong_losses, ttt_wins, ttt_losses } }
+
+// Update User Statistics
+POST /api/users/:id/stats
+Headers: { Authorization: 'Bearer <token>' }
+Body: { game: 'pong' | 'tictactoe', result: 'win' | 'loss' }
+Response: { message: 'Stats updated successfully' }
+```
+
+### Settings Endpoints:
+```typescript
+// Get User Settings
+GET /api/settings
+Headers: { Authorization: 'Bearer <token>' }
+Response: [{ key: string, value: string }]
+
+// Update User Settings
+PUT /api/settings
+Headers: { Authorization: 'Bearer <token>' }
+Body: [{ key: string, value: string }]
+Response: 204 No Content
+```
+
+### Token Verification Endpoint:
+```typescript
+// Verify JWT Token
+POST /api/verify
+Headers: { Authorization: 'Bearer <token>' }
+Response: { user: object } | { error: 'Unauthorized' }
+```
+
+### WebSocket Endpoints:
+```typescript
+// Game WebSocket Connection
+WS /ws/game?token=<jwt_token>&mode=<ai|pvp>
+Messages: GameMessage interface
+```
+
+## 5. HOW ARE WE HANDLING REQUESTS? (Detailed Analysis)
+
+### Request Processing Pipeline:
+
+#### 1. Request Reception:
+```typescript
+// Fastify handles incoming HTTP requests
+const fastify = Fastify({ logger: true });
+```
+
+#### 2. Middleware Processing:
+```typescript
+// CORS middleware
+fastify.register(cors, {
+    origin: ['http://localhost:3000', 'http://127.0.0.1:3000', 
+             'http://localhost:8081', 'http://127.0.0.1:8081'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true
+});
+
+// JWT middleware
+fastify.register(jwt, {
+    secret: process.env.JWT_SECRET || 'a-super-secret-key-that-is-long-enough'
+});
+```
+
+#### 3. Route Matching:
+```typescript
+// Route registration with schemas
+server.post('/register', {
+    schema: {
+        body: $ref('registerUserSchema'),
+        response: { 201: $ref('userResponseSchema') },
+    },
+}, registerUserHandler);
+```
+
+#### 4. Authentication:
+```typescript
+// Pre-handler authentication
+server.get('/profile', {
+    preHandler: async (request, reply) => {
+        try {
+            await request.jwtVerify();
+        } catch (err) {
+            reply.send(err);
+        }
+    },
+}, getUserProfileHandler);
+```
+
+#### 5. Request Validation:
+```typescript
+// Zod schema validation
+const registerUserSchema = z.object({
+    username: z.string(),
+    email: z.string().email(),
+    password: z.string().min(6),
+});
+```
+
+#### 6. Business Logic Processing:
+```typescript
+export async function registerUserHandler(
+    request: FastifyRequest<{ Body: RegisterUserInput }>,
+    reply: FastifyReply
+) {
+    try {
+        const user = await registerUser(request.body);
+        return reply.code(201).send(user);
+    } catch (e: any) {
+        // Error handling with specific SQLite constraint errors
+        if (e.message && e.message.includes('UNIQUE constraint failed')) {
+            if (e.message.includes('users.email')) {
+                return reply.code(409).send({ message: 'Email already exists' });
+            }
+            if (e.message.includes('users.username')) {
+                return reply.code(409).send({ message: 'Username already exists' });
+            }
+        }
+        return reply.code(500).send({ message: 'Error creating user' });
+    }
+}
+```
+
+#### 7. Database Operations:
+```typescript
+// Database interaction
+export async function registerUser(input: RegisterUserInput) {
+    const { username, email, password } = input;
+    const hashedPassword = hashPassword(password);
+
+    return new Promise((resolve, reject) => {
+        const stmt = db.prepare('INSERT INTO users (username, email, password) VALUES (?, ?, ?)');
+        stmt.run(username, email, hashedPassword, function (this: any, err: any) {
+            if (err) return reject(err);
+            const userId = this.lastID;
+            // Create user stats record
+            db.run('INSERT INTO user_stats (user_id) VALUES (?)', [userId], (statsErr: any) => {
+                if (statsErr) return reject(statsErr);
+                // Return user data
+                db.get('SELECT id, username, email FROM users WHERE id = ?', userId, (err: any, row: any) => {
+                    if (err) return reject(err);
+                    resolve(row);
+                });
+            });
+        });
+        stmt.finalize();
+    });
+}
+```
+
+#### 8. Response Generation:
+```typescript
+// Success response
+return reply.code(201).send(user);
+
+// Error response
+return reply.code(409).send({ message: 'Email already exists' });
+
+// No content response
+return reply.code(204).send();
+```
+
+### WebSocket Request Handling:
+```typescript
+// WebSocket message processing
+private handleMessage(clientId: string, data: Buffer) {
+    try {
+        const message: GameMessage = JSON.parse(data.toString());
+        const clientData = this.clients.get(clientId);
+
+        if (!clientData) {
+            console.error(`Client ${clientId} not found`);
+            return;
+        }
+
+        const { gameEngine, gameMode } = clientData;
+        const actionType = message.action || message.type;
+
+        switch (actionType) {
+            case 'move':
+                if (message.direction) {
+                    if (gameMode === 'pvp' && message.player) {
+                        gameEngine.movePaddle(message.player, message.direction);
+                    } else {
+                        gameEngine.movePaddle('player1', message.direction);
+                    }
+                }
+                break;
+            case 'settings':
+                if (message.ballSpeed !== undefined) {
+                    const ballMultiplier = message.ballSpeed / 6;
+                    setGlobalBallSpeedMultiplier(ballMultiplier);
+                }
+                break;
+            case 'startNewMatch':
+                gameEngine.startNewMatch();
+                break;
+        }
+    } catch (error) {
+        console.error('Error parsing message:', error);
+    }
+}
+```
+
+## 6. WHAT IS A RESPONSE AND HOW ARE WE HANDLING IT? (Detailed Analysis)
+
+### Response Types and Handling:
+
+#### HTTP Response Structure:
+```typescript
+// Success Response (200/201)
+return reply.code(201).send({
+    id: 1,
+    username: "john_doe",
+    email: "john@example.com"
+});
+
+// Error Response (4xx/5xx)
+return reply.code(401).send({
+    message: "Invalid email or password"
+});
+
+// No Content Response (204)
+return reply.code(204).send();
+
+// Redirect Response (302)
+return reply.redirect(302, authURL);
+```
+
+#### Response Headers:
+```typescript
+// Content-Type header
+return reply
+    .header('Content-Type', 'application/json')
+    .send(JSON.stringify(responseData));
+
+// CORS headers (handled by middleware)
+// Authorization headers
+// Cache-Control headers
+```
+
+#### WebSocket Response Handling:
+```typescript
+// Real-time game state updates
+const gameLoop = setInterval(() => {
+    gameEngine.update();
+    const gameState = gameEngine.getGameState();
+
+    if (client.readyState === 1) { // WebSocket.OPEN
+        client.send(JSON.stringify({ 
+            type: 'gameState', 
+            data: gameState 
+        }));
+    }
+}, 1000 / 60); // 60 FPS
+```
+
+#### Error Response Patterns:
+```typescript
+// Database constraint errors
+if (e.message && e.message.includes('UNIQUE constraint failed')) {
+    if (e.message.includes('users.email')) {
+        return reply.code(409).send({ message: 'Email already exists' });
+    }
+    if (e.message.includes('users.username')) {
+        return reply.code(409).send({ message: 'Username already exists' });
+    }
+}
+
+// Authentication errors
+return reply.code(401).send({ message: 'Unauthorized' });
+
+// Validation errors
+return reply.code(400).send({ message: 'Invalid game or result type' });
+
+// Server errors
+return reply.code(500).send({ message: 'Error creating user' });
+```
+
+#### Response Status Codes:
+- **200 OK**: Successful GET, PUT, PATCH requests
+- **201 Created**: Successful POST requests (resource created)
+- **204 No Content**: Successful DELETE requests
+- **400 Bad Request**: Invalid request data
+- **401 Unauthorized**: Missing or invalid authentication
+- **404 Not Found**: Resource not found
+- **409 Conflict**: Resource conflict (duplicate data)
+- **500 Internal Server Error**: Server-side errors
+
+## 7. WHAT ARE MICROSERVICES? (Detailed Analysis)
+
+**Microservices** is an architectural pattern where an application is decomposed into small, independent services that communicate over well-defined APIs.
+
+### Microservices Characteristics:
+
+#### 1. Service Independence:
+```typescript
+// Each service has its own:
+// - Database
+// - Technology stack
+// - Deployment cycle
+// - Team ownership
+```
+
+#### 2. Single Responsibility:
+```typescript
+// Auth Service: User management, authentication, settings
+// Game Service: Real-time game logic, WebSocket communication
+// Frontend Service: UI rendering, user interaction
+```
+
+#### 3. Independent Deployment:
+```dockerfile
+# Each service has its own Dockerfile
+FROM node:18-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+RUN npm run build
+EXPOSE 3000
+CMD ["npm", "start"]
+```
+
+#### 4. Service Communication:
+```typescript
+// Inter-service communication
+const response = await fetch('http://localhost:3001/api/settings', {
+    headers: {
+        'Authorization': `Bearer ${token}`
+    }
+});
+```
+
+### Microservices Benefits:
+1. **Scalability**: Scale services independently
+2. **Technology Diversity**: Use different tech stacks per service
+3. **Team Autonomy**: Teams can work independently
+4. **Fault Isolation**: Service failures don't cascade
+5. **Deployment Flexibility**: Deploy services independently
+
+### Microservices Challenges:
+1. **Distributed System Complexity**: Network latency, service discovery
+2. **Data Consistency**: Maintaining data across services
+3. **Testing Complexity**: Integration testing across services
+4. **Operational Overhead**: Monitoring, logging, deployment
+
+## 8. IS OUR BACKEND DESIGNED AS MICROSERVICES? (Detailed Analysis)
+
+**YES!** Your Transcendence project is a well-designed microservices architecture:
+
+### Service Decomposition:
+```yaml
+# docker-compose.yml shows microservices structure
+services:
+  auth-service:    # User management, authentication
+    ports: ["3001:3000"]
+  
+  game-service:    # Real-time game logic
+    ports: ["3002:8080"]
+  
+  nginx:          # API gateway, reverse proxy
+    ports: ["8081:80"]
+```
+
+### Service Responsibilities:
+
+#### Auth Service (Port 3001):
+```typescript
+// Responsibilities:
+// - User registration and authentication
+// - JWT token management
+// - OAuth integration (42)
+// - User profile management
+// - Game settings storage
+// - User statistics tracking
+// - Database operations (SQLite)
+
+// Key endpoints:
+POST /api/users/register
+POST /api/users/login
+GET /api/users/profile
+POST /api/settings
+POST /api/verify
+```
+
+#### Game Service (Port 3002):
+```typescript
+// Responsibilities:
+// - Real-time game logic (Pong)
+// - WebSocket connections
+// - Game state management
+// - AI opponent logic
+// - Game settings application
+// - Real-time communication
+
+// Key features:
+- WebSocket server on /ws/game
+- Game engine with physics
+- AI opponent implementation
+- Settings integration with auth service
+```
+
+#### Frontend Service (Port 8081):
+```typescript
+// Responsibilities:
+// - React application hosting
+// - User interface rendering
+// - Client-side routing
+// - API consumption
+// - WebSocket client management
+```
+
+### Inter-Service Communication:
+```typescript
+// Game service communicates with auth service
+private async loadUserSettings(connectionInfo: any) {
+    const response = await fetch('http://localhost:3001/api/settings', {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
+    const settings = await response.json();
+    return settings;
+}
+```
+
+### Data Flow Architecture:
+```
+Frontend → Nginx → Auth Service → SQLite Database
+     ↓
+Game Service ← WebSocket ← Frontend
+     ↓
+Auth Service (for settings/verification)
+```
+
+## 9. WHAT IS A DATABASE? (Detailed Analysis)
+
+A **database** is a structured collection of data stored electronically that provides efficient storage, retrieval, and management of information.
+
+### Database Functions:
+1. **Data Storage**: Persistent storage of application data
+2. **Data Retrieval**: Fast querying and data access
+3. **Data Integrity**: Ensuring data consistency and validity
+4. **Concurrency Control**: Managing multiple simultaneous access
+5. **Security**: Protecting sensitive data
+6. **Backup and Recovery**: Data protection and restoration
+
+### Database Types:
+1. **Relational Databases**: SQL-based (MySQL, PostgreSQL, SQLite)
+2. **NoSQL Databases**: Document, key-value, graph databases
+3. **In-Memory Databases**: Redis, Memcached
+4. **Time-Series Databases**: InfluxDB, TimescaleDB
+
+### Database Architecture:
+```sql
+-- Your project uses SQLite with these tables:
+-- 1. users: User account information
+-- 2. game_settings: User game preferences
+-- 3. user_stats: Game statistics and achievements
+```
+
+## 10. HOW AND WHERE IS THE DATABASE CONNECTED TO OUR BACKEND? (Detailed Analysis)
+
+### Database Connection Architecture:
+
+#### Connection Setup:
+```typescript
+// Database connection in auth-service/src/db/init.ts
+import sqlite3 from 'sqlite3';
+import path from 'path';
+
+const dbPath = path.join(__dirname, '../../db.sqlite');
+const db = new sqlite3.Database(dbPath, sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE, (err) => {
+    if (err) {
+        console.error('Error opening database:', err);
+    } else {
+        console.log('Database connection opened successfully');
+    }
+});
+```
+
+#### Connection Configuration:
+```typescript
+// SQLite connection options
+sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE
+// - OPEN_READWRITE: Allow read and write operations
+// - OPEN_CREATE: Create database file if it doesn't exist
+```
+
+#### Database Initialization:
+```typescript
+export const initializeDatabase = () => {
+    db.serialize(() => {
+        console.log('Initializing database...');
+        
+        // Create tables with proper schemas
+        db.run(`CREATE TABLE IF NOT EXISTS users (...)`);
+        db.run(`CREATE TABLE IF NOT EXISTS game_settings (...)`);
+        db.run(`CREATE TABLE IF NOT EXISTS user_stats (...)`);
+        
+        console.log('Database initialized successfully.');
+    });
+};
+```
+
+#### Service-Database Relationship:
+```typescript
+// Only auth-service has direct database access
+// Game service communicates with auth service for data
+// Frontend has no direct database access
+
+Auth Service ←→ SQLite Database (Direct connection)
+Game Service ←→ Auth Service ←→ SQLite Database (Indirect)
+Frontend ←→ Auth Service ←→ SQLite Database (Indirect)
+```
+
+### Database Connection Management:
+```typescript
+// Connection pooling (SQLite doesn't need traditional pooling)
+// But we can implement connection management:
+export const getDatabase = () => {
+    if (!db) {
+        throw new Error('Database not initialized');
+    }
+    return db;
+};
+
+// Error handling
+db.on('error', (err) => {
+    console.error('Database error:', err);
+    // Implement retry logic or fallback
+});
+```
+
+## 11. WHAT KIND OF DATABASE ARE WE USING? (Detailed Analysis)
+
+**SQLite** - A lightweight, serverless, self-contained, high-reliability, full-featured, SQL database engine.
+
+### SQLite Characteristics:
+
+#### 1. Serverless Architecture:
+```typescript
+// No separate database server needed
+// Database is a single file
+const dbPath = path.join(__dirname, '../../db.sqlite');
+// File: ft_transcendence/backend/auth-service/db.sqlite
+```
+
+#### 2. ACID Compliance:
+```typescript
+// Atomicity, Consistency, Isolation, Durability
+db.serialize(() => {
+    db.run('BEGIN');
+    // Multiple operations
+    db.run('COMMIT');
+});
+```
+
+#### 3. Zero Configuration:
+```typescript
+// No installation, configuration, or administration required
+const db = new sqlite3.Database(dbPath);
+// Ready to use immediately
+```
+
+#### 4. Single File Storage:
+```bash
+# Database is stored as a single file
+ls -la ft_transcendence/backend/auth-service/db.sqlite
+# -rw-r--r-- 1 user user 1234567 Jan 1 12:00 db.sqlite
+```
+
+### SQLite Data Types:
+```sql
+-- SQLite has dynamic typing
+INTEGER: 1, 2, 3, 4, 8 bytes
+REAL: 8-byte IEEE floating point
+TEXT: UTF-8, UTF-16BE, UTF-16LE
+BLOB: Binary data
+NULL: Null value
+```
+
+### SQLite Limitations:
+1. **Concurrent Access**: Limited concurrent writes
+2. **Network Access**: No built-in network access
+3. **Size Limitations**: Practical limits on database size
+4. **Advanced Features**: Limited compared to enterprise databases
+
+## 12. WHY ARE WE USING SUCH KIND OF DATABASE? (Detailed Analysis)
+
+### SQLite Advantages for Your Project:
+
+#### 1. Development Simplicity:
+```typescript
+// No database server setup required
+// Perfect for development and testing
+// Easy to backup (single file)
+```
+
+#### 2. Deployment Simplicity:
+```dockerfile
+# Database file can be included in Docker image
+COPY db.sqlite /app/db.sqlite
+# No external database dependencies
+```
+
+#### 3. Performance for Small Scale:
+```typescript
+// Excellent performance for small to medium applications
+// No network latency (file-based)
+// Fast read/write operations
+```
+
+#### 4. Reliability:
+```typescript
+// ACID compliant
+// Crash-safe
+// Corrupt-resistant
+// Self-healing capabilities
+```
+
+#### 5. Cost-Effective:
+```typescript
+// No licensing costs
+// No server infrastructure needed
+// Minimal resource requirements
+```
+
+### When SQLite is Ideal:
+- **Small to Medium Applications**: Your game platform
+- **Development/Testing**: Rapid prototyping
+- **Embedded Applications**: Single-user scenarios
+- **Read-Heavy Workloads**: User profiles, settings
+- **Simple Data Models**: Your current schema
+
+### When to Consider Alternatives:
+- **High Concurrency**: Multiple simultaneous writes
+- **Large Scale**: Millions of users
+- **Complex Queries**: Advanced analytics
+- **Network Distribution**: Multi-server deployments
+
+## 13. HOW ARE WE STORING THE DATA IN THE DATABASE? (Detailed Analysis)
+
+### Database Schema Design:
+
+#### 1. Users Table:
+```sql
+CREATE TABLE users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT NOT NULL UNIQUE,
+    email TEXT NOT NULL UNIQUE,
+    password TEXT,
+    avatar TEXT,
+    intra_id INTEGER UNIQUE,
+    intra_login TEXT UNIQUE,
+    auth_provider TEXT DEFAULT 'local',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+#### 2. Game Settings Table:
+```sql
+CREATE TABLE game_settings (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
+    key TEXT NOT NULL,
+    value TEXT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    UNIQUE(user_id, key)
+);
+```
+
+#### 3. User Statistics Table:
+```sql
+CREATE TABLE user_stats (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL UNIQUE,
+    pong_wins INTEGER DEFAULT 0,
+    pong_losses INTEGER DEFAULT 0,
+    ttt_wins INTEGER DEFAULT 0,
+    ttt_losses INTEGER DEFAULT 0,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+```
+
+### Data Storage Patterns:
+
+#### 1. User Registration:
+```typescript
+export async function registerUser(input: RegisterUserInput) {
+    const { username, email, password } = input;
+    const hashedPassword = hashPassword(password);
+
+    return new Promise((resolve, reject) => {
+        const stmt = db.prepare('INSERT INTO users (username, email, password) VALUES (?, ?, ?)');
+        stmt.run(username, email, hashedPassword, function (this: any, err: any) {
+            if (err) return reject(err);
+            const userId = this.lastID;
+
+            // Create user stats record
+            db.run('INSERT INTO user_stats (user_id) VALUES (?)', [userId], (statsErr: any) => {
+                if (statsErr) return reject(statsErr);
+                
+                // Return user data
+                db.get('SELECT id, username, email FROM users WHERE id = ?', userId, (err: any, row: any) => {
+                    if (err) return reject(err);
+                    resolve(row);
+                });
+            });
+        });
+        stmt.finalize();
+    });
+}
+```
+
+#### 2. Settings Storage:
+```typescript
+export async function updateSettingsForUser(userId: number, settings: UpdateSettingsInput) {
+    return new Promise<void>((resolve, reject) => {
+        const sql = `
+            INSERT INTO game_settings (user_id, key, value)
+            VALUES (?, ?, ?)
+            ON CONFLICT(user_id, key) DO UPDATE SET value = excluded.value;
+        `;
+
+        db.serialize(() => {
+            const stmt = db.prepare(sql);
+            try {
+                db.run('BEGIN');
+                for (const setting of settings) {
+                    stmt.run(userId, setting.key, setting.value);
+                }
+                db.run('COMMIT', (err: any) => {
+                    if (err) return reject(err);
+                    resolve();
+                });
+            } catch (err) {
+                db.run('ROLLBACK');
+                reject(err);
+            } finally {
+                stmt.finalize();
+            }
+        });
+    });
+}
+```
+
+#### 3. Statistics Updates:
+```typescript
+export async function updateUserStatsHandler(
+    request: FastifyRequest<{ Params: { id: string }, Body: { game: string, result: string } }>,
+    reply: FastifyReply
+) {
+    const { id } = request.params;
+    const { game, result } = request.body;
+
+    const gameMap: Record<string, string> = {
+        pong: 'pong',
+        tictactoe: 'ttt',
+    };
+
+    const resultMap: Record<string, string> = {
+        win: 'wins',
+        loss: 'losses',
+    };
+
+    const gameKey = gameMap[game];
+    const resultKey = resultMap[result];
+    const column = `${gameKey}_${resultKey}`;
+
+    return new Promise<void>((resolve, reject) => {
+        db.run(
+            `UPDATE user_stats SET ${column} = ${column} + 1 WHERE user_id = ?`,
+            [id],
+            function (err: Error | null) {
+                if (err) {
+                    reply.code(500).send({ message: 'Failed to update stats' });
+                    reject(err);
+                } else {
+                    reply.code(200).send({ message: 'Stats updated successfully' });
+                    resolve();
+                }
+            }
+        );
+    });
+}
+```
+
+### Data Relationships:
+```sql
+-- One-to-One relationship
+users (1) ←→ (1) user_stats
+
+-- One-to-Many relationship
+users (1) ←→ (N) game_settings
+```
+
+### Data Validation:
+```typescript
+// Zod schema validation
+const registerUserSchema = z.object({
+    username: z.string(),
+    email: z.string().email(),
+    password: z.string().min(6),
+});
+
+const settingSchema = z.object({
+    key: z.string(),
+    value: z.string(),
+});
+```
+
+## 14. HOW DOES THE DATABASE WORK? (Detailed Analysis)
+
+### SQLite Database Engine:
+
+#### 1. File-Based Storage:
+```typescript
+// Database is a single file
+const dbPath = path.join(__dirname, '../../db.sqlite');
+// File contains all tables, indexes, and data
+```
+
+#### 2. Transaction Management:
+```typescript
+// ACID transactions
+db.serialize(() => {
+    db.run('BEGIN');
+    // Multiple operations
+    db.run('COMMIT');
+    // or db.run('ROLLBACK') on error
+});
+```
+
+#### 3. Prepared Statements:
+```typescript
+// Prevent SQL injection and improve performance
+const stmt = db.prepare('INSERT INTO users (username, email, password) VALUES (?, ?, ?)');
+stmt.run(username, email, hashedPassword);
+stmt.finalize();
+```
+
+#### 4. Query Execution:
+```typescript
+// Synchronous execution with callbacks
+db.get('SELECT * FROM users WHERE id = ?', [userId], (err, row) => {
+    if (err) {
+        console.error('Database error:', err);
+        return;
+    }
+    console.log('User:', row);
+});
+
+// Multiple rows
+db.all('SELECT * FROM users', (err, rows) => {
+    if (err) {
+        console.error('Database error:', err);
+        return;
+    }
+    console.log('All users:', rows);
+});
+```
+
+#### 5. Index Management:
+```sql
+-- Automatic indexes on PRIMARY KEY and UNIQUE constraints
+-- Manual indexes for performance
+CREATE INDEX idx_users_email ON users(email);
+CREATE INDEX idx_game_settings_user_key ON game_settings(user_id, key);
+```
+
+#### 6. Constraint Enforcement:
+```sql
+-- Primary key constraints
+id INTEGER PRIMARY KEY AUTOINCREMENT
+
+-- Unique constraints
+username TEXT NOT NULL UNIQUE
+email TEXT NOT NULL UNIQUE
+
+-- Foreign key constraints
+FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+
+-- Check constraints
+CHECK (pong_wins >= 0)
+```
+
+### Database Operations:
+
+#### 1. CRUD Operations:
+```typescript
+// CREATE
+db.run('INSERT INTO users (username, email) VALUES (?, ?)', [username, email]);
+
+// READ
+db.get('SELECT * FROM users WHERE id = ?', [userId], (err, row) => {});
+
+// UPDATE
+db.run('UPDATE users SET username = ? WHERE id = ?', [newUsername, userId]);
+
+// DELETE
+db.run('DELETE FROM users WHERE id = ?', [userId]);
+```
+
+#### 2. Complex Queries:
+```typescript
+// JOIN queries
+db.get(`
+    SELECT u.id, u.username, u.email, u.created_at, 
+           us.pong_wins, us.pong_losses, us.ttt_wins, us.ttt_losses
+    FROM users u
+    JOIN user_stats us ON u.id = us.user_id
+    WHERE u.id = ?
+`, [userId], (err, row) => {});
+
+// Aggregation queries
+db.get(`
+    SELECT COUNT(*) as total_users,
+           SUM(pong_wins) as total_pong_wins
+    FROM users u
+    JOIN user_stats us ON u.id = us.user_id
+`, (err, row) => {});
+```
+
+#### 3. Error Handling:
+```typescript
+db.run('INSERT INTO users (username, email) VALUES (?, ?)', [username, email], function(err) {
+    if (err) {
+        if (err.message.includes('UNIQUE constraint failed')) {
+            // Handle duplicate entry
+            console.error('User already exists');
+        } else {
+            // Handle other errors
+            console.error('Database error:', err);
+        }
+    } else {
+        console.log('User created successfully, ID:', this.lastID);
+    }
+});
+```
+
+## 15. HOW AND WHAT DOES THE AUTH-SERVICE DO? (Detailed Analysis)
+
+### Auth Service Architecture:
+
+#### 1. Service Responsibilities:
+```typescript
+// Primary responsibilities:
+// - User authentication and authorization
+// - JWT token management
+// - OAuth integration (42)
+// - User profile management
+// - Game settings storage
+// - User statistics tracking
+// - Database operations
+```
+
+#### 2. Technology Stack:
+```json
+{
+  "dependencies": {
+    "fastify": "^4.27.0",           // Web framework
+    "@fastify/jwt": "^8.0.1",       // JWT authentication
+    "@fastify/cors": "^8.5.0",      // CORS handling
+    "bcrypt": "^5.1.1",             // Password hashing
+    "sqlite3": "^5.1.7",            // Database
+    "zod": "^3.23.8",               // Schema validation
+    "fastify-zod": "^1.4.0",        // Fastify-Zod integration
+    "axios": "^1.6.2",              // HTTP client
+    "dotenv": "^17.1.0"             // Environment variables
+  }
+}
+```
+
+#### 3. Service Initialization:
+```typescript
+// app.ts - Service setup
+const fastify = Fastify({ logger: true });
+
+// Initialize Database
+initializeDatabase();
+
+// Register middleware
+fastify.register(cors, { /* CORS config */ });
+fastify.register(jwt, { /* JWT config */ });
+
+// Register routes
+fastify.register(userRoutes, { prefix: '/api/users' });
+fastify.register(settingsRoutes, { prefix: '/api/settings' });
+
+// Start server
+await fastify.listen({ port: 3001, host: '0.0.0.0' });
+```
+
+#### 4. Authentication Flow:
+```typescript
+// 1. User Registration
+export async function registerUserHandler(request, reply) {
+    try {
+        const user = await registerUser(request.body);
+        return reply.code(201).send(user);
+    } catch (e: any) {
+        // Handle specific SQLite constraint errors
+        if (e.message && e.message.includes('UNIQUE constraint failed')) {
+            return reply.code(409).send({ message: 'Email already exists' });
+        }
+        return reply.code(500).send({ message: 'Error creating user' });
+    }
+}
+
+// 2. User Login
+export async function loginHandler(request, reply) {
+    const user = await findUserByEmail(request.body.email);
+    if (!user) {
+        return reply.code(401).send({ message: 'Invalid email or password' });
+    }
+
+    const isCorrectPassword = verifyPassword(request.body.password, user.password);
+    if (!isCorrectPassword) {
+        return reply.code(401).send({ message: 'Invalid email or password' });
+    }
+
+    const { password, ...payload } = user;
+    const token = request.server.jwt.sign(payload);
+    return { accessToken: token };
+}
+
+// 3. Token Verification
+fastify.post('/api/verify', async (request, reply) => {
+    try {
+        await request.jwtVerify();
+        reply.send(request.user);
+    } catch (err) {
+        reply.code(401).send({ error: 'Unauthorized' });
+    }
+});
+```
+
+#### 5. OAuth Integration:
+```typescript
+// 42 OAuth flow
+export async function oauthAuthorizeHandler(request, reply) {
+    const state = Math.random().toString(36).substring(2, 15);
+    const authURL = OAuthService.generateAuthURL(state);
+    return reply.redirect(302, authURL);
+}
+
+export async function oauthCallbackHandler(request, reply) {
+    const { code } = request.body;
+    
+    // Exchange code for token
+    const accessToken = await OAuthService.exchangeCodeForToken(code);
+    
+    // Get user info from 42 API
+    const userData = await OAuthService.getUserInfo(accessToken);
+    
+    // Find or create user
+    const user = await OAuthService.findOrCreateUser(userData);
+    
+    // Generate JWT token
+    const jwtToken = request.server.jwt.sign(user);
+    
+    return reply.send({
+        accessToken: jwtToken,
+        user: responseUser
+    });
+}
+```
+
+#### 6. User Profile Management:
+```typescript
+export async function getUserProfileHandler(request, reply) {
+    try {
+        await request.jwtVerify();
+        const user = request.user as { id: number };
+
+        return new Promise((resolve, reject) => {
+            db.get(`
+                SELECT u.id, u.username, u.email, u.created_at, 
+                       us.pong_wins, us.pong_losses, us.ttt_wins, us.ttt_losses
+                FROM users u
+                JOIN user_stats us ON u.id = us.user_id
+                WHERE u.id = ?
+            `, [user.id], (err: Error | null, row: any) => {
+                if (err || !row) {
+                    return reject(reply.code(404).send({ message: 'User not found' }));
+                }
+                resolve(reply.send(row));
+            });
+        });
+    } catch (err) {
+        return reply.code(401).send({ message: 'Unauthorized' });
+    }
+}
+```
+
+#### 7. Settings Management:
+```typescript
+// Get user settings
+export async function getSettingsHandler(request, reply) {
+    try {
+        if (!request.user || !request.user.id) {
+            return reply.code(401).send({ message: 'Unauthorized' });
+        }
+        const settings = await getSettingsForUser(request.user.id);
+        return reply.send(settings);
+    } catch (e) {
+        return reply.code(500).send({ message: 'Error retrieving settings' });
+    }
+}
+
+// Update user settings
+export async function updateSettingsHandler(request, reply) {
+    try {
+        if (!request.user || !request.user.id) {
+            return reply.code(401).send({ message: 'Unauthorized' });
+        }
+        await updateSettingsForUser(request.user.id, request.body);
+        return reply.code(204).send();
+    } catch (e) {
+        return reply.code(500).send({ message: 'Error updating settings' });
+    }
+}
+```
+
+#### 8. Statistics Management:
+```typescript
+export async function updateUserStatsHandler(request, reply) {
+    const { id } = request.params;
+    const { game, result } = request.body;
+
+    const gameMap: Record<string, string> = {
+        pong: 'pong',
+        tictactoe: 'ttt',
+    };
+
+    const resultMap: Record<string, string> = {
+        win: 'wins',
+        loss: 'losses',
+    };
+
+    const gameKey = gameMap[game];
+    const resultKey = resultMap[result];
+    const column = `${gameKey}_${resultKey}`;
+
+    return new Promise<void>((resolve, reject) => {
+        db.run(
+            `UPDATE user_stats SET ${column} = ${column} + 1 WHERE user_id = ?`,
+            [id],
+            function (err: Error | null) {
+                if (err) {
+                    reply.code(500).send({ message: 'Failed to update stats' });
+                    reject(err);
+                } else {
+                    reply.code(200).send({ message: 'Stats updated successfully' });
+                    resolve();
+                }
+            }
+        );
+    });
+}
+```
+
+### Communication with Other Services:
+
+#### 1. Frontend Communication:
+```typescript
+// HTTP REST API endpoints
+// - POST /api/users/register
+// - POST /api/users/login
+// - GET /api/users/profile
+// - POST /api/settings
+// - POST /api/verify
+```
+
+#### 2. Game Service Communication:
+```typescript
+// Game service calls auth service for:
+// - User settings retrieval
+// - Token verification
+// - User data access
+```
+
+## 16. WHAT DOES THE GAME-SERVICE DO? (Detailed Analysis)
+
+### Game Service Architecture:
+
+#### 1. Service Responsibilities:
+```typescript
+// Primary responsibilities:
+// - Real-time game logic (Pong)
+// - WebSocket connection management
+// - Game state synchronization
+// - AI opponent implementation
+// - Game settings application
+// - Real-time communication with frontend
+```
+
+#### 2. Technology Stack:
+```json
+{
+  "dependencies": {
+    "ws": "^8.18.1"  // WebSocket library
+  }
+}
+```
+
+#### 3. WebSocket Server Setup:
+```typescript
+// app.ts - WebSocket server initialization
+import WebSocket from 'ws';
+import { GameGateway } from './modules/game/game.gateway';
+
+const gameGateway = new GameGateway();
+
+const wss = new WebSocket.Server({
+    port: 8080,
+    path: '/ws/game'
+});
+
+wss.on('connection', (ws: WebSocket, request: any) => {
+    console.log('New WebSocket connection received');
+    gameGateway.handleConnection(ws, {
+        url: request.url,
+        headers: request.headers
+    });
+});
+```
+
+#### 4. Game Gateway Management:
+```typescript
+export class GameGateway {
+    private clients: Map<string, {
+        socket: any;
+        gameEngine: GameEngine;
+        aiOpponent: AIOpponent;
+        gameLoop: NodeJS.Timeout;
+        gameMode: 'ai' | 'pvp';
+    }> = new Map();
+
+    public handleConnection(client: any, connectionInfo: any) {
+        const clientId = connectionInfo.url || Math.random().toString(36);
+        
+        // Determine game mode from URL parameters
+        const url = new URL(connectionInfo.url, 'http://localhost');
+        const gameMode = url.searchParams.get('mode') === 'pvp' ? 'pvp' : 'ai';
+
+        const gameEngine = new GameEngine();
+        const aiOpponent = new AIOpponent();
+
+        // Load user settings from auth service
+        this.loadUserSettings(connectionInfo).then(settings => {
+            if (settings.ballSpeed !== undefined) {
+                setGlobalBallSpeedMultiplier(settings.ballSpeed / 6);
+            }
+            if (settings.paddleSpeed !== undefined) {
+                setGlobalPaddleSpeedMultiplier(settings.paddleSpeed / 8);
+            }
+        });
+
+        // Start game loop
+        const gameLoop = setInterval(() => {
+            gameEngine.update();
+            const gameState = gameEngine.getGameState();
+
+            if (gameState.gameStatus === 'playing' && gameMode === 'ai') {
+                const aiMove = aiOpponent.getMove(gameState);
+                if (aiMove) {
+                    gameEngine.moveAIPaddle(aiMove);
+                }
+            }
+
+            // Send game state to client
+            if (client.readyState === 1) { // WebSocket.OPEN
+                client.send(JSON.stringify({ type: 'gameState', data: gameState }));
+            }
+        }, 1000 / 60); // 60 FPS
+
+        // Store client data
+        this.clients.set(clientId, {
+            socket: client,
+            gameEngine,
+            aiOpponent,
+            gameLoop,
+            gameMode
+        });
+
+        // Handle client events
+        client.on('message', (data: Buffer) => {
+            this.handleMessage(clientId, data);
+        });
+
+
+
+Continuing with the detailed analysis of the game service and remaining topics:
+
+#### 4. Game Gateway Management (continued):
+```typescript
+        client.on('close', () => {
+            const clientData = this.clients.get(clientId);
+            if (clientData) {
+                clearInterval(clientData.gameLoop);
+                this.clients.delete(clientId);
+            }
+        });
+
+        client.on('error', (error: Error) => {
+            console.error(`WebSocket error for client ${clientId}:`, error);
+            const clientData = this.clients.get(clientId);
+            if (clientData) {
+                clearInterval(clientData.gameLoop);
+                this.clients.delete(clientId);
+            }
+        });
+
+        // Start a new match immediately
+        gameEngine.startNewMatch();
+    }
+```
+
+#### 5. Settings Integration with Auth Service:
+```typescript
+private async loadUserSettings(connectionInfo: any): Promise<{ballSpeed?: number, paddleSpeed?: number}> {
+    try {
+        // Extract token from URL parameters or headers
+        const url = new URL(connectionInfo.url, 'http://localhost');
+        const token = url.searchParams.get('token') || 
+                     connectionInfo.headers?.authorization?.replace('Bearer ', '');
+
+        if (!token) {
+            throw new Error('No token provided');
+        }
+
+        // Make request to auth service to get user settings
+        const response = await fetch('http://localhost:3001/api/settings', {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`Auth service responded with ${response.status}`);
+        }
+
+        const settings = await response.json();
+        const result: {ballSpeed?: number, paddleSpeed?: number} = {};
+
+        settings.forEach((setting: {key: string, value: string}) => {
+            if (setting.key === 'ballSpeed') {
+                result.ballSpeed = parseInt(setting.value);
+            } else if (setting.key === 'paddleSpeed') {
+                result.paddleSpeed = parseInt(setting.value);
+            }
+        });
+
+        return result;
+    } catch (error) {
+        console.log('Failed to load user settings:', error);
+        throw error;
+    }
+}
+```
+
+#### 6. Message Handling:
+```typescript
+private handleMessage(clientId: string, data: Buffer) {
+    try {
+        const message: GameMessage = JSON.parse(data.toString());
+        const clientData = this.clients.get(clientId);
+
+        if (!clientData) {
+            console.error(`Client ${clientId} not found`);
+            return;
+        }
+
+        const { gameEngine, gameMode } = clientData;
+        const actionType = message.action || message.type;
+
+        switch (actionType) {
+            case 'move':
+                if (message.direction) {
+                    if (gameMode === 'pvp' && message.player) {
+                        // PvP mode: handle specific player moves
+                        gameEngine.movePaddle(message.player, message.direction);
+                    } else {
+                        // AI mode: always move player1
+                        gameEngine.movePaddle('player1', message.direction);
+                    }
+                }
+                break;
+            case 'settings':
+                if (message.ballSpeed !== undefined) {
+                    const ballMultiplier = message.ballSpeed / 6;
+                    setGlobalBallSpeedMultiplier(ballMultiplier);
+                    
+                    // Apply settings to all active games
+                    this.clients.forEach((clientData, id) => {
+                        clientData.gameEngine.setBallSpeed(message.ballSpeed);
+                    });
+                }
+                if (message.paddleSpeed !== undefined) {
+                    const paddleMultiplier = message.paddleSpeed / 8;
+                    setGlobalPaddleSpeedMultiplier(paddleMultiplier);
+                    
+                    // Apply settings to all active games
+                    this.clients.forEach((clientData, id) => {
+                        clientData.gameEngine.setPaddleSpeed(message.paddleSpeed);
+                    });
+                }
+                break;
+            case 'startNewMatch':
+                gameEngine.startNewMatch();
+                break;
+            case 'startGame':
+                gameEngine.startCountdown();
+                break;
+        }
+    } catch (error) {
+        console.error('Error parsing message:', error);
+    }
+}
+```
+
+#### 7. Game Engine Integration:
+```typescript
+// Game engine handles physics and game logic
+export class GameEngine {
+    private gameState: GameState;
+    private ballVelocity: { x: number, y: number };
+    private lastUpdate: number;
+    private countdownStartTime: number;
+    private progressiveSpeedMultiplier: number;
+    private baseBallSpeed: number;
+
+    constructor() {
+        this.gameState = this.getInitialState();
+        this.ballVelocity = { x: 0, y: 0 };
+        this.lastUpdate = Date.now();
+        this.countdownStartTime = 0;
+        this.progressiveSpeedMultiplier = 1;
+        this.baseBallSpeed = 6;
+    }
+
+    public update() {
+        const now = Date.now();
+        const deltaTime = (now - this.lastUpdate) / 1000;
+        this.lastUpdate = now;
+
+        if (this.gameState.gameStatus === 'countdown') {
+            const elapsed = now - this.countdownStartTime;
+            this.gameState.countdown = Math.max(0, 3 - Math.floor(elapsed / 1000));
+            
+            if (this.gameState.countdown === 0) {
+                this.gameState.gameStatus = 'playing';
+                this.resetBall(Math.random() > 0.5 ? 1 : -1);
+            }
+        } else if (this.gameState.gameStatus === 'playing') {
+            // Update ball position
+            this.gameState.ball.x += this.ballVelocity.x * deltaTime;
+            this.gameState.ball.y += this.ballVelocity.y * deltaTime;
+
+            // Handle collisions
+            this.handlePaddleCollision();
+            
+            // Progressive speed increase
+            this.progressiveSpeedMultiplier += 0.001;
+        }
+    }
+
+    public movePaddle(player: 'player1' | 'player2', direction: 'up' | 'down') {
+        const paddle = player === 'player1' ? this.gameState.player1 : this.gameState.player2;
+        const speed = 8 * globalPaddleSpeedMultiplier;
+        
+        if (direction === 'up') {
+            paddle.y = Math.max(0, paddle.y - speed);
+        } else {
+            paddle.y = Math.min(400 - 60, paddle.y + speed);
+        }
+    }
+
+    public getGameState(): GameState {
+        return { ...this.gameState };
+    }
+}
+```
+
+#### 8. AI Opponent Implementation:
+```typescript
+export class AIOpponent {
+    getMove(state: GameState): 'up' | 'down' | null {
+        const paddle = state.player2;
+        const ball = state.ball;
+        
+        // Simple AI: follow the ball
+        const paddleCenter = paddle.y + 30; // Paddle height is 60
+        const ballCenter = ball.y;
+        
+        if (paddleCenter < ballCenter - 5) {
+            return 'down';
+        } else if (paddleCenter > ballCenter + 5) {
+            return 'up';
+        }
+        
+        return null;
+    }
+}
+```
+
+### Communication Patterns:
+
+#### 1. Frontend Communication:
+```typescript
+// WebSocket connection from frontend
+const ws = new WebSocket('ws://localhost:3002/ws/game?token=jwt_token&mode=ai');
+
+// Send game actions
+ws.send(JSON.stringify({
+    action: 'move',
+    direction: 'up',
+    player: 'player1'
+}));
+
+// Receive game state updates
+ws.onmessage = (event) => {
+    const { type, data } = JSON.parse(event.data);
+    if (type === 'gameState') {
+        updateGameDisplay(data);
+    }
+};
+```
+
+#### 2. Auth Service Communication:
+```typescript
+// Load user settings from auth service
+const response = await fetch('http://localhost:3001/api/settings', {
+    headers: {
+        'Authorization': `Bearer ${token}`
+    }
+});
+
+const settings = await response.json();
+// Apply settings to game engine
+```
+
+## 17. WHAT ARE FRAMEWORKS AND WHAT KIND ARE WE USING? (Detailed Analysis)
+
+### Framework Definition:
+A **framework** is a pre-built software structure that provides common functionality, design patterns, and tools to accelerate development.
+
+### Frameworks Used in Your Project:
+
+#### 1. Fastify (Web Framework):
+```typescript
+// High-performance web framework for Node.js
+import Fastify from 'fastify';
+
+const fastify = Fastify({ logger: true });
+
+// Key features:
+// - High performance (up to 30k requests/second)
+// - TypeScript support
+// - Plugin system
+// - Built-in validation
+// - Low overhead
+```
+
+**Advantages:**
+- **Performance**: Significantly faster than Express.js
+- **TypeScript**: Native TypeScript support
+- **Validation**: Built-in request/response validation
+- **Plugin System**: Modular architecture
+- **Low Memory Usage**: Efficient resource utilization
+
+**Usage in Your Project:**
+```typescript
+// Route registration with validation
+server.post('/register', {
+    schema: {
+        body: $ref('registerUserSchema'),
+        response: { 201: $ref('userResponseSchema') },
+    },
+}, registerUserHandler);
+
+// Middleware registration
+fastify.register(cors, { /* config */ });
+fastify.register(jwt, { /* config */ });
+```
+
+#### 2. WebSocket (Real-time Communication):
+```typescript
+// WebSocket library for real-time communication
+import WebSocket from 'ws';
+
+const wss = new WebSocket.Server({
+    port: 8080,
+    path: '/ws/game'
+});
+```
+
+**Advantages:**
+- **Real-time Communication**: Bidirectional communication
+- **Low Latency**: Minimal overhead
+- **Event-driven**: Asynchronous message handling
+- **Cross-platform**: Works across different platforms
+
+#### 3. SQLite3 (Database Framework):
+```typescript
+// Lightweight, serverless database
+import sqlite3 from 'sqlite3';
+
+const db = new sqlite3.Database(dbPath, sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE);
+```
+
+**Advantages:**
+- **Zero Configuration**: No server setup required
+- **ACID Compliance**: Data integrity guarantees
+- **Single File**: Easy backup and deployment
+- **Cross-platform**: Works on any platform
+
+#### 4. Zod (Schema Validation):
+```typescript
+// TypeScript-first schema validation
+import { z } from 'zod';
+
+const registerUserSchema = z.object({
+    username: z.string(),
+    email: z.string().email(),
+    password: z.string().min(6),
+});
+```
+
+**Advantages:**
+- **Type Safety**: Runtime type checking
+- **TypeScript Integration**: Automatic type inference
+- **Comprehensive Validation**: Rich validation rules
+- **Error Messages**: Detailed error reporting
+
+#### 5. bcrypt (Password Hashing):
+```typescript
+// Secure password hashing
+import bcrypt from 'bcrypt';
+
+export function hashPassword(password: string) {
+    const salt = bcrypt.genSaltSync(10);
+    return bcrypt.hashSync(password, salt);
+}
+
+export function verifyPassword(password: string, hash: string) {
+    return bcrypt.compareSync(password, hash);
+}
+```
+
+**Advantages:**
+- **Security**: Industry-standard hashing algorithm
+- **Salt Generation**: Automatic salt generation
+- **Adaptive**: Configurable work factor
+- **Timing Attack Resistant**: Constant-time comparison
+
+#### 6. JWT (Authentication Framework):
+```typescript
+// JSON Web Token authentication
+import jwt from '@fastify/jwt';
+
+fastify.register(jwt, {
+    secret: process.env.JWT_SECRET || 'a-super-secret-key-that-is-long-enough'
+});
+```
+
+**Advantages:**
+- **Stateless**: No server-side session storage
+- **Self-contained**: All necessary information in token
+- **Cross-domain**: Works across different domains
+- **Standardized**: Industry standard
+
+#### 7. Axios (HTTP Client):
+```typescript
+// HTTP client for inter-service communication
+import axios from 'axios';
+
+const response = await axios.post(OAUTH_CONFIG.TOKEN_URL, {
+    grant_type: 'authorization_code',
+    client_id: OAUTH_CONFIG.CLIENT_ID,
+    client_secret: OAUTH_CONFIG.CLIENT_SECRET,
+    code,
+    redirect_uri: OAUTH_CONFIG.REDIRECT_URI,
+});
+```
+
+**Advantages:**
+- **Promise-based**: Modern async/await support
+- **Request/Response Interceptors**: Middleware support
+- **Automatic JSON**: Automatic JSON parsing
+- **Error Handling**: Comprehensive error handling
+
+### Framework Selection Criteria:
+
+#### 1. Performance Requirements:
+```typescript
+// Fastify chosen for high performance
+// - Up to 30k requests/second
+// - Low memory footprint
+// - Efficient routing
+```
+
+#### 2. Type Safety:
+```typescript
+// TypeScript + Zod for type safety
+// - Compile-time type checking
+// - Runtime validation
+// - Automatic type inference
+```
+
+#### 3. Developer Experience:
+```typescript
+// Modern development tools
+// - Hot reloading with nodemon
+// - TypeScript compilation
+// - Built-in logging
+// - Plugin system
+```
+
+#### 4. Security:
+```typescript
+// Security-focused frameworks
+// - bcrypt for password hashing
+// - JWT for stateless authentication
+// - CORS for cross-origin protection
+// - Input validation with Zod
+```
+
+## ADDITIONAL CRITICAL INFORMATION FOR LEAD BACKEND DEVELOPER
+
+### 1. Architecture Patterns:
+
+#### Microservices Communication:
+```typescript
+// Service-to-service communication patterns
+// 1. HTTP REST APIs (synchronous)
+// 2. WebSocket (real-time)
+// 3. Message queues (asynchronous) - future enhancement
+// 4. Event-driven architecture - future enhancement
+```
+
+#### Database Patterns:
+```typescript
+// Database access patterns
+// 1. Repository Pattern - encapsulate data access
+// 2. Unit of Work Pattern - transaction management
+// 3. Data Transfer Objects (DTOs) - data transfer
+// 4. Connection Pooling - performance optimization
+```
+
+### 2. Security Considerations:
+
+#### Authentication & Authorization:
+```typescript
+// JWT token security
+const token = request.server.jwt.sign({
+    id: user.id,
+    username: user.username,
+    email: user.email
+}, { expiresIn: '24h' });
+
+// Password security
+const hashedPassword = bcrypt.hashSync(password, 10);
+const isValid = bcrypt.compareSync(password, hashedPassword);
+```
+
+#### Input Validation:
+```typescript
+// Comprehensive input validation
+const userSchema = z.object({
+    username: z.string().min(3).max(50),
+    email: z.string().email(),
+    password: z.string().min(8).regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/)
+});
+```
+
+#### SQL Injection Prevention:
+```typescript
+// Use prepared statements
+const stmt = db.prepare('INSERT INTO users (username, email) VALUES (?, ?)');
+stmt.run(username, email);
+stmt.finalize();
+```
+
+### 3. Performance Optimization:
+
+#### Database Optimization:
+```sql
+-- Index creation for performance
+CREATE INDEX idx_users_email ON users(email);
+CREATE INDEX idx_game_settings_user_key ON game_settings(user_id, key);
+
+-- Query optimization
+SELECT u.*, us.* FROM users u 
+JOIN user_stats us ON u.id = us.user_id 
+WHERE u.id = ?;
+```
+
+#### Caching Strategies:
+```typescript
+// Future caching implementation
+const cache = new Map();
+
+async function getUserWithCache(userId: number) {
+    const cacheKey = `user:${userId}`;
+    
+    if (cache.has(cacheKey)) {
+        return cache.get(cacheKey);
+    }
+    
+    const user = await getUserFromDatabase(userId);
+    cache.set(cacheKey, user);
+    return user;
+}
+```
+
+#### Connection Pooling:
+```typescript
+// Future connection pooling for scaling
+const pool = new sqlite3.Database(':memory:', sqlite3.OPEN_READWRITE);
+// Implement connection pooling for high concurrency
+```
+
+### 4. Monitoring & Logging:
+
+#### Application Logging:
+```typescript
+// Structured logging
+const fastify = Fastify({ 
+    logger: {
+        level: 'info',
+        serializers: {
+            req: (req) => ({
+                method: req.method,
+                url: req.url,
+                headers: req.headers
+            })
+        }
+    }
+});
+```
+
+#### Error Tracking:
+```typescript
+// Comprehensive error handling
+try {
+    await processRequest();
+} catch (error) {
+    console.error('Error details:', {
+        message: error.message,
+        stack: error.stack,
+        timestamp: new Date().toISOString(),
+        requestId: request.id
+    });
+    
+    // Send to error tracking service (future)
+    // await errorTrackingService.captureException(error);
+}
+```
+
+### 5. Testing Strategies:
+
+#### Unit Testing:
+```typescript
+// Jest testing framework
+describe('UserService', () => {
+    it('should register a new user', async () => {
+        const userData = { username: 'test', email: 'test@example.com', password: 'password123' };
+        const user = await registerUser(userData);
+        expect(user.username).toBe(userData.username);
+    });
+});
+```
+
+#### Integration Testing:
+```typescript
+// API endpoint testing
+describe('Auth API', () => {
+    it('should authenticate valid user', async () => {
+        const response = await request(app)
+            .post('/api/users/login')
+            .send({ email: 'test@example.com', password: 'password123' });
+        
+        expect(response.status).toBe(200);
+        expect(response.body.accessToken).toBeDefined();
+    });
+});
+```
+
+### 6. Deployment & DevOps:
+
+#### Docker Configuration:
+```dockerfile
+# Multi-stage build for optimization
+FROM node:18-alpine AS builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --only=production
+
+FROM node:18-alpine AS runtime
+WORKDIR /app
+COPY --from=builder /app/node_modules ./node_modules
+COPY dist ./dist
+EXPOSE 3000
+CMD ["node", "dist/app.js"]
+```
+
+#### Environment Management:
+```typescript
+// Environment configuration
+import dotenv from 'dotenv';
+dotenv.config();
+
+const config = {
+    port: process.env.PORT || 3001,
+    jwtSecret: process.env.JWT_SECRET || 'default-secret',
+    databasePath: process.env.DATABASE_PATH || './db.sqlite',
+    corsOrigins: process.env.CORS_ORIGINS?.split(',') || ['http://localhost:3000']
+};
+```
+
+### 7. Scalability Considerations:
+
+#### Horizontal Scaling:
+```typescript
+// Stateless design for horizontal scaling
+// - No session storage in memory
+// - JWT tokens for authentication
+// - Database as single source of truth
+// - Load balancer ready
+```
+
+#### Database Scaling:
+```typescript
+// Future database scaling strategies
+// 1. Read replicas for read-heavy workloads
+// 2. Database sharding for large datasets
+// 3. Caching layer (Redis) for frequently accessed data
+// 4. Connection pooling for high concurrency
+```
+
+### 8. Code Quality & Standards:
+
+#### TypeScript Best Practices:
+```typescript
+// Strict type definitions
+interface User {
+    id: number;
+    username: string;
+    email: string;
+    createdAt: Date;
+}
+
+interface GameState {
+    ball: { x: number; y: number };
+    player1: { y: number; score: number };
+    player2: { y: number; score: number };
+    gameStatus: 'countdown' | 'playing' | 'gameOver';
+}
+```
+
+#### Error Handling Patterns:
+```typescript
+// Consistent error handling
+class AppError extends Error {
+    constructor(
+        public statusCode: number,
+        public message: string,
+        public isOperational = true
+    ) {
+        super(message);
+        Error.captureStackTrace(this, this.constructor);
+    }
+}
+
+// Usage
+throw new AppError(400, 'Invalid input data');
+```
+
+This comprehensive analysis provides you with the knowledge and patterns needed to lead backend development for your Transcendence project. The architecture is well-designed for scalability, maintainability, and performance, with clear separation of concerns and modern development practices.
+
+I'll answer all your questions comprehensively, focusing on your Transcendence project implementation.
+
+## 1. What is Hashing and What Kind of Hashing We Are Using?
+
+### **Hashing** is a one-way encryption process that converts data into a fixed-length string.
+
+### **In Your Project - bcrypt Hashing:**
+
+Read file: ft_transcendence/backend/auth-service/src/utils/hash.ts
+```typescript
+// Your project uses bcrypt for password hashing
+export function hashPassword(password: string) {
+    const salt = bcrypt.genSaltSync(10);  // Generate salt with 10 rounds
+    return bcrypt.hashSync(password, salt); // Hash password with salt
+}
+
+export function verifyPassword(password: string, hash: string) {
+    return bcrypt.compareSync(password, hash); // Compare password with stored hash
+}
+```
+
+### **How it Works:**
+1. **User registers** with password "password123"
+2. **bcrypt hashes** it to: `$2b$10$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewdBPj4J/8KzqKq`
+3. **Store hash** in database (never store plain password)
+4. **User logs in** with "password123"
+5. **bcrypt compares** input with stored hash
+6. **If match** → login successful
+
+### **Why bcrypt?**
+- **Salt included** - prevents rainbow table attacks
+- **Adaptive** - can increase rounds for more security
+- **Industry standard** - widely trusted
+
+## 2. How Are We Working with Ports and How Are We Opening Them?
+
+### **Port Configuration in Your Project:**
+
+```yaml
+# docker-compose.yml
+services:
+  auth-service:
+    ports: ["3001:3000"]    # Host:Container
+  game-service:
+    ports: ["3002:8080"]    # Host:Container
+  nginx:
+    ports: ["8081:80"]      # Host:Container
+```
+
+### **What This Means:**
+- **3001:3000** = Host port 3001 maps to container port 3000
+- **3002:8080** = Host port 3002 maps to container port 8080
+- **8081:80** = Host port 8081 maps to container port 80
+
+### **How Services Listen on Ports:**
+
+```typescript
+// Auth service (app.ts)
+await fastify.listen({ port: 3001, host: '0.0.0.0' });
+
+// Game service (app.ts)
+const wss = new WebSocket.Server({
+    port: 8080,
+    path: '/ws/game'
+});
+```
+
+### **Port Access:**
+- **Frontend**: `http://localhost:8081`
+- **Auth API**: `http://localhost:3001`
+- **Game WebSocket**: `ws://localhost:3002/ws/game`
+
+## 3. What Are CRUD Operations?
+
+### **CRUD** = Create, Read, Update, Delete
+
+### **In Your Project:**
+
+#### **CREATE** (Insert new data)
+```typescript
+// Create new user
+db.run('INSERT INTO users (username, email, password) VALUES (?, ?, ?)', 
+       [username, email, hashedPassword]);
+
+// Create user stats
+db.run('INSERT INTO user_stats (user_id) VALUES (?)', [userId]);
+```
+
+#### **READ** (Retrieve data)
+```typescript
+// Get user by email
+db.get('SELECT * FROM users WHERE email = ?', [email], (err, row) => {});
+
+// Get user profile with stats
+db.get(`
+    SELECT u.id, u.username, u.email, us.pong_wins, us.pong_losses
+    FROM users u
+    JOIN user_stats us ON u.id = us.user_id
+    WHERE u.id = ?
+`, [userId], (err, row) => {});
+```
+
+#### **UPDATE** (Modify existing data)
+```typescript
+// Update user stats
+db.run(`UPDATE user_stats SET pong_wins = pong_wins + 1 WHERE user_id = ?`, [userId]);
+
+// Update user settings
+db.run(`
+    INSERT INTO game_settings (user_id, key, value)
+    VALUES (?, ?, ?)
+    ON CONFLICT(user_id, key) DO UPDATE SET value = excluded.value
+`, [userId, key, value]);
+```
+
+#### **DELETE** (Remove data)
+```typescript
+// Delete user (cascade will delete related data)
+db.run('DELETE FROM users WHERE id = ?', [userId]);
+```
+
+## 4. What Are JWT Tokens and How Do They Work?
+
+### **JWT (JSON Web Token)** is a secure way to transmit information between parties.
+
+### **How JWT Works in Your Project:**
+
+```typescript
+// 1. User logs in successfully
+const { password, ...payload } = user;
+const token = request.server.jwt.sign(payload);
+// Creates: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJqb2huX2RvZSIsImVtYWlsIjoiam9obkBleGFtcGxlLmNvbSJ9.signature
+
+// 2. Token contains user data
+{
+  "id": 1,
+  "username": "john_doe", 
+  "email": "john@example.com"
+}
+
+// 3. Verify token on protected routes
+await request.jwtVerify(); // Extracts user data from token
+const user = request.user; // { id: 1, username: "john_doe", ... }
+```
+
+### **How Token Links to User:**
+1. **Token contains user ID** in payload
+2. **Backend extracts ID** from token
+3. **Database queries** use that ID
+4. **All operations** are tied to that specific user
+
+### **Token Flow:**
+```
+Login → Create JWT with user data → Send to frontend
+Frontend → Send JWT with requests → Backend verifies → Extract user data
+```
+
+## 5. What Are WebSockets and How Are We Working with Them?
+
+### **WebSocket** is a protocol for real-time, bidirectional communication.
+
+### **In Your Project - Game Service:**
+
+```typescript
+// WebSocket server setup
+const wss = new WebSocket.Server({
+    port: 8080,
+    path: '/ws/game'
+});
+
+// Handle connections
+wss.on('connection', (ws: WebSocket, request: any) => {
+    gameGateway.handleConnection(ws, {
+        url: request.url,
+        headers: request.headers
+    });
+});
+```
+
+### **Real-time Communication:**
+
+#### **Frontend → Game Service**
+```javascript
+// Frontend connects
+const ws = new WebSocket('ws://localhost:3002/ws/game?token=jwt_token');
+
+// Send game actions
+ws.send(JSON.stringify({
+    action: 'move',
+    direction: 'up',
+    player: 'player1'
+}));
+```
+
+#### **Game Service → Frontend**
+```typescript
+// Send game state updates (60 FPS)
+const gameLoop = setInterval(() => {
+    gameEngine.update();
+    const gameState = gameEngine.getGameState();
+    
+    if (client.readyState === 1) { // WebSocket.OPEN
+        client.send(JSON.stringify({ 
+            type: 'gameState', 
+            data: gameState 
+        }));
+    }
+}, 1000 / 60);
+```
+
+### **Why WebSocket for Games?**
+- **Real-time updates** - No polling needed
+- **Low latency** - Immediate response
+- **Bidirectional** - Both send and receive
+- **Persistent connection** - No need to reconnect
+
+## 6. How Are Endpoints Different from API Rules? (With Example)
+
+### **Endpoints** = Specific URLs that handle requests
+### **API Rules** = How those endpoints behave
+
+### **Example from Your Project:**
+
+#### **Endpoint Definition:**
+```typescript
+// This is an ENDPOINT
+server.post('/register', registerUserHandler);
+// URL: POST /api/users/register
+```
+
+#### **API Rules (Schema Validation):**
+```typescript
+// These are API RULES
+server.post('/register', {
+    schema: {
+        body: $ref('registerUserSchema'),     // Rule: What data is required
+        response: { 201: $ref('userResponseSchema') }, // Rule: What response format
+    },
+}, registerUserHandler);
+```
+
+#### **API Rules (Authentication):**
+```typescript
+// This is an API RULE
+server.get('/profile', {
+    preHandler: async (request, reply) => {
+        await request.jwtVerify(); // Rule: Must be authenticated
+    },
+}, getUserProfileHandler);
+```
+
+### **Summary:**
+- **Endpoint**: `POST /api/users/register` (the URL)
+- **API Rules**: Validation, authentication, response format (the behavior)
+
+## 7. What Happens After Fastify Handles HTTP Requests?
+
+### **Request Processing Pipeline:**
+
+```typescript
+// 1. Fastify receives request
+POST /api/users/login
+Body: { "email": "user@example.com", "password": "password123" }
+
+// 2. Middleware processes request
+fastify.register(cors, { /* CORS rules */ });
+fastify.register(jwt, { /* JWT configuration */ });
+
+// 3. Route handler processes request
+export async function loginHandler(request, reply) {
+    const user = await findUserByEmail(request.body.email);
+    if (!user) {
+        return reply.code(401).send({ message: 'Invalid credentials' });
+    }
+    
+    const isCorrectPassword = verifyPassword(request.body.password, user.password);
+    if (!isCorrectPassword) {
+        return reply.code(401).send({ message: 'Invalid credentials' });
+    }
+    
+    const { password, ...payload } = user;
+    const token = request.server.jwt.sign(payload);
+    return { accessToken: token };
+}
+
+// 4. Database operations
+export async function findUserByEmail(email: string) {
+    return new Promise((resolve, reject) => {
+        db.get('SELECT * FROM users WHERE email = ?', [email], (err, row) => {
+            if (err) return reject(err);
+            resolve(row);
+        });
+    });
+}
+
+// 5. Response sent back
+{
+    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
+```
+
+### **Processing Locations:**
+- **Route handlers**: `user.controller.ts`
+- **Database operations**: `user.service.ts`
+- **Business logic**: Controller functions
+- **Data validation**: Zod schemas
+
+## 8. What is the Difference Between HTTP API and Endpoints?
+
+### **HTTP API** = The entire interface/contract
+### **Endpoints** = Individual URLs within that API
+
+### **Example:**
+
+#### **HTTP API** (Your Auth Service):
+```typescript
+// Complete API interface
+POST /api/users/register    // Create user
+POST /api/users/login       // Authenticate user
+GET  /api/users/profile     // Get user data
+PUT  /api/settings          // Update settings
+POST /api/verify            // Verify token
+```
+
+#### **Individual Endpoints**:
+```typescript
+// Each of these is an ENDPOINT
+POST /api/users/register
+POST /api/users/login
+GET  /api/users/profile
+```
+
+### **Analogy:**
+- **HTTP API** = The entire restaurant menu
+- **Endpoints** = Individual dishes on that menu
+
+## 9. How Are We Storing Data in Our Database?
+
+### **Database Schema:**
+
+Read file: ft_transcendence/backend/auth-service/src/db/init.ts
+### **How Data Links to Specific Users:**
+
+#### **1. Primary Key Relationship:**
+```sql
+-- Users table
+CREATE TABLE users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,  -- Unique user ID
+    username TEXT NOT NULL UNIQUE,
+    email TEXT NOT NULL UNIQUE
+);
+
+-- User stats table
+CREATE TABLE user_stats (
+    user_id INTEGER NOT NULL UNIQUE,      -- References users.id
+    pong_wins INTEGER DEFAULT 0,
+    pong_losses INTEGER DEFAULT 0,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+```
+
+#### **2. How Stats Link to Users:**
+```typescript
+// When updating stats, we use the user's ID from JWT token
+export async function updateUserStatsHandler(request, reply) {
+    const { id } = request.params;  // User ID from URL
+    const { game, result } = request.body;
+    
+    // Update stats for specific user
+    db.run(
+        `UPDATE user_stats SET ${column} = ${column} + 1 WHERE user_id = ?`,
+        [id]  // This links the stat to the specific user
+    );
+}
+```
+
+#### **3. Data Flow:**
+```
+User logs in → JWT token contains user ID → API calls use that ID → Database queries filter by user_id
+```
+
+## 10. In Our Database Tables We Have user_id and user(id), What is the Difference?
+
+### **users(id)** = Primary key in users table
+### **user_id** = Foreign key in other tables
+
+### **Example:**
+
+#### **users table:**
+```sql
+CREATE TABLE users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,  -- This is users(id)
+    username TEXT NOT NULL UNIQUE,
+    email TEXT NOT NULL UNIQUE
+);
+```
+
+#### **user_stats table:**
+```sql
+CREATE TABLE user_stats (
+    user_id INTEGER NOT NULL UNIQUE,      -- This is user_id (foreign key)
+    pong_wins INTEGER DEFAULT 0,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+```
+
+### **Relationship:**
+- **users(id)** = The source (primary key)
+- **user_id** = The reference (foreign key)
+
+### **How They Work Together:**
+```sql
+-- Join query showing the relationship
+SELECT u.username, us.pong_wins
+FROM users u
+JOIN user_stats us ON u.id = us.user_id  -- users(id) = user_stats(user_id)
+WHERE u.id = 1;
+```
+
+## 11. What is CORS?
+
+### **CORS (Cross-Origin Resource Sharing)** is a security feature that controls which websites can access your API.
+
+### **In Your Project:**
+
+Read file: ft_transcendence/backend/auth-service/src/app.ts
+```typescript
+// CORS configuration in your project
+fastify.register(cors, {
+    origin: ['http://localhost:3000', 'http://127.0.0.1:3000', 
+             'http://localhost:8081', 'http://127.0.0.1:8081'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true
+});
+```
+
+### **What CORS Does:**
+
+#### **Without CORS:**
+```
+Frontend (localhost:8081) → API (localhost:3001) = ❌ BLOCKED
+```
+
+#### **With CORS:**
+```
+Frontend (localhost:8081) → API (localhost:3001) = ✅ ALLOWED
+```
+
+### **CORS Settings Explained:**
+- **origin**: Which websites can access your API
+- **methods**: Which HTTP methods are allowed
+- **allowedHeaders**: Which headers can be sent
+- **credentials**: Whether cookies/tokens can be sent
+
+### **Why CORS is Needed:**
+- **Security**: Prevents malicious websites from accessing your API
+- **Cross-origin requests**: Allows your frontend to talk to your backend
+- **Browser policy**: Browsers block cross-origin requests by default
+
+### **In Your Project:**
+- **Frontend**: `http://localhost:8081`
+- **Backend**: `http://localhost:3001`
+- **CORS allows**: Frontend to make requests to backend
+- **Without CORS**: Browser would block the requests
+
+This comprehensive overview covers all the key concepts in your Transcendence project!
