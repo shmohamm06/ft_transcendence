@@ -1,7 +1,7 @@
 # ft_transcendence - Simple Project Management
 # Main commands: start, restart, stop
 
-.PHONY: help start restart stop force-stop install clean build
+.PHONY: help start restart stop force-stop install clean build start-safe
 
 # Default target
 .DEFAULT_GOAL := help
@@ -23,15 +23,16 @@ help:
 	@echo "$(GREEN)🎮 ft_transcendence Project$(NC)"
 	@echo ""
 	@echo "$(YELLOW)Main Commands:$(NC)"
-	@echo "  $(BLUE)make start$(NC)      - 🚀 Start all services (with force cleanup)"
+	@echo "  $(BLUE)make start$(NC)      - �� Start all services (with force cleanup)"
 	@echo "  $(BLUE)make restart$(NC)    - 🔄 Restart all services (with force cleanup)"
 	@echo "  $(BLUE)make stop$(NC)       - 🛑 Stop all services"
 	@echo "  $(BLUE)make force-stop$(NC) - 💀 Force kill all processes and free ports"
+	@echo "  $(BLUE)make start-safe$(NC) - �� Start all services safely (without force-stop)"
 	@echo ""
 	@echo "$(YELLOW)Setup Commands:$(NC)"
 	@echo "  $(BLUE)make install$(NC) - 📦 Install dependencies"
-	@echo "  $(BLUE)make build$(NC)   - 🔨 Build all services"
-	@echo "  $(BLUE)make clean$(NC)   - 🧹 Clean everything"
+	@echo "  $(BLUE)make build$(NC)   - �� Build all services"
+	@echo "  $(BLUE)make clean$(NC)   - �� Clean everything"
 	@echo ""
 	@echo "$(YELLOW)Individual Services:$(NC)"
 	@echo "  $(BLUE)make auth-start$(NC)  - 🔐 Start only auth service"
@@ -53,7 +54,7 @@ install:
 	@cd $(FRONTEND_DIR) && npm install
 	@echo "$(GREEN)✅ All dependencies installed!$(NC)"
 
-## build: 🔨 Build all services
+## build: �� Build all services
 build: install
 	@echo "$(GREEN)🔨 Building services...$(NC)"
 	@echo "$(YELLOW)  ➤ Building auth service...$(NC)"
@@ -62,9 +63,9 @@ build: install
 	@cd $(GAME_SERVICE_DIR) && npm run build
 	@echo "$(GREEN)✅ All services built!$(NC)"
 
-## start: 🚀 Start all services
-start: force-stop install logs build
-	@echo "$(GREEN)🚀 Starting ft_transcendence services...$(NC)"
+## start: �� Start all services
+start: install logs build
+	@echo "$(GREEN)�� Starting ft_transcendence services...$(NC)"
 	@echo "$(YELLOW)  ➤ Starting auth-service (port 3001)...$(NC)"
 	@cd $(AUTH_SERVICE_DIR) && node dist/app.js > ../../../logs/auth.log 2>&1 &
 	@sleep 2
@@ -77,7 +78,7 @@ start: force-stop install logs build
 	@echo "$(GREEN)✅ All services started!$(NC)"
 	@echo ""
 	@echo "$(BLUE)🌐 Open: http://localhost:3000$(NC)"
-	@echo "$(YELLOW)📋 Logs: tail -f logs/*.log$(NC)"
+	@echo "$(YELLOW)�� Logs: tail -f logs/*.log$(NC)"
 	@echo "$(RED)🛑 Stop: make stop$(NC)"
 
 ## auth-start: 🔐 Start only auth service
@@ -96,7 +97,7 @@ auth-stop:
 
 ## force-stop: 💀 Aggressively stop all processes
 force-stop:
-	@echo "$(RED)💀 Force stopping all processes...$(NC)"
+	@echo "$(RED)�� Force stopping all processes...$(NC)"
 	@mkdir -p logs
 	@echo "$(YELLOW)  ➤ Killing all Node.js processes...$(NC)"
 	@pkill -f "node.*app.js" 2>/dev/null || echo "  ➤ No app.js processes"
@@ -104,26 +105,16 @@ force-stop:
 	@pkill -f "nodemon" 2>/dev/null || echo "  ➤ No nodemon processes"
 	@pkill -f "npm run dev" 2>/dev/null || echo "  ➤ No npm dev processes"
 	@pkill -f "vite" 2>/dev/null || echo "  ➤ No vite processes"
-	@echo "$(YELLOW)  ➤ Killing processes by port...$(NC)"
-	@lsof -ti:3001 | xargs kill -9 2>/dev/null || echo "  ➤ Port 3001 is free"
-	@lsof -ti:3000 | xargs kill -9 2>/dev/null || echo "  ➤ Port 3000 is free"
-	@lsof -ti:8080 | xargs kill -9 2>/dev/null || echo "  ➤ Port 8080 is free"
 	@echo "$(YELLOW)  ➤ Killing remaining ft_transcendence processes...$(NC)"
 	@pkill -f "ft_transcendence" 2>/dev/null || echo "  ➤ No ft_transcendence processes"
 	@sleep 2
-	@echo "$(YELLOW)  ➤ Final port check...$(NC)"
-	@if lsof -ti:3000,3001,8080 >/dev/null 2>&1; then \
-		echo "$(RED)  ⚠️  Some ports still occupied, force killing...$(NC)"; \
-		lsof -ti:3000,3001,8080 | xargs kill -9 2>/dev/null || true; \
-		sleep 1; \
-	fi
 	@echo "$(GREEN)✅ All processes forcefully stopped!$(NC)"
 
 ## restart: 🔄 Restart all services
 restart: force-stop start
 	@echo "$(GREEN)✅ Services restarted!$(NC)"
 
-## stop: 🛑 Stop all services
+## stop: �� Stop all services
 stop:
 	@echo "$(RED)🛑 Stopping all services...$(NC)"
 	@mkdir -p logs
@@ -137,7 +128,7 @@ stop:
 	@sleep 1
 	@echo "$(GREEN)✅ All services stopped!$(NC)"
 
-## clean: 🧹 Clean everything (stop + remove dependencies)
+## clean: �� Clean everything (stop + remove dependencies)
 clean: stop
 	@echo "$(RED)🧹 Cleaning everything...$(NC)"
 	@echo "$(YELLOW)  ➤ Removing node_modules...$(NC)"
@@ -151,6 +142,24 @@ clean: stop
 	@echo "$(YELLOW)  ➤ Removing logs...$(NC)"
 	@rm -rf logs
 	@echo "$(GREEN)✅ Everything cleaned!$(NC)"
+
+## start-safe: �� Start all services safely (without force-stop)
+start-safe: install logs build
+	@echo "$(GREEN)�� Starting ft_transcendence services safely...$(NC)"
+	@echo "$(YELLOW)  ➤ Starting auth-service (port 3001)...$(NC)"
+	@cd $(AUTH_SERVICE_DIR) && node dist/app.js > ../../../logs/auth.log 2>&1 &
+	@sleep 2
+	@echo "$(YELLOW)  ➤ Starting game-service (port 8080)...$(NC)"
+	@cd $(GAME_SERVICE_DIR) && npm run dev > ../../../logs/game.log 2>&1 &
+	@sleep 2
+	@echo "$(YELLOW)  ➤ Starting frontend (port 3000)...$(NC)"
+	@cd $(FRONTEND_DIR) && npm run dev > ../../logs/frontend.log 2>&1 &
+	@sleep 3
+	@echo "$(GREEN)✅ All services started!$(NC)"
+	@echo ""
+	@echo "$(BLUE)🌐 Open: http://localhost:3000$(NC)"
+	@echo "$(YELLOW)�� Logs: tail -f logs/*.log$(NC)"
+	@echo "$(RED)🛑 Stop: make stop$(NC)"
 
 # Create logs directory
 logs:

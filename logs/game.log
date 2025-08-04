@@ -11,7 +11,7 @@ GameGateway initialized
 Game service WebSocket server starting on port 8080 with path /ws/game
 Game service is running on port 8080
 New WebSocket connection received
-Request URL: /ws/game?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoidHpoYWt5cG8iLCJlbWFpbCI6InR6aGFreXBvQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzLzU3YWI5NTRmYzE0YjkzNmExMmYzMjdkMjUyYTQ1YTU2L21lZGl1bV90emhha3lwby5qcGciLCJpbnRyYV9pZCI6MTMzNDQzLCJpbnRyYV9sb2dpbiI6InR6aGFreXBvIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzU0MjMwNzA0fQ.cc4eYWY5mfJcJXYH9FOCXtQMfgQ0gxmgoRmTnrqMz88&t=1754306481810
+Request URL: /ws/game?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoidHpoYWt5cG8iLCJlbWFpbCI6InR6aGFreXBvQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzLzU3YWI5NTRmYzE0YjkzNmExMmYzMjdkMjUyYTQ1YTU2L21lZGl1bV90emhha3lwby5qcGciLCJpbnRyYV9pZCI6MTMzNDQzLCJpbnRyYV9sb2dpbiI6InR6aGFreXBvIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzU0MzI3NTIxfQ.CocfwVIo_5ldkvuN9-poUpnPjMrP3y2aVUOswRlOwzU&t=1754327959311
 Request headers: {
   host: 'localhost:8080',
   connection: 'Upgrade',
@@ -24,10 +24,10 @@ Request headers: {
   'accept-encoding': 'gzip, deflate, br, zstd',
   'accept-language': 'en,ru-RU;q=0.9,ru;q=0.8,en-US;q=0.7',
   cookie: 'csrftoken=y5uEpcwZCBx6i5UZo9xLvCHsaYi5RYWe',
-  'sec-websocket-key': 'Wlhze4MQIozSxAQBSWZqwQ==',
+  'sec-websocket-key': 'XMHtVYvvbBnp0wlhXU+4mA==',
   'sec-websocket-extensions': 'permessage-deflate; client_max_window_bits'
 }
-Client /ws/game?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoidHpoYWt5cG8iLCJlbWFpbCI6InR6aGFreXBvQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzLzU3YWI5NTRmYzE0YjkzNmExMmYzMjdkMjUyYTQ1YTU2L21lZGl1bV90emhha3lwby5qcGciLCJpbnRyYV9pZCI6MTMzNDQzLCJpbnRyYV9sb2dpbiI6InR6aGFreXBvIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzU0MjMwNzA0fQ.cc4eYWY5mfJcJXYH9FOCXtQMfgQ0gxmgoRmTnrqMz88&t=1754306481810 connected to game service
+Client /ws/game?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoidHpoYWt5cG8iLCJlbWFpbCI6InR6aGFreXBvQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzLzU3YWI5NTRmYzE0YjkzNmExMmYzMjdkMjUyYTQ1YTU2L21lZGl1bV90emhha3lwby5qcGciLCJpbnRyYV9pZCI6MTMzNDQzLCJpbnRyYV9sb2dpbiI6InR6aGFreXBvIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzU0MzI3NTIxfQ.CocfwVIo_5ldkvuN9-poUpnPjMrP3y2aVUOswRlOwzU&t=1754327959311 connected to game service
 Game mode: ai
 Attempting to load user settings with token: eyJhbGciOiJIUzI1NiIs...
 Loaded user settings: {}
@@ -41,10 +41,6 @@ Updated paddle speed to: 10 (multiplier: 1.25) for all active games
 Ball speed changed from 6 to 5, updating velocity...
 Game in countdown, ball speed will be applied when game starts: 5
 Ball velocity updated: x=4.47, y=2.24, speed=5, progressive multiplier=1.00
-AI mode move: player1 down
-AI mode move: player1 down
-AI mode move: player1 down
-Ball speed increased to 5.50 (multiplier: 1.10)
 AI mode move: player1 up
 AI mode move: player1 up
 AI mode move: player1 up
@@ -56,80 +52,7 @@ AI mode move: player1 up
 AI mode move: player1 up
 AI mode move: player1 up
 AI mode move: player1 up
-AI mode move: player1 up
-AI mode move: player1 up
-AI mode move: player1 up
-AI mode move: player1 up
-AI mode move: player1 up
-AI mode move: player1 up
-AI mode move: player1 up
-AI mode move: player1 up
-AI mode move: player1 up
-AI mode move: player1 up
-AI mode move: player1 up
-AI mode move: player1 up
-AI mode move: player1 up
-AI mode move: player1 up
-AI mode move: player1 up
-AI mode move: player1 down
-AI mode move: player1 down
-AI mode move: player1 down
-Ball velocity updated: x=4.54, y=-2.09, speed=5, progressive multiplier=1.00
-AI mode move: player1 down
-AI mode move: player1 down
-AI mode move: player1 down
-AI mode move: player1 down
-AI mode move: player1 down
-Ball speed increased to 5.50 (multiplier: 1.10)
-AI mode move: player1 down
-AI mode move: player1 down
-AI mode move: player1 down
-AI mode move: player1 down
-AI mode move: player1 down
-AI mode move: player1 down
-AI mode move: player1 down
-AI mode move: player1 down
-AI mode move: player1 down
-AI mode move: player1 down
-AI mode move: player1 down
-AI mode move: player1 down
-AI mode move: player1 down
-Ball speed increased to 7.00 (multiplier: 1.40)
-AI mode move: player1 down
-AI mode move: player1 down
-AI mode move: player1 down
-AI mode move: player1 down
-Ball speed increased to 7.50 (multiplier: 1.50)
-AI mode move: player1 down
-AI mode move: player1 down
-AI mode move: player1 down
-AI mode move: player1 down
-AI mode move: player1 down
-AI mode move: player1 down
-AI mode move: player1 down
-AI mode move: player1 down
-AI mode move: player1 down
-AI mode move: player1 down
-AI mode move: player1 down
-AI mode move: player1 down
-AI mode move: player1 up
-AI mode move: player1 up
-AI mode move: player1 up
-AI mode move: player1 up
-AI mode move: player1 up
-Ball speed increased to 9.00 (multiplier: 1.80)
-AI mode move: player1 up
-AI mode move: player1 up
-AI mode move: player1 up
-AI mode move: player1 down
-AI mode move: player1 down
-AI mode move: player1 down
-Ball speed increased to 9.50 (multiplier: 1.90)
-AI mode move: player1 down
-AI mode move: player1 down
-AI mode move: player1 down
-AI mode move: player1 down
-AI mode move: player1 down
+Ball speed increased to 6.50 (multiplier: 1.30)
 AI mode move: player1 down
 AI mode move: player1 down
 AI mode move: player1 down
@@ -142,397 +65,69 @@ AI mode move: player1 up
 AI mode move: player1 up
 AI mode move: player1 up
 AI mode move: player1 up
+Ball velocity updated: x=4.88, y=-1.10, speed=5, progressive multiplier=1.00
 AI mode move: player1 up
 AI mode move: player1 up
 AI mode move: player1 up
-AI mode move: player1 up
-AI mode move: player1 up
-AI mode move: player1 up
-AI mode move: player1 up
-AI mode move: player1 up
-AI mode move: player1 up
-AI mode move: player1 up
-Ball velocity updated: x=4.50, y=-2.17, speed=5, progressive multiplier=1.00
-Ball velocity updated: x=-3.58, y=-3.49, speed=5, progressive multiplier=1.00
-AI mode move: player1 up
-AI mode move: player1 up
-AI mode move: player1 up
-AI mode move: player1 up
-AI mode move: player1 up
-AI mode move: player1 up
-AI mode move: player1 up
-AI mode move: player1 up
-AI mode move: player1 up
-AI mode move: player1 up
-AI mode move: player1 up
-AI mode move: player1 up
-AI mode move: player1 up
-AI mode move: player1 up
-AI mode move: player1 up
-AI mode move: player1 up
-AI mode move: player1 up
-AI mode move: player1 up
-AI mode move: player1 down
 AI mode move: player1 down
 AI mode move: player1 down
 Ball speed increased to 6.50 (multiplier: 1.30)
 AI mode move: player1 down
 AI mode move: player1 down
-Client /ws/game?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoidHpoYWt5cG8iLCJlbWFpbCI6InR6aGFreXBvQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzLzU3YWI5NTRmYzE0YjkzNmExMmYzMjdkMjUyYTQ1YTU2L21lZGl1bV90emhha3lwby5qcGciLCJpbnRyYV9pZCI6MTMzNDQzLCJpbnRyYV9sb2dpbiI6InR6aGFreXBvIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzU0MjMwNzA0fQ.cc4eYWY5mfJcJXYH9FOCXtQMfgQ0gxmgoRmTnrqMz88&t=1754306481810 disconnected from game service
-Cleaned up game loop for client /ws/game?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoidHpoYWt5cG8iLCJlbWFpbCI6InR6aGFreXBvQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzLzU3YWI5NTRmYzE0YjkzNmExMmYzMjdkMjUyYTQ1YTU2L21lZGl1bV90emhha3lwby5qcGciLCJpbnRyYV9pZCI6MTMzNDQzLCJpbnRyYV9sb2dpbiI6InR6aGFreXBvIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzU0MjMwNzA0fQ.cc4eYWY5mfJcJXYH9FOCXtQMfgQ0gxmgoRmTnrqMz88&t=1754306481810
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-/Users/mac/Desktop/muhilio/ft_transcendence/backend/game-service/node_modules/ts-node/src/index.ts:859
-    return new TSError(diagnosticText, diagnosticCodes, diagnostics);
-           ^
-TSError: ⨯ Unable to compile TypeScript:
-src/modules/game/game.engine.ts(180,47): error TS2322: Type '(...values: number[]) => number' is not assignable to type 'number'.
-src/modules/game/game.engine.ts(180,55): error TS2695: Left side of comma operator is unused and has no side effects.
-src/modules/game/game.engine.ts(180,55): error TS1005: ';' expected.
-src/modules/game/game.engine.ts(180,96): error TS1005: ';' expected.
-
-    at createTSError (/Users/mac/Desktop/muhilio/ft_transcendence/backend/game-service/node_modules/ts-node/src/index.ts:859:12)
-    at reportTSError (/Users/mac/Desktop/muhilio/ft_transcendence/backend/game-service/node_modules/ts-node/src/index.ts:863:19)
-    at getOutput (/Users/mac/Desktop/muhilio/ft_transcendence/backend/game-service/node_modules/ts-node/src/index.ts:1077:36)
-    at Object.compile (/Users/mac/Desktop/muhilio/ft_transcendence/backend/game-service/node_modules/ts-node/src/index.ts:1433:41)
-    at Module.m._compile (/Users/mac/Desktop/muhilio/ft_transcendence/backend/game-service/node_modules/ts-node/src/index.ts:1617:30)
-    at loadTS (node:internal/modules/cjs/loader:1826:10)
-    at Object.require.extensions.<computed> [as .ts] (/Users/mac/Desktop/muhilio/ft_transcendence/backend/game-service/node_modules/ts-node/src/index.ts:1621:12)
-    at Module.load (node:internal/modules/cjs/loader:1469:32)
-    at Function._load (node:internal/modules/cjs/loader:1286:12)
-    at TracingChannel.traceSync (node:diagnostics_channel:322:14) {
-  diagnosticCodes: [ 2322, 2695, 1005, 1005 ]
-}
-[31m[nodemon] app crashed - waiting for file changes before starting...[39m
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-/Users/mac/Desktop/muhilio/ft_transcendence/backend/game-service/node_modules/ts-node/src/index.ts:859
-    return new TSError(diagnosticText, diagnosticCodes, diagnostics);
-           ^
-TSError: ⨯ Unable to compile TypeScript:
-src/modules/game/game.gateway.ts(32,20): error TS1161: Unterminated regular expression literal.
-
-    at createTSError (/Users/mac/Desktop/muhilio/ft_transcendence/backend/game-service/node_modules/ts-node/src/index.ts:859:12)
-    at reportTSError (/Users/mac/Desktop/muhilio/ft_transcendence/backend/game-service/node_modules/ts-node/src/index.ts:863:19)
-    at getOutput (/Users/mac/Desktop/muhilio/ft_transcendence/backend/game-service/node_modules/ts-node/src/index.ts:1077:36)
-    at Object.compile (/Users/mac/Desktop/muhilio/ft_transcendence/backend/game-service/node_modules/ts-node/src/index.ts:1433:41)
-    at Module.m._compile (/Users/mac/Desktop/muhilio/ft_transcendence/backend/game-service/node_modules/ts-node/src/index.ts:1617:30)
-    at loadTS (node:internal/modules/cjs/loader:1826:10)
-    at Object.require.extensions.<computed> [as .ts] (/Users/mac/Desktop/muhilio/ft_transcendence/backend/game-service/node_modules/ts-node/src/index.ts:1621:12)
-    at Module.load (node:internal/modules/cjs/loader:1469:32)
-    at Function._load (node:internal/modules/cjs/loader:1286:12)
-    at TracingChannel.traceSync (node:diagnostics_channel:322:14) {
-  diagnosticCodes: [ 1161 ]
-}
-[31m[nodemon] app crashed - waiting for file changes before starting...[39m
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `ts-node src/app.ts`[39m
-GameGateway initialized
-Game service WebSocket server starting on port 8080 with path /ws/game
-Game service is running on port 8080
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+Ball velocity updated: x=4.99, y=-0.27, speed=5, progressive multiplier=1.00
+Ball speed increased to 6.50 (multiplier: 1.30)
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 up
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+AI mode move: player1 down
+Client /ws/game?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoidHpoYWt5cG8iLCJlbWFpbCI6InR6aGFreXBvQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzLzU3YWI5NTRmYzE0YjkzNmExMmYzMjdkMjUyYTQ1YTU2L21lZGl1bV90emhha3lwby5qcGciLCJpbnRyYV9pZCI6MTMzNDQzLCJpbnRyYV9sb2dpbiI6InR6aGFreXBvIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzU0MzI3NTIxfQ.CocfwVIo_5ldkvuN9-poUpnPjMrP3y2aVUOswRlOwzU&t=1754327959311 disconnected from game service
+Cleaned up game loop for client /ws/game?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoidHpoYWt5cG8iLCJlbWFpbCI6InR6aGFreXBvQHN0dWRlbnQuNDJhYnVkaGFiaS5hZSIsImF2YXRhciI6Imh0dHBzOi8vY2RuLmludHJhLjQyLmZyL3VzZXJzLzU3YWI5NTRmYzE0YjkzNmExMmYzMjdkMjUyYTQ1YTU2L21lZGl1bV90emhha3lwby5qcGciLCJpbnRyYV9pZCI6MTMzNDQzLCJpbnRyYV9sb2dpbiI6InR6aGFreXBvIiwiYXV0aF9wcm92aWRlciI6IjQyIiwiaWF0IjoxNzU0MzI3NTIxfQ.CocfwVIo_5ldkvuN9-poUpnPjMrP3y2aVUOswRlOwzU&t=1754327959311
