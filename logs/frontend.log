@@ -3,10 +3,8 @@
 > vite
 
 
-  VITE v4.5.14  ready in 150 ms
+  VITE v4.5.14  ready in 125 ms
 
   ➜  Local:   http://localhost:3000/
   ➜  Network: http://10.18.202.22:3000/
   ➜  Network: http://10.144.78.153:3000/
-(node:33748) [DEP0060] DeprecationWarning: The `util._extend` API is deprecated. Please use Object.assign() instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)

@@ -123,7 +123,7 @@ class GameEngine {
         this.gameState.ball = { x: exports.GAME_WIDTH / 2, y: exports.GAME_HEIGHT / 2 };
         // Reset progressive speed when ball is reset (after scoring)
         this.progressiveSpeedMultiplier = 1.0;
-        const angle = (Math.random() - 0.5) * Math.PI / 3;
+        const angle = (Math.random() - 1.5) * Math.PI / 6;
         const currentSpeed = this.baseBallSpeed * this.progressiveSpeedMultiplier;
         this.ballVelocity = {
             x: currentSpeed * direction * Math.cos(angle),
@@ -195,7 +195,7 @@ class GameEngine {
     }
     // Обновленные методы для установки скорости через индивидуальные множители
     setBallSpeed(speed) {
-        this.instanceBallSpeedMultiplier = Math.max(0.1, Math.min(3.0, speed / exports.BASE_BALL_SPEED));
+        this.instanceBallSpeedMultiplier = Math.max(0.3, Math.min(3.0, speed / exports.BASE_BALL_SPEED));
         this.baseBallSpeed = exports.BASE_BALL_SPEED * this.instanceBallSpeedMultiplier;
         // Immediately update ball speed
         this.updateBallVelocity();
@@ -221,19 +221,19 @@ class GameEngine {
                 this.ballVelocity.x = (this.ballVelocity.x / magnitude) * currentSpeed;
                 this.ballVelocity.y = (this.ballVelocity.y / magnitude) * currentSpeed;
             }
-            else {
-                // If ball is stationary, give it random direction
-                const angle = (Math.random() - 0.5) * Math.PI / 3;
-                this.ballVelocity.x = currentSpeed * Math.cos(angle);
-                this.ballVelocity.y = currentSpeed * Math.sin(angle);
-            }
         }
-        else {
-            // If ball is stationary, give it random direction
-            const angle = (Math.random() - 0.5) * Math.PI / 3;
-            this.ballVelocity.x = currentSpeed * Math.cos(angle);
-            this.ballVelocity.y = currentSpeed * Math.sin(angle);
-        }
+        //     else {
+        //         // If ball is stationary, give it random direction
+        //         const angle = (Math.random() - 0.5) * Math.PI / 3;
+        //         this.ballVelocity.x = currentSpeed * Math.cos(angle);
+        //         this.ballVelocity.y = currentSpeed * Math.sin(angle);
+        //     }
+        // } else {
+        //     // If ball is stationary, give it random direction
+        //     const angle = (Math.random() - 0.5) * Math.PI / 3;
+        //     this.ballVelocity.x = currentSpeed * Math.cos(angle);
+        //     this.ballVelocity.y = currentSpeed * Math.sin(angle);
+        // }
         console.log(`Ball velocity updated: x=${this.ballVelocity.x.toFixed(2)}, y=${this.ballVelocity.y.toFixed(2)}, speed=${currentSpeed}, progressive multiplier=${this.progressiveSpeedMultiplier.toFixed(2)}`);
     }
 }
