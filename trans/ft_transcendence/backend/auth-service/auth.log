@@ -1,0 +1,12 @@
+Database path: /Users/mac/Desktop/check/ft_transcendence/backend/auth-service/db.sqlite
+Initializing database...
+Database initialized successfully.
+{"level":30,"time":1752068619265,"pid":35134,"hostname":"macs-MacBook-Pro.local","msg":"Server listening at http://0.0.0.0:3001"}
+Database connection opened successfully
+Users table created/verified
+Game_settings table created/verified
+User_stats table created/verified
+{"level":30,"time":1752068627385,"pid":35134,"hostname":"macs-MacBook-Pro.local","reqId":"req-1","req":{"method":"GET","url":"/api/users/oauth/42/authorize","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":57221},"msg":"incoming request"}
+{"level":30,"time":1752068627389,"pid":35134,"hostname":"macs-MacBook-Pro.local","reqId":"req-1","res":{"statusCode":200},"responseTime":4.1202497482299805,"msg":"request completed"}
+{"level":30,"time":1752068795884,"pid":35134,"hostname":"macs-MacBook-Pro.local","reqId":"req-2","req":{"method":"GET","url":"/api/users/oauth/42/authorize","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":57284},"msg":"incoming request"}
+{"level":30,"time":1752068795887,"pid":35134,"hostname":"macs-MacBook-Pro.local","reqId":"req-2","res":{"statusCode":200},"responseTime":2.139791965484619,"msg":"request completed"}
