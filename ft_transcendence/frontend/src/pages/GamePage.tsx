@@ -633,19 +633,13 @@ const GamePage = () => {
                                 <div className="text-lg text-electric-green font-medium">
                                     ✅ Tournament result recorded!
                                 </div>
-                                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                                <div className="flex justify-center">
                                     <Link
                                         to="/tournament"
                                         className="btn btn-primary px-6 py-3 text-lg"
                                     >
                                         Continue Tournament
                                     </Link>
-                                    <button
-                                        onClick={handleRestart}
-                                        className="btn btn-secondary px-6 py-3 text-lg"
-                                    >
-                                        Play Again
-                                    </button>
                                 </div>
                             </div>
                         ) : (
