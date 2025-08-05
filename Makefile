@@ -97,7 +97,7 @@ docker-restart:
 	@echo "$(BLUE)🌐 Open: http://localhost:3000$(NC)"
 
 ## start: 🚀 Start all services with Docker
-start: docker-start
+start: logs docker-start
 	@echo "$(GREEN)✅ All services started with Docker!$(NC)"
 
 ## restart: 🔄 Restart all services with Docker
