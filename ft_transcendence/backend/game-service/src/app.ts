@@ -5,7 +5,7 @@ const gameGateway = new GameGateway();
 
 const wss = new WebSocket.Server({
     port: 8080,
-    path: '/ws/game'   // This must match nginx proxy path
+    path: '/ws/game'   
 });
 
 console.log('Game service WebSocket server starting on port 8080 with path /ws/game');

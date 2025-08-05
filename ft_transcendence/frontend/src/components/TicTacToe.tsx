@@ -331,7 +331,7 @@ const TicTacToe: React.FC = () => {
 
     return (
         <div className="text-center text-white">
-            {/* Authentication Status */}
+            {}
             {!isAuthenticated && (
                 <div className="mb-4 p-3 bg-yellow-600 bg-opacity-20 rounded-lg border border-yellow-500 border-opacity-30">
                     <p className="text-sm text-yellow-300">
@@ -340,13 +340,13 @@ const TicTacToe: React.FC = () => {
                 </div>
             )}
 
-            {/* Game Status */}
+            {}
             <div className="mb-8">
                 <h2 className="text-2xl font-bold mb-4 text-electric-green">
                     {getStatusMessage()}
                 </h2>
 
-                {/* Scores */}
+                {}
                 <div className="grid grid-cols-3 gap-4 mb-6 max-w-md mx-auto">
                     <div className="bg-white bg-opacity-5 rounded-lg p-4 border border-white border-opacity-10">
                         <div className="text-2xl font-bold text-blue-400">X</div>
@@ -366,7 +366,7 @@ const TicTacToe: React.FC = () => {
                 </div>
             </div>
 
-            {/* Game Board */}
+            {}
             <div className="inline-block mb-8">
                 <div className="grid grid-cols-3 gap-2 p-6 bg-white bg-opacity-5 rounded-2xl border border-electric-green border-opacity-30">
                     {gameState.board.map((cell, index) => (
@@ -391,7 +391,7 @@ const TicTacToe: React.FC = () => {
                 </div>
             </div>
 
-            {/* Game Controls */}
+            {}
             <div className="flex justify-center gap-4">
                 <button
                     onClick={resetGame}
@@ -401,7 +401,7 @@ const TicTacToe: React.FC = () => {
                 </button>
             </div>
 
-            {/* Game Info */}
+            {}
             <div className="mt-8 p-4 bg-white bg-opacity-5 rounded-lg border border-white border-opacity-10 max-w-md mx-auto">
                 <h3 className="text-lg font-bold mb-2 text-electric-green">How to Play</h3>
                 <div className="text-sm text-gray-300 space-y-1">

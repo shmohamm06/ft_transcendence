@@ -261,7 +261,7 @@ export async function createTestUserHandler(
                     console.log('Test user created with ID:', userId);
                     console.log('Rows affected:', this.changes);
 
-                    // Create user_stats record
+                    
                     db.run(
                         'INSERT OR IGNORE INTO user_stats (user_id) VALUES (?)',
                         [userId],

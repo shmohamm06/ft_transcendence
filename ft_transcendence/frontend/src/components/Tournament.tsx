@@ -545,7 +545,7 @@ const Tournament: React.FC<TournamentProps> = ({ tournament, onMatchComplete }) 
         <div className="max-w-4xl mx-auto p-6">
             <h2 className="text-3xl font-bold text-center mb-8 text-electric-green">Tournament Bracket</h2>
 
-            {/* Progress indicator */}
+            {}
             <div className="mb-6 text-center">
                 <div className="text-sm text-gray-300">
                     Matches completed: <span className="text-electric-green font-bold">{matches.filter(m => m.isCompleted).length} / {matches.length}</span>
@@ -553,7 +553,7 @@ const Tournament: React.FC<TournamentProps> = ({ tournament, onMatchComplete }) 
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {/* Semifinals */}
+                {}
                 <div className="space-y-4">
                     <h3 className="text-xl font-semibold text-center text-electric-green">Semifinals</h3>
                     {matches.filter(m => m.round === 'semifinal').map((match) => (
@@ -587,7 +587,7 @@ const Tournament: React.FC<TournamentProps> = ({ tournament, onMatchComplete }) 
                     ))}
                 </div>
 
-                {/* Final */}
+                {}
                 <div className="space-y-4">
                     <h3 className="text-xl font-semibold text-center text-electric-green">Final</h3>
                     {matches.filter(m => m.round === 'final').map((match) => (
@@ -708,7 +708,7 @@ const Tournament: React.FC<TournamentProps> = ({ tournament, onMatchComplete }) 
                 </div>
             )}
 
-            {/* Tournament Results Summary */}
+            {}
             <div className="bg-white bg-opacity-5 rounded-2xl p-6 mb-6 backdrop-blur-20 border border-white border-opacity-10">
                 <h4 className="text-xl font-semibold mb-4 text-electric-green">Tournament Results</h4>
                 <div className="space-y-2">
@@ -747,7 +747,7 @@ const Tournament: React.FC<TournamentProps> = ({ tournament, onMatchComplete }) 
     return (
         <div className="text-white">
             <div className="max-w-6xl mx-auto">
-                {/* Tournament Status */}
+                {}
                 <div className="bg-white bg-opacity-5 rounded-2xl p-4 mb-8 backdrop-blur-20 border border-white border-opacity-10">
                     <div className="flex justify-between items-center">
                         <div>
@@ -761,7 +761,7 @@ const Tournament: React.FC<TournamentProps> = ({ tournament, onMatchComplete }) 
                     </div>
                 </div>
 
-                {/* Players Grid */}
+                {}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                     {players.map((player: any) => (
                         <div key={player.id} className="bg-white bg-opacity-5 border border-white border-opacity-10 rounded-lg p-4 text-center backdrop-blur-20">
@@ -771,13 +771,13 @@ const Tournament: React.FC<TournamentProps> = ({ tournament, onMatchComplete }) 
                     ))}
                 </div>
 
-                {/* Render different phases */}
+                {}
                 {phase === 'registration' && renderRegistration()}
                 {phase === 'bracket' && renderBracket()}
                 {phase === 'playing' && renderPlaying()}
                 {phase === 'completed' && renderCompleted()}
 
-                {/* Winner Display */}
+                {}
                 {champion && (
                     <div className="bg-white bg-opacity-5 rounded-2xl p-6 mt-8 text-center backdrop-blur-20 border border-electric-green">
                         <h2 className="text-2xl font-bold text-electric-green mb-2">Tournament Winner!</h2>
@@ -785,7 +785,7 @@ const Tournament: React.FC<TournamentProps> = ({ tournament, onMatchComplete }) 
                     </div>
                 )}
 
-                {/* Reset Tournament Button - only show if tournament was passed via props */}
+                {}
                 {tournament && phase !== 'completed' && (
                     <div className="text-center mt-8">
                         <button

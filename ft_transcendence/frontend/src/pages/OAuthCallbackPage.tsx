@@ -146,9 +146,9 @@ const OAuthCallbackPage = () => {
 
     return (
         <div className="min-h-screen text-white flex items-center justify-center relative overflow-hidden">
-            {/* Animated Background */}
+            {}
             <div className="absolute inset-0 pointer-events-none">
-                {/* Floating Elements */}
+                {}
                 {Array.from({ length: 6 }).map((_, i) => (
                     <div 
                         key={i}
@@ -161,12 +161,12 @@ const OAuthCallbackPage = () => {
                     />
                 ))}
                 
-                {/* Corner Accents */}
+                {}
                 <div className="absolute top-8 left-8 w-16 h-16 border-l-2 border-t-2 border-electric-green opacity-30" />
                 <div className="absolute bottom-8 right-8 w-16 h-16 border-r-2 border-b-2 border-electric-green opacity-30" />
             </div>
 
-            {/* Main Content */}
+            {}
             <div className="relative z-10 w-full max-w-md px-6">
                 <div className="bg-white bg-opacity-5 border border-white border-opacity-10 rounded-2xl p-8 backdrop-blur-20">
                     {renderContent()}

@@ -130,9 +130,9 @@ const ProfilePage = () => {
 
     return (
         <div className="min-h-screen text-white relative overflow-hidden">
-            {/* Animated Background */}
+            {}
             <div className="absolute inset-0 pointer-events-none">
-                {/* Electric Grid */}
+                {}
                 <div className="absolute inset-0 opacity-10">
                     {Array.from({ length: 8 }).map((_, i) => (
                         <div
@@ -149,7 +149,7 @@ const ProfilePage = () => {
                     ))}
                 </div>
 
-                {/* Floating Stats Particles */}
+                {}
                 {Array.from({ length: 12 }).map((_, i) => (
                     <div
                         key={i}
@@ -162,14 +162,14 @@ const ProfilePage = () => {
                     />
                 ))}
 
-                {/* Corner Accents */}
+                {}
                 <div className="absolute top-8 left-8 w-20 h-20 border-l-2 border-t-2 border-electric-green opacity-30" />
                 <div className="absolute bottom-8 right-8 w-20 h-20 border-r-2 border-b-2 border-electric-green opacity-30" />
             </div>
 
-            {/* Main Content */}
+            {}
             <div className="relative z-10 min-h-screen flex flex-col">
-                {/* Header */}
+                {}
                 <header className="text-center pt-24 pb-12">
                     <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-white to-electric-green bg-clip-text text-transparent">
                         PROFILE
@@ -180,15 +180,15 @@ const ProfilePage = () => {
                     </p>
                 </header>
 
-                {/* Content */}
+                {}
                 <main className="flex-1 px-6">
                     <div className="max-w-7xl mx-auto">
                         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-                            {/* User Info & Achievements */}
+                            {}
                             <div className="lg:col-span-1 space-y-6">
 
-                                {/* User Card */}
+                                {}
                                 <div className="profile-card group hover:border-electric-green transition-all duration-300">
                                     <h3 className="text-xl font-bold mb-6 text-center">User Information</h3>
                                     <div className="space-y-4">
@@ -216,7 +216,7 @@ const ProfilePage = () => {
                                     </div>
                                 </div>
 
-                                {/* Achievements */}
+                                {}
                                 <div className="profile-card">
                                     <h3 className="text-xl font-bold mb-6 text-center">Achievements</h3>
                                     <div className="space-y-3">
@@ -246,7 +246,7 @@ const ProfilePage = () => {
                                 </div>
                             </div>
 
-                            {/* Statistics */}
+                            {}
                             <div className="lg:col-span-2">
                                 <div className="profile-card">
                                     <h3 className="text-xl font-bold mb-6 text-center">Game Statistics</h3>
@@ -269,7 +269,7 @@ const ProfilePage = () => {
                                         </div>
                                     ) : (
                                         <>
-                                            {/* Key Stats Row */}
+                                            {}
                                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
                                                 <div className="text-center p-6 bg-white bg-opacity-5 rounded-lg hover:bg-opacity-10 transition-all duration-300">
                                                     <div className="text-3xl font-bold text-electric-green mb-2">{stats.totalGames}</div>
@@ -285,9 +285,9 @@ const ProfilePage = () => {
                                                 </div>
                                             </div>
 
-                                            {/* Detailed Stats */}
+                                            {}
                                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                                {/* Overall Stats */}
+                                                {}
                                                 <div className="p-6 bg-white bg-opacity-5 rounded-lg border border-white border-opacity-10 hover:border-electric-green hover:bg-opacity-10 transition-all duration-300">
                                                     <h4 className="text-lg font-bold mb-4 text-center text-electric-green">Overall Stats</h4>
                                                     <div className="space-y-3">
@@ -312,7 +312,7 @@ const ProfilePage = () => {
                                                     </div>
                                                 </div>
 
-                                                {/* Pong Stats */}
+                                                {}
                                                 <div className="p-6 bg-white bg-opacity-5 rounded-lg border border-white border-opacity-10 hover:border-electric-green hover:bg-opacity-10 transition-all duration-300">
                                                     <h4 className="text-lg font-bold mb-4 text-center text-electric-green">Pong Stats</h4>
                                                     <div className="space-y-3">
@@ -340,7 +340,7 @@ const ProfilePage = () => {
                                         </>
                                     )}
 
-                                    {/* Action Buttons */}
+                                    {}
                                     <div className="flex justify-center gap-4 mt-8 pt-6 border-t border-white border-opacity-10">
                                         <button
                                             onClick={fetchStats}
@@ -362,7 +362,7 @@ const ProfilePage = () => {
                     </div>
                 </main>
 
-                {/* Footer */}
+                {}
                 <footer className="text-center pb-8 pt-8">
                     <div className="w-24 h-px bg-gradient-to-r from-transparent via-electric-green to-transparent mx-auto mb-6"></div>
                     <Link
