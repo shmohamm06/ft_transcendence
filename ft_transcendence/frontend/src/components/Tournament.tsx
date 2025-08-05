@@ -68,6 +68,7 @@ const Tournament: React.FC<TournamentProps> = ({ tournament, onMatchComplete }) 
     const [currentMatch, setCurrentMatch] = useState<Match | null>(null);
     const [champion, setChampion] = useState<Player | null>(null);
     const [newPlayerName, setNewPlayerName] = useState('');
+    const [nameError, setNameError] = useState('');
 
     // Save tournament state to localStorage
     const saveTournamentState = (state: Partial<TournamentState>) => {
@@ -354,15 +355,39 @@ const Tournament: React.FC<TournamentProps> = ({ tournament, onMatchComplete }) 
 
     // Add player
     const addPlayer = () => {
-        if (newPlayerName.trim() && players.length < 4) {
-            const newPlayer: Player = {
-                id: players.length + 1,
-                nickname: newPlayerName.trim(),
-                isReady: true
-            };
-            setPlayers([...players, newPlayer]);
-            setNewPlayerName('');
+        const trimmedName = newPlayerName.trim();
+
+        // Clear previous error
+        setNameError('');
+
+        if (!trimmedName) {
+            setNameError('Please enter a player name');
+            return;
         }
+
+        if (players.length >= 4) {
+            setNameError('Maximum 4 players allowed');
+            return;
+        }
+
+        // Check for duplicate names (case-insensitive)
+        const isDuplicate = players.some(player =>
+            player.nickname.toLowerCase() === trimmedName.toLowerCase()
+        );
+
+        if (isDuplicate) {
+            setNameError('A player with this name already exists');
+            return;
+        }
+
+        const newPlayer: Player = {
+            id: players.length + 1,
+            nickname: trimmedName,
+            isReady: true
+        };
+
+        setPlayers([...players, newPlayer]);
+        setNewPlayerName('');
     };
 
     // Remove player
@@ -443,6 +468,7 @@ const Tournament: React.FC<TournamentProps> = ({ tournament, onMatchComplete }) 
             setCurrentMatch(null);
             setChampion(null);
             setNewPlayerName('');
+            setNameError('');
             localStorage.removeItem('tournamentMatch');
             localStorage.removeItem('tournamentGameResult');
             localStorage.removeItem('tournamentState');
@@ -460,9 +486,13 @@ const Tournament: React.FC<TournamentProps> = ({ tournament, onMatchComplete }) 
                     <input
                         type="text"
                         value={newPlayerName}
-                        onChange={(e) => setNewPlayerName(e.target.value)}
+                        onChange={(e) => {
+                            setNewPlayerName(e.target.value);
+                            // Clear error when user starts typing
+                            if (nameError) setNameError('');
+                        }}
                         placeholder="Enter player nickname"
-                        className="form-input flex-1"
+                        className={`form-input flex-1 ${nameError ? 'border-red-500' : ''}`}
                         maxLength={20}
                         onKeyPress={(e) => e.key === 'Enter' && addPlayer()}
                     />
@@ -474,6 +504,12 @@ const Tournament: React.FC<TournamentProps> = ({ tournament, onMatchComplete }) 
                         Add Player
                     </button>
                 </div>
+
+                {nameError && (
+                    <div className="mb-4 p-3 bg-red-600 bg-opacity-20 border border-red-500 border-opacity-30 rounded-lg">
+                        <p className="text-red-300 text-sm">{nameError}</p>
+                    </div>
+                )}
 
                 <div className="space-y-2">
                     {players.map((player) => (
