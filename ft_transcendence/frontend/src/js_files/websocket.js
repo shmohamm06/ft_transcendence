@@ -1,4 +1,3 @@
-// WebSocket module for ft_transcendence
 console.log('🔌 WebSocket module loaded');
 
 class WebSocketManager {
@@ -17,12 +16,10 @@ class WebSocketManager {
             this.updateConnectionStatus('Connected');
             console.log('WebSocket connected');
 
-            // Send saved settings
             setTimeout(() => {
                 this.sendSettings();
             }, 100);
 
-            // Start a new match on connection
             setTimeout(() => {
                 if (this.app.socket && this.app.socket.readyState === WebSocket.OPEN) {
                     this.app.socket.send(JSON.stringify({ type: 'startNewMatch' }));
@@ -45,12 +42,10 @@ class WebSocketManager {
                 const data = JSON.parse(event.data);
                 console.log('Received game state:', data);
 
-                // Handle new message format
                 if (data.type === 'gameState') {
                     const gameState = data.data;
                     console.log('Received game state:', gameState);
 
-                    // Debug information for Game Over
                     if (gameState.gameStatus === 'gameOver') {
                         console.log('GAME OVER DETECTED! Winner:', gameState.winner);
                         console.log('Final score:', gameState.score);
@@ -58,13 +53,11 @@ class WebSocketManager {
 
                     this.updateGameDisplay(gameState);
 
-                    // If the game ended (someone reached 3 points), show Game Over screen
                     if (gameState.gameStatus === 'gameOver') {
                         console.log('Game over! Winner:', gameState.winner);
                         this.updateConnectionStatus('Game Finished');
                     }
                 } else {
-                    // Backward compatibility with old format
                     this.app.gameState = data;
                     this.updateGameDisplay(this.app.gameState);
                 }
@@ -76,7 +69,6 @@ class WebSocketManager {
         };
     }
 
-    // Send settings to server
     sendSettings() {
         if (this.app.socket && this.app.socket.readyState === WebSocket.OPEN) {
             const ballSpeed = document.getElementById('ball-speed')?.value || 5;
@@ -92,7 +84,6 @@ class WebSocketManager {
         }
     }
 
-    // Send command to start new match
     sendStartNewMatch() {
         if (this.app.socket && this.app.socket.readyState === WebSocket.OPEN) {
             this.app.socket.send(JSON.stringify({ type: 'startNewMatch' }));
@@ -107,13 +98,10 @@ class WebSocketManager {
     }
 
     updateGameDisplay(gameState) {
-        // Update game state
         this.app.gameState = gameState;
 
-        // Update score
         this.app.uiManager.updateScore();
 
-        // If game is in countdown state, show countdown
         if (gameState.gameStatus === 'countdown' && gameState.countdown !== undefined) {
             this.updateConnectionStatus(`Game starting in ${gameState.countdown}...`);
         } else if (gameState.gameStatus === 'playing') {
@@ -124,5 +112,4 @@ class WebSocketManager {
     }
 }
 
-// Export for global access
 window.WebSocketManager = WebSocketManager;

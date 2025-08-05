@@ -427,3 +427,188 @@ Instead of getting results on the same page, the attacker uses **network tricks*
 
 ---
 
+
+# 12 Strategic Questions for Your Backend Evaluation
+
+Here are 12 questions that sound complex but are actually straightforward to answer, designed to showcase your backend knowledge:
+
+## **1. Database Architecture & Security**
+**"Can you explain our database normalization strategy and how we prevent SQL injection attacks in our user authentication system?"**
+
+*Your Answer:* "We use a three-table normalized design: users (core data), user_stats (game statistics), and game_settings (user preferences). For SQL injection prevention, we exclusively use prepared statements with parameterized queries, ensuring user input is treated as data rather than executable SQL code."
+
+## **2. Authentication & Authorization**
+**"How does our JWT token system work, and what security measures have we implemented to protect user sessions?"**
+
+*Your Answer:* "We use stateless JWT authentication where tokens contain encrypted user data. Passwords are hashed with bcrypt using salt, and tokens are verified on each protected route. We also implement CORS to control cross-origin access."
+
+## **3. Microservices Communication**
+**"Can you walk me through how our auth-service and game-service communicate, and what design patterns we used for inter-service data exchange?"**
+
+*Your Answer:* "Our game-service communicates with auth-service via HTTP REST APIs for user settings and token verification. We maintain service independence while sharing necessary data through well-defined API contracts."
+
+## **4. Real-time Communication**
+**"How did we implement real-time game state synchronization, and what considerations went into choosing WebSocket over HTTP polling?"**
+
+*Your Answer:* "We use WebSocket connections for real-time game updates at 60 FPS. This eliminates polling overhead and provides immediate bidirectional communication, essential for responsive gaming experience."
+
+## **5. Error Handling & Resilience**
+**"What's our approach to error handling across different layers of the backend, and how do we ensure graceful degradation when services fail?"**
+
+*Your Answer:* "We implement comprehensive error handling with specific HTTP status codes, database constraint error handling, and structured logging. Each service can operate independently with proper fallback mechanisms."
+
+## **6. Data Integrity & Transactions**
+**"How do we maintain data consistency across our database operations, especially when creating users and their associated statistics?"**
+
+*Your Answer:* "We use database transactions to ensure atomic operations. When a user registers, both the user record and their stats record are created in a single transaction, with rollback on failure."
+
+## **7. API Design & REST Principles**
+**"Can you explain our RESTful API design patterns and how we handle different HTTP methods for user resource management?"**
+
+*Your Answer:* "We follow REST principles with resource-based URLs. POST for creation (/api/users/register), GET for retrieval (/api/users/profile), PUT for updates (/api/settings), with proper status codes and response formats."
+
+## **8. Performance & Scalability**
+**"What performance optimizations have we implemented, and how does our architecture support horizontal scaling?"**
+
+*Your Answer:* "We use prepared statements for database performance, efficient JOIN queries, and stateless design for horizontal scaling. Our microservices architecture allows independent scaling of auth and game services."
+
+## **9. Security Best Practices**
+**"What security layers have we implemented beyond basic authentication, and how do we protect against common web vulnerabilities?"**
+
+*Your Answer:* "Beyond JWT authentication, we implement input validation with Zod schemas, CORS protection, password hashing with bcrypt, and prepared statements for SQL injection prevention."
+
+## **10. Database Schema Design**
+**"Can you explain our database schema relationships and how we handle foreign key constraints for data integrity?"**
+
+*Your Answer:* "We use proper foreign key relationships with CASCADE deletes. The users table is the primary entity, with user_stats (one-to-one) and game_settings (one-to-many) properly linked via user_id foreign keys."
+
+## **11. Service Architecture**
+**"How did we achieve service separation in our microservices architecture, and what are the benefits of this design pattern?"**
+
+*Your Answer:* "We separated concerns: auth-service handles user management and authentication, while game-service manages real-time game logic. This provides independent deployment, technology flexibility, and fault isolation."
+
+## **12. Development & Deployment**
+**"What's our development workflow and how do we ensure consistent environments from development to production?"**
+
+*Your Answer:* "We use Docker containerization for consistent environments, environment variables for configuration, and TypeScript for type safety. Each service has its own container with proper port mapping and service discovery."
+
+## **Key Points to Emphasize:**
+
+- **Technical depth** - Show understanding of underlying concepts
+- **Security awareness** - Demonstrate knowledge of best practices
+- **Architecture decisions** - Explain why you chose specific patterns
+- **Problem-solving** - Show how you handle real-world challenges
+- **Scalability thinking** - Demonstrate forward-looking design
+
+# 4 Additional Strategic Questions (Non-DB/Game Focus)
+
+Here are 4 more questions that focus on other backend aspects to showcase your broader knowledge:
+
+## **13. API Gateway & Routing**
+**"How did we implement our API gateway pattern with Nginx, and what considerations went into designing our reverse proxy configuration?"**
+
+*Your Answer:* "We use Nginx as a reverse proxy to route requests to appropriate services. It handles CORS, load balancing, and provides a single entry point. The gateway routes /api/* to auth-service and /ws/game to game-service, creating a clean separation of concerns."
+
+## **14. Environment Management & Configuration**
+**"Can you explain our environment configuration strategy and how we handle different deployment environments from development to production?"**
+
+*Your Answer:* "We use environment variables for configuration management. Development uses localhost ports and SQLite, while production would use environment-specific databases and secrets. We use dotenv for local development and Docker environment variables for containerized deployment."
+
+## **15. Code Quality & Type Safety**
+**"What's our approach to maintaining code quality and type safety across our backend services, and how does this impact our development workflow?"**
+
+*Your Answer:* "We use TypeScript for static type checking, Zod for runtime validation, and structured error handling. This catches bugs early, provides better IDE support, and ensures API contracts are properly enforced between services."
+
+## **16. Testing Strategy & Quality Assurance**
+**"How do we approach testing in our backend architecture, and what testing strategies have we implemented to ensure reliability?"**
+
+*Your Answer:* "We implement unit testing for business logic, integration testing for API endpoints, and use TypeScript for compile-time error checking. Our stateless design makes services easily testable, and we use prepared statements which are inherently testable."
+
+---
+
+## **Bonus: Technical Deep-Dive Questions**
+
+### **17. CORS & Security Headers**
+**"Can you explain our CORS configuration and how we handle cross-origin requests between our frontend and backend services?"**
+
+*Your Answer:* "We configure CORS to allow specific origins (localhost:8081, localhost:3000) and methods (GET, POST, PUT, DELETE). This prevents unauthorized cross-origin access while enabling our frontend to communicate with our backend APIs."
+
+### **18. Error Logging & Monitoring**
+**"What's our logging strategy and how do we handle error tracking across distributed services?"**
+
+*Your Answer:* "We use structured logging with Fastify's built-in logger, capturing request/response data and error details. Each service logs independently, and we can aggregate logs for debugging distributed issues."
+
+---
+
+## **Key Points to Emphasize:**
+
+- **Infrastructure knowledge** - Nginx, Docker, environment management
+- **Code quality practices** - TypeScript, testing, validation
+- **Security awareness** - CORS, headers, configuration management
+- **DevOps thinking** - Environment management, deployment strategies
+- **Quality assurance** - Testing, logging, monitoring
+
+**These questions demonstrate your knowledge beyond just database and game logic, showing you understand the full backend ecosystem!** 🚀
+
+# 4 Additional Strategic Questions (Non-DB/Game Focus)
+
+Here are 4 more questions that focus on other backend aspects to showcase your broader knowledge:
+
+## **13. API Gateway & Routing**
+**"How did we implement our API gateway pattern with Nginx, and what considerations went into designing our reverse proxy configuration?"**
+
+*Your Answer:* "We use Nginx as a reverse proxy to route requests to appropriate services. It handles CORS, load balancing, and provides a single entry point. The gateway routes /api/* to auth-service and /ws/game to game-service, creating a clean separation of concerns."
+
+## **14. Environment Management & Configuration**
+**"Can you explain our environment configuration strategy and how we handle different deployment environments from development to production?"**
+
+*Your Answer:* "We use environment variables for configuration management. Development uses localhost ports and SQLite, while production would use environment-specific databases and secrets. We use dotenv for local development and Docker environment variables for containerized deployment."
+
+## **15. Code Quality & Type Safety**
+**"What's our approach to maintaining code quality and type safety across our backend services, and how does this impact our development workflow?"**
+
+*Your Answer:* "We use TypeScript for static type checking, Zod for runtime validation, and structured error handling. This catches bugs early, provides better IDE support, and ensures API contracts are properly enforced between services."
+
+## **16. Testing Strategy & Quality Assurance**
+**"How do we approach testing in our backend architecture, and what testing strategies have we implemented to ensure reliability?"**
+
+*Your Answer:* "We implement unit testing for business logic, integration testing for API endpoints, and use TypeScript for compile-time error checking. Our stateless design makes services easily testable, and we use prepared statements which are inherently testable."
+
+---
+
+## **Bonus: Technical Deep-Dive Questions**
+
+### **17. CORS & Security Headers**
+**"Can you explain our CORS configuration and how we handle cross-origin requests between our frontend and backend services?"**
+
+*Your Answer:* "We configure CORS to allow specific origins (localhost:8081, localhost:3000) and methods (GET, POST, PUT, DELETE). This prevents unauthorized cross-origin access while enabling our frontend to communicate with our backend APIs."
+
+### **18. Error Logging & Monitoring**
+**"What's our logging strategy and how do we handle error tracking across distributed services?"**
+
+*Your Answer:* "We use structured logging with Fastify's built-in logger, capturing request/response data and error details. Each service logs independently, and we can aggregate logs for debugging distributed issues."
+
+---
+
+## **Key Points to Emphasize:**
+
+- **Infrastructure knowledge** - Nginx, Docker, environment management
+- **Code quality practices** - TypeScript, testing, validation
+- **Security awareness** - CORS, headers, configuration management
+- **DevOps thinking** - Environment management, deployment strategies
+- **Quality assurance** - Testing, logging, monitoring
+
+**These questions demonstrate your knowledge beyond just database and game logic, showing you understand the full backend ecosystem!** 🚀
+
+
+"Can you explain your database normalization strategy and how we prevent SQL injection attacks?"
+"How does your JWT token system work, and what security measures protect user sessions?"
+"How do your auth-service and game-service communicate with each other?"
+"What's your microservices architecture and why did you choose this design?"
+"Can you explain your RESTful API design patterns and HTTP methods?"
+"What performance optimizations have you implemented in our backend?"
+"What's our approach to maintaining code quality and type safety?"
+"How did we implement our API gateway pattern with Nginx?"
+"What's our environment configuration strategy and Docker setup?"
+"How do we approach testing in our backend architecture?"
+"What's our logging strategy and error tracking approach?"

@@ -1,7 +1,6 @@
 import axios from 'axios';
 import db from '../../db/init';
 
-// 42 OAuth Configuration
 const OAUTH_CONFIG = {
     CLIENT_ID: process.env.OAUTH_CLIENT_ID || 'your_client_id',
     CLIENT_SECRET: process.env.OAUTH_CLIENT_SECRET || 'your_client_secret',
@@ -88,7 +87,6 @@ export class OAuthService {
 
     static async findOrCreateUser(userData: User42Data): Promise<any> {
         return new Promise((resolve, reject) => {
-            // First, try to find existing user by intra_id
             db.get(
                 'SELECT * FROM users WHERE intra_id = ?',
                 [userData.id],
@@ -99,7 +97,6 @@ export class OAuthService {
                     }
 
                     if (existingUser) {
-                        // User exists, update their info
                         db.run(
                             `UPDATE users SET
                              username = ?,
@@ -120,7 +117,6 @@ export class OAuthService {
                                     return reject(new Error('Failed to update user'));
                                 }
 
-                                // Ensure user_stats record exists for existing user
                                 db.run(
                                     'INSERT OR IGNORE INTO user_stats (user_id) VALUES (?)',
                                     [existingUser.id],
@@ -129,7 +125,6 @@ export class OAuthService {
                                             console.error('Failed to create user stats for existing user:', statsErr);
                                         }
 
-                                        // Return updated user data
                                         db.get(
                                             'SELECT id, username, email, avatar, intra_id, intra_login, auth_provider FROM users WHERE intra_id = ?',
                                             [userData.id],
@@ -145,7 +140,6 @@ export class OAuthService {
                             }
                         );
                     } else {
-                        // User doesn't exist, create new one
                         db.run(
                             `INSERT INTO users (username, email, avatar, intra_id, intra_login, auth_provider)
                              VALUES (?, ?, ?, ?, ?, ?)`,
@@ -163,7 +157,6 @@ export class OAuthService {
                                     return reject(new Error('Failed to create user'));
                                 }
 
-                                // Create user stats
                                 const userId = this.lastID;
                                 db.run(
                                     'INSERT INTO user_stats (user_id) VALUES (?)',
@@ -175,7 +168,6 @@ export class OAuthService {
                                     }
                                 );
 
-                                // Return new user data
                                 db.get(
                                     'SELECT id, username, email, avatar, intra_id, intra_login, auth_provider FROM users WHERE id = ?',
                                     [userId],

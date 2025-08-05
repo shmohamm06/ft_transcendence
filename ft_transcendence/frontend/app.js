@@ -1,8 +1,5 @@
-// ft_transcendence - Modular JavaScript Application
-// Version: 2025-06-23-v2
 console.log('🚀 Loading ft_transcendence modules...');
 
-// Function to dynamically load JavaScript modules
 function loadScript(src) {
     return new Promise((resolve, reject) => {
         const script = document.createElement('script');
@@ -19,15 +16,12 @@ function loadScript(src) {
     });
 }
 
-// Load all modules in the correct order
 async function initializeApp() {
     try {
         console.log('📦 Loading application modules...');
 
-        // Load utility modules first (they export classes that others depend on)
         await loadScript('src/js_files/utils.js');
 
-        // Load manager modules (these depend on utils.js)
         await Promise.all([
             loadScript('src/js_files/auth.js'),
             loadScript('src/js_files/websocket.js'),
@@ -45,7 +39,6 @@ async function initializeApp() {
     }
 }
 
-// Check if DOM is ready and start loading
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initializeApp);
 } else {

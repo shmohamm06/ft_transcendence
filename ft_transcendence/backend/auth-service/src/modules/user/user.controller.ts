@@ -17,7 +17,6 @@ export async function registerUserHandler(
         console.error('Registration failed:', e.message);
         console.error('Full error:', e);
 
-        // Check for specific SQLite constraint errors
         if (e.message && e.message.includes('UNIQUE constraint failed')) {
             if (e.message.includes('users.email')) {
                 return reply.code(409).send({ message: 'Email already exists' });
@@ -140,7 +139,6 @@ export async function oauthAuthorizeHandler(
         const state = Math.random().toString(36).substring(2, 15);
         const authURL = OAuthService.generateAuthURL(state);
 
-        // Redirect directly to 42 OAuth
         return reply.redirect(302, authURL);
     } catch (error: any) {
         console.error('OAuth authorization error:', error);
@@ -170,13 +168,10 @@ export async function oauthCallbackHandler(
             return reply.code(400).send({ message: 'Authorization code is required' });
         }
 
-        // Exchange code for access token
         const accessToken = await OAuthService.exchangeCodeForToken(code);
 
-        // Get user info from 42 API
         const userData = await OAuthService.getUserInfo(accessToken);
 
-        // Find or create user in our database
         const user = await OAuthService.findOrCreateUser(userData);
 
         console.log('OAuth: User from database:', {
@@ -186,10 +181,8 @@ export async function oauthCallbackHandler(
             keys: Object.keys(user)
         });
 
-        // Generate JWT token for our system
         const jwtToken = request.server.jwt.sign(user);
 
-        // Create a plain object to ensure proper JSON serialization
         const responseUser = {
             id: Number(user.id),
             username: String(user.username),
@@ -215,7 +208,6 @@ export async function oauthCallbackHandler(
             serializedResponse: JSON.stringify(responseData)
         });
 
-        // Force JSON serialization by setting content-type and using JSON.stringify
         return reply
             .header('Content-Type', 'application/json')
             .send(JSON.stringify(responseData));

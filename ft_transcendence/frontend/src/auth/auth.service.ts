@@ -29,7 +29,7 @@ export class AuthService {
       user: {
         username: user.username,
       },
-      token: 'mocked-jwt-token', // Replace with real JWT later
+      token: 'mocked-jwt-token',
     };
   }
 }

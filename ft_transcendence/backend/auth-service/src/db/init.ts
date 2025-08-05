@@ -1,7 +1,6 @@
 import sqlite3 from 'sqlite3';
 import path from 'path';
 
-// Use absolute path for database
 const dbPath = path.join(__dirname, '../../db.sqlite');
 console.log('Database path:', dbPath);
 
@@ -17,7 +16,6 @@ export const initializeDatabase = () => {
     db.serialize(() => {
         console.log('Initializing database...');
 
-        // User table
         db.run(`
             CREATE TABLE IF NOT EXISTS users (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -35,7 +33,6 @@ export const initializeDatabase = () => {
             else console.log('Users table created/verified');
         });
 
-        // Game Settings table
         db.run(`
             CREATE TABLE IF NOT EXISTS game_settings (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -50,7 +47,6 @@ export const initializeDatabase = () => {
             else console.log('Game_settings table created/verified');
         });
 
-        // Add this inside db.serialize() in initializeDatabase
         db.run(`
             CREATE TABLE IF NOT EXISTS user_stats (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -66,7 +62,6 @@ export const initializeDatabase = () => {
             else {
                 console.log('User_stats table created/verified');
 
-                // Ensure all existing users have stats records
                 db.run(`
                     INSERT OR IGNORE INTO user_stats (user_id)
                     SELECT id FROM users WHERE id NOT IN (SELECT user_id FROM user_stats)
@@ -79,8 +74,6 @@ export const initializeDatabase = () => {
                 });
             }
         });
-
-        // You can add more tables here later (e.g., friends, matches)
 
         console.log('Database initialized successfully.');
     });

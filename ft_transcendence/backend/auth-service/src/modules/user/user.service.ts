@@ -12,7 +12,6 @@ export async function registerUser(input: RegisterUserInput) {
             if (err) return reject(err);
             const userId = this.lastID;
 
-            // First create user_stats record
             db.run(
                 'INSERT INTO user_stats (user_id) VALUES (?)',
                 [userId],
@@ -22,7 +21,6 @@ export async function registerUser(input: RegisterUserInput) {
                         return reject(statsErr);
                     }
 
-                    // Then return user data
                     db.get('SELECT id, username, email FROM users WHERE id = ?', userId, (err: any, row: any) => {
                         if (err) return reject(err);
                         resolve(row);

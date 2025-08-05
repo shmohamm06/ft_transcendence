@@ -2,10 +2,8 @@ import 'dotenv/config';
 import * as dotenv from 'dotenv';
 import * as path from 'path';
 
-// Load .env file from current directory
 dotenv.config({ path: path.join(__dirname, '../.env') });
 
-// Debug: Check if environment variables are loaded
 console.log('Environment variables loaded:', {
     CLIENT_ID: process.env.OAUTH_CLIENT_ID ? 'LOADED' : 'MISSING',
     CLIENT_SECRET: process.env.OAUTH_CLIENT_SECRET ? 'LOADED' : 'MISSING',
@@ -23,10 +21,8 @@ import { FastifyRequest, FastifyReply } from 'fastify';
 
 const fastify = Fastify({ logger: true });
 
-// Initialize Database
 initializeDatabase();
 
-// Register CORS
 fastify.register(cors, {
     origin: ['http://localhost:3000', 'http://127.0.0.1:3000', 'http://localhost:8081', 'http://127.0.0.1:8081'],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
@@ -34,23 +30,18 @@ fastify.register(cors, {
     credentials: true
 });
 
-// Register JWT
 fastify.register(jwt, {
-  secret: process.env.JWT_SECRET || 'a-super-secret-key-that-is-long-enough', // This MUST be the same across services
+  secret: process.env.JWT_SECRET || 'a-super-secret-key-that-is-long-enough',
 });
 
-// Add schemas
 for (const schema of [...userSchemas, ...settingsSchemas]) {
     fastify.addSchema(schema);
 }
 
-// Register user routes
 fastify.register(userRoutes, { prefix: '/api/users' });
 
-// Register settings routes
 fastify.register(settingsRoutes, { prefix: '/api/settings' });
 
-// Add a new route to verify tokens for other services
 fastify.post('/api/verify', async (request: FastifyRequest, reply: FastifyReply) => {
     try {
         await request.jwtVerify();

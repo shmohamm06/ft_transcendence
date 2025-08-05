@@ -29,7 +29,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        // Restore token and user from localStorage on initialization
         const storedToken = localStorage.getItem('token');
         const storedUser = localStorage.getItem('user');
 
@@ -44,7 +43,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             try {
                 const parsedUser = JSON.parse(storedUser);
 
-                // If user object is empty, try to extract from JWT token
                 if (!parsedUser.id && storedToken) {
                     console.log('AuthContext: User object empty, extracting from JWT...');
                     try {
@@ -98,7 +96,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         const userString = JSON.stringify(newUser);
         localStorage.setItem('user', userString);
 
-        // Verify what was actually saved
         const savedUserString = localStorage.getItem('user');
         const parsedSavedUser = savedUserString ? JSON.parse(savedUserString) : null;
         console.log('AuthContext: Saved to localStorage:', {
@@ -117,7 +114,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         try {
             console.log('AuthContext: Register called with:', { username, email });
 
-            // Call register API
             const registerResponse = await axios.post('/api/users/register', {
                 username,
                 email,
@@ -126,7 +122,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
             console.log('AuthContext: Register successful:', registerResponse.data);
 
-            // After successful registration, log the user in
             const loginResponse = await axios.post('/api/users/login', {
                 email,
                 password
@@ -136,7 +131,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
             const { accessToken } = loginResponse.data;
 
-            // Decode JWT to get user info
             const payload = JSON.parse(atob(accessToken.split('.')[1]));
             const user: User = {
                 id: payload.id,
@@ -146,7 +140,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                 auth_provider: payload.auth_provider
             };
 
-            // Use existing login function to set token and user
             login(accessToken, user);
 
         } catch (error: any) {
