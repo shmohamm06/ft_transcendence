@@ -1,56 +1,36 @@
 import { FastifyInstance } from 'fastify';
-import { updateUserStatsHandler } from './user.controller';
-import { registerUserHandler, loginHandler, oauthAuthorizeHandler, oauthCallbackHandler } from './user.controller';
+import { registerUserHandler, loginHandler, oauthAuthorizeHandler, oauthCallbackHandler, createTestUserHandler, updateUserStatsHandler } from './user.controller';
 import { getUserProfileHandler } from './user.controller';
 import { $ref } from './user.schema';
 
 
-async function userRoutes(server: FastifyInstance) {
+export default async function userRoutes(server: FastifyInstance) {
     server.post('/register', {
         schema: {
             body: $ref('registerUserSchema'),
-            response: { 201: $ref('userResponseSchema') },
+            response: {
+                201: $ref('userResponseSchema'),
+            },
         },
     }, registerUserHandler);
 
     server.post('/login', {
         schema: {
             body: $ref('loginSchema'),
-            response: {
-                200: { type: 'object', properties: { accessToken: { type: 'string' } } },
-            },
         },
     }, loginHandler);
 
     // OAuth routes
-    server.get('/oauth/42/authorize', {
-        schema: {
-            response: {
-                200: {
-                    type: 'object',
-                    properties: {
-                        authURL: { type: 'string' },
-                        state: { type: 'string' }
-                    }
-                },
-            },
-        },
-    }, oauthAuthorizeHandler);
+    server.get('/oauth/42/authorize', oauthAuthorizeHandler);
 
     server.post('/oauth/42/callback', {
         schema: {
             body: $ref('oauthCallbackSchema'),
-            response: {
-                200: {
-                    type: 'object',
-                    properties: {
-                        accessToken: { type: 'string' },
-                        user: { type: 'object' }
-                    }
-                },
-            },
         },
     }, oauthCallbackHandler);
+
+    // Debug endpoint for creating test user
+    server.post('/create-test-user', createTestUserHandler);
 
     server.get('/profile', {
         preHandler: async (request, reply) => {
@@ -82,6 +62,4 @@ async function userRoutes(server: FastifyInstance) {
         }
     }, updateUserStatsHandler);
 }
-
-export default userRoutes;
 

@@ -35,18 +35,28 @@ export async function loginHandler(
     request: FastifyRequest<{ Body: LoginInput }>,
     reply: FastifyReply
 ) {
+    console.log('Login attempt:', { email: request.body.email });
+
     const user = await findUserByEmail(request.body.email);
+    console.log('User found:', user ? { id: user.id, username: user.username, email: user.email } : 'NOT_FOUND');
+
     if (!user) {
+        console.log('Login failed: User not found');
         return reply.code(401).send({ message: 'Invalid email or password' });
     }
 
     const isCorrectPassword = verifyPassword(request.body.password, user.password);
+    console.log('Password verification:', { isCorrect: isCorrectPassword });
+
     if (!isCorrectPassword) {
+        console.log('Login failed: Invalid password');
         return reply.code(401).send({ message: 'Invalid email or password' });
     }
 
     const { password, ...payload } = user;
     const token = request.server.jwt.sign(payload);
+
+    console.log('Login successful:', { userId: user.id, username: user.username });
 
     return { accessToken: token };
 }
@@ -218,5 +228,61 @@ export async function oauthCallbackHandler(
             message: 'OAuth authentication failed',
             error: error.message
         });
+    }
+}
+
+export async function createTestUserHandler(
+    request: FastifyRequest,
+    reply: FastifyReply
+) {
+    try {
+        const testUser = {
+            username: 'testuser2',
+            email: 'test2@example.com',
+            password: 'password123'
+        };
+
+        console.log('Creating test user:', { username: testUser.username, email: testUser.email });
+
+        const hashedPassword = require('../../utils/hash').hashPassword(testUser.password);
+        console.log('Password hashed successfully');
+
+        return new Promise((resolve, reject) => {
+            db.run(
+                'INSERT OR IGNORE INTO users (username, email, password) VALUES (?, ?, ?)',
+                [testUser.username, testUser.email, hashedPassword],
+                function (this: any, err: any) {
+                    if (err) {
+                        console.error('Error creating test user:', err);
+                        return reject(reply.code(500).send({ message: 'Failed to create test user' }));
+                    }
+
+                    const userId = this.lastID;
+                    console.log('Test user created with ID:', userId);
+                    console.log('Rows affected:', this.changes);
+
+                    // Create user_stats record
+                    db.run(
+                        'INSERT OR IGNORE INTO user_stats (user_id) VALUES (?)',
+                        [userId],
+                        (statsErr: any) => {
+                            if (statsErr) {
+                                console.error('Error creating user_stats for test user:', statsErr);
+                            } else {
+                                console.log('User_stats record created for test user');
+                            }
+
+                            resolve(reply.code(201).send({
+                                message: 'Test user created successfully',
+                                user: { id: userId, username: testUser.username, email: testUser.email }
+                            }));
+                        }
+                    );
+                }
+            );
+        });
+    } catch (error: any) {
+        console.error('Create test user error:', error);
+        return reply.code(500).send({ message: 'Failed to create test user' });
     }
 }
