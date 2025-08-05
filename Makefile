@@ -14,10 +14,10 @@ BLUE := \033[0;34m
 NC := \033[0m # No Color
 
 # Service paths
-AUTH_SERVICE_DIR := ft_transcendence/ft_transcendence/backend/auth-service
-GAME_SERVICE_DIR := ft_transcendence/ft_transcendence/backend/game-service
-FRONTEND_DIR := ft_transcendence/ft_transcendence/frontend
-DOCKER_DIR := ft_transcendence/ft_transcendence/docker
+AUTH_SERVICE_DIR := ft_transcendence/backend/auth-service
+GAME_SERVICE_DIR := ft_transcendence/backend/game-service
+FRONTEND_DIR := ft_transcendence/frontend
+DOCKER_DIR := ft_transcendence/docker
 
 ## help: 📋 Show available commands
 help:
