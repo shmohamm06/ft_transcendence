@@ -82,6 +82,23 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }, []);
 
     const login = (newToken: string, newUser: User) => {
+        // Validate inputs
+        if (!newToken || typeof newToken !== 'string') {
+            console.error('AuthContext: Invalid token provided');
+            throw new Error('Invalid authentication token');
+        }
+
+        if (!newUser || typeof newUser !== 'object') {
+            console.error('AuthContext: Invalid user object provided');
+            throw new Error('Invalid user data');
+        }
+
+        // Validate required user fields
+        if (!newUser.id || !newUser.username || !newUser.email) {
+            console.error('AuthContext: Missing required user fields');
+            throw new Error('Invalid user data structure');
+        }
+
         console.log('AuthContext: Login called with:', {
             token: newToken ? 'PROVIDED' : 'MISSING',
             user: newUser,
@@ -115,6 +132,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         try {
             console.log('AuthContext: LoginWithCredentials called with:', { email });
 
+            // Validate input
+            if (!email || !password) {
+                throw new Error('Email and password are required');
+            }
+
             const response = await axios.post('/api/users/login', {
                 email,
                 password
@@ -124,7 +146,24 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
             const { accessToken } = response.data;
 
-            const payload = JSON.parse(atob(accessToken.split('.')[1]));
+            // Validate JWT token
+            if (!accessToken || typeof accessToken !== 'string') {
+                throw new Error('Invalid authentication response');
+            }
+
+            // Parse and validate JWT payload
+            const tokenParts = accessToken.split('.');
+            if (tokenParts.length !== 3) {
+                throw new Error('Invalid JWT token format');
+            }
+
+            const payload = JSON.parse(atob(tokenParts[1]));
+
+            // Validate required fields in JWT payload
+            if (!payload.id || !payload.username || !payload.email) {
+                throw new Error('Invalid JWT token payload');
+            }
+
             const user: User = {
                 id: payload.id,
                 username: payload.username,
