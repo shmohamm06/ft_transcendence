@@ -1,7 +1,7 @@
 import sqlite3 from 'sqlite3';
 import path from 'path';
 
-const dbPath = path.join(__dirname, '../../db.sqlite');
+const dbPath = path.join(__dirname, '../../db/db.sqlite');
 console.log('Database path:', dbPath);
 
 const db = new sqlite3.Database(dbPath, sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE, (err) => {
