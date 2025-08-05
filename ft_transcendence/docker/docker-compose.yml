@@ -10,6 +10,7 @@ services:
       PORT: 3001
       OAUTH_CLIENT_ID: ${OAUTH_CLIENT_ID:-default_client_id}
       OAUTH_CLIENT_SECRET: ${OAUTH_CLIENT_SECRET:-default_client_secret}
+      OAUTH_REDIRECT_URI: ${OAUTH_REDIRECT_URI:-http://localhost:3000/auth/42/callback}
       JWT_SECRET: ${JWT_SECRET:-default_jwt_secret}
     ports:
       - "3001:3001"

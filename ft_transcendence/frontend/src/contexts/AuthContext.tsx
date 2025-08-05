@@ -15,6 +15,7 @@ interface AuthContextType {
     user: User | null;
     token: string | null;
     login: (token: string, user: User) => void;
+    loginWithCredentials: (email: string, password: string) => Promise<void>;
     register: (username: string, email: string, password: string) => Promise<void>;
     logout: () => void;
     isAuthenticated: boolean;
@@ -110,6 +111,40 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         console.log('AuthContext: Login completed, user authenticated:', !!newToken && !!newUser);
     };
 
+    const loginWithCredentials = async (email: string, password: string): Promise<void> => {
+        try {
+            console.log('AuthContext: LoginWithCredentials called with:', { email });
+
+            const response = await axios.post('/api/users/login', {
+                email,
+                password
+            });
+
+            console.log('AuthContext: Login response:', response.data);
+
+            const { accessToken } = response.data;
+
+            const payload = JSON.parse(atob(accessToken.split('.')[1]));
+            const user: User = {
+                id: payload.id,
+                username: payload.username,
+                email: payload.email,
+                avatar: payload.avatar,
+                auth_provider: payload.auth_provider
+            };
+
+            login(accessToken, user);
+
+        } catch (error: any) {
+            console.error('AuthContext: Login error:', error);
+            if (error.response?.data?.message) {
+                throw new Error(error.response.data.message);
+            } else {
+                throw new Error('Login failed');
+            }
+        }
+    };
+
     const register = async (username: string, email: string, password: string): Promise<void> => {
         try {
             console.log('AuthContext: Register called with:', { username, email });
@@ -166,7 +201,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const isAuthenticated = !!token && !!user;
 
     return (
-        <AuthContext.Provider value={{ user, token, login, register, logout, isAuthenticated, isLoading }}>
+        <AuthContext.Provider value={{ user, token, login, loginWithCredentials, register, logout, isAuthenticated, isLoading }}>
             {children}
         </AuthContext.Provider>
     );

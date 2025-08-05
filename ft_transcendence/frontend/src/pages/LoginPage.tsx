@@ -9,7 +9,7 @@ const LoginPage = () => {
     });
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
-    const { login } = useAuth();
+    const { loginWithCredentials } = useAuth();
     const navigate = useNavigate();
 
     const handle42Login = () => {
@@ -22,7 +22,7 @@ const LoginPage = () => {
         setLoading(true);
 
         try {
-            await login(formData.login, formData.password);
+            await loginWithCredentials(formData.login, formData.password);
             navigate('/');
         } catch (error: any) {
             setError(error.message || 'Login failed');
@@ -37,7 +37,7 @@ const LoginPage = () => {
             <div className="absolute inset-0 pointer-events-none">
                 {/* Floating Elements */}
                 {Array.from({ length: 8 }).map((_, i) => (
-                    <div 
+                    <div
                         key={i}
                         className="absolute w-2 h-2 bg-electric-green rounded-full opacity-20 animate-pulse"
                         style={{
@@ -47,7 +47,7 @@ const LoginPage = () => {
                         }}
                     />
                 ))}
-                
+
                 {/* Corner Accents */}
                 <div className="absolute top-8 left-8 w-16 h-16 border-l-2 border-t-2 border-electric-green opacity-30" />
                 <div className="absolute bottom-8 right-8 w-16 h-16 border-r-2 border-b-2 border-electric-green opacity-30" />
@@ -93,7 +93,7 @@ const LoginPage = () => {
                     {/* Login Form */}
                     <form onSubmit={handleSubmit} className="space-y-6">
                         <div className="form-group">
-                            <label htmlFor="login">Username or Email</label>
+                            <label htmlFor="login">Email</label>
                             <input
                                 id="login"
                                 type="text"
