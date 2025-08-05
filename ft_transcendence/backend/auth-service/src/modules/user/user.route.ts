@@ -20,7 +20,7 @@ export default async function userRoutes(server: FastifyInstance) {
         },
     }, loginHandler);
 
-    // OAuth routes
+    
     server.get('/oauth/42/authorize', oauthAuthorizeHandler);
 
     server.post('/oauth/42/callback', {
@@ -29,7 +29,7 @@ export default async function userRoutes(server: FastifyInstance) {
         },
     }, oauthCallbackHandler);
 
-    // Debug endpoint for creating test user
+    
     server.post('/create-test-user', createTestUserHandler);
 
     server.get('/profile', {

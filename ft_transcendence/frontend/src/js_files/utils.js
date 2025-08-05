@@ -1,4 +1,4 @@
-// Utilities and main App class for ft_transcendence
+
 console.log('🚀 Utils module loaded - Version: 2025-06-23-v2');
 
 class App {
@@ -11,7 +11,7 @@ class App {
         this.isGameRunning = false;
         this.isPlayer = false;
 
-        // Initialize module managers
+        
         this.authManager = new AuthManager(this);
         this.gameManager = new GameManager(this);
         this.websocketManager = new WebSocketManager(this);
@@ -27,11 +27,11 @@ class App {
         this.authManager.loadUserFromStorage();
         this.uiManager.updateUI();
 
-        // Force hide game page on initialization
+        
         this.uiManager.ensureGamePageHidden();
     }
 
-    // Delegate methods to appropriate managers
+    
     handleLogin(event) {
         return this.authManager.handleLogin(event);
     }
@@ -65,13 +65,13 @@ class App {
     }
 }
 
-    // Global functions for access from HTML
+    
 function startGame() {
     if (window.app) {
         window.app.startGame();
     } else {
         console.error('App not initialized yet!');
-        // Try again after a small delay
+        
         setTimeout(() => {
             if (window.app) {
                 window.app.startGame();
@@ -120,21 +120,21 @@ function saveSettings() {
     }
 }
 
-    // Initialize application after DOM load
+    
 let app;
 
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
         console.log('DOM loaded, initializing app...');
         app = new App();
-        window.app = app; // Make it globally available for onclick in HTML
+        window.app = app; 
     });
 } else {
-    // DOM already loaded
+    
     console.log('DOM already loaded, initializing app...');
     app = new App();
     window.app = app;
 }
 
-// Export for global access
+
 window.App = App;

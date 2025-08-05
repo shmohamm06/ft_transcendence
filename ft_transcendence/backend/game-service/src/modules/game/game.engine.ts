@@ -43,12 +43,12 @@ export class GameEngine {
     private countdownStartTime: number;
     private progressiveSpeedMultiplier: number;
     private baseBallSpeed: number;
-    // Индивидуальные множители для этого экземпляра игры
+    
     private instancePaddleSpeedMultiplier: number;
     private instanceBallSpeedMultiplier: number;
 
     constructor() {
-        // Инициализируем с глобальными значениями, но делаем их независимыми
+        
         this.instancePaddleSpeedMultiplier = GLOBAL_PADDLE_SPEED_MULTIPLIER;
         this.instanceBallSpeedMultiplier = GLOBAL_BALL_SPEED_MULTIPLIER;
 
@@ -125,10 +125,10 @@ export class GameEngine {
             this.gameState.ball.y = Math.max(0, Math.min(GAME_HEIGHT - BALL_SIZE, this.gameState.ball.y));
         }
 
-        // Ball collision with paddles
+        
         this.handlePaddleCollision();
 
-        // Scoring
+        
         if (this.gameState.ball.x <= 0) {
             this.scorePoint('player2');
         } else if (this.gameState.ball.x >= GAME_WIDTH - BALL_SIZE) {
@@ -148,7 +148,7 @@ export class GameEngine {
 
     private resetBall(direction: number) {
         this.gameState.ball = { x: GAME_WIDTH / 2, y: GAME_HEIGHT / 2 };
-        // Reset progressive speed when ball is reset (after scoring)
+        
         this.progressiveSpeedMultiplier = 1.0;
         const angle = (Math.random() - 0.7) * Math.PI / 6;
         const currentSpeed = this.baseBallSpeed * this.progressiveSpeedMultiplier;
@@ -159,15 +159,15 @@ export class GameEngine {
         this.startCountdown();
     }
 
-    // градусы = радианы × (180 / 3.14159...)
-    // градусы = радианы × 57.2958...
+    
+    
     private handlePaddleCollision() {
         const { ball, player1, player2 } = this.gameState;
 
-        // Player 1 collision
+        
         if (this.ballVelocity.x < 0 && ball.x <= PADDLE_WIDTH && ball.y + BALL_SIZE >= player1.y && ball.y <= player1.y + PADDLE_HEIGHT) {
             const hitPoint = (ball.y - player1.y) / PADDLE_HEIGHT;
-            const angle = (hitPoint - 0.5) * Math.PI / 2; // Math.PI / 2 = 1.570796
+            const angle = (hitPoint - 0.5) * Math.PI / 2; 
             this.progressiveSpeedMultiplier = Math.min(5.0, this.progressiveSpeedMultiplier + 0.3);
             const currentSpeed = this.baseBallSpeed * this.progressiveSpeedMultiplier;
             this.ballVelocity.x = currentSpeed * Math.cos(angle);
@@ -176,7 +176,7 @@ export class GameEngine {
             console.log(`Ball speed increased to ${currentSpeed.toFixed(2)} (multiplier: ${this.progressiveSpeedMultiplier.toFixed(2)})`);
         }
 
-        // Player 2 collision
+        
         if (this.ballVelocity.x > 0 && ball.x + BALL_SIZE >= GAME_WIDTH - PADDLE_WIDTH && ball.y + BALL_SIZE >= player2.y && ball.y <= player2.y + PADDLE_HEIGHT) {
             const hitPoint = (ball.y - player2.y) / PADDLE_HEIGHT;
             const angle = (hitPoint - 0.5) * Math.PI / 2;

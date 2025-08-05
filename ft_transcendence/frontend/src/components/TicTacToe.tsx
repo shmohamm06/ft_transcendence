@@ -29,10 +29,10 @@ const TicTacToe: React.FC = () => {
 
     const [isThinking, setIsThinking] = useState(false);
 
-    // Load scores from localStorage and backend on component mount
+    
     useEffect(() => {
         const loadScores = async () => {
-            // First load from localStorage for immediate display
+            
             const savedScores = localStorage.getItem('tictactoe_scores');
             if (savedScores) {
                 try {
@@ -42,7 +42,7 @@ const TicTacToe: React.FC = () => {
                 }
             }
 
-            // If user is authenticated, load actual stats from backend
+            
             if (isAuthenticated && user) {
                 try {
                     console.log('Loading user stats from backend...');
@@ -53,18 +53,18 @@ const TicTacToe: React.FC = () => {
                         const backendStats = {
                             X: response.data.ttt_wins || 0,
                             O: response.data.ttt_losses || 0,
-                            draws: 0 // Backend doesn't track draws yet
+                            draws: 0 
                         };
                         
                         console.log('Backend stats loaded:', backendStats);
                         setScores(backendStats);
                         
-                        // Update localStorage with backend data
+                        
                         localStorage.setItem('tictactoe_scores', JSON.stringify(backendStats));
                     }
                 } catch (error) {
                     console.error('Failed to load user stats from backend:', error);
-                    // Keep local scores if backend fails
+                    
                 }
             }
         };
@@ -72,12 +72,12 @@ const TicTacToe: React.FC = () => {
         loadScores();
     }, [isAuthenticated, user]);
 
-    // Save scores to localStorage whenever they change
+    
     useEffect(() => {
         localStorage.setItem('tictactoe_scores', JSON.stringify(scores));
     }, [scores]);
 
-    // Function to update stats in the backend
+    
     const updateBackendStats = async (result: 'win' | 'loss') => {
         console.log('🎯 updateBackendStats called:', {
             result,
@@ -104,11 +104,11 @@ const TicTacToe: React.FC = () => {
             });
             console.log('✅ Stats updated successfully:', response.data);
             
-            // Refresh stats from backend after updating
+            
             await refreshStatsFromBackend();
         } catch (error) {
             console.error('❌ Failed to update stats:', error);
-            // Log more details for debugging
+            
             if (error.response) {
                 console.error('Response status:', error.response.status);
                 console.error('Response data:', error.response.data);
@@ -116,7 +116,7 @@ const TicTacToe: React.FC = () => {
         }
     };
 
-    // Function to refresh stats from backend
+    
     const refreshStatsFromBackend = async () => {
         if (!isAuthenticated || !user) return;
 
@@ -128,7 +128,7 @@ const TicTacToe: React.FC = () => {
                 const backendStats = {
                     X: response.data.ttt_wins || 0,
                     O: response.data.ttt_losses || 0,
-                    draws: 0 // Backend doesn't track draws yet
+                    draws: 0 
                 };
                 
                 console.log('Refreshed backend stats:', backendStats);
@@ -142,9 +142,9 @@ const TicTacToe: React.FC = () => {
 
     const checkWinner = (board: Player[]): Player => {
         const lines = [
-            [0, 1, 2], [3, 4, 5], [6, 7, 8], // rows
-            [0, 3, 6], [1, 4, 7], [2, 5, 8], // columns
-            [0, 4, 8], [2, 4, 6] // diagonals
+            [0, 1, 2], [3, 4, 5], [6, 7, 8], 
+            [0, 3, 6], [1, 4, 7], [2, 5, 8], 
+            [0, 4, 8], [2, 4, 6] 
         ];
 
         for (let i = 0; i < lines.length; i++) {
@@ -193,15 +193,15 @@ const TicTacToe: React.FC = () => {
     const getBestMove = (board: Player[]): number => {
         const availableMoves = getAvailableMoves(board);
 
-        // 40% chance to make a random move (mistake)
+        
         if (Math.random() < 0.4) {
             const randomIndex = Math.floor(Math.random() * availableMoves.length);
             return availableMoves[randomIndex];
         }
 
-        // 30% chance to make a "bad" move (not the most optimal)
+        
         if (Math.random() < 0.3) {
-            // Find all moves and choose a non-optimal one
+            
             let moves: { move: number; score: number }[] = [];
             for (let move of availableMoves) {
                 board[move] = 'O';
@@ -210,14 +210,14 @@ const TicTacToe: React.FC = () => {
                 moves.push({ move, score });
             }
 
-            // Sort in descending order and take a random move from the worst ones
+            
             moves.sort((a, b) => a.score - b.score);
             const worseMovesCount = Math.ceil(moves.length / 2);
             const randomWorseIndex = Math.floor(Math.random() * worseMovesCount);
             return moves[randomWorseIndex].move;
         }
 
-        // Remaining 30% - play optimally
+        
         let bestScore = -Infinity;
         let bestMove = -1;
 
@@ -251,7 +251,7 @@ const TicTacToe: React.FC = () => {
             gameOver: winner !== null || isDraw
         });
 
-        // Update scores and backend stats when game ends
+        
         if (winner || isDraw) {
             console.log('🎮 Game ended:', { winner, isDraw });
             
@@ -261,7 +261,7 @@ const TicTacToe: React.FC = () => {
                     [winner]: prev[winner] + 1
                 }));
                 
-                // Update backend stats
+                
                 if (winner === 'X') {
                     console.log('🎯 Player won, updating backend stats...');
                     updateBackendStats('win');
@@ -274,14 +274,14 @@ const TicTacToe: React.FC = () => {
                     ...prev,
                     draws: prev.draws + 1
                 }));
-                // Draws are not counted as wins or losses in the backend
-                // They only affect the local score display
+                
+                
                 console.log('🎯 Game was a draw - not updating backend stats (draws not tracked)');
             }
         }
     };
 
-    // AI move
+    
     useEffect(() => {
         if (gameState.currentPlayer === 'O' && !gameState.gameOver) {
             setIsThinking(true);
@@ -291,7 +291,7 @@ const TicTacToe: React.FC = () => {
                     makeMove(bestMove);
                 }
                 setIsThinking(false);
-            }, 500); // AI thinking delay (reduced since AI sometimes makes quick decisions)
+            }, 500); 
 
             return () => clearTimeout(timer);
         }

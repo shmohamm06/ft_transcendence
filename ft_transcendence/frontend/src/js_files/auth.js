@@ -1,4 +1,4 @@
-// Authentication module for ft_transcendence
+
 console.log('🔐 Auth module loaded');
 
 class AuthManager {
@@ -13,14 +13,14 @@ class AuthManager {
         const password = document.getElementById('login-password').value;
 
         try {
-            // Here should be real authentication
-            // For now using mock
+            
+            
             this.app.currentUser = { username, id: Date.now() };
             this.saveUserToStorage();
             this.app.updateUI();
             this.app.showPage('home');
 
-            // Clear form
+            
             event.target.reset();
         } catch (error) {
             alert('Login failed: ' + error.message);
@@ -41,14 +41,14 @@ class AuthManager {
         }
 
         try {
-            // Here should be real registration
-            // For now using mock
+            
+            
             this.app.currentUser = { username, email, id: Date.now() };
             this.saveUserToStorage();
             this.app.updateUI();
             this.app.showPage('home');
 
-            // Clear form
+            
             event.target.reset();
         } catch (error) {
             alert('Registration failed: ' + error.message);
@@ -84,5 +84,5 @@ class AuthManager {
     }
 }
 
-// Export for global access
+
 window.AuthManager = AuthManager;

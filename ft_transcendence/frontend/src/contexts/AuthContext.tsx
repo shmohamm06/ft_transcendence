@@ -82,7 +82,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }, []);
 
     const login = (newToken: string, newUser: User) => {
-        // Validate inputs
+        
         if (!newToken || typeof newToken !== 'string') {
             console.error('AuthContext: Invalid token provided');
             throw new Error('Invalid authentication token');
@@ -93,7 +93,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             throw new Error('Invalid user data');
         }
 
-        // Validate required user fields
+        
         if (!newUser.id || !newUser.username || !newUser.email) {
             console.error('AuthContext: Missing required user fields');
             throw new Error('Invalid user data structure');
@@ -132,7 +132,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         try {
             console.log('AuthContext: LoginWithCredentials called with:', { email });
 
-            // Validate input
+            
             if (!email || !password) {
                 throw new Error('Email and password are required');
             }
@@ -146,12 +146,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
             const { accessToken } = response.data;
 
-            // Validate JWT token
+            
             if (!accessToken || typeof accessToken !== 'string') {
                 throw new Error('Invalid authentication response');
             }
 
-            // Parse and validate JWT payload
+            
             const tokenParts = accessToken.split('.');
             if (tokenParts.length !== 3) {
                 throw new Error('Invalid JWT token format');
@@ -159,7 +159,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
             const payload = JSON.parse(atob(tokenParts[1]));
 
-            // Validate required fields in JWT payload
+            
             if (!payload.id || !payload.username || !payload.email) {
                 throw new Error('Invalid JWT token payload');
             }

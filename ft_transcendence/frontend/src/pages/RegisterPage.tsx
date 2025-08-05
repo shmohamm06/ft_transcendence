@@ -30,9 +30,9 @@ const RegisterPage = () => {
 
     return (
         <div className="min-h-screen text-white flex items-center justify-center relative overflow-hidden">
-            {/* Animated Background */}
+            {}
             <div className="absolute inset-0 pointer-events-none">
-                {/* Grid Pattern */}
+                {}
                 <div className="absolute inset-0 opacity-5">
                     <div className="grid grid-cols-12 h-full">
                         {Array.from({ length: 12 }).map((_, i) => (
@@ -41,7 +41,7 @@ const RegisterPage = () => {
                     </div>
                 </div>
                 
-                {/* Glowing Orbs */}
+                {}
                 {Array.from({ length: 4 }).map((_, i) => (
                     <div 
                         key={i}
@@ -55,9 +55,9 @@ const RegisterPage = () => {
                 ))}
             </div>
 
-            {/* Main Content */}
+            {}
             <div className="relative z-10 w-full max-w-md px-6">
-                {/* Header */}
+                {}
                 <div className="text-center mb-12">
                     <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-white to-electric-green bg-clip-text text-transparent">
                         JOIN
@@ -68,16 +68,16 @@ const RegisterPage = () => {
                     </p>
                 </div>
 
-                {/* Register Form */}
+                {}
                 <div className="auth-form">
-                    {/* Error Message */}
+                    {}
                     {error && (
                         <div className="border border-red-400 bg-red-400 bg-opacity-10 text-red-400 px-4 py-3 rounded-lg mb-6 text-center">
                             <span className="text-sm">{error}</span>
                         </div>
                     )}
 
-                    {/* Registration Form */}
+                    {}
                     <form onSubmit={handleSubmit} className="space-y-6">
                         <div className="form-group">
                             <label htmlFor="username">Username</label>
@@ -127,7 +127,7 @@ const RegisterPage = () => {
                         </button>
                     </form>
 
-                    {/* Login Link */}
+                    {}
                     <div className="text-center mt-8 pt-6 border-t border-white border-opacity-10">
                         <p className="text-sm text-gray-400">
                             Already have an account?{' '}

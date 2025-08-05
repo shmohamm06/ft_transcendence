@@ -33,7 +33,7 @@ interface TournamentProps {
     onMatchComplete?: (winner: string) => void;
 }
 
-// Load tournament state from localStorage (moved outside component)
+
 const loadTournamentState = (): TournamentState => {
     const saved = localStorage.getItem('tournamentState');
     console.log('🔍 Loading tournament state from localStorage:', {
@@ -70,7 +70,7 @@ const Tournament: React.FC<TournamentProps> = ({ tournament, onMatchComplete }) 
     const [newPlayerName, setNewPlayerName] = useState('');
     const [nameError, setNameError] = useState('');
 
-    // Save tournament state to localStorage
+    
     const saveTournamentState = (state: Partial<TournamentState>) => {
         const currentState = loadTournamentState();
         const newState = { ...currentState, ...state };
@@ -83,9 +83,9 @@ const Tournament: React.FC<TournamentProps> = ({ tournament, onMatchComplete }) 
         console.log('✅ Tournament state saved to localStorage');
     };
 
-        // Initialize with passed tournament data or load from localStorage
+        
     useEffect(() => {
-        // First, always try to load from localStorage (in case user is continuing a tournament)
+        
         const savedState = loadTournamentState();
         console.log('🔍 Tournament initialization:', {
             savedState,
@@ -96,7 +96,7 @@ const Tournament: React.FC<TournamentProps> = ({ tournament, onMatchComplete }) 
         });
 
         if (savedState.players.length > 0) {
-            // There's a saved tournament in progress, load it
+            
             console.log('✅ Loading saved tournament state');
             setPhase(savedState.phase);
             setPlayers(savedState.players);
@@ -104,7 +104,7 @@ const Tournament: React.FC<TournamentProps> = ({ tournament, onMatchComplete }) 
             setCurrentMatch(savedState.currentMatch);
             setChampion(savedState.champion);
         } else if (tournament && tournament.players.length === 4) {
-            // No saved tournament, but new tournament data passed via props
+            
             console.log('🆕 Creating new tournament from props');
             const tournamentPlayers: Player[] = tournament.players.map((p, index) => ({
                 id: index + 1,
@@ -113,7 +113,7 @@ const Tournament: React.FC<TournamentProps> = ({ tournament, onMatchComplete }) 
             }));
             setPlayers(tournamentPlayers);
 
-            // Directly initialize matches since we have 4 players
+            
             const semifinal1: Match = {
                 id: 1,
                 player1: tournamentPlayers[0],
@@ -144,7 +144,7 @@ const Tournament: React.FC<TournamentProps> = ({ tournament, onMatchComplete }) 
             setMatches([semifinal1, semifinal2, final]);
             setPhase('bracket');
         } else if (players.length === 0) {
-            // No saved state, no tournament props, and no current players - show registration
+            
             console.log('📝 No saved state, props, or current players - showing registration');
             setPhase('registration');
             setPlayers([]);
@@ -152,14 +152,14 @@ const Tournament: React.FC<TournamentProps> = ({ tournament, onMatchComplete }) 
             setCurrentMatch(null);
             setChampion(null);
         } else {
-            // We already have players loaded, don't reset
+            
             console.log('⚠️ Keeping current state, already have players');
         }
     }, [tournament]);
 
-    // Save state whenever it changes
+    
     useEffect(() => {
-        // Only save state if we have players (don't overwrite existing state with empty state)
+        
         if (players.length > 0 || phase === 'completed') {
             saveTournamentState({
                 phase,
@@ -173,7 +173,7 @@ const Tournament: React.FC<TournamentProps> = ({ tournament, onMatchComplete }) 
         }
     }, [phase, players, matches, currentMatch, champion]);
 
-    // Listen for game results from localStorage
+    
     useEffect(() => {
         const handleGameResult = () => {
             const gameResult = localStorage.getItem('tournamentGameResult');
@@ -200,7 +200,7 @@ const Tournament: React.FC<TournamentProps> = ({ tournament, onMatchComplete }) 
 
                         if (result.matchId === currentMatch.id) {
                             console.log('✅ Match IDs match! Auto-completing match with result:', result);
-                            // Auto-complete match based on game result
+                            
                             const winnerId = result.winner === 'player1' ? currentMatch.player1!.id : currentMatch.player2!.id;
                             const winnerName = result.winner === 'player1' ? currentMatch.player1!.nickname : currentMatch.player2!.nickname;
 
@@ -212,7 +212,7 @@ const Tournament: React.FC<TournamentProps> = ({ tournament, onMatchComplete }) 
                             console.log('❌ Match ID mismatch:', result.matchId, 'vs', currentMatch.id);
                         }
                     } else {
-                        // No current match - try to find the match by ID from stored result
+                        
                         console.log('🔍 No current match, searching for match with ID:', result.matchId);
                         const foundMatch = matches.find(m => m.id === result.matchId);
                         if (foundMatch && !foundMatch.isCompleted) {
@@ -222,7 +222,7 @@ const Tournament: React.FC<TournamentProps> = ({ tournament, onMatchComplete }) 
 
                             console.log(`🏆 Processing stored result: ${winnerName} (ID: ${winnerId}) wins match ${foundMatch.id}`);
 
-                            // Update the specific match
+                            
                             setMatches(prevMatches => {
                                 const updatedMatches = prevMatches.map(m => {
                                     if (m.id === result.matchId) {
@@ -232,7 +232,7 @@ const Tournament: React.FC<TournamentProps> = ({ tournament, onMatchComplete }) 
                                     return m;
                                 });
 
-                                // Check if we need to set up final match
+                                
                                 const completedSemifinals = updatedMatches.filter(m => m.round === 'semifinal' && m.isCompleted);
                                 if (completedSemifinals.length === 2) {
                                     const finalMatch = updatedMatches.find(m => m.round === 'final');
@@ -246,7 +246,7 @@ const Tournament: React.FC<TournamentProps> = ({ tournament, onMatchComplete }) 
                                 return updatedMatches;
                             });
 
-                            // Check if tournament is complete
+                            
                             if (foundMatch.round === 'final') {
                                 const winner = result.winner === 'player1' ? foundMatch.player1 : foundMatch.player2;
                                 console.log('🏆 Tournament complete! Setting champion:', winner);
@@ -275,11 +275,11 @@ const Tournament: React.FC<TournamentProps> = ({ tournament, onMatchComplete }) 
             }
         };
 
-        // Check for game result when component mounts or updates
+        
         console.log('🔄 Setting up tournament result listeners...');
         handleGameResult();
 
-        // Listen for storage changes (when user returns from game)
+        
         const handleStorageChange = (e: StorageEvent) => {
             console.log('💾 Storage change detected:', e.key, e.newValue);
             if (e.key === 'tournamentGameResult') {
@@ -287,13 +287,13 @@ const Tournament: React.FC<TournamentProps> = ({ tournament, onMatchComplete }) 
             }
         };
 
-        // Also check on focus (when user returns to tab)
+        
         const handleFocus = () => {
             console.log('👁️ Window focus detected, checking for results...');
             setTimeout(handleGameResult, 200);
         };
 
-        // Check more frequently for game results (every 500ms)
+        
         const interval = setInterval(() => {
             handleGameResult();
         }, 500);
@@ -309,7 +309,7 @@ const Tournament: React.FC<TournamentProps> = ({ tournament, onMatchComplete }) 
         };
     }, [currentMatch, matches]);
 
-    // Auto-return to bracket if we're in playing state but no current match
+    
     useEffect(() => {
         if (phase === 'playing' && !currentMatch) {
             console.log('🔄 No current match in playing state, returning to bracket');
@@ -317,11 +317,11 @@ const Tournament: React.FC<TournamentProps> = ({ tournament, onMatchComplete }) 
         }
     }, [phase, currentMatch]);
 
-    // Initialize tournament
+    
     const initializeTournament = () => {
         if (players.length !== 4) return;
 
-        // Create semifinal matches
+        
         const semifinal1: Match = {
             id: 1,
             player1: players[0],
@@ -353,11 +353,11 @@ const Tournament: React.FC<TournamentProps> = ({ tournament, onMatchComplete }) 
         setPhase('bracket');
     };
 
-    // Add player
+    
     const addPlayer = () => {
         const trimmedName = newPlayerName.trim();
 
-        // Clear previous error
+        
         setNameError('');
 
         if (!trimmedName) {
@@ -370,7 +370,7 @@ const Tournament: React.FC<TournamentProps> = ({ tournament, onMatchComplete }) 
             return;
         }
 
-        // Check for duplicate names (case-insensitive)
+        
         const isDuplicate = players.some(player =>
             player.nickname.toLowerCase() === trimmedName.toLowerCase()
         );
@@ -390,17 +390,17 @@ const Tournament: React.FC<TournamentProps> = ({ tournament, onMatchComplete }) 
         setNewPlayerName('');
     };
 
-    // Remove player
+    
     const removePlayer = (playerId: number) => {
         setPlayers(players.filter(p => p.id !== playerId));
     };
 
-    // Start match
+    
     const startMatch = (match: Match) => {
         setCurrentMatch(match);
         setPhase('playing');
 
-        // Store match data for the game
+        
         const matchData = {
             matchId: match.id,
             player1: match.player1!.nickname,
@@ -411,7 +411,7 @@ const Tournament: React.FC<TournamentProps> = ({ tournament, onMatchComplete }) 
         localStorage.setItem('tournamentMatch', JSON.stringify(matchData));
     };
 
-    // Complete match
+    
     const completeMatch = (winnerId: number) => {
         if (!currentMatch) return;
 
@@ -426,7 +426,7 @@ const Tournament: React.FC<TournamentProps> = ({ tournament, onMatchComplete }) 
                 return m;
             });
 
-            // Check if we need to set up final match
+            
             const completedSemifinals = updatedMatches.filter(m => m.round === 'semifinal' && m.isCompleted);
             if (completedSemifinals.length === 2) {
                 const finalMatch = updatedMatches.find(m => m.round === 'final');
@@ -440,11 +440,11 @@ const Tournament: React.FC<TournamentProps> = ({ tournament, onMatchComplete }) 
             return updatedMatches;
         });
 
-        // Clear current match first
+        
         setCurrentMatch(null);
         console.log('🧹 Cleared current match');
 
-        // Check if tournament is complete
+        
         if (currentMatch.round === 'final') {
             console.log('🏆 Tournament complete! Setting champion:', winner);
             setChampion(winner);
@@ -455,13 +455,13 @@ const Tournament: React.FC<TournamentProps> = ({ tournament, onMatchComplete }) 
         }
     };
 
-    // Reset tournament
+    
     const resetTournament = () => {
         if (tournament) {
-            // If tournament was passed via props, reload the page to reset everything
+            
             window.location.reload();
         } else {
-            // Normal reset for standalone tournament component
+            
             setPhase('registration');
             setPlayers([]);
             setMatches([]);
@@ -488,7 +488,7 @@ const Tournament: React.FC<TournamentProps> = ({ tournament, onMatchComplete }) 
                         value={newPlayerName}
                         onChange={(e) => {
                             setNewPlayerName(e.target.value);
-                            // Clear error when user starts typing
+                            
                             if (nameError) setNameError('');
                         }}
                         placeholder="Enter player nickname"

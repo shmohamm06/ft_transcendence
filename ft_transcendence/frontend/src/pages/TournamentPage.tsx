@@ -39,9 +39,9 @@ const TournamentPage: React.FC = () => {
 
     return (
         <div className="min-h-screen text-white relative overflow-hidden">
-            {/* Animated Background */}
+            {}
             <div className="absolute inset-0 pointer-events-none">
-                {/* Tournament Grid Pattern */}
+                {}
                 <div className="absolute inset-0 opacity-10">
                     {Array.from({ length: 6 }).map((_, i) => (
                         <div
@@ -58,7 +58,7 @@ const TournamentPage: React.FC = () => {
                     ))}
                 </div>
 
-                {/* Trophy Elements */}
+                {}
                 {Array.from({ length: 4 }).map((_, i) => (
                     <div
                         key={i}
@@ -71,14 +71,14 @@ const TournamentPage: React.FC = () => {
                     />
                 ))}
 
-                {/* Corner Accents */}
+                {}
                 <div className="absolute top-8 left-8 w-16 h-16 border-l-2 border-t-2 border-electric-green opacity-30" />
                 <div className="absolute bottom-8 right-8 w-16 h-16 border-r-2 border-b-2 border-electric-green opacity-30" />
             </div>
 
-            {/* Main Content */}
+            {}
             <div className="relative z-10 min-h-screen flex flex-col">
-                {/* Header */}
+                {}
                 <header className="text-center pt-24 pb-12">
                     <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-white to-electric-green bg-clip-text text-transparent">
                         PONG TOURNAMENT
@@ -89,10 +89,10 @@ const TournamentPage: React.FC = () => {
                     </Link>
                 </header>
 
-                {/* Content */}
+                {}
                 <main className="flex-1 px-6 pb-12">
                     <div className="max-w-4xl mx-auto">
-                        {/* Always show Tournament component - it will handle its own logic */}
+                        {}
                         <div className="bg-white bg-opacity-5 rounded-2xl p-6 backdrop-blur-20 border border-white border-opacity-10">
                             <Tournament tournament={tournament} onMatchComplete={handleMatchComplete} />
                         </div>

@@ -1,25 +1,18 @@
-# ft_transcendence - Simple Project Management
-# Main commands: start, restart, stop
-
 .PHONY: help start restart stop force-stop install clean build start-safe docker-start docker-stop docker-restart
 
-# Default target
 .DEFAULT_GOAL := help
 
-# Colors for output
 GREEN := \033[0;32m
 YELLOW := \033[0;33m
 RED := \033[0;31m
 BLUE := \033[0;34m
-NC := \033[0m # No Color
+NC := \033[0m
 
-# Service paths
 AUTH_SERVICE_DIR := ft_transcendence/backend/auth-service
 GAME_SERVICE_DIR := ft_transcendence/backend/game-service
 FRONTEND_DIR := ft_transcendence/frontend
 DOCKER_DIR := ft_transcendence/docker
 
-## help: 📋 Show available commands
 help:
 	@echo "$(GREEN)🎮 ft_transcendence Project$(NC)"
 	@echo ""
@@ -49,7 +42,6 @@ help:
 	@echo "  Auth Service: http://localhost:3001"
 	@echo "  Game Service: http://localhost:3002"
 
-## install: 📦 Install all dependencies
 install:
 	@echo "$(GREEN)📦 Installing dependencies...$(NC)"
 	@echo "$(YELLOW)  ➤ Auth service...$(NC)"
@@ -60,7 +52,6 @@ install:
 	@cd $(FRONTEND_DIR) && npm install
 	@echo "$(GREEN)✅ All dependencies installed!$(NC)"
 
-## build: 🔨 Build all services
 build: install
 	@echo "$(GREEN)🔨 Building services...$(NC)"
 	@echo "$(YELLOW)  ➤ Building auth service...$(NC)"
@@ -69,7 +60,6 @@ build: install
 	@cd $(GAME_SERVICE_DIR) && npm run build
 	@echo "$(GREEN)✅ All services built!$(NC)"
 
-## docker-start: 🐳 Start Docker containers
 docker-start:
 	@echo "$(GREEN)🐳 Starting Docker containers...$(NC)"
 	@cd $(DOCKER_DIR) && docker-compose up -d
@@ -80,13 +70,11 @@ docker-start:
 	@echo "$(YELLOW)📊 Status: make docker-status$(NC)"
 	@echo "$(RED)🛑 Stop: make docker-stop$(NC)"
 
-## docker-stop: 🐳 Stop Docker containers
 docker-stop:
 	@echo "$(RED)🐳 Stopping Docker containers...$(NC)"
 	@cd $(DOCKER_DIR) && docker-compose down
 	@echo "$(GREEN)✅ Docker containers stopped!$(NC)"
 
-## docker-restart: 🐳 Restart Docker containers
 docker-restart:
 	@echo "$(YELLOW)🔄 Restarting Docker containers...$(NC)"
 	@cd $(DOCKER_DIR) && docker-compose down
@@ -96,19 +84,15 @@ docker-restart:
 	@echo ""
 	@echo "$(BLUE)🌐 Open: http://localhost:3000$(NC)"
 
-## start: 🚀 Start all services with Docker
 start: logs docker-start
 	@echo "$(GREEN)✅ All services started with Docker!$(NC)"
 
-## restart: 🔄 Restart all services with Docker
 restart: docker-restart
 	@echo "$(GREEN)✅ All services restarted with Docker!$(NC)"
 
-## stop: 🛑 Stop all services with Docker
 stop: docker-stop
 	@echo "$(GREEN)✅ All services stopped with Docker!$(NC)"
 
-## auth-start: 🔐 Start only auth service
 auth-start: logs
 	@echo "$(GREEN)🔐 Starting auth service...$(NC)"
 	@cd $(AUTH_SERVICE_DIR) && npm run build > /dev/null 2>&1
@@ -116,13 +100,11 @@ auth-start: logs
 	@sleep 2
 	@echo "$(GREEN)✅ Auth service started on port 3001$(NC)"
 
-## auth-stop: 🔐 Stop only auth service
 auth-stop:
 	@echo "$(RED)🔐 Stopping auth service...$(NC)"
 	@lsof -ti:3001 | xargs kill -9 2>/dev/null || echo "  ➤ Port 3001 is free"
 	@echo "$(GREEN)✅ Auth service stopped!$(NC)"
 
-## force-stop: 💀 Aggressively stop all processes
 force-stop:
 	@echo "$(RED)💀 Force stopping all processes...$(NC)"
 	@mkdir -p logs
@@ -137,7 +119,6 @@ force-stop:
 	@sleep 2
 	@echo "$(GREEN)✅ All processes forcefully stopped!$(NC)"
 
-## clean: 🧹 Clean everything (stop + remove dependencies)
 clean: stop
 	@echo "$(RED)🧹 Cleaning everything...$(NC)"
 	@echo "$(YELLOW)  ➤ Removing node_modules...$(NC)"
@@ -152,7 +133,6 @@ clean: stop
 	@rm -rf logs
 	@echo "$(GREEN)✅ Everything cleaned!$(NC)"
 
-## start-safe: 🚀 Start all services safely (without force-stop)
 start-safe: install logs build
 	@echo "$(GREEN)🚀 Starting ft_transcendence services safely...$(NC)"
 	@echo "$(YELLOW)  ➤ Starting auth-service (port 3001)...$(NC)"
@@ -170,6 +150,5 @@ start-safe: install logs build
 	@echo "$(YELLOW)📊 Logs: tail -f logs/*.log$(NC)"
 	@echo "$(RED)🛑 Stop: make stop$(NC)"
 
-# Create logs directory
 logs:
 	@mkdir -p logs

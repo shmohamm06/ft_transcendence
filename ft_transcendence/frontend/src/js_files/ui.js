@@ -1,4 +1,4 @@
-// UI module for ft_transcendence
+
 console.log('🎨 UI module loaded');
 
 class UIManager {
@@ -28,7 +28,7 @@ class UIManager {
     createGamePage() {
         console.log('⚠️ WARNING: createGamePage called - this should not happen if game page exists in HTML!');
         console.log('Creating game page HTML...');
-        // Create game page dynamically
+        
         const gamePageHTML = `
         <div id="game-page" class="page">
             <div class="game-container">
@@ -47,11 +47,11 @@ class UIManager {
             </div>
         </div>`;
 
-        // Add to end of body
+        
         document.body.insertAdjacentHTML('beforeend', gamePageHTML);
         console.log('Game page HTML inserted into DOM');
 
-        // Check that elements are actually created
+        
         const gamePage = document.getElementById('game-page');
         const gameCanvas = document.getElementById('game-canvas');
         console.log('Game page element:', gamePage);
@@ -60,12 +60,12 @@ class UIManager {
     }
 
     showPage(pageName) {
-        // Hide all pages
+        
         document.querySelectorAll('.page').forEach(page => {
             page.classList.remove('active');
         });
 
-        // Remove game page if not switching to game
+        
         const gamePage = document.getElementById('game-page');
         if (pageName !== 'game' && gamePage) {
             gamePage.classList.remove('active');
@@ -73,10 +73,10 @@ class UIManager {
             this.app.gameManager.stopGame();
         }
 
-        // Special handling for game page
+        
         if (pageName === 'game') {
             console.log('Switching to game page...');
-            // Always use existing page from HTML
+            
             let targetPage = document.getElementById('game-page');
             console.log('Game page from HTML:', targetPage);
 
@@ -86,11 +86,11 @@ class UIManager {
                 console.log('Game page classes:', targetPage.className);
                 console.log('Game page display style:', window.getComputedStyle(targetPage).display);
 
-                // Check canvas immediately
+                
                 const canvasCheck = document.getElementById('game-canvas');
                 console.log('Canvas immediate check:', canvasCheck);
 
-                // Give time for DOM to update after adding active class
+                
                 requestAnimationFrame(() => {
                     console.log('RAF: Checking canvas after DOM update...');
                     const canvas = document.getElementById('game-canvas');
@@ -99,7 +99,7 @@ class UIManager {
                         this.app.gameManager.initGame();
                     } else {
                         console.error('RAF: Canvas still not found!');
-                        // Last attempt
+                        
                         setTimeout(() => this.app.gameManager.initGame(), 100);
                     }
                 });
@@ -109,14 +109,14 @@ class UIManager {
                 console.log('Body innerHTML length:', document.body.innerHTML.length);
             }
         } else {
-            // Handle all other pages
+            
             const targetPage = document.getElementById(`${pageName}-page`);
             if (targetPage) {
                 targetPage.classList.add('active');
             }
         }
 
-        // Update active link in navigation
+        
         document.querySelectorAll('.nav-link').forEach(link => {
             link.classList.remove('active');
         });
@@ -126,10 +126,10 @@ class UIManager {
             activeLink.classList.add('active');
         }
 
-        // Add class to body for special styling
+        
         if (pageName === 'game') {
             document.body.classList.add('game-active');
-            // Logic moved above to game page handling
+            
         } else {
             document.body.classList.remove('game-active');
             this.app.gameManager.stopGame();
@@ -147,7 +147,7 @@ class UIManager {
     }
 
     updateUI() {
-        // Update greeting on main page
+        
         const welcomeElement = document.querySelector('#home-page h1');
         if (welcomeElement && this.app.currentUser) {
             welcomeElement.textContent = `Welcome, ${this.app.currentUser.username}!`;
@@ -155,16 +155,16 @@ class UIManager {
             welcomeElement.textContent = 'Welcome to ft_transcendence!';
         }
 
-        // Show/hide buttons depending on authentication status
+        
         const logoutBtn = document.querySelector('#home-page .btn-danger');
         if (logoutBtn) {
             logoutBtn.style.display = this.app.currentUser ? 'inline-block' : 'none';
         }
 
-        // Load settings
+        
         this.app.settingsManager.loadSettings();
     }
 }
 
-// Export for global access
+
 window.UIManager = UIManager;

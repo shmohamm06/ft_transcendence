@@ -26,7 +26,7 @@ const OAuthCallbackPage = () => {
                     throw new Error('No authorization code received');
                 }
 
-                // Prevent processing the same code multiple times
+                
                 if (processedCodeRef.current === code) {
                     console.log('OAuth code already processed, skipping:', code.substring(0, 10) + '...');
                     return;
@@ -35,7 +35,7 @@ const OAuthCallbackPage = () => {
                 console.log('Processing OAuth callback with code:', code.substring(0, 10) + '...');
                 processedCodeRef.current = code;
 
-                // Send the authorization code to our backend
+                
                 console.log('OAuthCallback: Making request to backend with:', { code: code.substring(0, 10) + '...', state });
 
                 const response = await axios.post('/api/users/oauth/42/callback', {
@@ -70,13 +70,13 @@ const OAuthCallbackPage = () => {
                     }
                 });
 
-                // Log the user in
+                
                 console.log('OAuthCallback: About to call login with:', { user, userId: user?.id });
                 login(accessToken, user);
 
                 console.log('OAuthCallback: Login called, setting status to success');
 
-                // Check what was actually saved
+                
                 setTimeout(() => {
                     const savedUser = localStorage.getItem('user');
                     const savedToken = localStorage.getItem('token');
@@ -87,7 +87,7 @@ const OAuthCallbackPage = () => {
                 }, 100);
                 setStatus('success');
 
-                // Redirect to home page after successful login
+                
                 setTimeout(() => {
                     navigate('/');
                 }, 2000);
@@ -102,7 +102,7 @@ const OAuthCallbackPage = () => {
                 setError(err.response?.data?.message || err.message || 'OAuth authentication failed');
                 setStatus('error');
 
-                // Redirect to login page after error
+                
                 setTimeout(() => {
                     navigate('/login');
                 }, 3000);

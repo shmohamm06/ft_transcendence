@@ -5,9 +5,9 @@ import TicTacToe from '../components/TicTacToe';
 const TicTacToePage = () => {
     return (
         <div className="min-h-screen text-white relative overflow-hidden">
-            {/* Animated Background */}
+            {}
             <div className="absolute inset-0 pointer-events-none">
-                {/* Grid Pattern */}
+                {}
                 <div className="absolute inset-0 opacity-10">
                     {Array.from({ length: 9 }).map((_, i) => (
                         <div 
@@ -24,7 +24,7 @@ const TicTacToePage = () => {
                     ))}
                 </div>
                 
-                {/* Floating Game Symbols */}
+                {}
                 {Array.from({ length: 8 }).map((_, i) => (
                     <div 
                         key={i}
@@ -39,14 +39,14 @@ const TicTacToePage = () => {
                     </div>
                 ))}
                 
-                {/* Corner Accents */}
+                {}
                 <div className="absolute top-8 left-8 w-16 h-16 border-l-2 border-t-2 border-electric-green opacity-30" />
                 <div className="absolute bottom-8 right-8 w-16 h-16 border-r-2 border-b-2 border-electric-green opacity-30" />
             </div>
 
-            {/* Main Content */}
+            {}
             <div className="relative z-10 min-h-screen flex flex-col">
-                {/* Header */}
+                {}
                 <header className="text-center pt-24 pb-12">
                     <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-white to-electric-green bg-clip-text text-transparent">
                         TIC TAC TOE
@@ -57,7 +57,7 @@ const TicTacToePage = () => {
                     </p>
                 </header>
 
-                {/* Game Content */}
+                {}
                 <main className="flex-1 flex items-center justify-center px-6">
                     <div className="w-full max-w-2xl">
                         <div className="bg-white bg-opacity-5 rounded-2xl p-8 backdrop-blur-20 border border-white border-opacity-10">
@@ -66,7 +66,7 @@ const TicTacToePage = () => {
                     </div>
                 </main>
 
-                {/* Footer */}
+                {}
                 <footer className="text-center pb-8">
                     <div className="w-24 h-px bg-gradient-to-r from-transparent via-electric-green to-transparent mx-auto mb-6"></div>
                     <div className="flex justify-center gap-4">

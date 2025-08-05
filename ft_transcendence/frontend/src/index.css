@@ -2,9 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-/* EVWorld Style - Enhanced Dark Blue/Purple + Electric Green */
 
-/* Reset and base styles */
+
+
 * {
     margin: 0;
     padding: 0;
@@ -21,7 +21,7 @@ body {
     line-height: 1.4;
 }
 
-/* Typography */
+
 h1, h2, h3, h4, h5, h6 {
     font-weight: 700;
     letter-spacing: -0.02em;
@@ -34,7 +34,7 @@ p {
     color: var(--text-primary);
 }
 
-/* Colors */
+
 :root {
     --primary-bg: #1e1b3c;
     --secondary-bg: #2a2550;
@@ -50,7 +50,7 @@ p {
     --border-color: rgba(255, 255, 255, 0.1);
 }
 
-/* Navigation */
+
 .navbar {
     background: rgba(30, 27, 60, 0.95);
     backdrop-filter: blur(20px);
@@ -113,7 +113,7 @@ p {
     width: 100%;
 }
 
-/* Page system */
+
 .page {
     display: none;
     min-height: 100vh;
@@ -124,7 +124,7 @@ p {
     display: block;
 }
 
-/* Buttons */
+
 .btn {
     padding: 1rem 2rem;
     border: 2px solid transparent;
@@ -178,7 +178,7 @@ p {
     color: var(--text-primary);
 }
 
-/* Game UI */
+
 .game-container {
     max-width: 1400px;
     margin: 0 auto;
@@ -225,7 +225,7 @@ p {
     box-shadow: 0 0 30px rgba(204, 255, 0, 0.2);
 }
 
-/* Forms */
+
 .auth-form {
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid var(--border-color);
@@ -304,7 +304,7 @@ p {
     box-shadow: 0 2px 10px rgba(204, 255, 0, 0.3);
 }
 
-/* Settings and Profile Cards */
+
 .settings-form,
 .profile-card {
     background: rgba(255, 255, 255, 0.05);
@@ -316,7 +316,7 @@ p {
     color: var(--text-primary);
 }
 
-/* Interactive Cards */
+
 .game-card {
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid var(--border-color);
@@ -364,7 +364,7 @@ p {
     transform: scale(1.1);
 }
 
-/* Pong Game Background */
+
 .pong-background {
     position: absolute;
     inset: 0;
@@ -445,7 +445,7 @@ p {
     right: 40%;
 }
 
-/* Links */
+
 a {
     color: var(--text-primary);
     text-decoration: none;
@@ -456,7 +456,7 @@ a:hover {
     color: var(--electric-green);
 }
 
-/* Text Colors */
+
 .text-white {
     color: var(--text-primary) !important;
 }
@@ -477,18 +477,18 @@ a:hover {
     color: var(--text-tertiary) !important;
 }
 
-/* Override any potential black text */
+
 span, div, p, h1, h2, h3, h4, h5, h6, label, input, button {
     color: inherit;
 }
 
-/* Ensure placeholders are visible */
+
 input::placeholder, textarea::placeholder {
     color: var(--text-secondary) !important;
     opacity: 1;
 }
 
-/* Select and option styling */
+
 select {
     color: var(--text-primary);
     background-color: rgba(255, 255, 255, 0.05);
@@ -499,7 +499,7 @@ option {
     background-color: var(--text-primary);
 }
 
-/* Animations */
+
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -537,7 +537,7 @@ option {
     animation: glow 2s ease-in-out infinite;
 }
 
-/* Responsive Design */
+
 @media (max-width: 768px) {
     .nav-container {
         padding: 1rem;
@@ -600,13 +600,13 @@ option {
     }
 }
 
-/* Utility Classes */
+
 .text-center { text-align: center; }
 .mt-4 { margin-top: 1rem; }
 .mb-4 { margin-bottom: 1rem; }
 .w-full { width: 100%; }
 
-/* Focus States */
+
 .btn:focus,
 .nav-link:focus,
 .form-input:focus {
@@ -614,7 +614,7 @@ option {
     outline-offset: 2px;
 }
 
-/* Game Specific Styles */
+
 body.game-active {
     overflow: hidden;
 }

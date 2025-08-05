@@ -30,12 +30,12 @@ const ProfilePage = () => {
         setError('');
 
         try {
-            // Check if user is authenticated
+            
             if (!token || !user) {
                 throw new Error('User not authenticated');
             }
 
-            // Make real API call to get user profile with stats
+            
             const response = await fetch('/api/users/profile', {
                 method: 'GET',
                 headers: {
@@ -54,7 +54,7 @@ const ProfilePage = () => {
             const profileData = await response.json();
             setProfileData(profileData);
 
-            // Calculate total statistics from actual data
+            
             const pongWins = profileData.pong_wins || 0;
             const pongLosses = profileData.pong_losses || 0;
             const tttWins = profileData.ttt_wins || 0;
@@ -92,14 +92,14 @@ const ProfilePage = () => {
         return new Date(dateString).toLocaleDateString();
     };
 
-    // Achievement logic based on user stats
+    
     const getAchievements = () => {
         const totalWins = stats.totalWins;
         const pongWins = stats.pongWins;
         const totalGames = stats.totalGames;
         
-        // Simple win streak calculation (this could be enhanced with backend tracking)
-        // For now, we'll consider it unlocked if user has 5+ wins and a good win rate
+        
+        
         const winStreakUnlocked = totalWins >= 5 && stats.winRate >= 60;
         
         return [
@@ -121,7 +121,7 @@ const ProfilePage = () => {
             { 
                 title: 'Tournament Champion', 
                 description: 'Win a tournament', 
-                unlocked: false // TODO: Implement tournament tracking
+                unlocked: false 
             },
         ];
     };

@@ -30,7 +30,7 @@ const GamePage = () => {
     const [lastSavedGameId, setLastSavedGameId] = useState<string | null>(null);
     const [lastSaveTime, setLastSaveTime] = useState<number>(0);
 
-    // Track pressed keys for simultaneous movement
+    
     const pressedKeys = useRef<Set<string>>(new Set());
     const movementInterval = useRef<number | null>(null);
 
@@ -44,7 +44,7 @@ const GamePage = () => {
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
 
-    // Debug user state
+    
     useEffect(() => {
         console.log('GamePage: Current user state:', {
             user,
@@ -59,7 +59,7 @@ const GamePage = () => {
     const isPvPMode = gameMode === 'pvp';
     const isTournamentMode = gameMode === 'tournament';
 
-    // Load tournament match data
+    
     useEffect(() => {
         if (isTournamentMode) {
             const matchData = localStorage.getItem('tournamentMatch');
@@ -69,14 +69,14 @@ const GamePage = () => {
         }
     }, [isTournamentMode]);
 
-    // Load settings from localStorage
+    
     const getSettings = () => {
         const ballSpeed = parseInt(localStorage.getItem('ballSpeed') || '5');
         const paddleSpeed = parseInt(localStorage.getItem('paddleSpeed') || '6');
         return { ballSpeed, paddleSpeed };
     };
 
-    // Send settings to backend
+    
     const sendSettings = () => {
         if (socketRef.current?.readyState === WebSocket.OPEN) {
             const settings = getSettings();
@@ -89,14 +89,14 @@ const GamePage = () => {
         }
     };
 
-    // Send movement based on pressed keys
+    
     const sendMovement = () => {
         if (socketRef.current?.readyState !== WebSocket.OPEN) return;
 
         const keys = Array.from(pressedKeys.current);
 
         if (isPvPMode || isTournamentMode) {
-            // Check for player 1 movements (W/S)
+            
             if (keys.includes('w') || keys.includes('W')) {
                 socketRef.current.send(JSON.stringify({
                     action: 'move',
@@ -111,7 +111,7 @@ const GamePage = () => {
                 }));
             }
 
-            // Check for player 2 movements (Arrow keys)
+            
             if (keys.includes('ArrowUp')) {
                 socketRef.current.send(JSON.stringify({
                     action: 'move',
@@ -126,7 +126,7 @@ const GamePage = () => {
                 }));
             }
         } else {
-            // AI mode: only player 1 can move
+            
             if (keys.includes('w') || keys.includes('W') || keys.includes('ArrowUp')) {
                 socketRef.current.send(JSON.stringify({
                     action: 'move',
@@ -143,7 +143,7 @@ const GamePage = () => {
         }
     };
 
-    // Handle tournament game completion
+    
     const handleTournamentGameEnd = (winner: 'player1' | 'player2') => {
         if (tournamentMatch) {
             const result = {
@@ -158,7 +158,7 @@ const GamePage = () => {
             console.log('📝 Saving tournament result to localStorage:', result);
             localStorage.setItem('tournamentGameResult', JSON.stringify(result));
 
-            // Trigger storage event manually for same-tab detection
+            
             window.dispatchEvent(new StorageEvent('storage', {
                 key: 'tournamentGameResult',
                 newValue: JSON.stringify(result),
@@ -167,14 +167,14 @@ const GamePage = () => {
 
             console.log('✅ Tournament result saved and event dispatched');
 
-            // Don't navigate immediately, let the user see the result first
-            // The tournament component will handle the result when user returns
+            
+            
         } else {
             console.error('❌ No tournament match data available');
         }
     };
 
-        // Save AI game result to user stats with ultra-strict protection
+        
     const saveGameResult = async (winner: 'player1' | 'player2', gameId: string) => {
         console.log('🎯 saveGameResult called', {
             winner,
@@ -185,7 +185,7 @@ const GamePage = () => {
             isTournamentMode
         });
 
-        // Ultra-strict early exit
+        
         if (saveBlockedRef.current) {
             console.log('🚫 BLOCKED by saveBlockedRef');
             return;
@@ -198,31 +198,31 @@ const GamePage = () => {
 
         if (isPvPMode) {
             console.log('🎮 PvP mode detected - will save stats for logged-in user (Player 1)');
-            // In PvP mode, the logged-in user is always Player 1
-            // So if player1 wins, user wins. If player2 wins, user loses
+            
+            
         }
 
         if (isTournamentMode) {
             console.log('🎮 Tournament mode detected - will save stats for logged-in user (Player 1)');
-            // In tournament mode, the logged-in user is always Player 1
-            // So if player1 wins, user wins. If player2 wins, user loses
+            
+            
         }
 
         const now = Date.now();
 
-        // Check if we already saved this exact game
+        
         if (gameResultSaved || lastSavedGameId === gameId) {
             console.log(`🚫 BLOCKED: Game result already saved for game ${gameId}`);
             return;
         }
 
-        // Check if we saved anything in the last 5 seconds (debounce)
+        
         if (now - lastSaveTime < 5000) {
             console.log(`🚫 BLOCKED: Debounce - Last save was ${now - lastSaveTime}ms ago`);
             return;
         }
 
-        // Set blocking flag IMMEDIATELY
+        
         saveBlockedRef.current = true;
 
         console.log(`💾 PROCEEDING with save for game ${gameId}`);
@@ -248,7 +248,7 @@ const GamePage = () => {
 
             console.log('✅ Game result saved successfully!', response.data);
 
-            // Show notification only once
+            
             setTimeout(() => {
                 const gameModeText = isPvPMode ? 'PvP' : isTournamentMode ? 'Tournament' : 'AI';
             }, 2000);
@@ -259,7 +259,7 @@ const GamePage = () => {
                 console.error('Response data:', error.response.data);
                 console.error('Response status:', error.response.status);
             }
-            // Don't reset flags on error to prevent multiple attempts
+            
         }
     };
 
@@ -267,13 +267,13 @@ const GamePage = () => {
         const connectWebSocket = () => {
             const now = Date.now();
 
-            // Debounce: не подключаемся если прошло меньше 1 секунды с последнего подключения
+            
             if (now - lastConnectTime.current < 1000) {
                 console.log('🚫 Debouncing WebSocket connection');
                 return;
             }
 
-            // Очищаем старое соединение если оно существует
+            
             if (socketRef.current) {
                 console.log('🧹 Cleaning up old WebSocket connection');
                 socketRef.current.onopen = null;
@@ -288,21 +288,21 @@ const GamePage = () => {
             }
 
         const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-        // Connect to game-service on port 3002 (Docker mapped port)
+        
         let wsUrl = `${wsProtocol}//localhost:3002/ws/game`;
 
-        // Add token as query parameter if available
+        
         if (token) {
             wsUrl += `?token=${encodeURIComponent(token)}`;
         }
 
-        // Add game mode parameter
+        
         if (isPvPMode || isTournamentMode) {
             wsUrl += token ? '&' : '?';
-            wsUrl += 'mode=pvp'; // Tournament uses PvP mode
+            wsUrl += 'mode=pvp'; 
         }
 
-            // Добавляем timestamp для уникальности URL
+            
             wsUrl += (token || isPvPMode || isTournamentMode) ? '&' : '?';
             wsUrl += `t=${now}`;
 
@@ -316,7 +316,7 @@ const GamePage = () => {
             console.log('WebSocket connected');
             setConnectionStatus('Connected');
 
-            // Send settings immediately after connection
+            
             setTimeout(() => {
                 sendSettings();
             }, 100);
@@ -326,7 +326,7 @@ const GamePage = () => {
                 console.log('WebSocket disconnected', event.code, event.reason);
             setConnectionStatus('Disconnected');
 
-                // Переподключение только если компонент еще смонтирован
+                
                 if (socketRef.current === socket) {
                     socketRef.current = null;
                 }
@@ -339,36 +339,36 @@ const GamePage = () => {
 
         socket.onmessage = (event) => {
             try {
-                // Throttling: обрабатываем сообщения не чаще чем раз в 16ms
+                
                 const now = Date.now();
                 if (now - (socketRef.current as any).lastMessageTime < 16) {
-                    return; // Пропускаем слишком частые сообщения
+                    return; 
                 }
                 (socketRef.current as any).lastMessageTime = now;
 
                 const data = JSON.parse(event.data);
                 let processedData = data;
 
-                // Handle both direct game state and wrapped format
+                
                 if (data.type === 'gameState' && data.data) {
                     setGameState(data.data);
-                    processedData = data.data; // Use unwrapped data for further processing
+                    processedData = data.data; 
                 } else {
                     setGameState(data);
                 }
 
-                // Handle tournament auto-winner detection at 3 points
+                
                 if (isTournamentMode && tournamentMatch && processedData.score) {
                     const { player1: p1Score, player2: p2Score } = processedData.score;
 
                     console.log(`Tournament scores: ${tournamentMatch.player1} (${p1Score}) vs ${tournamentMatch.player2} (${p2Score})`);
 
-                    // Check if someone reached 3 points
+                    
                     if (p1Score >= 3 || p2Score >= 3) {
                         const winner = p1Score >= 3 ? 'player1' : 'player2';
                         const winnerName = winner === 'player1' ? tournamentMatch.player1 : tournamentMatch.player2;
 
-                        // Only record result if not already recorded
+                        
                         const existingResult = localStorage.getItem('tournamentGameResult');
                         if (!existingResult) {
                             console.log(`🏆 Tournament winner detected: ${winnerName} (${winner}) with score ${p1Score}-${p2Score}`);
@@ -377,7 +377,7 @@ const GamePage = () => {
                     }
                 }
 
-                // Handle game end - save stats for AI games
+                
                 if (processedData.gameStatus === 'gameOver' && processedData.winner) {
                     console.log(`🎮 Game over detected!`, {
                         winner: processedData.winner,
@@ -388,7 +388,7 @@ const GamePage = () => {
                         user: user ? `ID:${user.id}` : 'NO_USER'
                     });
 
-                    // Prevent processing multiple gameOver messages
+                    
                     if (processingGameOverRef.current) {
                         console.log('🚫 BLOCKED: Already processing gameOver');
                         return;
@@ -396,9 +396,9 @@ const GamePage = () => {
 
                     processingGameOverRef.current = true;
 
-                    // Save result for AI games (not PvP or tournament)
+                    
                     if (!isPvPMode && !isTournamentMode) {
-                        // Create unique game ID based on score and timestamp
+                        
                         const gameId = `${processedData.score.player1}-${processedData.score.player2}-${Date.now()}`;
                         console.log(`💾 Calling saveGameResult for AI game:`, { winner: processedData.winner, gameId });
                         saveGameResult(processedData.winner, gameId);
@@ -406,13 +406,13 @@ const GamePage = () => {
                         console.log('🚫 SKIPPING save for non-AI game:', { isPvPMode, isTournamentMode });
                     }
 
-                    // Reset processing flag after a delay
+                    
                     setTimeout(() => {
                         processingGameOverRef.current = false;
                     }, 3000);
                 }
 
-                // Handle tournament game end (for games that end naturally)
+                
                 if (isTournamentMode && tournamentMatch && processedData.gameStatus === 'gameOver' && processedData.winner) {
                     const existingResult = localStorage.getItem('tournamentGameResult');
                     if (!existingResult) {
@@ -422,18 +422,18 @@ const GamePage = () => {
                 }
             } catch (error) {
                 console.error('Error parsing game state:', error);
-                // Не прерываем обработку при ошибке парсинга
+                
             }
         };
 
         };
 
-        // Очищаем предыдущий timeout если есть
+        
         if (reconnectTimeoutRef.current) {
             clearTimeout(reconnectTimeoutRef.current);
         }
 
-        // Задержка перед подключением для предотвращения множественных подключений
+        
         reconnectTimeoutRef.current = setTimeout(() => {
             connectWebSocket();
         }, 100);
@@ -441,12 +441,12 @@ const GamePage = () => {
         return () => {
             console.log('Cleaning up WebSocket connection');
 
-            // Очищаем timeout
+            
             if (reconnectTimeoutRef.current) {
                 clearTimeout(reconnectTimeoutRef.current);
             }
 
-            // Очищаем WebSocket
+            
             if (socketRef.current) {
                 socketRef.current.onopen = null;
                 socketRef.current.onclose = null;
@@ -467,12 +467,12 @@ const GamePage = () => {
             pressedKeys.current.delete(e.key);
         };
 
-        // Start movement interval
+        
         movementInterval.current = setInterval(() => {
             if (pressedKeys.current.size > 0) {
                 sendMovement();
             }
-        }, 50); // Send movement every 50ms
+        }, 50); 
 
         window.addEventListener('keydown', handleKeyDown);
         window.addEventListener('keyup', handleKeyUp);
@@ -501,7 +501,7 @@ const GamePage = () => {
 
         const handleRestart = () => {
         if (socketRef.current?.readyState === WebSocket.OPEN) {
-            // Reset ALL game result saved flags for new game
+            
             console.log('🎮 Restarting game - resetting ALL save flags');
             setGameResultSaved(false);
             setLastSavedGameId(null);
@@ -509,13 +509,13 @@ const GamePage = () => {
             saveBlockedRef.current = false;
             processingGameOverRef.current = false;
 
-            // Clear any pending save timeout
+            
             if (saveTimeoutRef.current) {
                 clearTimeout(saveTimeoutRef.current);
                 saveTimeoutRef.current = null;
             }
 
-            // Send settings before starting new match
+            
             sendSettings();
             setTimeout(() => {
                 socketRef.current?.send(JSON.stringify({ action: 'startNewMatch' }));
@@ -553,9 +553,9 @@ const GamePage = () => {
 
     return (
         <div className="relative w-screen h-screen text-white overflow-hidden" style={{background: 'linear-gradient(135deg, #1e1b3c 0%, #2a2550 30%, #1a1a3a 70%, #0f1419 100%)'}}>
-            {/* Animated Background Elements */}
+            {}
             <div className="absolute inset-0 pointer-events-none">
-                {/* Game Grid Pattern */}
+                {}
                 <div className="absolute inset-0 opacity-5">
                     {Array.from({ length: 8 }).map((_, i) => (
                         <div
@@ -572,7 +572,7 @@ const GamePage = () => {
                     ))}
                 </div>
 
-                {/* Floating Game Particles */}
+                {}
                 {Array.from({ length: 6 }).map((_, i) => (
                     <div
                         key={i}
@@ -586,7 +586,7 @@ const GamePage = () => {
                 ))}
             </div>
 
-            {/* Header */}
+            {}
             <div className="absolute top-0 left-0 right-0 z-10 p-4 flex justify-between items-center text-white bg-white bg-opacity-5 border-b border-white border-opacity-10 backdrop-blur-20">
                 <div>
                     <Link to={getBackLink()} className="text-electric-green hover:text-electric-green-dark font-medium transition-colors duration-300">
@@ -608,7 +608,7 @@ const GamePage = () => {
 
             <PongScene gameState={gameState} />
 
-            {/* Countdown overlay */}
+            {}
             {isCountdown && gameState?.countdown && gameState.countdown > 0 && (
                 <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-60 z-20 backdrop-blur-sm">
                     <div className="text-8xl font-bold text-electric-green animate-pulse drop-shadow-lg">
@@ -617,7 +617,7 @@ const GamePage = () => {
                 </div>
             )}
 
-            {/* Game Over overlay */}
+            {}
             {isGameOver && (
                 <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-60 z-20 backdrop-blur-sm">
                     <div className="bg-white bg-opacity-5 p-8 rounded-2xl text-center border border-electric-green border-opacity-30 backdrop-blur-20 max-w-lg mx-4">
@@ -662,7 +662,7 @@ const GamePage = () => {
                 </div>
             )}
 
-            {/* Controls info */}
+            {}
             <div className="absolute bottom-4 left-4 text-white bg-white bg-opacity-5 p-3 rounded-lg border border-white border-opacity-10 backdrop-blur-20">
                 <div className="text-sm font-semibold mb-2 text-electric-green">Controls:</div>
                 {isPvPMode || isTournamentMode ? (
@@ -677,7 +677,7 @@ const GamePage = () => {
                 )}
             </div>
 
-            {/* Settings display */}
+            {}
             <div className="absolute bottom-4 right-4 text-white bg-white bg-opacity-5 p-3 rounded-lg border border-white border-opacity-10 backdrop-blur-20">
                 <div className="text-xs space-y-1">
                     <div className="text-electric-green text-sm font-semibold mb-1">Settings:</div>

@@ -1,4 +1,4 @@
-// Settings module for ft_transcendence
+
 console.log('⚙️ Settings module loaded');
 
 class SettingsManager {
@@ -7,7 +7,7 @@ class SettingsManager {
     }
 
     setupEventListeners() {
-        // Settings
+        
         const paddleSpeed = document.getElementById('paddle-speed');
         const ballSpeed = document.getElementById('ball-speed');
 
@@ -23,7 +23,7 @@ class SettingsManager {
             });
         }
 
-        // Key handling for game
+        
         document.addEventListener('keydown', (e) => {
             console.log('Key pressed:', e.key, 'Socket state:', this.app.socket?.readyState);
             if (this.app.socket && this.app.socket.readyState === WebSocket.OPEN) {
@@ -46,15 +46,15 @@ class SettingsManager {
             }
         });
 
-        // Handle clicks on canvas (for "Play Again" button)
+        
         const gameCanvas = document.getElementById('game-canvas');
         if (gameCanvas) {
             gameCanvas.addEventListener('click', (e) => {
-                // Handle clicks on Game Over buttons
+                
                 if (this.app.gameManager.gameOverButtons) {
                     const rect = gameCanvas.getBoundingClientRect();
 
-                    // Account for canvas scaling
+                    
                     const scaleX = gameCanvas.width / rect.width;
                     const scaleY = gameCanvas.height / rect.height;
 
@@ -66,7 +66,7 @@ class SettingsManager {
                     console.log('Canvas scale:', { scaleX, scaleY });
                     console.log('Game over buttons:', this.app.gameManager.gameOverButtons);
 
-                    // Check click on Restart Game button
+                    
                     if (x >= this.app.gameManager.gameOverButtons.restart.x &&
                         x <= this.app.gameManager.gameOverButtons.restart.x + this.app.gameManager.gameOverButtons.restart.width &&
                         y >= this.app.gameManager.gameOverButtons.restart.y &&
@@ -75,7 +75,7 @@ class SettingsManager {
                         console.log('Restart Game button clicked');
                         this.app.gameManager.restartGame();
                     }
-                    // Check click on Home button
+                    
                     else if (x >= this.app.gameManager.gameOverButtons.home.x &&
                              x <= this.app.gameManager.gameOverButtons.home.x + this.app.gameManager.gameOverButtons.home.width &&
                              y >= this.app.gameManager.gameOverButtons.home.y &&
@@ -104,11 +104,11 @@ class SettingsManager {
 
         localStorage.setItem('gameSettings', JSON.stringify(settings));
 
-        // Update value display
+        
         document.getElementById('paddle-speed-value').textContent = paddleSpeed;
         document.getElementById('ball-speed-value').textContent = ballSpeed;
 
-        // Send settings to server if connection exists
+        
         if (this.app.socket && this.app.socket.readyState === WebSocket.OPEN) {
             this.app.websocketManager.sendSettings();
             alert('Settings saved and applied to current game!');
@@ -131,5 +131,5 @@ class SettingsManager {
     }
 }
 
-// Export for global access
+
 window.SettingsManager = SettingsManager;

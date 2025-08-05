@@ -78,11 +78,11 @@ export class GameGateway {
 
         this.loadUserSettings(connectionInfo).then(settings => {
             if (settings.ballSpeed !== undefined) {
-                setGlobalBallSpeedMultiplier(settings.ballSpeed / 6); // 6 - base ball speed
+                setGlobalBallSpeedMultiplier(settings.ballSpeed / 6); 
                 console.log(`Applied ball speed multiplier: ${settings.ballSpeed / 6}`);
             }
             if (settings.paddleSpeed !== undefined) {
-                setGlobalPaddleSpeedMultiplier(settings.paddleSpeed / 8); // 8 - base paddle speed
+                setGlobalPaddleSpeedMultiplier(settings.paddleSpeed / 8); 
                 console.log(`Applied paddle speed multiplier: ${settings.paddleSpeed / 8}`);
             }
         }).catch(err => {
@@ -256,7 +256,7 @@ export class GameGateway {
     }
 
     public handleDisconnect(client: any) {
-        // This method is called when a client disconnects
+        
         console.log('Client disconnected from game service');
     }
 }

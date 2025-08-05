@@ -63,9 +63,9 @@ const SettingsPage: React.FC = () => {
 
   return (
     <div className="min-h-screen text-white relative overflow-hidden">
-      {/* Background Elements */}
+      {}
       <div className="absolute inset-0 pointer-events-none">
-        {/* Circuit Pattern */}
+        {}
         <div className="absolute inset-0 opacity-10">
           {Array.from({ length: 6 }).map((_, i) => (
             <div 
@@ -81,14 +81,14 @@ const SettingsPage: React.FC = () => {
           ))}
         </div>
         
-        {/* Corner Elements */}
+        {}
         <div className="absolute top-8 left-8 w-12 h-12 border-l-2 border-t-2 border-electric-green opacity-30" />
         <div className="absolute bottom-8 right-8 w-12 h-12 border-r-2 border-b-2 border-electric-green opacity-30" />
       </div>
 
-      {/* Main Content */}
+      {}
       <div className="relative z-10 min-h-screen flex flex-col">
-        {/* Header */}
+        {}
         <header className="text-center pt-24 pb-12">
           <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-white to-electric-green bg-clip-text text-transparent">
             SETTINGS
@@ -99,12 +99,12 @@ const SettingsPage: React.FC = () => {
           </p>
         </header>
 
-        {/* Settings Form */}
+        {}
         <main className="flex-1 flex items-center justify-center px-6">
           <div className="w-full max-w-lg">
             <div className="settings-form">
               
-              {/* Ball Speed Setting */}
+              {}
               <div className="form-group">
                 <div className="text-center mb-6">
                   <label className="block text-lg font-bold mb-2">
@@ -128,7 +128,7 @@ const SettingsPage: React.FC = () => {
                 </div>
               </div>
 
-              {/* Paddle Speed Setting */}
+              {}
               <div className="form-group">
                 <div className="text-center mb-6">
                   <label className="block text-lg font-bold mb-2">
@@ -152,7 +152,7 @@ const SettingsPage: React.FC = () => {
                 </div>
               </div>
 
-              {/* Save Button */}
+              {}
               <div className="text-center mb-8">
                 <button
                   onClick={saveSettings}
@@ -163,14 +163,14 @@ const SettingsPage: React.FC = () => {
                 </button>
               </div>
 
-              {/* Message */}
+              {}
               {message && (
                 <div className="text-center p-4 border border-electric-green bg-electric-green bg-opacity-10 rounded-lg">
                   <span className="text-electric-green font-medium">{message}</span>
                 </div>
               )}
 
-              {/* Controls Info */}
+              {}
               <div className="mt-12 pt-8 border-t border-white border-opacity-10">
                 <h3 className="text-center text-xl font-bold mb-6">Game Controls</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -194,7 +194,7 @@ const SettingsPage: React.FC = () => {
           </div>
         </main>
 
-        {/* Footer */}
+        {}
         <footer className="text-center pb-8">
           <div className="w-24 h-px bg-gradient-to-r from-transparent via-electric-green to-transparent mx-auto mb-6"></div>
           <Link

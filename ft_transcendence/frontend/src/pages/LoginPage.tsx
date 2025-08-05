@@ -33,9 +33,9 @@ const LoginPage = () => {
 
     return (
         <div className="min-h-screen text-white flex items-center justify-center relative overflow-hidden">
-            {/* Animated Background */}
+            {}
             <div className="absolute inset-0 pointer-events-none">
-                {/* Floating Elements */}
+                {}
                 {Array.from({ length: 8 }).map((_, i) => (
                     <div
                         key={i}
@@ -48,14 +48,14 @@ const LoginPage = () => {
                     />
                 ))}
 
-                {/* Corner Accents */}
+                {}
                 <div className="absolute top-8 left-8 w-16 h-16 border-l-2 border-t-2 border-electric-green opacity-30" />
                 <div className="absolute bottom-8 right-8 w-16 h-16 border-r-2 border-b-2 border-electric-green opacity-30" />
             </div>
 
-            {/* Main Content */}
+            {}
             <div className="relative z-10 mx-auto max-w-4xl px-6">
-            {/* Header */}
+            {}
             <   div className="text-center mb-12">
                     <h1 className="text-6xl md:text-7xl font-bold mb-4 bg-gradient-to-r from-white to-green-400 bg-clip-text text-transparent">
                         FT_TRANSCENDENCE
@@ -66,9 +66,9 @@ const LoginPage = () => {
                     </p>
                 </div>
 
-                {/* Login Form */}
+                {}
                 <div className="auth-form">
-                    {/* 42 OAuth Button */}
+                    {}
                     <button
                         onClick={handle42Login}
                         className="w-full btn btn-primary mb-8 flex items-center justify-center"
@@ -76,21 +76,21 @@ const LoginPage = () => {
                         Continue with 42
                     </button>
 
-                    {/* Divider */}
+                    {}
                     <div className="flex items-center my-8">
                         <div className="flex-grow h-px bg-white bg-opacity-20"></div>
                         <span className="px-4 text-sm text-gray-400">OR</span>
                         <div className="flex-grow h-px bg-white bg-opacity-20"></div>
                     </div>
 
-                    {/* Error Message */}
+                    {}
                     {error && (
                         <div className="border border-red-400 bg-red-400 bg-opacity-10 text-red-400 px-4 py-3 rounded-lg mb-6 text-center">
                             <span className="text-sm">{error}</span>
                         </div>
                     )}
 
-                    {/* Login Form */}
+                    {}
                     <form onSubmit={handleSubmit} className="space-y-6">
                         <div className="form-group">
                             <label htmlFor="login">Email</label>
@@ -127,7 +127,7 @@ const LoginPage = () => {
                         </button>
                     </form>
 
-                    {/* Register Link */}
+                    {}
                     <div className="text-center mt-8 pt-6 border-t border-white border-opacity-10">
                         <p className="text-sm text-gray-400">
                             New to Pong?{' '}
