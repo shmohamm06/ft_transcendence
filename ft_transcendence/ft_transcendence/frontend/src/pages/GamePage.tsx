@@ -288,8 +288,8 @@ const GamePage = () => {
             }
 
         const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-        // Connect directly to game-service on port 8080
-        let wsUrl = `${wsProtocol}//localhost:8080/ws/game`;
+        // Connect to game-service on port 3002 (Docker mapped port)
+        let wsUrl = `${wsProtocol}//localhost:3002/ws/game`;
 
         // Add token as query parameter if available
         if (token) {

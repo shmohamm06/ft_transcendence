@@ -14,26 +14,26 @@ BLUE := \033[0;34m
 NC := \033[0m # No Color
 
 # Service paths
-AUTH_SERVICE_DIR := ft_transcendence/ft_transcendence/backend/auth-service
-GAME_SERVICE_DIR := ft_transcendence/ft_transcendence/backend/game-service
-FRONTEND_DIR := ft_transcendence/ft_transcendence/frontend
-DOCKER_DIR := ft_transcendence/ft_transcendence/docker
+AUTH_SERVICE_DIR := ft_transcendence/backend/auth-service
+GAME_SERVICE_DIR := ft_transcendence/backend/game-service
+FRONTEND_DIR := ft_transcendence/frontend
+DOCKER_DIR := ft_transcendence/docker
 
 ## help: 📋 Show available commands
 help:
 	@echo "$(GREEN)🎮 ft_transcendence Project$(NC)"
 	@echo ""
 	@echo "$(YELLOW)Main Commands:$(NC)"
-	@echo "  $(BLUE)make start$(NC)      - 🚀 Start all services with Docker"
-	@echo "  $(BLUE)make restart$(NC)    - 🔄 Restart all services with Docker"
-	@echo "  $(BLUE)make stop$(NC)       - 🛑 Stop all services with Docker"
+	@echo "  $(BLUE)make start$(NC)      - 🚀 Start all services (with force cleanup)"
+	@echo "  $(BLUE)make restart$(NC)    - 🔄 Restart all services (with force cleanup)"
+	@echo "  $(BLUE)make stop$(NC)       - 🛑 Stop all services"
 	@echo "  $(BLUE)make force-stop$(NC) - 💀 Force kill all processes and free ports"
 	@echo "  $(BLUE)make start-safe$(NC) - 🚀 Start all services safely (without force-stop)"
 	@echo ""
 	@echo "$(YELLOW)Docker Commands:$(NC)"
-	@echo "  $(BLUE)make docker-start$(NC)   - 🐳 Start Docker containers"
-	@echo "  $(BLUE)make docker-stop$(NC)    - 🐳 Stop Docker containers"
-	@echo "  $(BLUE)make docker-restart$(NC) - 🐳 Restart Docker containers"
+	@echo "  $(BLUE)make docker-start$(NC)  - 🐳 Start with Docker Compose"
+	@echo "  $(BLUE)make docker-stop$(NC)   - 🐳 Stop Docker Compose"
+	@echo "  $(BLUE)make docker-restart$(NC) - 🐳 Restart Docker Compose"
 	@echo ""
 	@echo "$(YELLOW)Setup Commands:$(NC)"
 	@echo "  $(BLUE)make install$(NC) - 📦 Install dependencies"
@@ -47,7 +47,7 @@ help:
 	@echo "$(YELLOW)Service URLs:$(NC)"
 	@echo "  Frontend:     http://localhost:3000"
 	@echo "  Auth Service: http://localhost:3001"
-	@echo "  Game Service: http://localhost:3002"
+	@echo "  Game Service: http://localhost:8080"
 
 ## install: 📦 Install all dependencies
 install:
@@ -69,44 +69,23 @@ build: install
 	@cd $(GAME_SERVICE_DIR) && npm run build
 	@echo "$(GREEN)✅ All services built!$(NC)"
 
-## docker-start: 🐳 Start Docker containers
-docker-start:
-	@echo "$(GREEN)🐳 Starting Docker containers...$(NC)"
-	@cd $(DOCKER_DIR) && docker-compose up -d
-	@sleep 5
-	@echo "$(GREEN)✅ Docker containers started!$(NC)"
+## start: 🚀 Start all services
+start: install logs build
+	@echo "$(GREEN)🚀 Starting ft_transcendence services...$(NC)"
+	@echo "$(YELLOW)  ➤ Starting auth-service (port 3001)...$(NC)"
+	@cd $(AUTH_SERVICE_DIR) && node dist/app.js > ../../../logs/auth.log 2>&1 &
+	@sleep 2
+	@echo "$(YELLOW)  ➤ Starting game-service (port 8080)...$(NC)"
+	@cd $(GAME_SERVICE_DIR) && npm run dev > ../../../logs/game.log 2>&1 &
+	@sleep 2
+	@echo "$(YELLOW)  ➤ Starting frontend (port 3000)...$(NC)"
+	@cd $(FRONTEND_DIR) && npm run dev > ../../logs/frontend.log 2>&1 &
+	@sleep 3
+	@echo "$(GREEN)✅ All services started!$(NC)"
 	@echo ""
 	@echo "$(BLUE)🌐 Open: http://localhost:3000$(NC)"
-	@echo "$(YELLOW)📊 Status: make docker-status$(NC)"
-	@echo "$(RED)🛑 Stop: make docker-stop$(NC)"
-
-## docker-stop: 🐳 Stop Docker containers
-docker-stop:
-	@echo "$(RED)🐳 Stopping Docker containers...$(NC)"
-	@cd $(DOCKER_DIR) && docker-compose down
-	@echo "$(GREEN)✅ Docker containers stopped!$(NC)"
-
-## docker-restart: 🐳 Restart Docker containers
-docker-restart:
-	@echo "$(YELLOW)🔄 Restarting Docker containers...$(NC)"
-	@cd $(DOCKER_DIR) && docker-compose down
-	@cd $(DOCKER_DIR) && docker-compose up -d
-	@sleep 5
-	@echo "$(GREEN)✅ Docker containers restarted!$(NC)"
-	@echo ""
-	@echo "$(BLUE)🌐 Open: http://localhost:3000$(NC)"
-
-## start: 🚀 Start all services with Docker
-start: docker-start
-	@echo "$(GREEN)✅ All services started with Docker!$(NC)"
-
-## restart: 🔄 Restart all services with Docker
-restart: docker-restart
-	@echo "$(GREEN)✅ All services restarted with Docker!$(NC)"
-
-## stop: 🛑 Stop all services with Docker
-stop: docker-stop
-	@echo "$(GREEN)✅ All services stopped with Docker!$(NC)"
+	@echo "$(YELLOW)📋 Logs: tail -f logs/*.log$(NC)"
+	@echo "$(RED)🛑 Stop: make stop$(NC)"
 
 ## auth-start: 🔐 Start only auth service
 auth-start: logs
@@ -136,6 +115,24 @@ force-stop:
 	@pkill -f "ft_transcendence" 2>/dev/null || echo "  ➤ No ft_transcendence processes"
 	@sleep 2
 	@echo "$(GREEN)✅ All processes forcefully stopped!$(NC)"
+
+## restart: 🔄 Restart all services
+restart: force-stop start
+	@echo "$(GREEN)✅ Services restarted!$(NC)"
+
+## stop: 🛑 Stop all services
+stop:
+	@echo "$(RED)🛑 Stopping all services...$(NC)"
+	@mkdir -p logs
+	@echo "$(YELLOW)  ➤ Stopping processes on ports 3000, 3001, 8080...$(NC)"
+	@lsof -ti:3001 | xargs kill -9 2>/dev/null || echo "  ➤ Port 3001 is free"
+	@lsof -ti:3000 | xargs kill -9 2>/dev/null || echo "  ➤ Port 3000 is free"
+	@lsof -ti:8080 | xargs kill -9 2>/dev/null || echo "  ➤ Port 8080 is free"
+	@pkill -f "npm run dev" 2>/dev/null || echo "  ➤ No npm dev processes"
+	@pkill -f "nodemon" 2>/dev/null || echo "  ➤ No nodemon processes"
+	@pkill -f "node dist/app.js" 2>/dev/null || echo "  ➤ No auth service processes"
+	@sleep 1
+	@echo "$(GREEN)✅ All services stopped!$(NC)"
 
 ## clean: 🧹 Clean everything (stop + remove dependencies)
 clean: stop
@@ -167,8 +164,28 @@ start-safe: install logs build
 	@echo "$(GREEN)✅ All services started!$(NC)"
 	@echo ""
 	@echo "$(BLUE)🌐 Open: http://localhost:3000$(NC)"
-	@echo "$(YELLOW)📊 Logs: tail -f logs/*.log$(NC)"
+	@echo "$(YELLOW)📋 Logs: tail -f logs/*.log$(NC)"
 	@echo "$(RED)🛑 Stop: make stop$(NC)"
+
+## docker-start: 🐳 Start with Docker Compose
+docker-start:
+	@echo "$(GREEN)🐳 Starting with Docker Compose...$(NC)"
+	@cd $(DOCKER_DIR) && docker-compose up -d --build
+	@echo "$(GREEN)✅ Docker services started!$(NC)"
+	@echo ""
+	@echo "$(BLUE)🌐 Open: http://localhost:3000$(NC)"
+	@echo "$(YELLOW)📋 Logs: cd $(DOCKER_DIR) && docker-compose logs -f$(NC)"
+	@echo "$(RED)🛑 Stop: make docker-stop$(NC)"
+
+## docker-stop: 🐳 Stop Docker Compose
+docker-stop:
+	@echo "$(RED)🐳 Stopping Docker Compose...$(NC)"
+	@cd $(DOCKER_DIR) && docker-compose down
+	@echo "$(GREEN)✅ Docker services stopped!$(NC)"
+
+## docker-restart: 🐳 Restart Docker Compose
+docker-restart: docker-stop docker-start
+	@echo "$(GREEN)✅ Docker services restarted!$(NC)"
 
 # Create logs directory
 logs:

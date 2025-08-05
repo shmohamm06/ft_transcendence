@@ -1,0 +1,93 @@
+[dotenv@17.2.0] injecting env (0) from .env (tip: 🔐 prevent committing .env to code: https://dotenvx.com/precommit)
+Environment variables loaded: { CLIENT_ID: 'LOADED', CLIENT_SECRET: 'LOADED', JWT_SECRET: 'LOADED' }
+Database path: /Users/mac/Desktop/fix/ft_transcendence/backend/auth-service/db.sqlite
+Initializing database...
+Database initialized successfully.
+{"level":30,"time":1754327942926,"pid":73120,"hostname":"macs-MacBook-Pro.local","msg":"Server listening at http://0.0.0.0:3001"}
+Database connection opened successfully
+Users table created/verified
+Game_settings table created/verified
+User_stats table created/verified
+Missing user_stats records created for existing users
+{"level":30,"time":1754327956014,"pid":73120,"hostname":"macs-MacBook-Pro.local","reqId":"req-1","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":54427},"msg":"incoming request"}
+{"level":30,"time":1754327956020,"pid":73120,"hostname":"macs-MacBook-Pro.local","reqId":"req-1","res":{"statusCode":200},"responseTime":5.811666011810303,"msg":"request completed"}
+{"level":30,"time":1754327956026,"pid":73120,"hostname":"macs-MacBook-Pro.local","reqId":"req-2","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":54429},"msg":"incoming request"}
+{"level":30,"time":1754327956027,"pid":73120,"hostname":"macs-MacBook-Pro.local","reqId":"req-2","res":{"statusCode":200},"responseTime":0.9568749666213989,"msg":"request completed"}
+{"level":30,"time":1754327959346,"pid":73120,"hostname":"macs-MacBook-Pro.local","reqId":"req-3","req":{"method":"GET","url":"/api/settings","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":54433},"msg":"incoming request"}
+{"level":30,"time":1754327959347,"pid":73120,"hostname":"macs-MacBook-Pro.local","reqId":"req-3","res":{"statusCode":200},"responseTime":1.0574579238891602,"msg":"request completed"}
+{"level":30,"time":1754327980530,"pid":73120,"hostname":"macs-MacBook-Pro.local","reqId":"req-4","req":{"method":"POST","url":"/api/users/12/stats","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":54451},"msg":"incoming request"}
+Stats update request: {
+  id: '12',
+  game: 'pong',
+  result: 'loss',
+  user: {
+    id: 12,
+    username: 'tzhakypo',
+    email: 'tzhakypo@student.42abudhabi.ae',
+    avatar: 'https://cdn.intra.42.fr/users/57ab954fc14b936a12f327d252a45a56/medium_tzhakypo.jpg',
+    intra_id: 133443,
+    intra_login: 'tzhakypo',
+    auth_provider: '42',
+    iat: 1754327521
+  }
+}
+Mapped values: { gameKey: 'pong', resultKey: 'losses' }
+Updating column: pong_losses
+Stats updated successfully for user: 12
+{"level":30,"time":1754327980536,"pid":73120,"hostname":"macs-MacBook-Pro.local","reqId":"req-4","res":{"statusCode":200},"responseTime":5.381083011627197,"msg":"request completed"}
+{"level":30,"time":1754327984124,"pid":73120,"hostname":"macs-MacBook-Pro.local","reqId":"req-5","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":54454},"msg":"incoming request"}
+{"level":30,"time":1754327984126,"pid":73120,"hostname":"macs-MacBook-Pro.local","reqId":"req-5","res":{"statusCode":200},"responseTime":1.583875060081482,"msg":"request completed"}
+{"level":30,"time":1754327984129,"pid":73120,"hostname":"macs-MacBook-Pro.local","reqId":"req-6","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":54457},"msg":"incoming request"}
+{"level":30,"time":1754327984130,"pid":73120,"hostname":"macs-MacBook-Pro.local","reqId":"req-6","res":{"statusCode":200},"responseTime":1.2272920608520508,"msg":"request completed"}
+{"level":30,"time":1754327990904,"pid":73120,"hostname":"macs-MacBook-Pro.local","reqId":"req-7","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":54461},"msg":"incoming request"}
+{"level":30,"time":1754327990906,"pid":73120,"hostname":"macs-MacBook-Pro.local","reqId":"req-7","res":{"statusCode":200},"responseTime":1.9851670265197754,"msg":"request completed"}
+{"level":30,"time":1754327990908,"pid":73120,"hostname":"macs-MacBook-Pro.local","reqId":"req-8","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":54464},"msg":"incoming request"}
+{"level":30,"time":1754327990909,"pid":73120,"hostname":"macs-MacBook-Pro.local","reqId":"req-8","res":{"statusCode":200},"responseTime":0.6895830631256104,"msg":"request completed"}
+{"level":30,"time":1754327996304,"pid":73120,"hostname":"macs-MacBook-Pro.local","reqId":"req-9","req":{"method":"POST","url":"/api/users/12/stats","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":54467},"msg":"incoming request"}
+Stats update request: {
+  id: '12',
+  game: 'tictactoe',
+  result: 'win',
+  user: {
+    id: 12,
+    username: 'tzhakypo',
+    email: 'tzhakypo@student.42abudhabi.ae',
+    avatar: 'https://cdn.intra.42.fr/users/57ab954fc14b936a12f327d252a45a56/medium_tzhakypo.jpg',
+    intra_id: 133443,
+    intra_login: 'tzhakypo',
+    auth_provider: '42',
+    iat: 1754327521
+  }
+}
+Mapped values: { gameKey: 'ttt', resultKey: 'wins' }
+Updating column: ttt_wins
+Stats updated successfully for user: 12
+{"level":30,"time":1754327996309,"pid":73120,"hostname":"macs-MacBook-Pro.local","reqId":"req-9","res":{"statusCode":200},"responseTime":4.822458028793335,"msg":"request completed"}
+{"level":30,"time":1754327996316,"pid":73120,"hostname":"macs-MacBook-Pro.local","reqId":"req-a","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":54470},"msg":"incoming request"}
+{"level":30,"time":1754327996318,"pid":73120,"hostname":"macs-MacBook-Pro.local","reqId":"req-a","res":{"statusCode":200},"responseTime":1.549375057220459,"msg":"request completed"}
+{"level":30,"time":1754328002900,"pid":73120,"hostname":"macs-MacBook-Pro.local","reqId":"req-b","req":{"method":"POST","url":"/api/users/12/stats","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":54474},"msg":"incoming request"}
+Stats update request: {
+  id: '12',
+  game: 'tictactoe',
+  result: 'win',
+  user: {
+    id: 12,
+    username: 'tzhakypo',
+    email: 'tzhakypo@student.42abudhabi.ae',
+    avatar: 'https://cdn.intra.42.fr/users/57ab954fc14b936a12f327d252a45a56/medium_tzhakypo.jpg',
+    intra_id: 133443,
+    intra_login: 'tzhakypo',
+    auth_provider: '42',
+    iat: 1754327521
+  }
+}
+Mapped values: { gameKey: 'ttt', resultKey: 'wins' }
+Updating column: ttt_wins
+Stats updated successfully for user: 12
+{"level":30,"time":1754328002904,"pid":73120,"hostname":"macs-MacBook-Pro.local","reqId":"req-b","res":{"statusCode":200},"responseTime":3.543125033378601,"msg":"request completed"}
+{"level":30,"time":1754328002911,"pid":73120,"hostname":"macs-MacBook-Pro.local","reqId":"req-c","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":54477},"msg":"incoming request"}
+{"level":30,"time":1754328002912,"pid":73120,"hostname":"macs-MacBook-Pro.local","reqId":"req-c","res":{"statusCode":200},"responseTime":1.0351250171661377,"msg":"request completed"}
+{"level":30,"time":1754328006873,"pid":73120,"hostname":"macs-MacBook-Pro.local","reqId":"req-d","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":54480},"msg":"incoming request"}
+{"level":30,"time":1754328006875,"pid":73120,"hostname":"macs-MacBook-Pro.local","reqId":"req-d","res":{"statusCode":200},"responseTime":1.6164159774780273,"msg":"request completed"}
+{"level":30,"time":1754328006876,"pid":73120,"hostname":"macs-MacBook-Pro.local","reqId":"req-e","req":{"method":"GET","url":"/api/users/profile","hostname":"localhost:3001","remoteAddress":"127.0.0.1","remotePort":54483},"msg":"incoming request"}
+{"level":30,"time":1754328006877,"pid":73120,"hostname":"macs-MacBook-Pro.local","reqId":"req-e","res":{"statusCode":200},"responseTime":0.6665409803390503,"msg":"request completed"}

@@ -1,0 +1,3463 @@
+1
+
+Section 1: Abstract
+This project's objective is to create an innovative local multiplayer Pong game,
+blending classic gameplay with modern technologies. The game, developed with
+HTML, CSS, and Vanilla JavaScript for the frontend, and Django with
+PostgreSQL for the backend, introduces a host of features and modules. The
+major modules include blockchain integration using Ethereum for secure
+tournament score storage, remote authentication with OAuth 2.0 and 42, and the
+implementation of an AI opponent without the use of the A* algorithm. Security
+measures encompass password hashing, protection against SQL injections and
+XSS, HTTPS connections, and thorough input validation.
+The microservices architecture, secured with Web Application Firewall (WAF)
+and ModSecurity configurations and HashiCorp Vault for secrets management,
+enhances scalability and security. Additional modules introduce Two-Factor
+Authentication (2FA), JSON Web Tokens (JWT), browser compatibility
+expansion, and multiple language support.
+This project report provides an in-depth exploration of design choices,
+implementation processes, and the overarching impact of each module on the
+Pong game's functionality and user experience. Encapsulated within a
+Dockerized environment, the project aligns with development standards,
+ensuring compatibility with Google Chrome, single command deployment, and a
+seamless user experience.
+
+2
+
+Table of Contents
+Section 1: Abstract​
+Table of Contents​
+Section 2: List Of Figures​
+Section 3: List Of Tables​
+Section 4: List Of Abbreviations Used​
+Section 5: Introduction​
+Section 6: Software Development Life Cycle (SDLC)​
+- Requirement Analysis:​
+Introduction to Functional Requirements:​
+Non-Functional Requirements and System Architecture:​
+Additional Security Measures and System Enhancements:​
+Technical Specifications and Development Considerations:​
+Programming Languages:​
+Framework Selection:​
+Database Management System (DBMS):​
+Frontend Toolkit:​
+Containerization:​
+Blockchain Integration:​
+Security Measures:​
+User Authentication:​
+Microservices Architecture:​
+Compatibility:​
+Deployment Command:​
+Development Environment:​
+Testing Environment:​
+Documentation Standards:​
+Scalability Considerations:​
+Additional Modules:​
+Minor Modules:​
+- Design:​
+System Architecture Design:​
+Data Design:​
+User Interface Design:​
+Component Design:​
+Algorithm Design:​
+Security Design:​
+Database Design:​
+Deployment Architecture:​
+Technology Selection:​
+
+2
+3
+6
+8
+9
+12
+14
+14
+14
+14
+14
+15
+15
+15
+15
+15
+15
+16
+16
+16
+16
+16
+16
+17
+17
+17
+17
+17
+17
+18
+18
+18
+18
+18
+19
+19
+19
+19
+19
+
+3
+
+Documentation:​
+Prototyping:​
+- Implementation:​
+Sprint 1: Login and Registration​
+Sprint 2: OAuth 2.0 authentication with 42 intra​
+Sprint 3: JWT​
+Sprint 4: Double factor authentication:​
+Sprint 5: Designing Backend as micro services​
+Sprint 6: API Django​
+Sprint 7 AI bot:​
+Sprint 8: Modsecurity WAF:​
+Sprint 9: Hashicorp Vault:​
+Sprint 10 :Store the score of a tournament in the Blockchain​
+Sprint 11: logout:​
+Sprint 12:Tournament algorithm:​
+Sprint 13: Bootstrap CSS:​
+Sprint 14: SPA:​
+Sprint 15: Languages:​
+Sprint 15: Game:​
+- Testing:​
+- Evolution:​
+Project Initiation:​
+Requirement Analysis:​
+Design and Architecture:​
+Implementation and Sprints:​
+Testing and Security:​
+Documentation and Code Review:​
+- Gantt Chart:​
+Summary of Tasks and Contributions:​
+- Risk Design And Risk Matrix:​
+Risks related to 2FA:​
+Email Challenge Limitation:​
+Google Stops Supporting Less Secure Accounts:​
+Email Abuse and Spam Listing:​
+General Security Risks:​
+Credential Leak from Old .env File:​
+DDoS Attacks:​
+PostgreSQL Port Open for Outer Connections:​
+False Positive Traffic Blocking by Firewall:​
+HashiCorp Vault Risks:​
+Losing Keys of the Vault:​
+
+20
+20
+20
+21
+22
+23
+24
+26
+27
+28
+32
+34
+35
+37
+39
+40
+41
+43
+43
+45
+47
+47
+47
+47
+47
+47
+48
+49
+49
+57
+57
+57
+57
+57
+57
+57
+57
+57
+58
+58
+58
+
+4
+
+Blockchain Module Risks:​
+Web3 Ethereum Issues:​
+Storing Winner in Blockchain:​
+Common Risks:​
+SQL Injection:​
+Cross-Site Scripting (XSS):​
+Data Breach:​
+- Wire Frames:​
+- Flow Charts:​
+Landing Page Flowchart Explanation:​
+Overview of Landing Page Flow:​
+Detailed Flow Description:​
+Home Page Flowchart Explanation:​
+Overview of Home Page Flow:​
+Detailed Flow Description:​
+Settings Page Flowchart Explanation:​
+Overview of Settings Page Flow:​
+Detailed Flow Description:​
+Tournament Page Flowchart Explanation:​
+Overview of Tournament Page Flow:​
+Detailed Flow Description:​
+ERD Diagram Explanation for Database Structure:​
+Overview of Database Structure:​
+Detailed Structure Description:​
+Attributes and Relationships:​
+Technical Considerations:​
+Section 7: Conclusion​
+Section 8: Appendices​
+Microservices Architecture:​
+AI Algorithm:​
+Blockchain Integration:​
+Two-Factor Authentication:​
+Bootstrap CSS Integration:​
+References​
+
+58
+58
+58
+58
+58
+58
+59
+61
+66
+66
+66
+66
+68
+68
+68
+69
+69
+69
+70
+70
+70
+71
+71
+71
+71
+71
+73
+74
+74
+74
+74
+74
+74
+75
+
+5
+
+Section 2: List Of Figures
+Figure No.
+
+Figure Description
+
+1
+
+AI Moves
+
+1.1
+
+AI Final Hit
+
+2
+
+WAF(SecRuleEngine)
+
+2.1
+
+WAF
+
+2.1
+
+WAF
+
+3
+
+HashiCorp Secret
+
+4
+
+BlockChain
+
+4.2
+
+Etherscan
+
+4.3
+
+Ethereum To USD Conversion
+
+5
+
+JWT Token
+
+6
+
+Tournament Bracket
+
+7.1
+
+Gantt Chart Section 1
+
+7.2
+
+Gantt Chart Section 2
+
+7.3
+
+Gantt Chart Section 3
+
+7.4
+
+Gantt Chart Section 4
+
+7.5
+
+Gantt Chart Section 5
+
+6
+
+8.1
+
+Landing Page
+
+8.2
+
+Login Page
+
+8.3
+
+Registration Page
+
+8.4
+
+2FA OPT Modal
+
+8.5
+
+2FA Activation Email
+
+8.6
+
+Home Page
+
+8.7
+
+Tournament Add Players Modal
+
+8.8
+
+Tournament Page
+
+8.9
+
+404 NOT FOUND
+
+9.1
+
+Landing Page Flow Chart
+
+9.2
+
+HomePage Flow Chart
+
+9.3
+
+Settings Page Flow Chart
+
+9.4
+
+Tournament Page Flow Chart
+
+7
+
+Section 3: List Of Tables
+Table No.
+
+Table Description
+
+1
+
+Risk Matrix
+
+2
+
+ERD Diagram
+
+3
+
+List Of Abbreviations
+
+4
+
+Project Task Timeline
+
+8
+
+Section 4: List Of Abbreviations Used
+No.
+
+Abbreviation
+
+Full Form
+
+1
+
+SDLC
+
+Software Development Life Cycle
+
+2
+
+HTML
+
+Hypertext Markup Language
+
+3
+
+CSS
+
+Cascading Style Sheets
+
+4
+
+JS
+
+JavaScript
+
+5
+
+AI
+
+Artificial Intelligence
+
+6
+
+XSS
+
+Cross-Site Scripting
+
+7
+
+HTTPS
+
+Hypertext Transfer Protocol Secure
+
+8
+
+DBMS
+
+Database Management System
+
+9
+
+JWT
+
+JSON Web Token
+
+10
+
+WAF
+
+Web Application Firewall
+
+11
+
+UI
+
+User Interface
+
+12
+
+UX
+
+User Experience
+
+13
+
+CRUD
+
+Create, Read, Update, Delete
+
+14
+
+API
+
+Application Programming Interface
+
+15
+
+UML
+
+Unified Modeling Language
+
+9
+
+16
+
+DNS
+
+Domain Name System
+
+17
+
+SMS
+
+Short Message Service
+
+18
+
+OAuth
+
+Open Authorization
+
+19
+
+2FA
+
+Two-Factor Authentication
+
+20
+
+CSRF
+
+Cross-Site Request Forgery
+
+21
+
+RPC
+
+Remote Procedure Call
+
+22
+
+CDN
+
+Content Delivery Network
+
+23
+
+ORM
+
+Object-Relational Mapping
+
+24
+
+HTTP
+
+Hypertext Transfer Protocol
+
+25
+
+Docker
+
+Containerization Platform
+
+26
+
+SSL
+
+Secure Sockets Layer
+
+27
+
+TLS
+
+Transport Layer Security
+
+28
+
+SQL
+
+Structured Query Language
+
+29
+
+Blockchain
+
+Distributed Ledger Technology
+
+30
+
+Ethereum
+
+Blockchain platform for smart contracts
+
+31
+
+Solidity
+
+Programming language for Ethereum smart contracts
+
+32
+
+WSS
+
+WebSocket Secure
+
+33
+
+GDPR
+
+General Data Protection Regulation
+
+10
+
+34
+
+Bootstrap
+
+Frontend CSS toolkit
+
+35
+
+Django
+
+Backend web framework
+
+36
+
+PostgreSQL
+
+Open-source relational database system
+
+37
+
+HashiCorp
+
+Infrastructure Automation
+
+38
+
+WSGI
+
+Web Server Gateway Interface
+
+39
+
+OWASP
+
+Open Worldwide Application Security Project
+
+40
+
+CRS
+
+Core Rule Set
+
+41
+
+JSON
+
+JavaScript Object Notation
+
+​
+
+​
+Table 3. List Of Abbreviations
+
+11
+
+Section 5: Introduction
+Welcome to the world of gaming innovation, where classic meets contemporary in
+our local multiplayer Pong game project. By blending the simplicity of the original
+Pong with modern web development, and advanced security measures, we aim to
+deliver a gaming experience that resonates with both nostalgia and excitement.
+At the heart of our project is a carefully crafted combination of frontend and backend
+technologies. The user interface is designed using familiar web languages such as
+HTML, CSS, and Vanilla JavaScript, ensuring that players enjoy a responsive and
+visually appealing gaming platform. On the backend, Django and PostgreSQL work
+together to manage data efficiently and facilitate user interactions.
+We introduce major modules that bring new dimensions to the classic Pong
+gameplay. Blockchain integration, using Solidity smart contract on Ethereum, not
+only enhances the security of storing tournament scores but also introduces players
+to the world of decentralized ledger technology. The addition of remote
+authentication through OAuth 2.0 with 42 provides a secure and user-friendly way
+for players to access the game, making it more accessible to a wider audience.
+Artificial Intelligence takes center stage as we bring an opponent that mimics human
+behavior, all without diving into complex algorithms. The AI logic and
+decision-making processes ensure that players experience challenging and
+engaging gameplay. To safeguard the gaming environment, we implement security
+measures such as password hashing, protection against SQL injections, and
+defenses against XSS attacks.
+The microservices architecture, coupled with Web Application Firewall (WAF) and
+ModSecurity configurations, transforms the backend structure, allowing for
+scalability, easy maintenance, and enhanced security. HashiCorp Vault integrates to
+manage secrets securely, ensuring sensitive information is well-protected.
+
+Our project extends beyond the basics, introducing Two-Factor Authentication (2FA)
+and JSON Web Tokens (JWT) to strengthen user account security. Expanding
+browser compatibility and supporting multiple languages make the game accessible
+to a diverse user base. Encapsulating the project within a Dockerized environment
+simplifies deployment and guarantees compatibility with the latest version of Google
+Chrome.
+
+12
+
+This project report is more than just a technical exploration; it's a journey into
+transforming classic gameplay into a secure and engaging local multiplayer Pong
+game. We aim to provide a comprehensive understanding of our design choices,
+development processes, and the transformative impact each module brings to the
+overall gaming experience.
+
+13
+
+Section 6: Software Development Life Cycle (SDLC)
+-​Requirement Analysis:
+Introduction to Functional Requirements:
+Our project is designed to deliver an engaging and competitive gaming experience, featuring
+a variety of gameplay features and blockchain integration. The local multiplayer functionality
+will allow two players to compete directly against each other, while a tournament mode will
+enable multiple participants to engage in a series of matches. A user registration system is
+planned to collect and store player aliases, which is essential for organizing tournaments
+and matchmaking. The matchmaking system itself will be responsible for organizing and
+announcing upcoming fights within the tournament. To simulate playing against a human, an
+AI opponent will be incorporated, designed to exhibit human-like behavior through
+sophisticated AI logic and decision-making processes. Moreover, the project will break new
+ground by integrating blockchain technology, wherein tournament scores will be stored on
+the Ethereum test blockchain, managed through Solidity smart contracts. For remote
+authentication, OAuth 2.0 will be utilized, ensuring secure sign-ins and the secure exchange
+of tokens and user information.
+
+Non-Functional Requirements and System Architecture:
+The non-functional requirements of our system prioritize security, performance, and user
+experience. Security measures include hashing stored passwords, preventing SQL
+injections and XSS attacks, enforcing HTTPS connections, and validating all forms and user
+inputs. The backend will be built on Django, offering robustness and scalability, while the
+frontend will be developed in Vanilla JavaScript to ensure compatibility with the latest stable
+version of Google Chrome. The frontend is expected to be a single-page application,
+enhancing usability with browser navigation buttons. PostgresSQL has been chosen for its
+reliability as the database management system. Docker will play a crucial role in
+containerizing the project, allowing for a streamlined launch process. The user interface will
+hark back to the 1972 classic Pong, with options to override constraints via a Graphics
+module. In terms of system architecture, the backend will adopt a microservices approach,
+ensuring modularity and easier maintenance. A combination of Web Application Firewall
+(WAF) and ModSecurity will be deployed for additional security layers, while HashiCorp
+Vault will manage secrets securely.
+
+Additional Security Measures and System Enhancements:
+To further enhance security, the project will incorporate advanced configurations of WAF and
+ModSecurity. User security will be bolstered through the implementation of Two-Factor
+Authentication (2FA) and JSON Web Tokens (JWT). The backend architecture will be
+divided into microservices to improve maintainability and scalability. The system will also be
+
+14
+
+designed to support multiple languages and ensure that it functions seamlessly across
+different web browsers.
+
+Technical Specifications and Development Considerations:
+Programming Languages:
+The project leverages a diverse set of programming languages to cater to different aspects
+of the application. For the frontend development, HTML, CSS, and Vanilla JavaScript are
+utilized to create a responsive user interface. The backend logic is powered by Django, a
+high-level Python web framework that encourages rapid development and clean, pragmatic
+design. The blockchain component of the application is handled using Solidity, which is the
+programming language used for writing smart contracts on the Ethereum platform, enabling
+secure and verifiable transactions for tournament scores.
+Framework Selection:
+The backend development of our application is built on Django due to its ability to handle
+applications with complex requirements and its extensive library of tools. For the frontend,
+we have the option to use Bootstrap, a widely used CSS framework that allows for rapid,
+responsive design without the need to write extensive custom CSS, thereby speeding up
+frontend development.
+Database Management System (DBMS):
+PostgreSQL serves as our chosen Database Management System. It is a powerful,
+open-source object-relational database system known for its reliability, feature robustness,
+and performance. PostgreSQL offers an effective solution for storing and retrieving data,
+ensuring data integrity and accommodating complex queries which are essential for our
+application’s backend.
+Frontend Toolkit:
+For the frontend toolkit, we have provisioned the use of Bootstrap which is optional.
+Bootstrap offers a range of pre-styled components and a grid system that makes it easier to
+design web pages quickly and efficiently, while maintaining responsiveness and consistency
+across different browsers and devices.
+Containerization:
+Containerization is implemented using Docker, which allows us to package the application
+and its environment into containers. This ensures that the application works uniformly across
+any platform. Docker Compose further aids in managing multi-container Docker applications,
+simplifying the process of running multi-container setups with just a few commands.
+
+15
+
+Blockchain Integration:
+Integration with the Ethereum blockchain is achieved by storing tournament scores securely
+on a test blockchain. Solidity is used to write the necessary smart contracts, and Remix is
+the platform of choice for testing and deploying these contracts. The Python web3 package
+is employed to interact with the smart contracts from the backend, providing a seamless
+integration between the core application and the blockchain module.
+Security Measures:
+Security is of paramount importance in our application. Passwords stored in the database
+are hashed to prevent their exposure in the event of a data breach. We take measures to
+protect against SQL injections and XSS attacks, such as validating and sanitizing user
+inputs. HTTPS is enforced for all client traffic to ensure data transmitted over the internet is
+encrypted. The implementation of a Web Application Firewall (WAF) and ModSecurity
+configurations further strengthens our defense against common web vulnerabilities. For
+managing sensitive data such as passwords and API keys, we use HashiCorp Vault.
+User Authentication:
+User authentication is handled via OAuth 2.0 with integration from 42 for remote user
+authentication, providing a secure and convenient way for users to log in. To add another
+layer of security, we have implemented Two-Factor Authentication (2FA). JSON Web Tokens
+(JWT) are used for secure user session management, ensuring the authentication and
+authorization processes are robust.
+Microservices Architecture:
+We have designed the backend using a microservices architecture to ensure scalability and
+maintainability. This approach allows us to define clear boundaries and interfaces between
+services, improving modularity and ease of understanding. Communication between
+microservices is established through RESTful APIs or message queues, allowing for a
+flexible and decoupled system architecture.
+Compatibility:
+Our application is compatible with the latest version of Google Chrome, catering to a wide
+user base. We also plan to include an additional module that will enhance browser
+compatibility, ensuring the application functions correctly across various web browsers.
+Deployment Command:
+Deployment is streamlined with a single command line interface using Docker Compose.
+The deployment command docker-compose up --build initiates the creation of autonomous
+
+16
+
+containers and sets up the necessary environment for the application to run, simplifying the
+deployment process.
+Development Environment:
+The development environment is set up to support Django and frontend technologies,
+ensuring a smooth workflow for developers. By Dockerizing the backend, we create a unified
+development environment that encapsulates all the necessary dependencies, which is
+critical for minimizing setup time and avoiding the "it works on my machine" syndrome.
+Testing Environment:
+A dedicated testing environment is established, equipped with tools necessary for unit
+testing, integration testing, and end-to-end testing. This environment also includes the setup
+for testing blockchain functionality, which is done by deploying it on an Ethereum test
+network.
+Documentation Standards:
+Adherence to standardized documentation practices is observed, ensuring that all aspects of
+the application's development process are well-documented. This includes the use of UML
+diagrams, flowcharts, and comprehensive documentation for the code and APIs, facilitating
+future maintenance and scalability.
+Scalability Considerations:
+Scalability is addressed by designing the backend with microservices, allowing for improved
+load distribution and easier scaling of individual components. Scalability considerations for
+each module are evaluated and documented, ensuring the application can handle increased
+loads efficiently.
+Additional Modules:
+An AI opponent module is implemented using logic that does not rely on the traditional A*
+algorithm, providing a unique challenge to users. Robust security measures are enhanced
+with a hardened configuration of WAF/ModSecurity and the use of HashiCorp Vault for
+secrets management, bolstering the application's defense mechanisms.
+Minor Modules:
+To cater to a broader audience, the application supports multiple languages, with a minimum
+requirement of three languages. To ensure accessibility and convenience for users across
+different platforms, support for an additional web browser is included, expanding the
+application's overall compatibility.
+
+17
+
+-​ Design:
+System Architecture Design:
+Our system will embrace a client-server model, enabling dynamic interaction
+between the user-facing frontend and the server-side backend. This approach
+facilitates separation of concerns and allows for efficient data exchange. For the
+backend, a microservices architecture will be adopted, promoting modularity and
+scalability. The microservices will be designed to operate independently but
+communicate with one another through well-defined interfaces, allowing for easier
+maintenance and potential scaling as the user base grows or as new features are
+introduced.
+Data Design:
+The data architecture will be structured around PostgreSQL, a robust and scalable
+database management system. The database schema will be thoughtfully designed
+to include tables for user information, game statistics, and tournament results, with
+appropriate relationships and constraints to ensure data consistency and integrity.
+This will also facilitate efficient query operations and data retrieval, which are crucial
+for real-time gaming and tournament updates.
+User Interface Design:
+The user interface will be carefully crafted, starting with wireframes and mockups for
+all major screens, including the gaming interface, tournament brackets, and user
+registration areas. The goal is to create an interface that is not only aesthetically
+pleasing and reflective of the classic Pong game but also intuitive and user-friendly.
+This will ensure that users can navigate and interact with the application with ease.
+Component Design:
+The backend will be decomposed into distinct microservices, each responsible for a
+different aspect of the platform, such as user management and tournament
+organization. These components will be designed to communicate with each other
+efficiently. On the frontend, components will be developed to handle game rendering,
+user input, and the dynamic display of tournament information, ensuring interactive
+and responsive gameplay.
+
+18
+
+Algorithm Design:
+For the AI opponent, we will explore and document alternative algorithms that can
+replicate human-like decision-making and behavior, avoiding the restricted A*
+algorithm. This design will focus on creating an AI that challenges players while
+remaining fair and enjoyable. The chosen algorithms will be documented in detail,
+explaining the logic and decision-making framework behind the AI's in-game actions.
+Security Design:
+Security will be paramount in the system design. Passwords will be hashed using
+robust algorithms to ensure that user credentials are stored securely. The
+authentication system, particularly for remote users and tournament participants, will
+be designed to be both secure and user-friendly. Measures will be implemented to
+guard against common vulnerabilities such as SQL injections and XSS attacks, and
+HTTPS will be deployed to secure all communication channels.
+Database Design:
+The database design will focus on normalization to reduce redundancy and improve
+data integrity, while also considering the performance implications of
+denormalization where appropriate. Indexes will be strategically used to optimize
+query performance, and constraints will be applied to enforce data integrity across
+the various tables and relationships in the database.
+Deployment Architecture:
+Server configurations will be planned to meet the demands of the backend, taking
+into account factors such as load balancing, resource allocation, and security. The
+network design will aim to minimize latency and maximize availability, with backend
+services operating within a secure, private network. This design will minimize the
+attack surface by allowing public access only through a secure gateway, thereby
+enhancing overall system security.
+Technology Selection:
+Django's robust framework will underpin the backend, chosen for its compatibility
+with our database choice, PostgreSQL, and its track record in building secure web
+applications. For the frontend, HTML, CSS, and Vanilla JavaScript will be used to
+build a lightweight and performant user interface, with Bootstrap available as an
+
+19
+
+optional CSS toolkit. The integration of the Ethereum blockchain, utilizing Solidity,
+will provide a secure and tamper-proof mechanism for storing game scores.
+Documentation:
+Comprehensive design documentation will be generated for each component of the
+system. This will include UML diagrams and flowcharts to visualize system
+architecture and component interactions, as well as interface specifications detailing
+the inputs and outputs of each system module. The documentation will be kept
+accessible and updated to serve as a clear guide for developers and stakeholders
+alike.
+Prototyping:
+Prototyping will be an essential phase in the development process, particularly for
+testing the AI algorithms and blockchain integration. Proof of concepts for these
+critical components will allow us to gather early feedback, assess the feasibility of
+design decisions, and refine our approach before full-scale implementation. These
+prototypes will serve as a basis for iterative development and improvement, ensuring
+that the final product meets the desired specifications and user needs.
+
+-​ Implementation:​
+We used Agile methodology to manage our project, promoting iterative development and
+continuous integration. This approach allowed us to adapt to changing requirements and
+deliver incremental improvements. Our project was structured into sprints, each spanning
+one to two weeks, with daily standup meetings that lasted for 5 minutes to follow up on the
+progress of each sprint, enabling focused efforts and measurable progress within short
+timeframes.
+To facilitate effective task management and collaboration, we utilized GitHub Projects. We
+documented all project backlogs within GitHub, with each backlog item corresponding to a
+GitHub issue. These issues were then assigned to team members responsible for their
+implementation. Upon assignment, team members created branches from the master
+branch, naming them after the respective issues.
+Upon completing their tasks, team members merged the master branch into their feature
+branches, resolving any code conflicts that arose. Subsequently, they submitted pull
+requests containing their updated code along with relevant testing code, if applicable, to
+merge their branches back into the master branch. These pull requests are submitted to
+rigorous peer review by a designated team member serving as an reviewer. The reviewer
+
+20
+
+carefully assessed the code changes, conducted thorough testing, and provided
+constructive feedback through code reviews, then if the code met evaluation criterion, the
+reviewer then approved the pull request so that branch will be merged to master.
+This rigorous review process ensured that only thoroughly tested and approved code was
+merged into the master branch, maintaining its cleanliness and stability. Additionally,
+continuous merging of branches with the master branch minimized the likelihood of conflicts,
+ensuring that all working branches remained up-to-date. Moreover, the collaborative nature
+of code reviews served as a proactive measure against potential bugs, as reviewers could
+identify and address issues before code integration, thereby enhancing the overall quality
+and reliability of our software.
+
+Throughout each sprint, we documented our progress and achievements, promoting a
+culture of reflection and continuous improvement. This iterative approach not only facilitated
+our adaptation to evolving requirements but also ensured the delivery of a robust and
+high-quality software project. Below, we provide detailed insights into each sprint,
+highlighting our development journey and the specific tasks undertaken to move our project
+forward.
+
+Sprint 1: Login and Registration
+In our sprint, the focus was on implementing the foundational features of user registration
+and login. We started by designing and implementing the registration process on the
+frontend using JavaScript. To enhance security measures, we developed validation functions
+to sanitize user input, ensuring that usernames were free of special characters that could
+potentially lead to SQL injection or cross-site scripting (XSS) vulnerabilities. Additionally, we
+implemented strict criteria for passwords, mandating a minimum length of eight characters
+and alphanumeric composition. We implemented client-side validation to provide real-time
+feedback to users and prompt them to re-enter their passwords to prevent typographical
+errors, this approach not only added extra layer of security in the frontend, but also
+decreases the load on backend by saving resources through rejecting malformed credentials
+from client side.
+Upon successful validation on the frontend, registration requests were dispatched to the
+backend for further processing. Here, we revalidated the input to enforce consistency and
+adherence to our validation policies. If the user passed all validation checks, a new user
+account was created, and the password was securely stored in the database using a robust
+hashing algorithm, specifically PBKDF2 with SHA256(3). Any deviation from the validation
+criteria resulted in the generation of appropriate error messages with corresponding HTTP
+status codes (e.g. 400 for bad request)(2).
+
+21
+
+Similar validation procedures were applied to the login process, ensuring the integrity of user
+credentials and preventing unauthorized access. Both frontend and backend validations
+were conducted to verify the correctness of usernames and passwords. Backend validation
+involved comparing the provided password hash with the hash stored in the database. Upon
+successful authentication, the client received a login successful response; otherwise, a 401
+unauthorized status code was returned(4).
+While the initial implementation of the login process was straightforward, subsequent sprints
+would see its evolution towards enhanced security and functionality. This evolution includes
+the integration of double-factor authentication, remote login capabilities, and the
+implementation of web application firewalls, all of which will be discussed in detail in the
+upcoming sprints.
+
+Sprint 2: OAuth 2.0 authentication with 42 intra
+In this sprint, our primary focus was on implementing remote authentication using the
+intra.42.fr website, providing users with a secure and convenient method to access our
+platform. Remote authentication, as defined by RFC specifications (5 RFC6749), entails the
+process of verifying a user's identity through a third-party service, in this case, the intra.42.fr
+website. While the integration of remote authentication can be streamlined with the use of
+third-party libraries like NextAuth (Reference 6 - NextAuth website), project constraints
+mandated a more lower level approach.
+The initial step in implementing remote authentication involved acquiring an API key from
+intra and determining the appropriate redirect URI. Upon successful application, intra
+provided us with a client key and secret key, which served as credentials for authenticating
+API usage.
+Despite the availability of third-party libraries that simplify the process, we opted for a more
+lower level approach to meet project requirements. When a user initiates the login process
+via intra on the frontend, they are redirected to the intra website to input their intra
+credentials. Upon successful authentication, the intra server responds with URI along with a
+code parameter. We parse this response URL in the frontend to extract the code and
+subsequently send it as a POST request to the backend.
+On the backend, the received code, along with the API key ID and secret, is forwarded to
+the intra server as a post request for verification. Once validated by the intra server, it
+responds with the user's intra data, including their name, email, and image. At this stage, the
+user is authenticated from the intra side.(6 intra documentation)
+However, authentication is incomplete until the backend verifies the user's existence in our
+database. If the user does not exist, a new user account is created using the provided intra
+email. Otherwise, if the user already exists, they are logged in, and the appropriate status
+code is returned to the frontend.
+
+22
+
+By following this process, we ensured integration with the intra.42.fr for secure and
+user-friendly authentication, while adhering to project guidelines and prioritizing user
+convenience and security.
+The intra user has special care in our website as his username is his email, so we prohibited
+other users from using their emails as username.
+
+Sprint 3: JWT
+In the third sprint our focus shifted towards the implementation of JSON Web Tokens (JWTs)
+as a means of enhancing security and facilitating efficient authentication mechanisms within
+our system. JSON Web Tokens, as defined by RFC 7519 (8), offer a standardized method
+for securely transmitting information between parties as a JSON object. The json web token
+consists of a json object that has three parts header, payload and signature, the header
+indicates which algorithm has been used to sign the token, in our case we used HS256
+(HMAC along with SHA-256) which uses symmetric key to sign and validate the jwt (9), the
+payload consist of kind of data being encrypted to verify the user like username, JWT
+expiration time, finally the signature is the hashing the header and payload using the
+hashing algorithm used in the header using the JWT secret stored in the backend secret,
+decrypting the payload is possible using decode url(base64) decryption, some website even
+simplify this process (10 jwt.io) however to sign the JWT and get verified one it must be
+hashed using the stored secret, which make it more secure yet agile to use, By adopting
+JWTs, we aimed to facilitate authentication processes while bolstering data integrity and
+mitigating potential security risks, along with flexibility in deciding the authorization levels to
+give for users during authentication process as will be discussed in managing one time
+password.
+Implementing the jwt happens after the user press login then the credentials sent to the
+backend, if the user is verified a JWT will be issued containing a payload stating the
+username, jwt expiry time, user id and token type, we generate three types of tokens Bearer,
+Refresh and OTP tokens.
+The Bearer and Refresh token, when used by the client in communicating with the backend
+the user will be considered as logged in and will have the login privilege, so he can play the
+game, enable or disable double factor authentication or change his email, this token has
+limited expiry time so if the user is not logging in for a while his token will be expired so even
+if the user cookie was hijacked the user will be safe, however we opted to rely on the Bearer
+token for validation as the refresh token can keep the user logged in forever so it will be
+security risk if the cookies was stolen (11), it’s a tradeoff between making the website more
+secure or make it more user friendly, we did prioritize the security of the user by providing 2
+hour session expiry time, based on our expectation how much time the user will spend on
+our website per day, moreover we provided convenient way to login including “42 intra” to
+make using our website pleasant experience yet secure and effecient.
+The third type of tokens is one time password token, when user choose to enable double
+factor authentication he will be prompted to enter his one time password in next visit, in that
+
+23
+
+case we apply least privilege access policy (12) where we provide a jwt with one privilege
+only which is validate the one time password provided, this token has limited expiry time
+which is 2 minute, we call this process half login, as user would have provided correct
+credentials but still need to verify the otp sent to his registered email to be grant login access
+in other word get the bearer type JWT.
+After the client receive the JWTs in the front end using Javascript, we store the tokens in
+Cookies under Authorization key, then in each request sent from the frontend to the backend
+authorization tokens will be included, so that the backend can validate and fulfill the request
+with the proper response.
+This approach not only enhances security but also fosters scalability, positioning our website
+to accommodate a larger user base . In the event of expansion to serve millions of
+customers, our system can employ load balancing by distributing the backend across
+multiple servers. The utilization of JWTs for authentication facilitates this scalability by
+managing user sessions across distributed server environments. As a result, our system can
+effectively handle increased traffic and user demands without compromising performance or
+security. This robust architecture lays a solid foundation for future growth and ensures a
+reliable and responsive user experience, even under high loads.(13)
+
+Sprint 4: Double factor authentication:
+During the fourth sprint, we successfully implemented double-factor authentication as an
+additional layer of security for user accounts. This feature involves sending users an email
+containing a one-time password (OTP), providing an extra safeguard in case a user's
+credentials are compromised for any reason. By incorporating double-factor authentication,
+we aim to enhance the overall security posture of our website, ensuring that users' accounts
+remain protected even in the event of a credential leak.
+The concept of time-based one-time passwords is fundamental to our implementation. As
+defined in RFC6238 (Reference 14), time-based OTPs rely on a cryptographic function to
+generate a unique password at specific intervals. These passwords can either be
+time-based or number-based, and the same function applied with the same secret across
+different applications will produce identical passwords. To facilitate this functionality, we used
+the pyotp Python library (Reference 15), which provided the necessary tools to generate
+unique 6-digit secrets for each user.
+It's important to note that we deliberately avoided using a user's password to generate the
+OTP. Doing so would defeat the purpose of introducing an additional verification method, as
+it would create a dependency between the user's login credentials and the OTP generation
+process. Instead, we opted to generate random OTP secrets for each user independently.
+This approach ensures that the OTP remains truly independent of the user's password,
+thereby reinforcing the security benefits of double-factor authentication.
+
+24
+
+The implementation process unfolds as follows: when a user logs into their account, they are
+presented with the option to enable double-factor authentication by navigating to the settings
+and selecting "enable 2fa". Subsequently, they are prompted to enter their email address.
+Upon submission, the frontend validates the entered email to ensure its validity. This
+validation process checks for the presence of the "@" character in the email and verifies that
+there is at least one character before it. Additionally, it confirms that the email contains a "."
+character before the end. If the email passes these validation criteria, it is sent via a POST
+request to the backend to enable OTP.
+On the backend, another round of validation is performed on the entered email. If the email
+is deemed invalid, a 401 status code is returned to the frontend. Otherwise, the backend
+proceeds to generate an OTP and sends it to the corresponding email address. A status
+code of 202 is returned to the frontend to signify successful OTP generation.
+Meanwhile, the frontend prompts the user to enter the received OTP. The client-side
+validation ensures that the entered OTP is a 6-digit code with no malicious input. Once
+validated, the OTP is sent to the backend via a POST request. The backend then validates
+the received OTP to ensure it is numeric and verifies its correctness. If the OTP is validated
+successfully, the user's email is stored, and double-factor authentication is enabled.
+In the event that the user fails to enter the OTP within a one-minute window, they are
+allowed up to three attempts to request another OTP. This measure serves to prevent
+malicious users from abusing innocent individuals' emails and ensures that the received
+email belongs to the corresponding user.
+If double-factor authentication is enabled, the user's login experience is enhanced with an
+additional layer of security. Upon submitting their credentials, the system undergoes normal
+validation procedures. If the credentials are verified successfully, an email containing an
+OTP is sent to the user. Simultaneously, the backend sends a response to the frontend
+containing a low-privilege JWT, which is stored in cookies.
+The user is then prompted to enter the received six-digit OTP. Once entered, the OTP is
+validated on the client-side. Subsequently, the JavaScript sends the entered OTP along with
+the OTP JWT token in the request header to the backend. Here, the validity of the JWT is
+examined first, followed by validation of the received OTP to ensure it consists of six digits
+only. This validation process is conducted using the pyotp library, utilizing the user's unique
+OTP secret.
+If all validations pass successfully, the backend responds with the Bearer and refresh
+authorization tokens, granting the user access to their account.
+For Intra user login, after the user is redirected by the intra website and validated in the
+backend, indicating permission to login, an OTP is sent to the user's email. The subsequent
+
+25
+
+process mirrors the steps outlined above for regular user login, ensuring a consistent and
+secure authentication experience across both regular and intra user logins.
+
+Choosing the appropriate email service posed a significant challenge at the outset of our
+project. Initially, we created a Google email account under the name
+"pong42abudhabi@gmail.com". We then embarked on tutorials to integrate this email
+account with Django for sending emails using the SMTP (Simple Mail Transfer Protocol)
+server. However, a hurdle emerged when we discovered that Google had ceased allowing
+the use of less secure apps with its SMTP server since the beginning of 2024 (Reference
+16).
+Undeterred by this setback, we explored alternative solutions and ultimately opted for a
+service called SendGrid. SendGrid offers an API that allows users to send emails on their
+behalf, providing a convenient alternative to SMTP. However, it's worth noting that the free
+tier of SendGrid imposes a limit of a maximum of 100 emails per day (Reference 17).
+In addition to integrating SendGrid into our system, we were fortunate to obtain access to an
+old Gmail account with the less secure feature already enabled. This account, under the
+name "pongos42@gmail.com", provided us with an additional option for sending automated
+emails. With both SendGrid and the Gmail account at our disposal, we ensured that our
+system had the necessary capabilities to send emails with one-time passwords as required.
+
+Sprint 5: Designing Backend as micro services
+In Sprint 5, our primary objective was to architect the backend infrastructure using a
+microservices approach. This methodology allows us to break down the application into
+smaller, more manageable components that operate independently, promoting scalability,
+flexibility, and ease of maintenance. By adopting microservices, we can isolate different
+functionalities of the application, making it easier to update, scale, and troubleshoot
+individual components without impacting the entire system (18).
+To implement this architecture, we utilized Docker's networking capabilities to establish
+communication channels between various microservices. Each microservice was assigned
+specific ports for internal communication within the Docker network and external
+communication with clients through only one highly secure port.
+Our backend architecture consisted of four core services: PostgreSQL, Django, Nginx, and
+Firewall, complemented by HashiCorp Vault for secure secrets management. Each service
+played a crucial role in the overall functionality and security of the system.
+PostgreSQL, serving as the database management system, was responsible for storing and
+managing application data. It listens on port 5432 for incoming database connections. To
+ensure data persistence and reliability, we utilized the official PostgreSQL image and
+configured it to bind the database to a local volume(19).
+
+26
+
+Nginx, acting as the web server, served as the entry point for client requests and handled
+secure communication via SSL. It exposed port 443 to clients for HTTPS communication.
+Within the Docker network, Nginx facilitated communication with the Django application
+server on port 443 using Gunicorn as WSGI layer between Django and Nginx(20), in turn,
+communicated with PostgreSQL on port 5432 to retrieve and manipulate data as required by
+the application logic.
+HashiCorp Vault played a critical role in managing sensitive information such as API keys,
+passwords, and encryption keys. It operated solely within the Docker network and was
+accessible via port 8200. By centralizing secrets management, HashiCorp Vault added an
+extra layer of security to our system, protecting sensitive information from unauthorized
+access.
+By planning and implementing the backend architecture as microservices, we created a
+robust foundation for our application's scalability, reliability, and security. This approach
+enables us to adapt to changing requirements, handle increased traffic, and maintain high
+performance while ensuring a seamless user experience.
+
+Sprint 6: API Django
+In Sprint 6, we used Django as an API backend, aligning with our microservices architecture.
+Django served as the backbone for handling authentication, authorization, database
+manipulation, and interaction with smart contracts. We chose a single-page application
+(SPA) architecture managed entirely by JavaScript on the frontend, integrated with Nginx for
+efficient delivery to clients.
+To ensure optimal performance and scalability, we configured Gunicorn with multiple
+workers, enabling concurrent request handling and automatic reloading of workers upon
+code changes.(21)
+The API functionality encompassed various key components, including:
+Authentication and Authorization: Django managed user authentication using JSON Web
+Tokens (JWTs) and supported double authentication (MFA) via one-time passwords (OTPs).
+We leveraged the Django authentication system to validate user credentials securely and
+efficiently.
+Database Manipulation: Django interfaced with the PostgreSQL database to perform CRUD
+(Create, Read, Update, Delete) operations, ensuring effecient data management and
+persistence.
+Integration with External Services: The API communicated with external services such
+interacting with smart contracts using Web3 package, and interacting intra.42.fr website for
+
+27
+
+authentication purposes. By exchanging tokens and validating user identity, Django
+facilitated integration with third-party platforms.
+Testing: We conducted comprehensive testing to ensure the reliability and robustness of the
+API endpoints. Test driven development and integration tests were employed to validate the
+functionality and performance of each API endpoint.
+By transforming Django into a robust API backend, we laid the foundation for effective
+communication between the frontend and backend components of our application. This
+transition allowed for better security, scalability, and efficiency in managing user interactions
+and data manipulation.
+
+Sprint 7 AI bot:
+In this sprint, we implemented an AI player capable of competently playing against humans.
+Due to limitations in the requirements, we were instructed not to use the A* algorithm, and
+the AI was designed to have visibility of the game every second. AI, or artificial intelligence, is
+defined as the simulation of human intelligence by machines or systems. The primary
+objective of AI is to develop systems that can think and make decisions like humans. This
+process involves processing and reasoning information, planning accordingly, and making
+decisions (22).
+Before deciding on the algorithm to use, we began by playing the game as a team and with
+our peers. Through observation, we studied how typical human players move the paddle and
+make decisions based on the ball's position in the (x, y) axis and the opponent's moves. Our
+analysis yielded the following insights:
+1-After hitting the ball, players typically try to reposition the paddle to the middle.
+2-When the ball crosses the middle and heads toward the opponent, players attempt to
+counter the opponent's move based on a simple heuristic. If the opponent's paddle is moving
+up, the player moves down, and vice versa.
+3-After the opponent hits the ball, players aim to anticipate where the ball will land on their
+side and position their paddle accordingly. This target location is continuously updated as the
+ball approaches, ensuring the player aims for the most accurate hit point.
+4-Human players experiment with game mechanics related to hits and spins to get
+advantages in gameplay. This experimentation allows them to execute ball hits that are more
+challenging for the opponent to defend, such as achieving multiple bounces and aiming for
+distant positions from the opponent's paddle.
+
+Based on our analysis of human behavior, we concluded that building our own AI algorithm
+from scratch was the best approach. This algorithm would take inputs such as ball positions
+and paddle positions, with these positions being updated every second. The AI would then
+analyze the current positions of objects compared to their positions in the previous second.
+
+28
+
+Based on this analysis, the AI would determine the number of moves the AI Paddle should
+make—whether to move up, down, or stay in place.
+One significant limitation of our approach is that after making its decision, the AI would not
+have visibility of changes in game objects for a whole second. Despite this limitation, the
+decision made by the AI could still be implemented during this second using a function called
+"aiBlindMoves()." This function would move the AI paddle blindly until the AI updates its
+perception of the surrounding objects.
+
+​ ​ ​
+​
+​
+​
+Figure 1. AI Moves.
+1-AI just hit the ball:
+This part handles the scenario when the AI has just hit the ball and it hasn't reached the
+center yet. In this case, the AI paddle checks its distance from the middle. If the AI is below
+the middle, it moves up a certain number of steps to reach the middle. Conversely, if it's above
+the middle, it moves down.
+2-Ball is heading towards human paddle:
+The second part deals with the situation where the AI has hit the ball, and it's heading towards
+the human paddle after crossing the center point on the x-axis. Here, the AI evaluates the
+position of the human paddle and adjusts its own position accordingly, either moving up or
+down to counter the position of the human paddle. While this adjustment isn't always 100%
+accurate, it acts as a heuristic for predicting the final position of the ball's hit. This heuristic
+helps conserve AI paddle movements and improves the chances of a successful hit,
+especially with high-speed balls.
+
+3-AI turn:
+The third and final part of the algorithm is the driver of AI behavior that affects the winning and
+losing of the AI bot. In case the human paddle has just hit the ball, our algorithm will make
+calculations to predict where the ball is going to hit (y position) when the x position is zero. In
+
+29
+
+other words, it will try to predict the hit point and move the AI paddle there as a result. This
+calculation happens as follows: first, we keep track of the ball's last position (x, y), and
+comparing it to the ball's current position will allow us to draw a line between the two positions.
+Then, we get the slope of this line, as we have the ball's current position (x2, y2) and the last
+position (x1, y1), using the slope equation (23):
+
+Second, after getting the slope, we try to determine the final hit position on the y-axis where
+x=0. Using the same slope equation, we utilize the current ball position as (x1, y1) and the
+expected hit point as (x2, y2) where x2=0. Since we already know the slope, the only unknown
+in this equation is y2, which we can derive by manipulating the slope equation as follows:
+m = (y2 -y1) / (x2 - x1)
+since x2 = 0
+m = y2 - y1 / (-x1)
+-mx1 = y2 -y1
+y2 = y1 -mx1
+Third, based on the y2 result, which is the expected hit point, we will have one out of three
+possibilities. The first one is that y2 is between canvas 0 and the canvas's maximum height. In
+this case, it will hit a specific point that the AI Paddle can reach, making this y2 result the
+expected hit point. The second case is if the y2 result is less than 0; in this case, the ball is
+expected to hit the upper wall of the canvas, and this y2 is not the final hit point. Therefore,
+further calculations are needed to determine the expected hit point on the upper wall by
+manipulating the slope equation again. In this scenario, we are searching for the hit point
+when y2 = 0, and x2 is the unknown:
+​
+​
+​
+​
+m = (y2 -y1) / (x2 - x1)
+since y2 = 0
+​
+​
+​
+​
+m = (-y2) / (x2 - x1)
+​
+​
+​
+​
+-y2 = m(x2 - x1)
+​
+​
+​
+​
+Y2 = -m(x2 - x1)
+Then, after obtaining the hit point on the upper wall, we update the slope to be the negative
+value of the old slope:
+​
+​
+​
+​
+new_m = -1 * m
+Next, we attempt to determine the final hit point using the first equation where (x2) = 0. The
+third possibility is if the hit point on y2 is larger than the canvas height. In this case, the ball will
+hit the lower canvas wall and change its direction. Therefore, we need to determine the hit
+point on the lower wall (x2), where y2 equals the canvas height. This can also be calculated
+by manipulating the slope equation:
+​
+​
+​
+​
+m = (y2 -y1) / (x2 - x1) y2 = canvas_height
+​
+​
+​
+​
+m(x2 -x1) = canvas_height - y1
+​
+​
+​
+​
+mx2 - mx1 = canvas_height - y1
+​
+​
+​
+mx2 = mx1 + canvas_height - y1
+​
+​
+​
+​
+x2 = (mx1 + canvas_height - y1) / m
+
+30
+
+We also update the new_m = m * -1, as the ball is estimated to change its direction, and then
+repeat the calculation to determine the final hit point. In case the estimated hit point is still not
+within the range of AI moves, recursion will occur to choose the next hit point until the final one
+is obtained."
+
+​ ​ ​
+​
+​
+​
+Figure 1.1. AI Final Hit.
+Every hit point we obtain will be added to the hitpoints array. Unfortunately, obtaining multiple
+hit points does not always result in the same final hit point estimate, as the AI only perceives
+the objects every one second. Therefore, it draws a straight line between the last position of
+the ball and its current position to make estimates based on that. However, this is not always
+accurate. Sometimes, the ball will hit the upper or lower wall, causing the ball trajectory to
+form two lines of a triangle rather than a straight line. This deviation leads to inaccuracies in
+the final hit point estimate. To mitigate this, we attempt to obtain as many final hit point
+estimates as possible. Based on the probability of repetition of nearby hit points, we group
+neighboring hit points and choose one of them as the final hit point. We then decide the
+number of moves based on the paddle's position relative to this hitpoint.
+Following this approach of selecting the approximate hit point from an array of hit points is not
+100% accurate. Sometimes, when the ball speed is high, only one hit point is calculated,
+which might be misleading. However, such deviations make the game playable. If the AI made
+no mistakes, there would be no way for a human to win, eliminating the joy factor. After
+implementing our algorithm, the AI receives a prediction of the final hit point and moves the
+paddle accordingly, aiming to hit the ball with the edges of the paddle to make it more
+challenging for humans to defend.
+
+31
+
+Sprint 8: Modsecurity WAF:
+In the seventh sprint, we implemented a Modsecurity firewall with strict rules to enhance the
+security of our website. Modsecurity is an open-source firewall developed by Trustwave
+Spiderlabs, offering layer 7 protection against the vast majority of known web attacks by
+monitoring HTTP packets (24). This protection is achieved by crafting Modsecurity rules to
+filter malicious traffic while allowing normal traffic.
+Installing Modsecurity on Nginx is not straightforward, as we needed to install the
+Modsecurity-Nginx connector to act as a connection layer between them. This approach
+increases the efficiency of the Web Application Firewall (WAF) and reduces bugs (25).
+Additionally, we had to reroute Django traffic to pass through Nginx instead of being served
+directly by Django itself. To accomplish this, a layer of WSGI had to be placed between
+Django and Nginx, for which we used Gunicorn. We then modified the Nginx configuration to
+serve both the frontend and backend.
+For the configuration of WAF rules, we utilized the industry-standard rules known as the Core
+Rule Set (CRS), following the recommendations of the Open Web Application Security Project
+(OWASP) (26). In addition to the OWASP CRS rules, we incorporated Trustwave Spiderlabs
+rules to complement them, providing protection against a wider range of attacks, as
+recommended by Nginx (27, 28). Furthermore, we included a GeoIP database that could be
+utilized in the future for additional security control, allowing us to block specific IPs based on
+geolocation.
+After completing the installation, we proceeded to fine-tune the ModSecurity rules. Initially, the
+rules were configured for detection only. However, we modified the necessary actions to block
+malicious traffic
+
+​ ​ ​
+​
+​
+​
+Figure 2. WAF(SecRuleEngine rule).
+​
+After testing our website, we encountered an issue where all normal traffic was being blocked
+by the Web Application Firewall (WAF). This behavior, known as a false positive, required
+extensive fine-tuning to address, following the recommendations outlined in the CRS
+documentation (29). This fine-tuning process involved allowing user agents to be compatible
+with all web browsers, permitting headers used in our application (including special headers),
+
+32
+
+authorizing IP ranges expected to access the website, and allowing request bodies used in
+both requests and responses. Additionally, we reduced the paranoia level to 1 in the CRS,
+which provides baseline security to safeguard our website. Given that our website does not
+handle financial transactions or contain sensitive national-level information, opting for higher
+paranoia levels was unnecessary (30).
+
+​
+
+​ ​
+
+​
+
+​
+
+​
+
+Figure 2.1. WAF.
+
+​ ​ ​
+​
+​
+​
+Figure 2.2. WAF.
+The fine-tuning process was not a one-time task; it was ongoing as new instances of false
+positive behavior emerged during our website testing across various scenarios and browsers.
+We specifically tested the firewall against known XSS attacks and SQL injection attacks, such
+as 'https://localhost?a=<script>alert(1);</script>' and 'https://localhost?a=’--', using tools like
+Burp-suite. The Modsecurity WAF effectively blocked this unwanted traffic, returning a status
+code of 403 Forbidden (30), while also providing detailed incident reports in the Modsecurity
+
+33
+
+logs. These reports included information such as the visitor's IP address, the request and
+response details, the reason for blocking the traffic, and which rule was responsible for the
+decision.
+
+Sprint 9: Hashicorp Vault:
+In the 8th sprint, we changed our system for storing and retrieving secrets from the old
+approach of using a .env file to utilizing HashiCorp Vault. With HashiCorp Vault, secrets are
+securely stored encrypted inside the vault and can only be accessed when needed using
+special tokens and decryption keys. This transition not only makes it easier to manage secrets
+but also provides a more secure way of handling sensitive information.
+
+HashiCorp Vault is a system designed for secret and encryption management. A secret refers
+to any sensitive piece of data requiring restricted access, such as API keys, passwords, and
+certificates. The Vault provides encryption services safeguarded by authentication and
+authorization methods. Vault secrets can be managed through a user interface, command line
+interface, or HTTP API, facilitating both the setting and retrieval of secrets (32).
+Here's how Vault operates: Secrets are stored in key-value pairs and encrypted using a data
+encryption key stored in the database. These data encryption keys are themselves encrypted
+using a master key. The master key, in turn, is encrypted using Shamir's Secret Sharing with 5
+keys, requiring 3 out of 5 keys to unseal the Vault (33). The Vault remains sealed at rest, and
+during the start-up process, unsealing the Vault requires at least 3 out of these keys. To
+retrieve any secret, a token must be used along with the request. This token may be a root
+token, providing privileges to read and write all secrets. Alternatively, other tokens can be
+issued and configured to limit access to specific secrets or provide read-only privileges for
+designated secrets.
+
+In our implementation, we ran the Vault in a separate Docker container, following the
+microservices structure. The Vault was only accessible within the internal Docker network via
+the internal port 8200, with no external access permitted from outside the Docker network.
+Additionally, the Vault was mounted to local directories for storing secrets. We utilized a
+Python script to automate the process of saving key-value secrets.
+To access secrets within Django, we implemented a function that facilitated retrieving secrets
+by establishing a connection to the Vault container with an access token. This allowed Django
+to securely access the secrets stored within the Vault for use in the application.
+
+34
+
+​
+
+​
+
+​ ​
+
+​
+
+​
+
+Figure 3. HashiCorp Secrets retrieval function
+
+Utilizing the Vault for storing the self signed SSL certificate added an extra layer of security to
+our system. After unsealing, the SSL certificate was shared with the Nginx container through
+volume mounting. This approach significantly enhanced the security of secret storage and
+sharing.
+By storing secrets in the Vault, we mitigated the risk of accidentally leaking secrets on GitHub
+or other platforms. It also eliminated the need to store secrets in plain text on local computers,
+reducing the risk of unauthorized access. Additionally, using the Vault prevented the sharing of
+secrets via insecure channels such as WhatsApp, Slack, or email, ensuring that sensitive
+information remained protected.
+
+Sprint 10 :Store the score of a tournament in the Blockchain
+In this sprint, we successfully stored the tournament results on the Ethereum test blockchain
+using a smart contract developed with Solidity. Storing the data on the blockchain provides
+integrity and immutability to the stored information(34).
+Blockchain is defined as digital ledgers that are immutable, shared, and facilitate transaction
+tracking, recording transactions of tangible and intangible assets. It is important for businesses
+due to its trustworthiness, high security, and efficiency. In this sprint, we implemented smart
+contracts, which are sets of rules stored on the blockchain that can execute automatically
+according to a predefined set of rules (34).
+To implement this sprint, we first learned the basics of the Solidity programming language using
+the interactive website CryptoZombies (35). Then, we created a wallet address using MetaMask
+(36) and developed the smart contract using Remix IDE (36). The smart contract is designed to
+have a data structure consisting of an array of winner records. Each winner record stores the
+winner of the tournament and the organizer of the tournament, i.e., the user who is logged in.
+We also implemented functions to record winners in the winnerRecord array and to view the
+
+35
+
+number of winners recorded and who the winners are. We chose not to store the timestamp in
+the array, as the timestamp is recorded by default after each transaction, making our smart
+contract more efficient per transaction.
+After deploying the contract via Remix, we tested some transactions by recording winner names
+and owners, then checked for transactions using our wallet address on Sepolia's etherscan.io
+(39) to ensure the transactions were recorded.
+Following the contract deployment, we utilized the web3 Python package to integrate and
+automate transactions using the Django backend. Using web3 is straightforward: it begins by
+instantiating the web3 class, connecting it to the network, creating a contract object using the
+contract address as its constructor, connecting to our wallet using the private key, and finally
+calling the setWinner() function from our contract and signing the transaction with our private
+key.
+We connected this contract to the frontend so that after each tournament, a post request would
+be sent to the backend with the tournament winner. Consequently, the winner and owner
+information would be stored on the blockchain by calling the setWinner() function on the smart
+contract.
+
+​
+
+​
+
+​
+
+​
+
+Figure 4. Recording winner on BlockChain.
+
+After conducting some test transactions and analyzing the cost of each transaction, we
+observed that each transaction cost approximately 0.0089 Ether, which is equivalent to 94.36
+AED as of today, February 19th, 2024. We implemented the concept of account abstraction
+within our website, processing transactions using our own wallet test Ethers obtained through
+mining on the Sepolia faucet. This approach ensures a more user-friendly website (40).
+
+36
+
+​
+
+​
+
+​
+
+​
+
+Figure 4.2. Etherscan
+
+Figure 4.3 Ethereum To USD Conversion
+
+Sprint 11: logout:
+In this sprint, we implemented the logout feature, which is based on the validity of JWT. After
+conducting research, we found that the following options are the mainstream ones:
+1-Set expiration time on the token.
+2-Delete the token from the client-side.
+3-Blacklist valid tokens in the database (41).
+However, none of the above options were satisfactory, as each of them comes with trade offs
+involving high security risks or high resource consumption risks. For example, with the first
+and second options, if a user's cookies are hijacked and they attempt to logout to prevent an
+
+37
+
+attacker from using their JWT to access their account, the JWT would still remain valid. This
+would allow the attacker to continue using the victim's credentials until the token expires.
+Moreover, if the attacker logged in with a valid user JWT, they could obtain a fresh one and
+remain logged in.
+As for the third option, maintaining a blacklist of valid JWTs is more secure, but it is also
+inefficient. For instance, if the website has a small user base, say 100 users, this approach
+might be feasible. However, if the website scales up to 10,000 users and 5,000 of them log
+out, the database would contain 5,000 invalid JWTs. Consequently, for each JWT validation
+step, the system would have to perform 5,000 comparisons. In other words, for each
+communication from the frontend to the backend for each user, there would be an additional
+5,000 hashing and comparison operations. Considering this scenario, with 10,000 users, we
+would have 25,000,000 more hashing and comparison operations every few seconds.
+This inefficiency could significantly impact server performance. If the website is hosted on a
+cloud platform, it would result in higher fees for handling the extra operations. Moreover, if the
+server is self-hosted, inefficient code could lead to self-DDoS attacks (42).
+What we implemented is using asymmetric private keys to sign the JWT. Each valid JWT is
+signed by a secret, which is a combination of the JWT backend secret stored in the Vault and
+a unique user secret generated randomly, encrypted, and stored in the database.
+In the event of a logout, we simply change the unique user secret stored encrypted in the
+database. Consequently, immediately after the user sends the logout request to the backend,
+the current JWT expires and the user is logged out.
+This approach enhances security because the JWT secret is now split into two separate
+places. Therefore, even in the worst-case scenario where one of the JWT secrets is leaked,
+an attacker would be unable to exploit it.
+
+​
+
+​ ​
+
+​
+
+​
+
+Figure 5. JWT Token asymmetric secrets.
+
+38
+
+Sprint 12:Tournament algorithm:
+Our game operates on the client-side, allowing users to play with their friends using their own
+accounts. To ensure manageable gameplay, we've set the maximum tournament limit at 8
+players. Here's how the tournament implementation works:
+Input Gathering: The tournament begins by collecting the names of participating players.
+JavaScript is used to parse these names, ensuring they are not empty, contain no spaces, and
+do not include special characters. The minimum number of players required for a tournament
+is two.
+Player Randomization: Once the player names are validated, we randomize the matchups
+between players. We have designed three levels to accommodate different numbers of
+participants in each tournament.
+Final Round: If there are only two participants, the winner of their match wins the
+tournament.
+Semi-Finals: With three or four players, pairs of players compete against each other. In the
+case of four players, the winners of each match advance to the final round, while the losers
+are eliminated. If there are three players, one lucky player is randomly selected to advance
+directly to the finals.
+Quarter Finals: With five to eight players, matches are paired randomly. Each pair competes,
+and the winners advance to the semi-finals. If there is an odd number of players, one player
+is randomly selected to advance directly to the semi-finals.
+Implementation in code: The players' names and tournament rounds are stored in local
+storage. For each game, the "/game" path is called with the players as a query in the URL.
+This triggers the "playGame()" function, which takes two players as input and returns the
+winner. This process continues until the finals are reached, and there are no more games to
+be played.
+Integration with Smart Contract: After the tournament winner is determined, a POST request is
+sent to the backend with the winner's name to be stored on the Sepolia test Ethereum
+blockchain, integrating the tournament with the smart contract module.
+
+39
+
+​
+
+​ ​
+
+​
+
+​
+
+​
+
+Figure 6. Tournament Bracket.
+
+Sprint 13: Bootstrap CSS:
+The whole website is integrated with Bootstrap Css. We concentrated on enhancing the user
+interface (UI) and ensuring a responsive design for an optimal gaming experience. The primary
+focus was on integrating Bootstrap CSS, a robust front-end framework, to streamline the styling
+and layout of our local multiplayer Pong game.
+The Bootstrap CSS library played an important role in enhancing various aspects of our local
+multiplayer Pong game. Key areas where Bootstrap components were strategically
+implemented include:
+User Registration and Authentication: Bootstrap's input fields have been seamlessly integrated
+into the registration, login, and two-factor authentication (2FA) opt-in sections, ensuring a
+cohesive and user-friendly experience. Modal/pop-up structures have been strategically
+employed for entering OTP during login, particularly when 2FA is activated, enhancing the
+security and ease of access for users.
+Two-Factor Authentication (2FA) Features: The activation of 2FA has been simplified through
+the use of modal dialogs, providing users with a clear and intuitive interface. Additionally, a
+slider component has been implemented to indicate the activation status of 2FA, enabling users
+to effortlessly toggle between activation and deactivation based on their preferences.
+Tournament Display: The presentation of tournament brackets has been optimized through the
+utilization of a grid component, offering users a structured and easily navigable view of the
+tournament layout, enhancing overall user experience and comprehension.
+
+40
+
+Alerts and Notifications: Bootstrap's alert component has been effectively utilized to display a
+range of messages, including warnings, errors, and success notifications, ensuring that users
+are promptly informed about important updates and actions within the application.
+Button Usage: Buttons styled in accordance with Bootstrap have been strategically placed
+throughout the application for key actions such as launching tournaments, navigating the main
+menu, and managing players within the tournament modal dialog box, enhancing user
+engagement and facilitating seamless interaction.
+Language Selection: A dropdown component from Bootstrap has been integrated into the
+settings page to streamline the process of language selection for users, offering a convenient
+and accessible way to customize their language preferences within the application.
+Implementation Rationale: The application's design has been crafted with a focus on responsive
+design, leveraging Bootstrap's grid system to ensure adaptability across various screen sizes
+and devices. User interaction has been enhanced through the use of Bootstrap components,
+promoting intuitive navigation and standardized elements for a consistent user experience.
+Layout optimization has been prioritized by utilizing Bootstrap's grid layout system to organize
+content effectively, contributing to a visually appealing and well-structured interface. The
+aesthetic appeal of the application has been elevated by leveraging Bootstrap's pre-designed
+styles, creating a modern and polished visual environment. Furthermore, consistent typography
+using Bootstrap's classes enhances text presentation, ensuring a uniform and visually pleasing
+reading experience for users.
+
+Sprint 14: SPA:
+​
+Single Page Applications (SPAs) change how we browse the web by managing components on
+one page that updates without needing to reload. This means smoother, uninterrupted browsing,
+like using a desktop app. SPAs do this by updating content dynamically using Javascript,
+keeping track of where you are, and handling how you move around the page.. In this sprint,
+we'll discuss our implementation of single page application
+Mapping Routes and Templates:
+The `urlRoutes` object is the backbone of our Single Page Application (SPA). It serves as a
+comprehensive map, associating each URL path with specific templates, titles, descriptions, and
+themes. For instance, the "/login" route maps to the login page template, "Login | Pong Game"
+title, and the login-specific stylesheet. This structured approach ensures dynamic transition
+between different sections of our application.
+Dynamic Theme Loading:
+The `urlRoutes` object goes beyond templates and titles by incorporating dynamic theming. The
+chosen theme stylesheet is applied based on the route, enhancing the visual experience for
+users. If no specific theme is defined for a route, the default theme, "/css/style.css," prevails.
+This flexibility in theming contributes to a more visually appealing and coherent user interface.
+
+41
+
+URL Navigation and Event Handling:
+The route() function and the accompanying `urlLocationHandler` function are instrumental in
+responding to URL changes. The `route` function, triggered by events like clicking on links,
+prevents the default action and calls `urlLocationHandler`. This, in turn, determines the current
+URL location and fetches the corresponding route from `urlRoutes`. If the route demands
+authentication and the user isn't verified, the application gracefully redirects to the login page.
+Similarly, if a user, already logged in, tries to access introductory pages, they are redirected to
+the home page, streamlining the user journey.
+Dynamic Content Rendering:
+Central to the SPA experience is the dynamic rendering of content. The `urlLocationHandler`
+function fetches the HTML template for the current route and injects it into the designated
+content div. Additionally, it sets the document title and description based on the route, providing
+a coherent browsing experience. The dynamic loading of scripts associated with a route
+enhances the functionality specific to each page, promoting modular and efficient code
+organization.
+User Authentication and Verification:
+Our SPA incorporates robust user authentication checks. The functions `isVerified` and
+`isNotLoggedIn` ensure that the user is appropriately authenticated before accessing certain
+routes. If authentication fails, the application handles it gracefully, redirecting the user to the
+login page. These checks are essential for maintaining the security and integrity of our
+application.
+State Management and Cleanup:
+The SPA implementation also addresses state management concerns. The
+`clearIfNotTourOrGame` function ensures that specific stored data is cleared when the user
+navigates away from tournament or game pages. This proactive state cleanup prevents
+unintended interactions and enhances the overall reliability of the application.
+Responsive Language Handling:
+To serve a diverse user base, our SPA dynamically adjusts language preferences. The user's
+preferred language, stored in the local storage, is considered, ensuring a personalized
+experience. In case of unsupported languages, the application defaults to English. The fetching
+of language data and subsequent content updates demonstrate a commitment to a global and
+inclusive user interface.
+Window Events and Initialization:
+Finally, event listeners on the window, such as `onpopstate`, ensure that our SPA responds
+appropriately to back and forward browser actions. The `window.route` and `urlLocationHandler`
+calls initialize the application, setting the stage for a smooth and efficient user interaction from
+the very start.
+
+42
+
+Sprint 15: Languages:
+In this sprint, our primary objective was to enhance the user experience by introducing
+multilingual support to our platform. This involved careful code implementation to ensure a
+smooth transition between languages and dynamic content updates based on user preferences.
+The heart of this sprint lies in the ‘updateContent()’ function. This function dynamically adjusts
+the content of HTML elements by mapping data from language-specific JSON files. Each
+element with the attribute data-i18n gets its content replaced, making the entire application
+easily adaptable to different languages. The introduction of this function significantly improves
+maintainability, allowing for the addition of new languages without extensive code modifications.
+Our approach to storing supported languages involves maintaining an array of allowed
+languages, preventing any unauthorized language selections. This ensures consistency in
+translation across various parts of the application. The flexibility provided by this design choice
+contributes to a more scalable and adaptable solution.
+Critical to the success of this sprint is the handling of language preferences. By default, the
+language is set to English, but during the registration process, users can specify their preferred
+language. The chosen language is stored both locally in the browser's storage and in the
+server's database. Users can also modify this preference from the settings page, triggering
+updates in both local storage and the server's database.
+The changeLanguage function was implemented to facilitate smooth transitions between
+languages. It first checks if the selected language is allowed, then updates the language
+preference in local storage. For authenticated users, a POST request is sent to the server to
+communicate this change, ensuring the updated language setting persists even when users log
+in from different devices.
+The getTranslation function plays a crucial role in dynamically retrieving translations. It
+considers the allowed languages, defaults to English if an unsupported language is detected,
+and fetches the corresponding translation data. This function is key to ensuring users
+consistently receive content in their preferred language.
+
+Sprint 15: Game:
+The game is built on the HTML5 canvas element, providing a dynamic and interactive gaming
+environment. The code defines various constants, such as BALL_SPEED, BALL_RADIUS,
+PADDLE_SPEED, PADDLE_WIDTH, and PADDLE_HEIGHT, which dictate the speed, size, and
+dimensions of the ball and paddles.
+The game utilizes a class-based approach, with the Paddle class representing the paddles in
+the game. Each paddle is instantiated with properties like position, dimensions, color, and
+speed. The class includes methods for paddle movement, collision handling, and rendering.
+
+43
+
+The drawBall() and drawPaddles() functions are responsible for rendering the ball and paddles
+on the canvas, providing a visual representation of the game elements.
+The resetBall() function is crucial for resetting the ball's position and velocity when a point is
+scored. It also ensures that the ball starts in a random direction within specific constraints.
+The isColliding() function plays a pivotal role in accurately determining whether the ball collides
+with a paddle. It takes into consideration a modified paddle height (newPaddleHeight) to better
+simulate the paddle's impact area. By comparing the ball's position against the adjusted paddle
+coordinates, the function effectively identifies collisions, essential for realistic gameplay.
+Upon detecting a collision with a paddle, the handlePaddleCollision() function determines the
+collision point on the paddle. It normalizes this point to a value between -1 and 1, representing
+the relative position of the collision along the paddle's height. This normalized value is then used
+to calculate the collision angle (angleRad). Subsequently, the horizontal and vertical speeds of
+the ball are updated based on this angle, creating a dynamic rebound effect. The calculations
+result in a realistic response to paddle collisions, enhancing the game's realism.
+The draw() function serves as the game loop, managing the continuous update of the ball's
+position. The ball's speedX and speedY attributes dictate its horizontal and vertical velocities,
+respectively. The ball's coordinates are updated in each iteration of the loop, facilitating smooth
+and realistic movement across the canvas.
+The resetBall() function is responsible for setting the initial position and direction of the ball
+when a point is scored. It introduces an element of randomness by generating a random slope
+within predefined ranges. This randomized slope, along with directional indicators (directionX
+and directionY), determines the initial velocity components of the ball. This ensures that the ball
+starts in a varied direction, contributing to a more engaging gaming experience.
+User input is captured through event listeners in the handleKeyPress() function, allowing players
+to control the paddles using keyboard inputs. The game supports pausing with the 'P' or ‘space’
+key, and paddle movements with 'W', 'S', 'ArrowUp', and 'ArrowDown' keys.
+Responsive design is incorporated using the handleResize() function, ensuring the game
+adjusts to window resizes while preserving the game state.
+The playGame() function encapsulates the entire gameplay, incorporating asynchronous
+elements for smoother execution. It utilizes promises to handle game events and returns a
+promise to indicate game completion.
+
+44
+
+-​ Testing:
+We adopted the philosophy of test-driven development (TDD) alongside agile
+methodology for our project. Testing was integrated into our daily routine from the early
+start till the project's completion. This approach ensured that our code was robust and
+flexible to changes, with a test case covering every detail. TDD provides a more
+comprehensive approach compared to mere unit testing, as it dig deeper into
+understanding the problem and offers solutions rather than just checking for bugs(43).
+Our daily coding routine typically began with writing small test cases. Running these
+tests would initially result in failure since the corresponding code had not yet been
+written. We then wrote the minimal code necessary to pass each test case,
+subsequently running all tests to ensure they passed. This iterative process continued
+until the feature was fully functional. Running the tests each time ensured that all
+previously written code functionalities remained integrated within our application.
+Implementing TDD in the backend was straightforward. We had one tester file for
+smaller helper Django functions, which was run using Django's built-in testing
+capabilities. Additionally, we had the "test_endpoints.py" file, where we created Python
+testers simulating requests from the client-side, testing various scenarios that could
+occur with our endpoints. With a simple command, "make test_backend," all backend
+test cases were executed, providing a detailed report on each component of the
+backend functionality.
+Testing the frontend posed more challenges, as it required manual intervention. To
+address this, we utilized the Selenium library to simulate user interactions with the
+website. Our Selenium script opened a Chrome browser, visited our website, and
+simulated user navigation for login, registration, and intra-login processes. It also
+simulated user keystrokes to test different combinations of login and registration
+scenarios for website security. The Selenium script was particularly useful during the
+initial 75% of the development process, until we replaced alerts with modals and
+integrated HashiCorp Vault. In the last 25% of development, we relied on user
+acceptance testing (UAT), where we manually tested the functionality using an incognito
+window.
+For testing JavaScript logic and non-CSS related parts, we utilized the Jest library. Each
+part to be developed was isolated and developed using a TDD approach with Jest. After
+development, it was integrated into the website and tested manually.
+With a simple "make test" command, we were able to test the full backend and
+authentication frontend functionality. We heavily relied on this command not only during
+
+45
+
+our TDD coding sessions, but also after committing changes, pushing to GitHub, pulling
+updates, merging, and accepting pull requests. This ensured unified and high-quality
+standards for our project.
+Upon completing the website, we conducted penetration testing for security purposes.
+We attempted XSS and SQL injection attacks through URLs and user input fields,
+intercepted requests using Burp Suite, and tried sending malicious requests using curl.
+Ultimately, we determined that our website was secure and passed these security tests.
+We conducted testing to ensure the responsiveness of the user interface across a
+diverse range of devices, screen sizes, and browsers. Our primary focus was on
+maintaining the game's visual appeal and functionality across different platforms. We
+performed tests on various browsers such as Google Chrome, Firefox, Safari, and
+Microsoft Edge, addressing any rendering or functionality discrepancies to guarantee a
+seamless experience for all users.
+In addition to browser testing, we simulated user interactions to evaluate the overall flow
+of the game. Our assessment included checking for smooth transitions between pages,
+accurate navigation, and the intuitiveness of interaction elements. We also tested
+various edge cases and scenarios that might lead to exceptions or errors, conducting
+rigorous tests on error-handling mechanisms to ensure the application gracefully
+handled unexpected situations.
+We verified the consistency of styling elements, theming, and color schemes throughout
+the application, checking for any visual discrepancies that could alter from the overall
+UX appeal.
+During the User Acceptance Testing (UAT) phase, we collaborated closely with
+end-users(our 42 peers), placing specific emphasis on feature testing for elements such
+as 2FA, OTP generation, and OTP resending. We rigorously tested the resilience of
+these features, ensuring robustness against potential manipulation of local storage and
+critical attempts to breach the website through JWT attacks.
+To safeguard the integrity of the game, we conducted comprehensive testing to uncover
+any glitches. This in-depth assessment included evaluating responsiveness in the
+usage of modals, tournament brackets, and dropdowns.
+
+46
+
+-​ Evolution:
+Project Initiation:
+The kickoff of our project was initiated from the objective to create a local multiplayer
+Pong game, using microservices architecture, blockchain integration, and robust
+security measures. The initial idea was to enhance the classic Pong game experience
+by utilizing modern technologies, beside providing users with an engaging and secure
+gaming platform.
+Requirement Analysis:
+The project's requirements were gathered, considering both functional and
+non-functional aspects. Through collaborative discussions and an iterative approach,
+we identified the need for microservices architecture, AI integration, blockchain storage
+for tournament results, and advanced security measures like two-factor authentication
+and secure secret management.
+Design and Architecture:
+The design phase involved the creation of a comprehensive architecture based on
+microservices, leveraging Docker for containerization, Django for backend development,
+and Bootstrap for frontend. Each sprint focused on specific aspects, such as backend
+implementation, AI development, blockchain integration, and security features, leading
+to a well-structured and scalable system.
+Implementation and Sprints:
+The implementation phase was executed through a series of sprints, each dedicated to
+a specific aspect of the project. Key sprints included designing the backend
+infrastructure with microservices, implementing Django as an API backend, integrating
+an AI player, incorporating Modsecurity WAF for security, adopting HashiCorp Vault for
+secure secrets management, and storing tournament results on the blockchain. The
+sprints were conducted in an agile manner, emphasizing test-driven development and
+continuous testing to ensure code robustness.
+Testing and Security:
+The testing played a pivotal role, covering TDD and unit testing, frontend testing with
+Selenium, backend testing with Django's testing capabilities, and user acceptance
+testing. Extensive penetration testing was conducted to fortify security against potential
+vulnerabilities, ensuring the protection of user data and the overall integrity of the
+website.
+
+47
+
+Documentation and Code Review:
+Comprehensive documentation was written throughout the project, detailing
+requirements, design choices, implementation details, and testing strategies. The code
+was submitted to rigorous review processes, ensuring adherence to coding standards,
+security practices, and scalability considerations. This continous phase emphasized
+collaboration and knowledge sharing among team members.
+
+48
+
+-​ Gantt Chart:
+Summary of Tasks and Contributions:
+In the Gantt chart section of our project, we meticulously plotted the timeline and allocation of
+tasks critical for the development of our system. The tasks span various aspects of the project,
+including front-end development, back-end security, database management, and blockchain
+integration, among others.
+The project commenced with foundational tasks such as updating the flowchart and drafting the
+login front-end, which were crucial for setting the stage for subsequent developments.
+ayassin(Ahmed Mahdy) initiated the project by updating the flowchart, establishing the blueprint
+for our system. mkhan(Mohammed Ehsan) then took the baton, drafting the login front-end to
+ensure a smooth user onboarding experience. mkhan(Mohammed Ehsan)'s portfolio of tasks
+rapidly expanded to include the creation of authentication pages, enhancing the front-end, and
+progressing the tournament front-end development. This indicates a significant contribution to
+the front-end development of our system.
+In parallel, ahsalem(Ahmed Salem) was assigned the crucial task of integrating JWT with 2FA,
+reflecting a focus on security and user authentication processes. ahsalem(Ahmed Salem)'s
+responsibilities grew to include the development of tournament logic, smart contract integration,
+and various other enhancements, suggesting a pivotal role in both back-end and smart contract
+functionalities.
+bammar(Basheer Ammar)'s expertise was leveraged in establishing a temporary database and
+web server, crucial for the project's backend infrastructure. bammar(Basheer Ammar) was also
+deeply involved in various tasks such as setting up HashiCorp Vault for secret management and
+decoupling the front-end files from NGINX, showcasing a clear focus on system stability and
+security.
+Notably, the team's collaborative spirit was exemplified by tasks such as the SPA development
+and the integration of multiple languages support, where ayassin(Ahmed Mahdy) worked to
+deliver these complex features. These collaborative efforts were vital in ensuring a cohesive and
+user-friendly interface, as well as a robust and secure backend.
+Throughout the project, the team has shown adaptability and technical proficiency by
+addressing emerging tasks such as firewall integration, SSL configuration, and error
+management, indicating a proactive approach to project management and problem-solving.
+
+49
+
+Index
+
+Task Name
+
+Start Date
+
+End Date
+
+Assignees
+
+1
+
+Update flowchart (#1)
+
+10/11/2023
+
+10/12/2023
+
+ayassin
+
+2
+
+Login Draft Frontend (#7)
+
+11/25/2023
+
+11/25/2023
+
+mkhan
+
+3
+
+auth_pages_frontend (#11)
+
+12/2/2023
+
+12/4/2023
+
+mkhan
+
+4
+
+JWT_2FA (#10)
+
+11/26/2023
+
+12/5/2023
+
+ahsalem
+
+5
+
+Enhance frontend (#13)
+
+12/4/2023
+
+12/6/2023
+
+mkhan
+
+12/11/2023
+
+12/27/2023
+
+bammar
+
+6
+
+Adding a temp database and web
+server (#20)
+
+ayassin,
+7
+
+SPA (#19)
+
+12/8/2023
+
+12/27/2023
+
+ahsalem,
+mkhan
+
+8
+
+42 intra API fix (#24)
+
+12/27/2023
+
+1/1/2024
+
+bammar
+
+9
+
+Tournament_logic (#17)
+
+12/6/2023
+
+1/8/2024
+
+ahsalem
+
+10
+
+Tester (#32)
+
+1/8/2024
+
+1/9/2024
+
+ahsalem
+
+11
+
+SPA in container using NGINX (#23)
+
+12/27/2023
+
+1/12/2024
+
+12
+
+Tournament frontend (#18)
+
+12/6/2023
+
+1/16/2024
+
+mkhan
+
+13
+
+Default oauth link value (#30)
+
+1/7/2024
+
+1/18/2024
+
+bammar
+
+14
+
+Overhaul of front and backend (#6)
+
+11/17/2023
+
+1/18/2024
+
+ayassin
+
+ayassin,
+bammar
+
+50
+
+15
+
+16
+
+17
+
+18
+
+19
+
+20
+
+21
+
+22
+
+23
+
+24
+
+25
+
+26
+
+27
+
+Testers for backend verification
+functions (#35)
+Game frontend (#29)
+Return correct status codes in frontend
+(#39)
+2FA by email (#34)
+Limit player name input in tournament
+(#47)
+Special character check in tournament
+username (#50)
+Logout (#42)
+Check disable 2fa when no token is
+available (#52)
+Enter button when adding players to
+tournament (#53)
+Settings page (#49)
+Refactor JS login/auth code to look
+prettier (#72)
+Integrate Bootstrap with Ehsan CSS
+Part 1 (#62)
+Create button in landing page for "1 V
+1" (#74)
+
+1/13/2024
+
+1/19/2024
+
+ayassin
+
+1/3/2024
+
+1/20/2024
+
+bammar
+
+1/18/2024
+
+1/20/2024
+
+ayassin
+
+1/12/2024
+
+1/20/2024
+
+ahsalem
+
+1/19/2024
+
+1/20/2024
+
+ahsalem
+
+1/20/2024
+
+1/21/2024
+
+1/19/2024
+
+1/21/2024
+
+ahsalem
+
+1/20/2024
+
+1/22/2024
+
+ayassin
+
+1/20/2024
+
+1/22/2024
+
+1/20/2024
+
+1/25/2024
+
+mkhan
+
+2/2/2024
+
+2/2/2024
+
+ahsalem
+
+1/30/2024
+
+2/6/2024
+
+ayassin
+
+2/2/2024
+
+2/7/2024
+
+mkhan
+
+mkhan,
+ahsalem
+
+ayassin,
+mkhan
+
+51
+
+28
+
+29
+
+30
+
+31
+
+Bootstrap popup and modal (#81)
+Hashicorp Vault for secret management
+(#66)
+Error pages (404, 403, 5xx) (#77)
+Integrate abo hassan email and decide
+the OTP system (#80)
+
+2/7/2024
+
+2/8/2024
+
+ayassin
+
+1/31/2024
+
+2/8/2024
+
+ahsalem
+
+2/6/2024
+
+2/10/2024
+
+mkhan
+
+2/6/2024
+
+2/10/2024
+
+ahsalem
+
+32
+
+Smart contract backend (#87)
+
+2/8/2024
+
+2/10/2024
+
+ahsalem
+
+33
+
+Smart contract frontend (#88)
+
+2/8/2024
+
+2/10/2024
+
+ahsalem
+
+34
+
+The intra redirection page (#92)
+
+2/9/2024
+
+2/10/2024
+
+ahsalem
+
+2/2/2024
+
+2/11/2024
+
+bammar
+
+35
+
+Decouple frontend files from NGINX
+(#69)
+
+36
+
+Https ssl (#96)
+
+2/10/2024
+
+2/11/2024
+
+ahsalem
+
+37
+
+Await routing (#79)
+
+2/6/2024
+
+2/12/2024
+
+ayassin
+
+2/10/2024
+
+2/12/2024
+
+ayassin
+
+2/11/2024
+
+2/12/2024
+
+ahsalem
+
+1/30/2024
+
+2/13/2024
+
+Return Error page
+38
+
+localhost:300/settings/nonexistingroute
+(#94)
+
+39
+
+40
+
+Firefox doesn't accept backend
+requests (#102)
+Change admin@exapmle.com in
+Django credentials (#63)
+
+bammar,
+ahsalem
+
+52
+
+41
+
+Change ports to expose in Docker
+Compose (#68)
+
+2/2/2024
+
+2/13/2024
+
+bammar,
+ahsalem
+
+42
+
+Fix front button on browser (#99)
+
+2/11/2024
+
+2/13/2024
+
+ayassin
+
+43
+
+Rate limiting API requests (#115)
+
+2/13/2024
+
+2/13/2024
+
+ayassin
+
+44
+
+Intra timeout if login failed (#100)
+
+2/11/2024
+
+2/13/2024
+
+ahsalem
+
+45
+
+Tournament bracket fix (#97)
+
+2/10/2024
+
+2/14/2024
+
+mkhan
+
+46
+
+Change all prompts to modals (#85)
+
+2/8/2024
+
+2/14/2024
+
+ayassin
+
+47
+
+Tournament bracket fix (#118)
+
+2/14/2024
+
+2/14/2024
+
+mkhan
+
+2/8/2024
+
+2/15/2024
+
+ayassin
+
+2/12/2024
+
+2/17/2024
+
+bammar
+
+2/12/2024
+
+2/17/2024
+
+bammar
+
+2/11/2024
+
+2/17/2024
+
+ayassin
+
+2/15/2024
+
+2/17/2024
+
+ayassin
+
+2/15/2024
+
+2/17/2024
+
+ayassin
+
+2/17/2024
+
+2/18/2024
+
+ayassin
+
+48
+
+49
+
+50
+
+51
+
+52
+
+53
+
+54
+
+Capture the alert uncaught exception
+(#86)
+Uncaught exception after finishing
+tournament (#111)
+The winner loses and loser wins in the
+tournament (#112)
+Back button in tournament breaks logic
+(#107)
+Add tests to the mfaState and
+resentOTP backend (#122)
+Redirect to the landing page half OTP is
+expired (#123)
+Add lang preference to database (#129)
+
+53
+
+55
+
+Error pages Django and server (#124)
+Ruining localstore throw exceptions
+
+56
+
+(#127)
+
+2/16/2024
+
+2/18/2024
+
+ahsalem
+
+2/16/2024
+
+2/21/2024
+
+ahsalem
+
+57
+
+Button to enable/disable 2FA (#37)
+
+1/14/2024
+
+2/8/2024
+
+58
+
+Integrate game with tournament (#45)
+
+1/19/2024
+
+2/11/2024
+
+59
+
+Ai opponent (#44)
+
+1/19/2024
+
+1/29/2024
+
+60
+
+Multiple languages support (#43)
+
+1/19/2024
+
+1/29/2024
+
+61
+
+Tournament frontend (#46)
+
+1/19/2024
+
+2/5/2024
+
+62
+
+WAF - add reverse proxy (#56)
+
+1/22/2024
+
+2/2/2024
+
+​
+
+​
+
+​
+
+​
+
+Table 1. Project Task Timeline.
+
+​
+
+​
+
+​
+
+​
+
+​
+
+ayassin,
+mkhan
+ahsalem,
+bammar
+ahsalem,
+bammar
+ahsalem,
+ayassin
+ahsalem,
+mkhan
+bammar,
+ahsalem
+
+Figure 7.1. Gantt Chart Section 1.
+
+54
+
+​
+
+​
+
+​
+
+​
+
+​
+
+Figure 7.2. Gantt Chart Section 2.
+
+​
+
+​
+
+​
+
+​
+
+​
+
+Figure 7.3. Gantt Chart Section 3.
+
+​
+
+​
+
+​
+
+​
+
+​
+
+Figure 7.4. Gantt Chart Section 4.
+
+55
+
+​​
+
+​
+
+​
+
+​
+
+​
+
+Figure 7.5. Gantt Chart Section 5.
+
+56
+
+-​ Risk Design And Risk Matrix:
+Risks related to 2FA:
+Email Challenge Limitation:
+Our system faces potential limitations imposed by email providers on the number of emails that
+can be sent daily. To mitigate this risk, we plan to implement rate limiting and diversify our email
+sending capabilities by engaging multiple email providers to ensure redundancy and continuity
+of service.
+Google Stops Supporting Less Secure Accounts:
+Another potential risk arises if Google discontinues support for less secure accounts, which
+would affect our ability to generate free emails for sending One-Time Passwords (OTPs). To
+address this, we will provide alternative two-factor authentication (2FA) methods, keep our users
+informed of any necessary changes, and evaluate other email service providers as potential
+alternatives.
+Email Abuse and Spam Listing:
+There is also a risk that our email service could be abused, leading to our domain being marked
+as spam. This could severely impact the delivery of crucial authentication emails. To combat
+this, we will regularly monitor the reputation of our email service, utilize dedicated email services
+for authentication purposes, and educate our users on how to mark our emails as "not spam" in
+their inboxes.
+
+General Security Risks:
+Credential Leak from Old .env File:
+Credentials stored in old environment (.env) files present a significant security risk if they are
+leaked. To mitigate this risk, we will conduct regular audits and updates of our credential
+management practices and implement secure storage solutions to protect sensitive information.
+DDoS Attacks:
+Our system's availability could be compromised by Distributed Denial of Service (DDoS)
+attacks. To protect against this, we are planning to employ DDoS protection services, introduce
+rate limiting, and ensure our infrastructure is scalable and can handle unexpected surges in
+traffic.
+PostgreSQL Port Open for Outer Connections:
+Keeping the PostgreSQL port open to external connections is a vulnerability that could expose
+our database to unauthorized access. To secure our database, we will bind PostgreSQL to a
+dedicated container IP in production environments, employ secure authentication methods, and
+enhance our network security measures.
+
+57
+
+False Positive Traffic Blocking by Firewall:
+There is a risk that our firewall configurations may incorrectly block legitimate traffic due to false
+positives. To prevent legitimate access from being interrupted, we will fine-tune our firewall
+rules, review logs regularly, and utilize intrusion detection systems to improve the accuracy of
+traffic filtering.
+
+HashiCorp Vault Risks:
+Losing Keys of the Vault:
+The loss of encryption keys stored in HashiCorp Vault could lead to a significant data breach
+and service disruption. To mitigate this, we will establish a robust backup and recovery process,
+regularly rotate and secure our encryption keys, and adhere to best practices for key
+management.
+
+Blockchain Module Risks:
+Web3 Ethereum Issues:
+We acknowledge the risk of potential issues with Web3 Ethereum integration that could impact
+our blockchain module's functionality. To address this, we will stay abreast of updates, maintain
+our system's compatibility with the latest Ethereum specifications, and implement version control
+systems to manage changes efficiently.
+Storing Winner in Blockchain:
+The process of storing tournament winners in the blockchain may encounter challenges, such
+as high transaction costs and issues with blockchain stability. To mitigate these risks, we will
+closely evaluate the transaction costs and explore the use of a layer 2 solution to minimize the
+costs associated with each transaction.
+
+Common Risks:
+SQL Injection:
+Our system could be vulnerable to SQL injection attacks if input validation is not adequately
+enforced. To prevent such attacks, we will implement stringent input validation protocols, employ
+parameterized queries, and undertake regular security audits to strengthen our defenses.
+Cross-Site Scripting (XSS):
+Cross-Site Scripting vulnerabilities could arise from insufficient validation of user input. We plan
+to address this by enforcing content security policies, sanitizing user inputs, and conducting
+periodic security reviews to ensure the integrity of user data.
+
+58
+
+Data Breach:
+Lastly, a data breach is a significant risk if security measures are not properly in place. To
+safeguard against unauthorized access, we will implement robust encryption practices, enforce
+stringent access controls, and perform regular security assessments to identify and rectify any
+potential vulnerabilities.
+
+Risk Category
+
+Risk Description
+
+Likelihood
+
+Impact
+
+Risk Rating
+
+Email Challenge Limitation
+
+Medium
+
+High
+
+High
+
+Low
+
+High
+
+Medium to High
+
+Low to
+Medium
+
+High
+
+Medium to High
+
+Low
+
+Medium
+
+Low to Medium
+
+Medium
+
+High
+
+High
+
+Medium
+
+Medium
+
+Medium
+
+Low to
+Medium
+
+Medium
+
+Low to Medium
+
+1. Risks related to
+2FA:
+
+Google Stops Supporting
+Less Secure Accounts
+Email Abuse and Spam
+Listing
+2. General Security
+Risks:
+Credential Leak from Old
+.env File
+DDoS Attacks
+PostgreSQL Port Open for
+Outer Connections
+False Positive Traffic
+Blocking by Firewall
+
+59
+
+3. HashiCorp Vault
+Risks:
+
+Losing Keys of the Vault
+
+Low to
+Medium
+
+High
+
+Medium to High
+
+Web3 Ethereum Issues
+
+Low to
+Medium
+
+High
+
+Medium to High
+
+Low
+
+High
+
+Low to Medium
+
+SQL Injection
+
+Medium
+
+High
+
+High
+
+Cross-Site Scripting (XSS)
+
+Medium
+
+High
+
+High
+
+Data Breach
+
+Medium
+
+High
+
+High
+
+4. Blockchain Module
+Risks:
+
+Storing Winner in
+Blockchain
+5. Common Risks:
+
+​
+
+​
+
+​
+
+​
+
+​
+
+Table 2. Risk Matrix
+
+60
+
+-​ Wire Frames:
+
+​
+
+​ ​
+
+​
+
+​
+
+​
+
+​
+
+Figure 8.1. Landing Page
+
+​
+
+​ ​
+
+​
+
+​
+
+​
+
+​
+
+Figure 8.2. Login Page
+
+61
+
+​
+
+​
+
+​ ​
+
+​
+
+​
+
+​
+
+Figure 8.3. Registration Page
+
+62
+
+​
+
+​ ​
+
+​
+
+​
+
+​
+
+Figure 8.4. 2FA OPT Modal
+
+​
+
+​ ​
+
+​
+
+​
+
+​
+
+Figure 8.5. 2FA Activation Email
+
+​
+
+​ ​
+
+​
+
+​
+
+​
+
+Figure 8.6. Home Page
+
+63
+
+​
+
+​ ​
+
+​
+
+​
+
+Figure 8.7. Tournament Add Players Modal
+
+64
+
+​
+
+​ ​
+
+​
+
+​
+
+​
+
+Figure 8.8. Tournament Page
+
+65
+
+​
+
+​ ​
+
+​
+
+​
+
+​
+
+Figure 8.9. 404 NOT FOUND
+
+-​ Flow Charts:
+Landing Page Flowchart Explanation:
+Overview of Landing Page Flow:
+The landing page serves as the initial interface for the user's interaction with the website. It
+includes three primary actions that a user can take: logging in, registering for a new account, or
+mistakenly attempting to log in through an incorrect button that directs them to the home page.
+
+Detailed Flow Description:
+Login Process: When a user clicks the "Login" button, they are directed to the login page where
+they enter their credentials. If authentication is successful, the user is redirected to the home
+
+66
+
+page. In case of unsuccessful authentication, an error is displayed, and the user is redirected to
+the registration page.
+Registration Process: If the user chooses to register by clicking the "Register" button, they are
+taken to the registration page. Upon completing registration, they are directed to attempt a login.
+Misdirected Login Attempt: If the user clicks "Login42," they bypass the authentication process
+and are mistakenly taken directly to the home page.
+
+​
+
+​
+
+​
+
+​
+
+Figure 9.1. Landing Page Flow Chart
+
+67
+
+Home Page Flowchart Explanation:
+Overview of Home Page Flow:
+The home page is the central hub after a user logs in, from which they can navigate to various
+sections of the website such as playing games, entering tournaments, adjusting settings, or
+logging out.
+
+Detailed Flow Description:
+Game Navigation: Users have the option to play different game modes including Single Player,
+1V1, or Tournament. After completing a game, they are redirected back to the home page.
+Tournament Interaction: Clicking the "Tournament" button opens a modal for entering player
+names and starting the tournament. The user is then taken to the tournament page, and upon
+completion, redirected back to the home page.
+Profile and Settings Access: Users can access their profile settings or log out through the profile
+dropdown. The settings page allows further customization and account adjustments.
+Logout: The logout function returns the user to the landing page.
+
+​
+
+​
+
+​
+
+​
+
+​
+
+Figure 9.2. HomePage Flow Chart
+
+68
+
+Settings Page Flowchart Explanation:
+Overview of Settings Page Flow:
+The settings page is designed for users to customize their account settings, including language
+preferences and two-factor authentication (2FA) settings.
+
+Detailed Flow Description:
+Navigation and Language Selection: From the settings page, users can navigate back to the
+home page or select a different language from the language dropdown, which refreshes the
+settings page with the new language.
+Two-Factor Authentication (2FA): Users can enable 2FA, which triggers an email confirmation
+process. If the email is confirmed, the settings are updated; if not, there is an option to resend
+the one-time password (OTP).
+Logout: Similar to other pages, users can log out from the settings page, which redirects them to
+the landing page.
+
+​
+
+​
+
+​
+
+​
+
+​
+
+Figure 9.3. Settings Page Flow Chart
+
+69
+
+Tournament Page Flowchart Explanation:
+Overview of Tournament Page Flow:
+The tournament page is where users manage and participate in tournament games. It provides
+options to return to the main menu, adjust settings, or log out.
+
+Detailed Flow Description:
+Main Navigation: Users can navigate back to the home page either by clicking "Main Menu" or
+the website's logo.
+Profile and Settings: The profile dropdown allows the user to access the settings page or log out
+of the website.
+Tournament Gameplay: Users can launch a tournament game from this page, and after
+completing a game, are brought back to the tournament page to continue the tournament or end
+it.
+
+​
+
+​
+
+​
+
+​
+
+Figure 9.4. Tournament Page Flow Chart
+
+70
+
+ERD Diagram Explanation for Database Structure:
+Overview of Database Structure:
+The Entity-Relationship Diagram (ERD) outlines the database structure for the user and user
+two-factor authentication (2FA) information. The database is designed to store user details, their
+2FA settings, and the relation between them.
+
+Detailed Structure Description:
+USER Table: This is the primary table that stores essential user information such as username,
+email, password, and language preference. The id serves as the primary key.
+USER_2FA Table: This table stores information related to the user's 2FA settings. The user_id
+acts as a foreign key, establishing a one-to-many relationship with the USER table, indicating
+that one user can have multiple 2FA settings but a particular 2FA setting belongs to only one
+user.
+
+Attributes and Relationships:
+two_factor_secret stores the secret key for 2FA.
+enabled_2fa is a boolean indicating whether 2FA is active for the user.
+jwt_secret holds the JSON Web Token (JWT) secret for authentication purposes.
+The HAS relationship illustrates that each USER can have associated USER_2FA settings.
+
+Technical Considerations:
+PostgreSQL is used as the database system, known for its robustness and compliance with
+SQL standards.
+Django's Object-Relational Mapping (ORM) framework interfaces with the database, allowing for
+database operations to be conducted using Python code instead of SQL, streamlining the
+development process and enforcing security best practices.
+
+71
+
+​
+
+​
+
+​
+
+​
+
+​
+
+Table 3. ERD Diagram
+
+72
+
+Section 7: Conclusion
+​
+In conclusion, our project marks a successful integration of classic gaming and modern
+technologies, resulting in a local multiplayer Pong game that has both rich features and robust
+security. The journey from project planning to implementation showed our team's commitment to
+delivering an innovative and scalable gaming experience. With the integration of microservices
+architecture, AI capabilities, blockchain storage, and advanced security measures, we have not
+only met but exceeded the number of needed requirements set by the project subject.
+Throughout this evolution, we faced challenges that made us rethink single-page application
+functionality and reimagine state management. Working with vanilla JavaScript for frontend
+development, alongside Bootstrap CSS and HTML, required a deep understanding of basic
+concepts. Tasks like implementing two-factor authentication, handling JWTs, and managing API
+communication using the fetch method were significant learning curves. Embracing test-driven
+development and committing to rigorous testing phases added an additional layer of complexity.
+In overcoming these challenges, we not only sharpen our skills but also gain a profound
+understanding of the details involved in building a gaming platform. The result is a website and
+game that successfully implements all planned features, providing users with an engaging and
+fun gaming experience.
+
+73
+
+Section 8: Appendices
+Microservices Architecture:
+Our microservices architecture divided the backend into PostgreSQL for data storage, Django
+for API functionalities, Nginx for web serving, and Modsecurity for enhanced security. HashiCorp
+Vault played a pivotal role in securing sensitive information.
+AI Algorithm:
+The AI algorithm was designed based on observations of human player behavior. The algorithm
+focused on repositioning the paddle, predicting the opponent's moves, and adapting to changing
+ball trajectories, providing a challenging and enjoyable gaming experience.
+Blockchain Integration:
+The integration with the Ethereum blockchain was achieved through Solidity smart contracts.
+These contracts stored tournament results, providing immutability and integrity to the gaming
+data.
+Two-Factor Authentication:
+To enhance security, we adopted a unique approach to implement two-factor authentication
+using asymmetric private keys. This method ensured a secure and efficient logout mechanism,
+mitigating risks associated with traditional approaches.
+Bootstrap CSS Integration:
+Bootstrap CSS was integrated into the frontend, enhancing the user interface, ensuring
+responsiveness, and providing a modern and polished aesthetic to the gaming platform.
+
+74
+
+References
+1) Aboobucker, I., Ibraheem Mubarak, A., & Najah Kalifah, A. (2023, May 1). Big data analytics
+capabilities and firm performance. Big data analytics capabilities and firm performance: An
+integrated MCDM approach, 25(3), 1-15. Retrieved from
+https://openaccess.ihu.edu.tr/xmlui/bitstream/handle/20.500.12154/1095/JBR.pdf?sequence=1
+2) Mozilla Developer Network. (n.d.). HTTP Status 400: Bad Request. Retrieved from
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400
+3) Django Documentation. (n.d.). Password management in Django. Retrieved from
+https://docs.djangoproject.com/en/5.0/topics/auth/passwords/
+4) Mozilla Developer Network. (n.d.). HTTP Status 401: Unauthorized. Retrieved from
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+5) IETF. (2012). The OAuth 2.0 Authorization Framework (RFC 6749). Retrieved from
+https://datatracker.ietf.org/doc/html/rfc6749
+6) NextAuth Documentation: NextAuth 42 School Provider.
+7) intra.42.fr API Documentation: intra.42.fr Web Application Flow Guide.
+8) IETF. (2015). JSON Web Token (JWT) (RFC 7519). Retrieved from
+https://datatracker.ietf.org/doc/html/rfc7519
+9) LoginRadius. (n.d.). Understanding JWT Signing Algorithms. Retrieved from
+https://www.loginradius.com/blog/engineering/jwt-signing-algorithms/
+10) JWT.io. (n.d.). JWT.io. Retrieved from https://jwt.io/
+11) Stack Exchange Network. (n.d.). Is there any danger in refreshing JWT tokens directly
+without a refresh token? Retrieved from
+https://security.stackexchange.com/questions/265489/is-there-any-danger-in-refreshing-jwt-toke
+ns-directly-without-a-refresh-token
+12) CyberArk. (n.d.). What is Least Privilege? Retrieved from
+https://www.cyberark.com/what-is/least-privilege/
+13) LoginRadius. (n.d.). JWT vs Sessions: Which is Better for Your Authentication? Retrieved
+from
+https://www.loginradius.com/blog/engineering/guest-post/jwt-vs-sessions/#:~:text=JWT%2C%20
+on%20the%20other%20hand,that%20of%20Google%20and%20Facebook.
+
+75
+
+14) IETF. (2011). TOTP: Time-Based One-Time Password Algorithm (RFC 6238). Retrieved
+from https://datatracker.ietf.org/doc/html/rfc6238
+15) PyOTP Documentation. (n.d.). PyOTP 2.0.1 Documentation. Retrieved from
+https://pypi.org/project/pyotp/2.0.1/
+16) Google. (n.d.). Sign in with an Apple ID. Retrieved from
+https://support.google.com/accounts/answer/6010255?hl=en
+17) SendGrid. (n.d.). SendGrid: Email Delivery Service. Retrieved from
+https://sendgrid.com/en-us
+18) Microservices.io. (n.d.). Microservices. Retrieved from https://microservices.io/
+19) Docker Hub. (n.d.). PostgreSQL Docker Official Images. Retrieved from
+https://hub.docker.com/_/postgres
+20) Gunicorn. (n.d.). Gunicorn. Retrieved from https://gunicorn.org/
+21) Medium. (n.d.). Gunicorn 3 Means of Concurrency. Retrieved from
+https://medium.com/building-the-system/gunicorn-3-means-of-concurrency-efbb547674b7
+22) Xu, Y., Liu, X., Cao, X., Huang, C., Liu, E., Qian, S., ... & An, Z. (2021). Artificial intelligence:
+A powerful paradigm for scientific research. Innovation (Camb), 2(4), 100179. Retrieved from
+https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8633405/
+23) Wikipedia. (n.d.). Slope. Retrieved from https://en.wikipedia.org/wiki/Slope
+24) OWASP ModSecurity Core Rule Set Project. (n.d.). OWASP ModSecurity Core Rule Set.
+Retrieved from https://github.com/owasp-modsecurity/ModSecurity
+25) OWASP ModSecurity Core Rule Set Project. (n.d.). OWASP ModSecurity-nginx. Retrieved
+from https://github.com/owasp-modsecurity/ModSecurity-nginx
+26) OWASP. (n.d.). OWASP ModSecurity Core Rule Set. Retrieved from
+https://owasp.org/www-project-modsecurity/
+27) NGINX. (n.d.). Trustwave SpiderLabs ModSecurity WAF Rules. Retrieved from
+https://docs.nginx.com/nginx-waf/admin-guide/nginx-plus-modsecurity-waf-trustwave-spiderlabsrules/
+28) Core Rule Set. (n.d.). ModSecurity Core Rule Set (CRS) Documentation. Retrieved from
+https://coreruleset.org/docs/deployment/install/
+
+76
+
+29) Core Rule Set. (n.d.). CRS False Positives Tuning. Retrieved from
+https://coreruleset.org/docs/concepts/false_positives_tuning/
+30) Core Rule Set. (n.d.). CRS Paranoia Levels. Retrieved from
+https://coreruleset.org/docs/concepts/paranoia_levels/
+31) Mozilla Developer Network. (n.d.). HTTP Status 403: Forbidden. Retrieved from
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403
+32) HashiCorp. (n.d.). What is Vault? Retrieved from
+https://developer.hashicorp.com/vault/docs/what-is-vault
+33) HashiCorp. (n.d.). Concepts: Seal. Retrieved from
+https://developer.hashicorp.com/vault/docs/concepts/seal
+34) Five Validation. (n.d.). Blockchain and Data Integrity in Computer System Validation.
+Retrieved from
+https://fivevalidation.com/blockchain-and-data-integrity-in-computer-system-validation/#:~:text=I
+n%20Blockchain%2C%20stored%20data%20is,to%20the%20FDA's%20ALCOA%20concept.
+35) CryptoZombies. (n.d.). Learn to Code Ethereum DApps By Building Your Own Game.
+Retrieved from https://cryptozombies.io/
+36) MetaMask. (n.d.). MetaMask: Crypto Wallet & Gateway to Blockchain Apps. Retrieved from
+https://metamask.io/
+37) Ethereum Remix. (n.d.). Remix - Ethereum IDE. Retrieved from
+https://remix.ethereum.org/#lang=en&optimize=false&runs=200&evmVersion=null&version=soljs
+on-v0.8.24+commit.e11b9ed9.js
+38) Sepolia Faucet. (n.d.). Sepolia Ethereum Test Faucet. Retrieved from
+https://sepolia-faucet.pk910.de/
+39) Etherscan. (n.d.). Etherscan: Ethereum (ETH) Blockchain Explorer. Retrieved from
+https://etherscan.io/
+40) QuickNode. (n.d.). Account Abstraction and ERC-4337: What They Are and How They
+Work. Retrieved from
+https://www.quicknode.com/guides/ethereum-development/wallets/account-abstraction-and-erc
+-4337
+
+77
+
+41) Medium. (n.d.). How to Log Out When Using JWT. Retrieved from
+https://medium.com/devgorilla/how-to-log-out-when-using-jwt-a8c7823e8a6
+42) OWASP. (n.d.). Layer 7 DDOS. Retrieved from
+https://owasp.org/www-pdf-archive/Layer_7_DDOS.pdf
+43) Baeldung. (n.d.). Unit Testing vs TDD. Retrieved from
+https://www.baeldung.com/cs/unit-testing-vs-tdd#:~:text=TDD%20is%20a%20broader%20conce
+pt,part%20of%20the%20TDD%20cycle.
+44) BrowserStack. (n.d.). Front End Testing. Retrieved from
+https://www.browserstack.com/guide/front-end-testing
+45) Bootstrap. (n.d.) Introduction to Bootstrap Retrieved from
+https://getbootstrap.com/docs/5.0/getting-started/introduction/
+46) Bootstrap. (n.d.). Alerts. Retrieved from
+https://getbootstrap.com/docs/5.0/components/alerts/.
+47) Bootstrap. (n.d.). Modal. Retrieved from
+https://getbootstrap.com/docs/5.0/components/modal/.
+48)https://www.linkedin.com/pulse/soaring-popularity-layer-2-solutions-ethereum-market-influen
+ce-dy6lc/
+49)LinkedIn article - published by CIFDAQ. Soaring Popularity of Layer 2 Solutions in
+Ethereum: Market Influence. Retrieved from
+https://www.linkedin.com/pulse/soaring-popularity-layer-2-solutions-ethereum-market-influencedy6lc/
+
+78
+
+
